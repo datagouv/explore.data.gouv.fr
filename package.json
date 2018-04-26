@@ -7,7 +7,11 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
-    "vue": "^2.5.16"
+    "bootstrap-vue": "^2.0.0-rc.8",
+    "vue": "^2.5.16",
+    "vue-loading-overlay": "^2.0.4",
+    "vue-resource": "^1.5.0",
+    "vue-router": "^3.0.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.0.0-beta.7",
