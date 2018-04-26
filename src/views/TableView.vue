@@ -23,12 +23,11 @@ export default {
     created() {
         this.csvUrl = this.$route.query.url
         if (!this.csvUrl) {
-            this.showError({
+            return this.showError({
                 body: {
                     error: 'No url provided.'
                 }
             })
-            return
         }
         this.apify()
     },
