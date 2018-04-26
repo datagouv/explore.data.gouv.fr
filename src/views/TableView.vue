@@ -10,8 +10,7 @@ export default {
     components: {},
     data() {
       return {
-          // TODO move to config
-          apiBaseUrl: 'http://localhost:8001',
+          apiBaseUrl: process.env.VUE_APP_API_BASE_URL,
           loader: this.$loading.show(),
           csvUrl: undefined,
           rows: [],
