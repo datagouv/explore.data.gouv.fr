@@ -1,6 +1,7 @@
 <template>
     <div>
-        <b-table hover small :items="rows" :fields="fields"></b-table>
+        <b-alert variant="danger" :show="hasError">{{ error }}</b-alert>
+        <b-table v-if="rows.length" hover small :items="rows" :fields="fields"></b-table>
     </div>
 </template>
 
@@ -14,7 +15,9 @@ export default {
           loader: this.$loading.show(),
           csvUrl: undefined,
           rows: [],
-          columns: []
+          columns: [],
+          error: undefined,
+          hasError: false,
       }
     },
     created() {
@@ -36,21 +39,33 @@ export default {
         }
     },
     methods: {
+        showError(res) {
+            this.hasError = true
+            this.error = `Error: ${res.body.error}`;
+            if (res.body.details) {
+                this.error += `(${res.body.details})`
+            }
+            this.loader.hide()
+        },
         getData(endpoint) {
-            this.$http.get(`${endpoint}?_shape=objects`).then(res => {
+            this.$http.get(`${endpoint}?_shape=objects&_norowid=1`).then(res => {
                 if (res.body.ok) {
                     this.rows = res.body.rows
                     this.columns = res.body.columns
                     this.loader.hide()
+                } else {
+                    this.showError(res)
                 }
-            })
+            }).catch(this.showError)
         },
         apify() {
             this.$http.get(`${this.apiBaseUrl}/apify?url=${this.csvUrl}`).then(res => {
                 if (res.body.ok && res.body.endpoint) {
                     this.getData(res.body.endpoint)
+                } else {
+                    this.showError(res)
                 }
-            })
+            }).catch(this.showError)
         }
     }
 }
