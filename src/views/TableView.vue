@@ -24,7 +24,7 @@ export default {
             console.error('Missing url query param.')
             return
         }
-        this.fetch()
+        this.apify()
     },
     computed: {
         fields() {
@@ -37,16 +37,19 @@ export default {
         }
     },
     methods: {
-        fetch() {
+        getData(endpoint) {
+            this.$http.get(`${endpoint}?_shape=objects`).then(res => {
+                if (res.body.ok) {
+                    this.rows = res.body.rows
+                    this.columns = res.body.columns
+                    this.loader.hide()
+                }
+            })
+        },
+        apify() {
             this.$http.get(`${this.apiBaseUrl}/apify?url=${this.csvUrl}`).then(res => {
                 if (res.body.ok && res.body.endpoint) {
-                    this.$http.get(`${res.body.endpoint}?_shape=objects`).then(res => {
-                        if (res.body.ok) {
-                            this.rows = res.body.rows
-                            this.columns = res.body.columns
-                            this.loader.hide()
-                        }
-                    })
+                    this.getData(res.body.endpoint)
                 }
             })
         }
@@ -55,5 +58,5 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="stylus">
+<style scoped>
 </style>

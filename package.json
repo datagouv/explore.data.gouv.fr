@@ -16,8 +16,6 @@
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.0.0-beta.7",
     "@vue/cli-service": "^3.0.0-beta.7",
-    "stylus": "^0.54.5",
-    "stylus-loader": "^3.0.1",
     "vue-template-compiler": "^2.5.13"
   },
   "browserslist": [
