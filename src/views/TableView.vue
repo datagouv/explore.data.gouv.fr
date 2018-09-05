@@ -6,14 +6,14 @@
 </template>
 
 <script>
+import {csvapiUrl} from '../config'
+
 export default {
     name: 'TableView',
     components: {},
     data() {
       return {
-          apiBaseUrl: process.env.VUE_APP_API_BASE_URL,
           loader: this.$loading.show(),
-          csvUrl: undefined,
           rows: [],
           columns: [],
           error: undefined,
@@ -21,7 +21,6 @@ export default {
       }
     },
     created() {
-        this.csvUrl = this.$route.query.url
         if (!this.csvUrl) {
             return this.showError({
                 body: {
@@ -29,9 +28,13 @@ export default {
                 }
             })
         }
-        this.apify()
+        this.apify(this.csvUrl)
     },
     computed: {
+        csvUrl() {
+            const params = new URLSearchParams(document.location.search);
+            return params.get('url');
+        },
         fields() {
             return this.columns.map(c => {
                 return {
@@ -61,8 +64,11 @@ export default {
                 }
             }).catch(this.showError)
         },
-        apify() {
-            this.$http.get(`${this.apiBaseUrl}/apify?url=${this.csvUrl}`).then(res => {
+        apify(url) {
+            const apiUrl = new URL(csvapiUrl);
+            apiUrl.pathname = '/apify'
+            apiUrl.searchParams.set('url', url)
+            this.$http.get(apiUrl.toString()).then(res => {
                 if (res.body.ok && res.body.endpoint) {
                     this.getData(res.body.endpoint)
                 } else {

@@ -1,3 +1,4 @@
+import 'url-search-params-polyfill';
 import Vue from 'vue'
 
 import Loading from 'vue-loading-overlay'
@@ -9,7 +10,6 @@ import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
-import router from './router'
 import App from './App.vue'
 
 Vue.use(Loading)
@@ -20,5 +20,4 @@ Vue.config.productionTip = false
 
 new Vue({
   render: h => h(App),
-  router
 }).$mount('#app')
