@@ -13,4 +13,4 @@ function _meta(name) {
     return _attr(`meta[name=${name}]`, 'content');
 }
 
-export const csvapiUrl = _meta('csvapi-url') || process.env.VUE_APP_API_BASE_URL;
+export const csvapiUrl = process.env.VUE_APP_CSVAPI_URL || _meta('csvapi-url');
