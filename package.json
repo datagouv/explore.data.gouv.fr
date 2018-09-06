@@ -1,5 +1,5 @@
 {
-  "name": "csvapi-front",
+  "name": "@opendatateam/csvapi-front",
   "version": "0.2.0",
   "files": [
     "dist/*"
