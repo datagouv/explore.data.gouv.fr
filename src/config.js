@@ -14,3 +14,4 @@ function _meta(name) {
 }
 
 export const csvapiUrl = process.env.VUE_APP_CSVAPI_URL || _meta('csvapi-url');
+export const pageSize = _meta('page-size') || 10;
