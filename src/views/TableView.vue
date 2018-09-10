@@ -16,7 +16,7 @@ export default {
       return {
           sortBy: undefined,
           sortDesc: undefined,
-          pageSize: pageSize,
+          pageSize,
           dataEndpoint: undefined,
           page: 1,
           totalRows: 0,
