@@ -10,7 +10,7 @@ npm install --save csvapi-front
 
 ## Configuring
 
-In order to work with [csvapi](https://github.com/opendatateam/csvapi), Data Explorer should know its URL.
+In order to work with [csvapi](https://github.com/opendatateam/csvapi), CSVAPI front should know its URL.
 
 You can either provide a default one at build time (see [Envrionment variables](#environment-variables)) or provide one at runtime.
 To provide a runtime configuration, just define a `<meta name="csvapi-url" />` in your html with the `content` attribute containing the CSVAPI URL.
