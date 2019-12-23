@@ -1,8 +1,16 @@
 <template>
     <div>
+        <b-form v-if="!csvUrl" class="m-4">
+            <b-input
+                class="mb-2 mt-2"
+                placeholder="URL of the CSV to apify"
+                v-model="csvUrlFieldValue"
+            ></b-input>
+            <b-button variant="primary" @click="redirect">Go 🚀</b-button>
+        </b-form>
         <b-alert variant="danger" :show="hasError">{{ error }}</b-alert>
         <b-table v-if="rows.length" hover small :items="rows" :fields="fields" :no-local-sorting="true" @sort-changed="sort"></b-table>
-        <b-pagination align="center" size="lg" :total-rows="totalRows" v-model="page" :per-page="pageSize" @input="changePage"></b-pagination>
+        <b-pagination v-if="rows.length" align="center" size="lg" :total-rows="totalRows" v-model="page" :per-page="pageSize" @input="changePage"></b-pagination>
     </div>
 </template>
 
@@ -20,28 +28,16 @@ export default {
           dataEndpoint: undefined,
           page: 1,
           totalRows: 0,
-          loader: this.$loading.show(),
+          loader: undefined,
           rows: [],
           columns: [],
           error: undefined,
           hasError: false,
+          csvUrl: '',
+          csvUrlFieldValue: ''
       }
     },
-    created() {
-        if (!this.csvUrl) {
-            return this.showError({
-                body: {
-                    error: 'No url provided.'
-                }
-            })
-        }
-        this.apify(this.csvUrl)
-    },
     computed: {
-        csvUrl() {
-            const params = new URLSearchParams(document.location.search);
-            return params.get('url');
-        },
         fields() {
             return this.columns.map(c => {
                 return {
@@ -50,6 +46,13 @@ export default {
                     sortable: true,
                 }
             })
+        }
+    },
+    created() {
+        const params = new URLSearchParams(document.location.search)
+        const url = params.get('url')
+        if (url) {
+            this.csvUrl = url
         }
     },
     methods: {
@@ -99,6 +102,7 @@ export default {
             }).catch(this.showError)
         },
         apify(url) {
+            this.loader = this.$loading.show()
             const apiUrl = new URL(csvapiUrl)
             apiUrl.pathname = '/apify'
             apiUrl.searchParams.set('url', url)
@@ -110,6 +114,16 @@ export default {
                     this.showError(res)
                 }
             }).catch(this.showError)
+        },
+        redirect() {
+            const csvUrl = this.csvUrlFieldValue
+            document.location = `${document.location.protocol}//${document.location.host}/?url=${csvUrl}`
+        }
+    },
+    watch: {
+        csvUrl(value) {
+            if (!value) return
+            this.apify(this.csvUrl)
         }
     }
 }
