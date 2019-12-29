@@ -3,7 +3,7 @@
         <b-form v-if="!csvUrl" class="m-4">
             <b-input
                 class="mb-2 mt-2"
-                placeholder="URL du CSV à convertir en API"
+                placeholder="URL du fichier à visualiser (CSV ou XLS)"
                 v-model="csvUrlFieldValue"
             ></b-input>
             <b-button variant="primary" @click="redirect">Lancer la conversion 🚀</b-button>
