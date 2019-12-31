@@ -3,5 +3,8 @@
       "env": {
         "VUE_APP_CSVAPI_URL": "@vue_app_csvapi_url"
       }
+    },
+    "github": {
+      "silent": true
     }
   }
