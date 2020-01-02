@@ -1,6 +1,8 @@
 <template>
   <div class="m-2">
-    <a href="" @click.prevent="filtersVisible = !filtersVisible">{{ filtersVisible ? 'Masquer' : 'Afficher' }} les filtres</a>
+    <a href="" @click.prevent="filtersVisible = !filtersVisible">
+      {{ filtersVisible ? 'Masquer' : 'Afficher' }} les filtres <span v-if="filters.length">({{ filters.length }})</span>
+    </a>
     <b-collapse v-model="filtersVisible">
       <b-card no-body>
         <b-list-group flush v-if="filters.length">
@@ -46,20 +48,37 @@ export default {
     },
   },
   methods: {
+    getSearchParams () {
+      return new URLSearchParams(document.location.search)
+    },
+    setSearchParams (params) {
+      window.history.pushState(null, '', `/?${params.toString()}`)
+    },
+    addToQueryString (key, value) {
+      const params = this.getSearchParams()
+      params.set(key, value)
+      this.setSearchParams(params)
+    },
+    removeFromQueryString (key) {
+      const params = this.getSearchParams()
+      params.delete(key)
+      this.setSearchParams(params)
+    },
     getCompLabel (comp) {
       if (!comp) return
       return this.comparators.find(c => c.value == comp).text
     },
     addFilter () {
-      this.$store.dispatch('addFilter', this.filter).then(() => {
-        this.filter = {field: '', value: '', comp: ''}
-        this.$store.dispatch('getData')
-      })
+      this.$store.commit('addFilter', this.filter)
+      this.addToQueryString(`${this.filter.field}__${this.filter.comp}`, this.filter.value)
+      this.filter = {field: '', value: '', comp: ''}
+      this.$store.dispatch('getData')
     },
     deleteFilter (index) {
-      this.$store.dispatch('deleteFilter', index).then(() => {
-        this.$store.dispatch('getData')
-      })
+      const filter = this.filters[index]
+      this.removeFromQueryString(`${filter.field}__${filter.comp}`)
+      this.$store.commit('deleteFilter', index)
+      this.$store.dispatch('getData')
     }
   }
 }

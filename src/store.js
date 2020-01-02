@@ -17,7 +17,6 @@ export default new Vuex.Store({
     sortBy: undefined,
     sortDesc: undefined,
     totalRows: 0,
-    loader: undefined,
     error: undefined,
     hasError: false,
   },
@@ -33,31 +32,22 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    startLoader ({commit}) {
-      commit('startLoader')
-    },
-    stopLoader ({commit}) {
-      commit('stopLoader')
-    },
-    handleError ({commit, dispatch}, res) {
+    handleError ({commit}, res) {
       console.error(res)
       commit('setError', {
         error: res.body.error,
         details: res.body.details,
         id: res.body.error_id,
       })
-      dispatch('stopLoader')
     },
     changePage ({dispatch}) {
-      dispatch('startLoader')
-      dispatch('getData')
+      return dispatch('getData')
     },
     sort ({commit, dispatch}, ctx) {
-      dispatch('startLoader')
       commit('setSort', {by: ctx.sortBy, desc: ctx.sortDesc})
-      dispatch('getData')
+      return dispatch('getData')
     },
-    getDataUrl ({state}) {
+    makeDataUrl ({state}) {
       const offset = pageSize * (state.page - 1)
       const dataUrl = new URL(state.dataEndpoint)
       dataUrl.searchParams.set('_shape', 'objects')
@@ -74,7 +64,7 @@ export default new Vuex.Store({
       return dataUrl
     },
     async getData ({state, commit, dispatch}) {
-      const dataUrl = await dispatch('getDataUrl')
+      const dataUrl = await dispatch('makeDataUrl')
       this.$http.get(dataUrl.toString()).then(res => {
         if (res.body.ok) {
           commit('setRows', res.body.rows)
@@ -82,44 +72,28 @@ export default new Vuex.Store({
             commit('setColumns', res.body.columns)
           }
           commit('setTotalRows', res.body.total)
-          dispatch('stopLoader')
         } else {
           dispatch('handleError', res)
         }
       }).catch(res => dispatch('handleError', res))
     },
     apify ({commit, dispatch}, url) {
-      dispatch('startLoader')
       const apiUrl = new URL(csvapiUrl)
       apiUrl.pathname = '/apify'
       apiUrl.searchParams.set('url', url)
       this.$http.get(apiUrl.toString()).then(res => {
         if (res.body.ok && res.body.endpoint) {
           commit('setDataEndpoint', res.body.endpoint)
-          dispatch('getData')
+          return dispatch('getData')
         } else {
-          dispatch('showError', res)
+          return dispatch('showError', res)
         }
       }).catch(res => dispatch('handleError', res))
-    },
-    addFilter ({state, dispatch}, filter) {
-      dispatch('startLoader')
-      state.filters.push(filter)
-    },
-    deleteFilter ({state, dispatch}, index) {
-      dispatch('startLoader')
-      state.filters.splice(index, 1)
     }
   },
   mutations: {
     setDataEndpoint (state, endpoint) {
       state.dataEndpoint = endpoint
-    },
-    startLoader (state) {
-      state.loader = this.$loading.show()
-    },
-    stopLoader (state) {
-      state.loader.hide()
     },
     setRows (state, rows) {
       state.rows = rows
@@ -140,6 +114,12 @@ export default new Vuex.Store({
     setSort (state, sort) {
       state.sortBy = sort.by
       state.sortDesc = sort.desc
+    },
+    addFilter (state, filter) {
+      state.filters.push(filter)
+    },
+    deleteFilter (state, index) {
+      state.filters.splice(index, 1)
     }
   }
 })

@@ -19,8 +19,7 @@ Vue.use(BootstrapVue)
 
 Vue.config.productionTip = false
 
-// make loading and http also available on store instance
-store.$loading = Vue.$loading
+// make http also available on store instance (FIXME use a service)
 store.$http = Vue.http
 
 new Vue({

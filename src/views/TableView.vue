@@ -12,7 +12,7 @@
     <!-- error block -->
     <Error v-if="hasError" :error="error"></Error>
     <!-- table block, fed by store -->
-    <Table v-if="csvUrl"></Table>
+    <Table v-if="csvUrl && !hasError"></Table>
   </div>
 </template>
 
@@ -39,12 +39,25 @@ export default {
   },
   created() {
     const params = new URLSearchParams(document.location.search)
+    // set filters from query string (before setting url and fetching data)
+    this.setFiltersFromQueryString(params)
     const url = params.get('url')
     if (url) {
       this.csvUrl = url
     }
   },
   methods: {
+    setFiltersFromQueryString (params) {
+      [...params.entries()].filter(([k, v]) => {
+        return k.indexOf('__') !== -1 && k.indexOf('_') !== 0
+      }).forEach(([k, v]) => {
+        this.$store.commit('addFilter', {
+          field: k.split('__')[0],
+          value: v,
+          comp: k.split('__')[1],
+        })
+      })
+    },
     changePage (page) {
       this.$store.dispatch('changePage')
     },
@@ -55,14 +68,17 @@ export default {
       this.$store.dispatch('apify', url)
     },
     redirect() {
-      const csvUrl = this.csvUrlFieldValue
-      document.location = `${document.location.protocol}//${document.location.host}/?url=${csvUrl}`
+      this.csvUrl = this.csvUrlFieldValue
+      history.pushState(null, '', `/?url=${this.csvUrl}`)
     }
   },
   watch: {
     csvUrl (value) {
       if (!value) return
-      this.$store.dispatch('apify', this.csvUrl)
+      const loader = this.$loading.show()
+      this.$store.dispatch('apify', this.csvUrl).finally(() => {
+        loader.hide()
+      })
     }
   }
 }
