@@ -23,5 +23,3 @@ try {
   _filtersEnabled = false
 }
 export const filtersEnabled = _filtersEnabled
-
-console.log(filtersEnabled)
