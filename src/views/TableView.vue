@@ -12,7 +12,7 @@
     <!-- error block -->
     <Error v-if="hasError" :error="error"></Error>
     <!-- table block, fed by store -->
-    <Table></Table>
+    <Table v-if="csvUrl"></Table>
   </div>
 </template>
 
@@ -25,17 +25,6 @@ export default {
   components: {Table, Error},
   data() {
     return {
-      // sortBy: undefined,
-      // sortDesc: undefined,
-      // pageSize,
-      // dataEndpoint: undefined,
-      // page: 1,
-      // totalRows: 0,
-      // loader: undefined,
-      // rows: [],
-      // columns: [],
-      // error: undefined,
-      // hasError: false,
       csvUrl: '',
       csvUrlFieldValue: ''
     }

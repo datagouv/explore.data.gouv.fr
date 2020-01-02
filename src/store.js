@@ -10,6 +10,7 @@ export default new Vuex.Store({
     rows: [],
     columns: [],
     fields: [],
+    filters: [],
     page: 1,
     pageSize: pageSize,
     dataEndpoint: undefined,
@@ -56,26 +57,31 @@ export default new Vuex.Store({
       commit('setSort', {by: ctx.sortBy, desc: ctx.sortDesc})
       dispatch('getData')
     },
-    getData ({state, commit, dispatch}) {
+    getDataUrl ({state}) {
       const offset = pageSize * (state.page - 1)
       const dataUrl = new URL(state.dataEndpoint)
       dataUrl.searchParams.set('_shape', 'objects')
       dataUrl.searchParams.set('_rowid', 'hide')
       dataUrl.searchParams.set('_size', pageSize)
       dataUrl.searchParams.set('_offset', offset)
+      state.filters.forEach(({field, value, comp}) => {
+        dataUrl.searchParams.set(`${field}__${comp}`, value)
+      })
       if (state.sortBy) {
         const param = state.sortDesc ? '_sort_desc' : '_sort'
         dataUrl.searchParams.set(param, state.sortBy)
       }
+      return dataUrl
+    },
+    async getData ({state, commit, dispatch}) {
+      const dataUrl = await dispatch('getDataUrl')
       this.$http.get(dataUrl.toString()).then(res => {
         if (res.body.ok) {
           commit('setRows', res.body.rows)
           if (!state.columns.length) {
             commit('setColumns', res.body.columns)
           }
-          if (!state.totalRows) {
-            commit('setTotalRows', res.body.total)
-          }
+          commit('setTotalRows', res.body.total)
           dispatch('stopLoader')
         } else {
           dispatch('handleError', res)
@@ -95,6 +101,14 @@ export default new Vuex.Store({
           dispatch('showError', res)
         }
       }).catch(res => dispatch('handleError', res))
+    },
+    addFilter ({state, dispatch}, filter) {
+      dispatch('startLoader')
+      state.filters.push(filter)
+    },
+    deleteFilter ({state, dispatch}, index) {
+      dispatch('startLoader')
+      state.filters.splice(index, 1)
     }
   },
   mutations: {

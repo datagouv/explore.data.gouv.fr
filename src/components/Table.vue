@@ -1,36 +1,49 @@
 <template>
   <div>
-    <b-form inline>
-      <!-- TODO: make this a [] of components -->
-      <b-form-select value-field="key" text-field="label" v-model="filterField" :options="fields"></b-form-select>
-      <b-form-select v-model="filterComp" :options="comparators"></b-form-select>
-      <b-input v-model="filterValue"></b-input>
-      <b-button variant="primary">Filtrer</b-button>
-    </b-form>
+    <div v-if="filtersEnabled">
+      <ul v-if="filters.length">
+        <li v-for="(f, idx) in filters" v-bind:key="idx">
+          {{ `"${f.field}" ${getCompLabel(f.comp)} "${f.value}"` }}
+          <a href="" @click.prevent="deleteFilter(idx)">Supprimer</a>
+        </li>
+      </ul>
+      <b-form inline @submit.prevent>
+        <b-form-select value-field="key" text-field="label" v-model="filter.field" :options="fields"></b-form-select>
+        <b-form-select v-model="filter.comp" :options="comparators"></b-form-select>
+        <b-input v-model="filter.value"></b-input>
+        <b-button variant="primary" @click="addFilter">Filtrer</b-button>
+      </b-form>
+    </div>
     <b-table hover small :items="rows" :fields="fields" :no-local-sorting="true" @sort-changed="sort"></b-table>
-    <b-pagination align="center" size="lg" :total-rows="totalRows" v-model="page" :per-page="pageSize" @input="changePage"></b-pagination>
+    <b-pagination align="center" :total-rows="totalRows" v-model="page" :per-page="pageSize" @input="changePage"></b-pagination>
   </div>
 </template>
 
 <script>
-import {pageSize} from '@/config'
+import {pageSize, filtersEnabled} from '@/config'
 
 export default {
   'name': 'Table',
   data () {
     return {
       comparators: [
-        {value: '', text: 'est égal à'},
+        {value: 'exact', text: 'est égal à'},
         {value: 'contains', text: 'contient'}
       ],
-      filterField: '',
-      filterComp: '',
-      filterValue: ''
+      filter: {
+        field: '',
+        value: '',
+        comp: ''
+      },
+      filtersEnabled
     }
   },
   computed: {
     rows () {
       return this.$store.state.rows
+    },
+    filters () {
+      return this.$store.state.filters
     },
     totalRows () {
       return this.$store.state.totalRows
@@ -51,11 +64,26 @@ export default {
     }
   },
   methods: {
-    sort () {
-      return this.$store.dispatch('sort')
+    getCompLabel (comp) {
+      if (!comp) return
+      return this.comparators.find(c => c.value == comp).text
+    },
+    sort (ctx) {
+      return this.$store.dispatch('sort', ctx)
     },
     changePage () {
       return this.$store.dispatch('changePage')
+    },
+    addFilter () {
+      this.$store.dispatch('addFilter', this.filter).then(() => {
+        this.filter = {field: '', value: '', comp: ''}
+        this.$store.dispatch('getData')
+      })
+    },
+    deleteFilter (index) {
+      this.$store.dispatch('deleteFilter', index).then(() => {
+        this.$store.dispatch('getData')
+      })
     }
   }
 }
