@@ -1,7 +1,8 @@
 {
     "build": {
       "env": {
-        "VUE_APP_CSVAPI_URL": "@vue_app_csvapi_url"
+        "VUE_APP_CSVAPI_URL": "@vue_app_csvapi_url",
+        "VUE_APP_FILTERS_ENABLED": "@vue_app_filters_enabled"
       }
     },
     "github": {

@@ -47,6 +47,7 @@ npm run build
 
 You can provide some build time configuration using a `.env` file (see the `.env.sample`).
 
-Knwon environment variables are:
+Known environment variables are:
 
-- `VUE_APP_CSVAPI_URL`: CSVAPI instance URL
+- `VUE_APP_CSVAPI_URL`: csvapi instance URL
+- `VUE_APP_FILTERS_ENABLED`: boolean, enables or disables filter support
