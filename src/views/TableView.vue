@@ -35,6 +35,7 @@ export default {
   data() {
     return {
       csvUrl: '',
+      endpoint: '',
       csvUrlFieldValue: '',
       hasUploadedFile: false,
       uploadServer: {
@@ -63,8 +64,11 @@ export default {
     // set filters from query string (before setting url and fetching data)
     this.setFiltersFromQueryString(params)
     const url = params.get('url')
+    const endpoint = params.get('endpoint')
     if (url) {
       this.csvUrl = url
+    } else if (endpoint) {
+      this.endpoint = endpoint
     }
   },
   methods: {
@@ -94,12 +98,8 @@ export default {
     },
     onUploadSuccess (res) {
       res = JSON.parse(res)
-      this.$store.commit('setDataEndpoint', res.endpoint)
-      const loader = this.$loading.show()
-      this.$store.dispatch('getData').finally(() => {
-        loader.hide()
-        this.hasUploadedFile = true
-      })
+      this.endpoint = res.endpoint
+      history.pushState(null, '', `/?endpoint=${this.endpoint}`)
     },
     onUploadError (error) {
       error = JSON.parse(error)
@@ -112,6 +112,15 @@ export default {
       const loader = this.$loading.show()
       this.$store.dispatch('apify', this.csvUrl).finally(() => {
         loader.hide()
+      })
+    },
+    endpoint (value) {
+      if (!value) return
+      this.$store.commit('setDataEndpoint', value)
+      const loader = this.$loading.show()
+      this.$store.dispatch('getData').finally(() => {
+        loader.hide()
+        this.hasUploadedFile = true
       })
     }
   }
