@@ -32,8 +32,8 @@ export default {
         openIssue() {
             const title = `Impossible de convertir le fichier`
             const body = `
-Impossible de convertir le fichier situé ici : ${this.csvUrl}%0A%0A
-${this.error.error} ${this.error.details || ''}%0A%0A
+Impossible de convertir le fichier situé ici : ${this.csvUrl || '{upload}'}%0A%0A
+${this.error.error.replace('<', '%3C')} ${this.error.details ? this.error.details.replace('<', '%3C') : ''}%0A%0A
 Identifiant : ${this.error.id || ''}
 `
             const githubLink = `https://github.com/etalab/csvapi/issues/new?labels=live-feedback&title=${title}&body=${body}`

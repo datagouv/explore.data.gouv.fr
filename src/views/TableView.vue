@@ -1,18 +1,19 @@
 <template>
   <div>
     <!-- url field if no url provided -->
-    <b-form v-if="!csvUrl" class="m-4">
+    <b-form v-if="!csvUrl && !hasUploadedFile" class="m-4">
       <b-input
         class="mb-2 mt-2"
         placeholder="URL du fichier à visualiser (CSV ou XLS)"
         v-model="csvUrlFieldValue"
       ></b-input>
       <b-button variant="primary" @click="redirect">Lancer la conversion 🚀</b-button>
+      <file-pond class="mb-2 mt-2" :server="uploadServer" accepted-file-types="text/csv" label-idle="Glisser un fichier CSV ici pour démarrer la conversion"></file-pond>
     </b-form>
     <!-- error block -->
     <Error v-if="hasError" :error="error"></Error>
     <!-- table block, fed by store -->
-    <Table v-if="csvUrl && !hasError"></Table>
+    <Table v-if="(csvUrl || hasUploadedFile) && !hasError"></Table>
   </div>
 </template>
 
@@ -20,13 +21,33 @@
 import Table from '@/components/Table'
 import Error from '@/components/Error'
 
+import vueFilePond from 'vue-filepond'
+import 'filepond/dist/filepond.min.css'
+import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type'
+
+import {csvapiUrl} from '@/config'
+
+const FilePond = vueFilePond(FilePondPluginFileValidateType)
+
 export default {
   name: 'TableView',
-  components: {Table, Error},
+  components: {Table, Error, FilePond},
   data() {
     return {
       csvUrl: '',
-      csvUrlFieldValue: ''
+      csvUrlFieldValue: '',
+      hasUploadedFile: false,
+      uploadServer: {
+        process: {
+          url: `${csvapiUrl}/upload`,
+          onload: this.onUploadSuccess,
+          onerror: this.onUploadError
+        },
+        // fetch: null,
+        // revert: null,
+        // restore: null,
+        // load: null
+      }
     }
   },
   computed: {
@@ -64,12 +85,25 @@ export default {
     sort (ctx) {
       this.$store.dispatch('sort', ctx)
     },
-    apify(url) {
+    apify (url) {
       this.$store.dispatch('apify', url)
     },
-    redirect() {
+    redirect () {
       this.csvUrl = this.csvUrlFieldValue
       history.pushState(null, '', `/?url=${this.csvUrl}`)
+    },
+    onUploadSuccess (res) {
+      res = JSON.parse(res)
+      this.$store.commit('setDataEndpoint', res.endpoint)
+      const loader = this.$loading.show()
+      this.$store.dispatch('getData').finally(() => {
+        loader.hide()
+        this.hasUploadedFile = true
+      })
+    },
+    onUploadError (error) {
+      error = JSON.parse(error)
+      this.$store.dispatch('handleUploadError', error)
     }
   },
   watch: {

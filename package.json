@@ -10,8 +10,11 @@
   },
   "dependencies": {
     "bootstrap-vue": "^2.1.0",
+    "filepond": "^4.9.3",
+    "filepond-plugin-file-validate-type": "^1.2.4",
     "url-search-params-polyfill": "^5.1.0",
     "vue": "^2.6.11",
+    "vue-filepond": "^6.0.0",
     "vue-loading-overlay": "^2.2.2",
     "vue-resource": "^1.5.0",
     "vuex": "^3.1.2"

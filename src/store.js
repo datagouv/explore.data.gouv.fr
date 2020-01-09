@@ -40,6 +40,9 @@ export default new Vuex.Store({
         id: res.body.error_id,
       })
     },
+    handleUploadError ({commit}, res) {
+      commit('setError', res)
+    },
     changePage ({dispatch}) {
       return dispatch('getData')
     },
