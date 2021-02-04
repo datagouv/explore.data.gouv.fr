@@ -4,12 +4,12 @@
     <div class="table-responsive">
       <b-table class="m-2" hover small :items="rows" :fields="fields" :no-local-sorting="true" @sort-changed="sort"></b-table>
     </div>
-    <b-pagination align="center" :total-rows="totalRows" v-model="page" :per-page="pageSize" @input="changePage"></b-pagination>
+    <b-pagination align="center" v-if="totalRows" :total-rows="totalRows" v-model="page" :per-page="pageSize" @input="changePage"></b-pagination>
   </div>
 </template>
 
 <script>
-import {pageSize, filtersEnabled} from '@/config'
+import {filtersEnabled} from '@/config'
 import Filters from '@/components/Filters'
 
 export default {
