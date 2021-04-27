@@ -14,6 +14,7 @@ export default new Vuex.Store({
     page: 1,
     pageSize: pageSize,
     dataEndpoint: undefined,
+    profileEndpoint: undefined,
     sortBy: undefined,
     sortDesc: undefined,
     totalRows: 0,
@@ -83,7 +84,7 @@ export default new Vuex.Store({
       apiUrl.searchParams.set('url', url)
       return this.$http.get(apiUrl.toString()).then(res => {
         if (res.body.ok && res.body.endpoint) {
-          commit('setDataEndpoint', res.body.endpoint)
+          commit('setEndpoints', res.body)
           return dispatch('getData')
         } else {
           return dispatch('showError', res)
@@ -92,8 +93,9 @@ export default new Vuex.Store({
     }
   },
   mutations: {
-    setDataEndpoint (state, endpoint) {
-      state.dataEndpoint = endpoint
+    setEndpoints (state, data) {
+      state.dataEndpoint = data.endpoint
+      state.profileEndpoint = data.profile_endpoint
     },
     setRows (state, rows) {
       state.rows = rows
