@@ -1,9 +1,10 @@
 <template>
   <div class="m-2">
-    <a href="" @click.prevent="filtersVisible = !filtersVisible">
-      {{ filtersVisible ? 'Masquer' : 'Afficher' }} les filtres <span v-if="filters.length">({{ filters.length }})</span>
-    </a>
-    <b-collapse v-model="filtersVisible">
+    <b-button variant="primary"@click.prevent="filtersVisible = !filtersVisible">
+      🔎 {{ filtersVisible ? 'Masquer' : 'Afficher' }} les filtres <span v-if="filters.length">({{ filters.length }})</span>
+    </b-button>
+    <b-button class="ml-sm-2 mt-2 mt-sm-0" variant="primary" target="_blank" rel="noopener noreferrer" :href="$store.state.profileEndpoint">🕵️ Explorer les données</b-button>
+    <b-collapse class="mt-2" v-model="filtersVisible">
       <b-card no-body>
         <b-list-group flush v-if="filters.length">
           <b-list-group-item v-for="(f, idx) in filters" v-bind:key="idx">
