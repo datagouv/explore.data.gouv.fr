@@ -1,6 +1,6 @@
 <template>
-  <div class="m-2">
-    <b-button variant="primary"@click.prevent="filtersVisible = !filtersVisible">
+  <div class="m-2 ml-3">
+    <b-button variant="primary" @click.prevent="filtersVisible = !filtersVisible">
       🔎 {{ filtersVisible ? 'Masquer' : 'Afficher' }} les filtres <span v-if="filters.length">({{ filters.length }})</span>
     </b-button>
     <b-button class="ml-sm-2 mt-2 mt-sm-0" variant="primary" target="_blank" rel="noopener noreferrer" :href="$store.state.profileEndpoint">🕵️ Explorer les données</b-button>
