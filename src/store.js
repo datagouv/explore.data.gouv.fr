@@ -81,7 +81,7 @@ export default new Vuex.Store({
     apify ({commit, dispatch}, url) {
       const apiUrl = new URL(csvapiUrl)
       apiUrl.pathname = '/apify'
-      apiUrl.searchParams.set('url', url)
+      apiUrl.searchParams.set('url', encodeURI(url))
       return this.$http.get(apiUrl.toString()).then(res => {
         if (res.body.ok && res.body.endpoint) {
           commit('setEndpoints', res.body)
