@@ -9,6 +9,8 @@ export default new Vuex.Store({
   state: {
     rows: [],
     columns: [],
+    generalInfos: {},
+    columnsInfos: {},
     fields: [],
     filters: [],
     page: 1,
@@ -73,6 +75,10 @@ export default new Vuex.Store({
             commit('setColumns', res.body.columns)
           }
           commit('setTotalRows', res.body.total)
+          console.log(res.body.generalInfos)
+          commit('setGeneralInfos', res.body.general_infos)
+          console.log(res.body.columnsInfos)
+          commit('setColumnsInfos', res.body.columns_infos)
         } else {
           dispatch('handleError', res)
         }
@@ -100,6 +106,12 @@ export default new Vuex.Store({
     setRows (state, rows) {
       state.rows = rows
     },
+    setGeneralInfos (state, generalInfos) {
+      state.generalInfos = generalInfos
+    },
+    setColumnsInfos (state, columnsInfos) {
+      state.columnsInfos = columnsInfos
+    },
     setPage (state, page) {
       state.page = page
     },
@@ -122,6 +134,11 @@ export default new Vuex.Store({
     },
     deleteFilter (state, index) {
       state.filters.splice(index, 1)
+    },
+    deleteAllFiltersWithField (state, field) {
+      state.filters = state.filters.filter((obj) => {
+          return obj.field !== field;
+      });
     }
   }
 })
