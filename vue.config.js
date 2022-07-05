@@ -3,15 +3,13 @@ module.exports = {
       if(config.plugins.has('extract-css')) {
         const extractCSSPlugin = config.plugin('extract-css')
         extractCSSPlugin && extractCSSPlugin.tap(() => [{
-          filename: '[name].css',
-          chunkFilename: '[name].css'
+          filename: 'css/[name].css'
         }])
       }
     },
     configureWebpack: {
       output: {
-        filename: '[name].js',
-        chunkFilename: '[name].js'
+        filename: 'js/[name].js'
       }
     }
   }

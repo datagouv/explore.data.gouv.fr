@@ -1,6 +1,6 @@
 {
-  "name": "@opendatateam/csvapi-front",
-  "version": "0.6.0",
+  "name": "@etalab/csvapi-front",
+  "version": "0.6.1",
   "files": [
     "dist/*"
   ],
