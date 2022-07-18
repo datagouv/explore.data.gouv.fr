@@ -15,80 +15,83 @@
       <tr>
         <th class="filterColumn" v-for="field in fields" v-bind:key="'filter-'+field.label">
           <div class=inputTextDiv>
-            <!-- @blur="activeFilterField = undefined"  -->
             <input @focus="getInfos(field.label)" v-on:keyup="filterText($event, field.label)" type="text" :class="'inputTextFilter inputTextFilter-'+field.label" :placeholder="'Filtrer parmi ' + totalRows + ' lignes'" />
           </div>
-          <span v-if="columnsInfos[field.label]['type'] == 'Categorical'">
-            <div v-if="activeFilterBoxCat & activeFilterField == field.label & categoricalInfos.length > 0" class="relTh">
-              Catégories : 
-              <br />
-              <br />
-              <div class="catFilter" v-for="cat in categoricalInfos" v-bind:key="cat.value">
-                <span @click="filterTextCat(cat.value, field.label)" :class="'buttonCat cat'+getColor(field.label, cat.value)">
-                  {{ cat.value+" ("+cat.count+")" }}
-                </span>
-              </div>
-            </div >
-            <div v-if="activeFilterBoxTop & activeFilterField == field.label & topInfos.length > 0" class="relTh">
-              Valeurs les plus fréquentes : 
-              <br />
-              <br />
-              <div class="catFilter" v-for="top in topInfos" v-bind:key="top.value">
-                <span class="topInfo" @click="filterTextCat(top.value, field.label)">
-                  {{ top.value }} ({{ top.count }})
-                </span>
-              </div>
-            </div >
-          </span>
-          <span v-if="columnsInfos[field.label]['type'] == 'Numeric'">
-            <div v-if="activeFilterBoxNum & activeFilterField == field.label & numericPlotInfosBins.length > 0" class="relTh">
-              Distribution : 
-              <br />
-              <br />
-              <histogram 
-                v-bind:datachart="numericPlotInfosCounts"
-                v-bind:labels="numericPlotInfosBins"
-                v-bind:title="field.label"
-              ></histogram>
-            </div >            
+          <span v-if="columnsInfos.hasOwnProperty(field.label)">
+            <span v-if="columnsInfos[field.label]['type'] == 'Categorical'">
+              <div v-if="activeFilterBoxCat & activeFilterField == field.label & categoricalInfos.length > 0" class="relTh">
+                Catégories : 
+                <br />
+                <br />
+                <div class="catFilter" v-for="cat in categoricalInfos" v-bind:key="cat.value">
+                  <span @click="filterTextCat(cat.value, field.label)" :class="'buttonCat cat'+getColor(field.label, cat.value)">
+                    {{ cat.value+" ("+cat.count+")" }}
+                  </span>
+                </div>
+              </div >
+              <div v-if="activeFilterBoxTop & activeFilterField == field.label & topInfos.length > 0" class="relTh">
+                Valeurs les plus fréquentes : 
+                <br />
+                <br />
+                <div class="catFilter" v-for="top in topInfos" v-bind:key="top.value">
+                  <span class="topInfo" @click="filterTextCat(top.value, field.label)">
+                    {{ top.value }} ({{ top.count }})
+                  </span>
+                </div>
+              </div >
+            </span>
+            <span v-if="columnsInfos[field.label]['type'] == 'Numeric'">
+              <div v-if="activeFilterBoxNum & activeFilterField == field.label & numericPlotInfosBins.length > 0" class="relTh">
+                Distribution : 
+                <br />
+                <br />
+                <histogram 
+                  v-bind:datachart="numericPlotInfosCounts"
+                  v-bind:labels="numericPlotInfosBins"
+                  v-bind:title="field.label"
+                ></histogram>
+              </div >            
+            </span>
           </span>
         </th>
       </tr>
       <tr class="rowClass" v-for="row in rows" v-bind:key="row[0]+'-'+random()">
         <td @mouseleave="manageCellOut" @mouseover="manageCell($event, field.label, row[field.label])" @click="manageCell($event, field.label, row[field.label])" class="cellColumn" v-for="field in fields" v-bind:key="'row-'+field.label+'-'+row[field.label]+'-'+random()">
           <span :class="'cat'+getColor(field.label, row[field.label])">{{ row[field.label] }}</span>
-          <div class="relCell relSiren"  v-if="columnsInfos[field.label]['format'] == 'siren'">
-            <img src="../static/images/loupe.png" width="30" />
-            <br /><br />
-            Il semblerait que ce champ soit un numéro d'entreprise (numéro Siren)
-            <br /><br />
-            Entreprise : {{ messageBox }}
-            <br /><br />
-            <button @click="gotoAE(row[field.label])" class="buttonSiren">En savoir plus sur cette entreprise</button>
-          </div>          
-          <div class="relCell relDpt"  v-if="columnsInfos[field.label]['format'] == 'code_departement'">
-            <img src="../static/images/loupe.png" width="30" />
-            <br /><br />
-            Il semblerait que ce champ soit un code de département
-            <br /><br />
-            Département : {{ messageBox }}
-          </div>
-          <div class="relCell relReg"  v-if="columnsInfos[field.label]['format'] == 'code_region'">
-            <img src="../static/images/loupe.png" width="30" />
-            <br /><br />
-            Il semblerait que ce champ soit un code de région
-            <br /><br />
-            Région : {{ messageBox }}
-          </div>
-          <div class="relCell relCom"  v-if="columnsInfos[field.label]['format'] == 'code_commune_insee'">
-            <img src="../static/images/loupe.png" width="30" />
-            <br /><br />
-            Il semblerait que ce champ soit un code commune
-            <br /><br />
-            Commune : {{ messageBox }}
-          </div>
+          <span v-if="columnsInfos.hasOwnProperty(field.label)">
+            <div class="relCell relSiren"  v-if="columnsInfos[field.label]['format'] == 'siren'">
+              <img src="../static/images/loupe.png" width="30" />
+              <br /><br />
+              Il semblerait que ce champ soit un numéro d'entreprise (numéro Siren)
+              <br /><br />
+              Entreprise : {{ messageBox }}
+              <br /><br />
+              <button @click="gotoAE(row[field.label])" class="buttonSiren">En savoir plus sur cette entreprise</button>
+            </div>          
+            <div class="relCell relDpt"  v-if="columnsInfos[field.label]['format'] == 'code_departement'">
+              <img src="../static/images/loupe.png" width="30" />
+              <br /><br />
+              Il semblerait que ce champ soit un code de département
+              <br /><br />
+              Département : {{ messageBox }}
+            </div>
+            <div class="relCell relReg"  v-if="columnsInfos[field.label]['format'] == 'code_region'">
+              <img src="../static/images/loupe.png" width="30" />
+              <br /><br />
+              Il semblerait que ce champ soit un code de région
+              <br /><br />
+              Région : {{ messageBox }}
+            </div>
+            <div class="relCell relCom"  v-if="columnsInfos[field.label]['format'] == 'code_commune_insee'">
+              <img src="../static/images/loupe.png" width="30" />
+              <br /><br />
+              Il semblerait que ce champ soit un code commune
+              <br /><br />
+              Commune : {{ messageBox }}
+            </div>
+          </span>
         </td>
-      </tr>
+      </tr> 
     </table>
     <!-- <Filters v-if="filtersEnabled"></Filters>
     <div class="table-responsive">
@@ -171,64 +174,66 @@ export default {
       this.activeFilterBoxCat = false;
       this.activeFilterBoxNum = false;
       this.activeFilterBoxTop = false;
-      if(this.columnsInfos[field]['format'] == 'siren') {
-        fetch('https://recherche-entreprises.api.gouv.fr/search?q='+val+'&page=1&per_page=1')
-        .then((response) => {
-          return response.json()
-        })
-        .then((data) => {
-          this.messageBox = data['results'][0]['nom_complet']
-        })
-        .catch((err) => {
-          // Do something for an error here
-        })
-        if(e.currentTarget.getElementsByClassName('relSiren')[0]){
-          e.currentTarget.getElementsByClassName('relSiren')[0].style.display = 'block'
+      if(this.columnsInfos.hasOwnProperty(field)) {
+        if(this.columnsInfos[field]['format'] == 'siren') {
+          fetch('https://recherche-entreprises.api.gouv.fr/search?q='+val+'&page=1&per_page=1')
+          .then((response) => {
+            return response.json()
+          })
+          .then((data) => {
+            this.messageBox = data['results'][0]['nom_complet']
+          })
+          .catch((err) => {
+            // Do something for an error here
+          })
+          if(e.currentTarget.getElementsByClassName('relSiren')[0]){
+            e.currentTarget.getElementsByClassName('relSiren')[0].style.display = 'block'
+          }
         }
-      }
-      if(this.columnsInfos[field]['format'] == 'code_departement') {
-        fetch('https://geo.api.gouv.fr/departements/'+val)
-        .then((response) => {
-          return response.json()
-        })
-        .then((data) => {
-          this.messageBox = data['nom']
-        })
-        .catch((err) => {
-          // Do something for an error here
-        })
-        if(e.currentTarget.getElementsByClassName('relDpt')[0]){
-          e.currentTarget.getElementsByClassName('relDpt')[0].style.display = 'block'
+        if(this.columnsInfos[field]['format'] == 'code_departement') {
+          fetch('https://geo.api.gouv.fr/departements/'+val)
+          .then((response) => {
+            return response.json()
+          })
+          .then((data) => {
+            this.messageBox = data['nom']
+          })
+          .catch((err) => {
+            // Do something for an error here
+          })
+          if(e.currentTarget.getElementsByClassName('relDpt')[0]){
+            e.currentTarget.getElementsByClassName('relDpt')[0].style.display = 'block'
+          }
         }
-      }
-      if(this.columnsInfos[field]['format'] == 'code_region') {
-        fetch('https://geo.api.gouv.fr/regions/'+val)
-        .then((response) => {
-          return response.json()
-        })
-        .then((data) => {
-          this.messageBox = data['nom']
-        })
-        .catch((err) => {
-          // Do something for an error here
-        })
-        if(e.currentTarget.getElementsByClassName('relReg')[0]){
-          e.currentTarget.getElementsByClassName('relReg')[0].style.display = 'block'
+        if(this.columnsInfos[field]['format'] == 'code_region') {
+          fetch('https://geo.api.gouv.fr/regions/'+val)
+          .then((response) => {
+            return response.json()
+          })
+          .then((data) => {
+            this.messageBox = data['nom']
+          })
+          .catch((err) => {
+            // Do something for an error here
+          })
+          if(e.currentTarget.getElementsByClassName('relReg')[0]){
+            e.currentTarget.getElementsByClassName('relReg')[0].style.display = 'block'
+          }
         }
-      }
-      if(this.columnsInfos[field]['format'] == 'code_commune_insee') {
-        fetch('https://geo.api.gouv.fr/communes/'+val)
-        .then((response) => {
-          return response.json()
-        })
-        .then((data) => {
-          this.messageBox = data['nom']
-        })
-        .catch((err) => {
-          // Do something for an error here
-        })
-        if(e.currentTarget.getElementsByClassName('relCom')[0]){
-          e.currentTarget.getElementsByClassName('relCom')[0].style.display = 'block'
+        if(this.columnsInfos[field]['format'] == 'code_commune_insee') {
+          fetch('https://geo.api.gouv.fr/communes/'+val)
+          .then((response) => {
+            return response.json()
+          })
+          .then((data) => {
+            this.messageBox = data['nom']
+          })
+          .catch((err) => {
+            // Do something for an error here
+          })
+          if(e.currentTarget.getElementsByClassName('relCom')[0]){
+            e.currentTarget.getElementsByClassName('relCom')[0].style.display = 'block'
+          }
         }
       }
     },  
@@ -320,19 +325,17 @@ export default {
       this.setSearchParams(params)
     },
     getInfos(field){
+      console.log(this.columnsInfos[field])
       this.activeFilterBoxTop = false
       this.activeFilterBoxCat = false
       this.activeFilterBoxNum = false
-      console.log(Array.isArray(this.columnsInfos[field]['categorical_infos']))
-      if ((this.columnsInfos[field]['categorical_infos']) && (Array.isArray(this.columnsInfos[field]['categorical_infos']))) {
-        console.log(this.columnsInfos[field]['categorical_infos'])
+      if ((this.columnsInfos[field]) && (this.columnsInfos[field]['categorical_infos']) && (Array.isArray(this.columnsInfos[field]['categorical_infos']))) {
         this.getCategoricalInfos(field)
       }
-      else if ((this.columnsInfos[field]['top_infos'])) {
+      else if ((this.columnsInfos[field]) &&  (this.columnsInfos[field]['top_infos'])) {
         this.getTopInfos(field)
       }
-      console.log(this.columnsInfos[field])
-      if((this.columnsInfos[field]['numeric_plot_infos'])) {
+      if((this.columnsInfos[field]) && (this.columnsInfos[field]['numeric_plot_infos'])) {
         this.getNumericPlotInfos(field)
       }
     },
