@@ -48,4 +48,16 @@ export default {
 .csvapi .fr-btn {
   border-radius: 30px;
 }
+
+.csvapi .fr-input-wrap.fr-input-wrap--icon-left .fr-input {
+  padding-left: 2.5rem;
+  padding-right: 1rem;
+}
+.csvapi .fr-input-wrap.fr-input-wrap--icon-left[class*=" fr-fi-"]::before,
+.csvapi .fr-input-wrap.fr-input-wrap--icon-left[class*=" fr-icon-"]::before,
+.csvapi .fr-input-wrap.fr-input-wrap--icon-left[class^=fr-fi-]::before,
+.csvapi .fr-input-wrap.fr-input-wrap--icon-left[class^=fr-icon-]::before {
+  left: 0.75rem;
+  right: auto;
+}
 </style>
