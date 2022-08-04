@@ -22,6 +22,14 @@ export default new Vuex.Store({
     totalRows: 0,
     error: undefined,
     hasError: false,
+    dgv_infos: {
+      resource: undefined,
+      dataset_id: undefined,
+      dataset_title: undefined,
+      organization_id: undefined,
+      organization_name: undefined,
+      other_resources: []
+    }
   },
   getters: {
     fields (state) {
@@ -36,7 +44,6 @@ export default new Vuex.Store({
   },
   actions: {
     handleError ({commit}, res) {
-      console.error(res)
       commit('setError', {
         error: res.body.error,
         details: res.body.details,
@@ -44,14 +51,21 @@ export default new Vuex.Store({
       })
     },
     changePage ({dispatch}) {
-      return dispatch('getData')
+      return dispatch('getData', 'page')
     },
     sort ({commit, dispatch}, ctx) {
       commit('setSort', {by: ctx.sortBy, desc: ctx.sortDesc})
-      return dispatch('getData')
+      return dispatch('getData', 'sort')
     },
-    makeDataUrl ({state}) {
-      const offset = pageSize * (state.page - 1)
+    makeDataUrl ({state}, action) {
+      let offset
+      if (action && action == 'page') {
+        offset = pageSize * (state.page - 1)
+      }
+      else {
+        offset = 0
+        state.page = 1
+      }
       const dataUrl = new URL(state.dataEndpoint)
       dataUrl.searchParams.set('_shape', 'objects')
       dataUrl.searchParams.set('_rowid', 'hide')
@@ -64,20 +78,24 @@ export default new Vuex.Store({
         const param = state.sortDesc ? '_sort_desc' : '_sort'
         dataUrl.searchParams.set(param, state.sortBy)
       }
+      console.log(dataUrl.search)
       return dataUrl
     },
-    async getData ({state, commit, dispatch}) {
-      const dataUrl = await dispatch('makeDataUrl')
+    async getData ({state, commit, dispatch}, action) {
+      console.log(action)
+      const dataUrl = await dispatch('makeDataUrl', action)
       this.$http.get(dataUrl.toString()).then(res => {
         if (res.body.ok) {
-          commit('setRows', res.body.rows)
+          if(action == 'page') {
+            commit('setRows', state.rows.concat(res.body.rows))
+          } else {
+            commit('setRows', res.body.rows)
+          }
           if (!state.columns.length) {
             commit('setColumns', res.body.columns)
           }
           commit('setTotalRows', res.body.total)
-          console.log(res.body.generalInfos)
           commit('setGeneralInfos', res.body.general_infos)
-          console.log(res.body.columnsInfos)
           commit('setColumnsInfos', res.body.columns_infos)
         } else {
           dispatch('handleError', res)
@@ -91,7 +109,7 @@ export default new Vuex.Store({
       return this.$http.get(apiUrl.toString()).then(res => {
         if (res.body.ok && res.body.endpoint) {
           commit('setEndpoints', res.body)
-          return dispatch('getData')
+          return dispatch('getData', 'apify')
         } else {
           return dispatch('showError', res)
         }
@@ -128,6 +146,14 @@ export default new Vuex.Store({
     setSort (state, sort) {
       state.sortBy = sort.by
       state.sortDesc = sort.desc
+    },
+    setDgvInfos (state, data) {
+      state.dgv_infos.resource = data.resource
+      state.dgv_infos.dataset_id = data.dataset_id
+      state.dgv_infos.dataset_title = data.dataset_title
+      state.dgv_infos.organization_id = data.organization_id
+      state.dgv_infos.organization_name = data.organization_name
+      state.dgv_infos.other_resources = data.other_resources
     },
     addFilter (state, filter) {
       state.filters.push(filter)

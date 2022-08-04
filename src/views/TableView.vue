@@ -12,7 +12,7 @@
     <!-- error block -->
     <Error v-if="hasError" :error="error"></Error>
     <!-- table block, fed by store -->
-    <Table v-if="csvUrl && !hasError"></Table>
+    <Table class="table" v-if="csvUrl && !hasError"></Table>
   </div>
 </template>
 
@@ -86,4 +86,11 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
+.table{
+  width: 100%;
+  overflow-x: auto;
+  font-size: 15px;
+}
+
 </style>

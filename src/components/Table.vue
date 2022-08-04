@@ -2,46 +2,108 @@
   <div>
     <table>
       <tr>
-        <th class="titleColumn" @click="sortbyfield(field.label)" v-for="field in fields" v-bind:key="'header-'+field.label+'-'+random()">
-          <div class="headerWrap" @mouseover="hoverArrow = true" @mouseleave="hoverArrow = false">
-            <div>{{ field.label }}</div>
-            <div v-if="field.label === sortBy">
-              <img v-if="sortDesc == false" src="../static/images/top.png" width="20" />
-              <img v-if="sortDesc == true" src="../static/images/bottom.png" width="20" />
+        <th 
+          :style="field.label === sortBy ? {'borderBottom': '2px solid #2559C1'} : {'borderBottom': '2px solid black'}" 
+          class="titleColumn" 
+          @click="sortbyfield(field.label)" 
+          v-for="field in fields" 
+          v-bind:key="'header-'+field.label+'-'+random()"
+        >
+          <div>
+            <div 
+              class="headerWrap" 
+              @mouseover="hoverArrow = true" 
+              @mouseleave="hoverArrow = false"
+            >
+              <div 
+                class="arrowIcon" 
+                v-if="field.label === sortBy"
+              >
+                <span 
+                  v-if="sortDesc == true"
+                  style="color: #2559C1;"
+                  class="fr-icon-arrow-down-line"
+                  aria-hidden="true"
+                ></span>
+                <span 
+                  v-if="sortDesc == false"
+                  style="color: #2559C1;"
+                  class="fr-icon-arrow-up-line"
+                  aria-hidden="true"
+                ></span>
+              </div>
+              <div :style="field.label === sortBy ? { 'color': '#2559C1'} : ''">
+                {{ field.label }}
+              </div>
+              <div :style="field.label === sortBy ? { 'color': '#2559C1'} : ''" class="infoIcon">
+                <span class="fr-icon-info-line" aria-hidden="true"></span>
+              </div>            
             </div>
           </div>
         </th>
       </tr>
       <tr>
-        <th class="filterColumn" v-for="field in fields" v-bind:key="'filter-'+field.label">
+        <th 
+          class="filterColumn"
+          v-for="field in fields"
+          v-bind:key="'filter-'+field.label"
+        >
           <div class=inputTextDiv>
-            <input @focus="getInfos(field.label)" v-on:keyup="filterText($event, field.label)" type="text" :class="'inputTextFilter inputTextFilter-'+field.label" :placeholder="'Filtrer parmi ' + totalRows + ' lignes'" />
+            <input 
+              @focus="getInfos(field.label)"
+              v-on:keyup="filterText($event, field.label)"
+              type="text"
+              :class="'inputTextFilter inputTextFilter-'+field.label"
+              placeholder="Filtrer"
+            />
           </div>
           <span v-if="columnsInfos.hasOwnProperty(field.label)">
             <span v-if="columnsInfos[field.label]['type'] == 'Categorical'">
-              <div v-if="activeFilterBoxCat & activeFilterField == field.label & categoricalInfos.length > 0" class="relTh">
+              <div 
+                v-if="activeFilterBoxCat & activeFilterField == field.label & categoricalInfos.length > 0"
+                class="relTh"
+              >
                 Catégories : 
                 <br />
                 <br />
-                <div class="catFilter" v-for="cat in categoricalInfos" v-bind:key="cat.value">
-                  <span @click="filterTextCat(cat.value, field.label)" :class="'buttonCat cat'+getColor(field.label, cat.value)">
+                <div 
+                  class="catFilter"
+                  v-for="cat in categoricalInfos"
+                  v-bind:key="cat.value"
+                >
+                  <span 
+                    @click="filterTextCat(cat.value, field.label)"
+                    :class="'buttonCat cat'+getColor(field.label, cat.value)"
+                  >
                     {{ cat.value+" ("+cat.count+")" }}
                   </span>
                 </div>
               </div >
-              <div v-if="activeFilterBoxTop & activeFilterField == field.label & topInfos.length > 0" class="relTh">
+              <div
+                v-if="activeFilterBoxTop & activeFilterField == field.label & topInfos.length > 0"
+                class="relTh"
+              >
                 Valeurs les plus fréquentes : 
                 <br />
                 <br />
-                <div class="catFilter" v-for="top in topInfos" v-bind:key="top.value">
-                  <span class="topInfo" @click="filterTextCat(top.value, field.label)">
+                <div 
+                  class="catFilter"
+                  v-for="top in topInfos"
+                  v-bind:key="top.value"
+                >
+                  <span
+                    class="topInfo"
+                    @click="filterTextCat(top.value, field.label)"
+                  >
                     {{ top.value }} ({{ top.count }})
                   </span>
                 </div>
               </div >
             </span>
             <span v-if="columnsInfos[field.label]['type'] == 'Numeric'">
-              <div v-if="activeFilterBoxNum & activeFilterField == field.label & numericPlotInfosBins.length > 0" class="relTh">
+              <div 
+                v-if="activeFilterBoxNum & activeFilterField == field.label & numericPlotInfosBins.length > 0" class="relTh"
+              >
                 Distribution : 
                 <br />
                 <br />
@@ -55,49 +117,84 @@
           </span>
         </th>
       </tr>
-      <tr class="rowClass" v-for="row in rows" v-bind:key="row[0]+'-'+random()">
-        <td @mouseleave="manageCellOut" @mouseover="manageCell($event, field.label, row[field.label])" @click="manageCell($event, field.label, row[field.label])" class="cellColumn" v-for="field in fields" v-bind:key="'row-'+field.label+'-'+row[field.label]+'-'+random()">
-          <span :class="'cat'+getColor(field.label, row[field.label])">{{ row[field.label] }}</span>
+      <tr
+        class="rowClass"
+        v-for="(row, index) in rows" 
+        v-bind:key="row[0]+'-'+random()"
+      >
+        <td 
+          @mouseleave="manageCellOut"
+          @mouseover="manageCell($event, field.label, row[field.label])"
+          @click="manageCell($event, field.label, row[field.label])"
+          class="cellColumn"
+          v-for="field in fields"
+          v-bind:key="'row-'+field.label+'-'+row[field.label]+'-'+random()"
+          :style="index % 2 == 0 ? {'backgroundColor': '#FAFAFA'} : ''"
+        >
+          <span :class="'cat'+getColor(field.label, row[field.label])">
+            {{ row[field.label] }}
+          </span>
           <span v-if="columnsInfos.hasOwnProperty(field.label)">
-            <div class="relCell relSiren"  v-if="columnsInfos[field.label]['format'] == 'siren'">
+            <div 
+              class="relCell relSiren" 
+              v-if="columnsInfos[field.label]['format'] == 'siren'"
+            >
               <img src="../static/images/loupe.png" width="30" />
-              <br /><br />
+              <br />
+              <br />
               Il semblerait que ce champ soit un numéro d'entreprise (numéro Siren)
-              <br /><br />
+              <br />
+              <br />
               Entreprise : {{ messageBox }}
-              <br /><br />
-              <button @click="gotoAE(row[field.label])" class="buttonSiren">En savoir plus sur cette entreprise</button>
+              <br />
+              <br />
+              <button 
+                @click="gotoAE(row[field.label])"
+                class="buttonSiren"
+              >
+                En savoir plus sur cette entreprise
+              </button>
             </div>          
-            <div class="relCell relDpt"  v-if="columnsInfos[field.label]['format'] == 'code_departement'">
+            <div
+              class="relCell relDpt" 
+              v-if="columnsInfos[field.label]['format'] == 'code_departement'"
+            >
               <img src="../static/images/loupe.png" width="30" />
-              <br /><br />
+              <br />
+              <br />
               Il semblerait que ce champ soit un code de département
-              <br /><br />
+              <br />
+              <br />
               Département : {{ messageBox }}
             </div>
-            <div class="relCell relReg"  v-if="columnsInfos[field.label]['format'] == 'code_region'">
+            <div
+              class="relCell relReg"
+              v-if="columnsInfos[field.label]['format'] == 'code_region'"
+            >
               <img src="../static/images/loupe.png" width="30" />
-              <br /><br />
+              <br />
+              <br />
               Il semblerait que ce champ soit un code de région
-              <br /><br />
+              <br />
+              <br />
               Région : {{ messageBox }}
             </div>
-            <div class="relCell relCom"  v-if="columnsInfos[field.label]['format'] == 'code_commune_insee'">
+            <div
+              class="relCell relCom"
+              v-if="columnsInfos[field.label]['format'] == 'code_commune_insee'"
+            >
               <img src="../static/images/loupe.png" width="30" />
-              <br /><br />
+              <br />
+              <br />
               Il semblerait que ce champ soit un code commune
-              <br /><br />
+              <br />
+              <br />
               Commune : {{ messageBox }}
             </div>
           </span>
         </td>
       </tr> 
     </table>
-    <!-- <Filters v-if="filtersEnabled"></Filters>
-    <div class="table-responsive">
-      <b-table class="m-2" hover small :items="rows" :fields="fields" :no-local-sorting="true" @sort-changed="sort"></b-table>
-    </div> -->
-    <b-pagination align="center" v-if="totalRows" :total-rows="totalRows" v-model="page" :per-page="pageSize" @input="changePage"></b-pagination>
   </div>
 </template>
 
@@ -325,7 +422,6 @@ export default {
       this.setSearchParams(params)
     },
     getInfos(field){
-      console.log(this.columnsInfos[field])
       this.activeFilterBoxTop = false
       this.activeFilterBoxCat = false
       this.activeFilterBoxNum = false
@@ -403,12 +499,26 @@ export default {
     },
     gotoAE(siren){
       window.open('https://annuaire-entreprises.data.gouv.fr/entreprise/'+siren+'','_blank');
-    }
+    },
+    handleScroll (event) {
+      let bottomOfWindow = Math.max(window.pageYOffset, document.documentElement.scrollTop, document.body.scrollTop) + window.innerHeight + 1 >= document.documentElement.offsetHeight
+      if (bottomOfWindow) {
+        this.page = this.page + 1
+        this.changePage()
+        console.log('bottom')
+      }
+    },
   },
   watch: {
     columnsInfos: function () {
       this.manageColumnInfos()
     },
+  },
+  created () {
+    window.addEventListener('scroll', this.handleScroll);
+  },
+  destroyed () {
+    window.removeEventListener('scroll', this.handleScroll);
   }
 }
 </script>
@@ -544,16 +654,12 @@ export default {
 }
 
 .titleColumn{
-  background-color: #3558A2;
-  color: white;
-  min-width: 300px;
+  color: black;
   padding-left: 20px;
   padding-right: 20px;
   padding-top: 6px;
   padding-bottom: 6px;
   border-right: 1px solid #cfcccc;
-  border-bottom: 1px solid #cfcccc;
-  border-top: 1px solid #cfcccc;
 }
 
 .titleColumn:hover{
@@ -563,7 +669,6 @@ export default {
 .filterColumn{
   position: relative;
   height: 80px;
-  background-color: #f5f5fe;
   border-right: 1px solid #cfcccc;
   border-bottom: 1px solid #cfcccc;
 }
@@ -587,18 +692,28 @@ export default {
 }
 
 .headerWrap{
-  display: flex;
-  justify-content: space-between;
+    display: flex;
+    flex-direction: row;
+    max-height: 25px;
 }
 
 .inputTextFilter{
   padding-left: 20px;
   padding-right: 20px;
-  background-color: #f5f5fe;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-color: #F3F3F3;
   width: 100%;
   border: 0px;
   font-size: 13px;
   color: #9CA3AF;
+  border-bottom: 1px solid black;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  font-size: 12px;
+}
+
+.table th{
   vertical-align: middle;
 }
 
@@ -620,6 +735,15 @@ export default {
   font-weight: normal;
   font-size: 14px;
   border: 1px solid #cfcccc;
+}
+
+
+.infoIcon{
+    margin-left: auto;
+    padding-left: 20px;
+}
+.arrowIcon{
+  padding-right: 10px;
 }
 
 </style>

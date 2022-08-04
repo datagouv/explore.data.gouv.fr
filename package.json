@@ -10,6 +10,7 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
+    "@gouvfr/dsfr": "^1.7.2",
     "bootstrap-vue": "^2.1.0",
     "chart.js": "^3.8.0",
     "sass": "^1.52.3",
