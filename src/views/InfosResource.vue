@@ -14,7 +14,7 @@
               </option>
             </select>
           </div>
-          <div class="fr-col-12 fr-col-xl-8 fr-text--sm fr-m-0 compInfos">
+          <div class="fr-col-12 fr-col-xl-8 fr-text--sm fr-m-0 text-mention-grey">
             &nbsp;Mis à jour le date {{ toFrDate(dgvInfos.resource.last_modified) }}
             &nbsp;&nbsp;{{ dgvInfos.resource.format }} ({{ bytesToSize(dgvInfos.resource.filesize) }})
             &nbsp;&nbsp;{{ dgvInfos.resource.metrics.views }} téléchargements
@@ -29,8 +29,8 @@
             </button>
           </div>
           <div class="fr-col-12 fr-col-sm">
-            <div class="fr-input-wrap fr-input-wrap--icon-left fr-icon-search-line">
-              <input class="fr-input" v-model="globalSearch" placeholder="Rechercher" />
+            <div class="fr-input-wrap fr-input-wrap--icon-left fr-icon-search-line" :class="globalSearchWrapClass">
+              <input class="fr-input" type="search" :class="globalSearchClass" v-model="globalSearch" placeholder="Rechercher" />
             </div>
           </div>
         </div>
@@ -67,6 +67,12 @@ export default {
     },
     doesntHaveFilter() {
       return !this.hasActivefilters;
+    },
+    globalSearchClass() {
+      return this.globalSearch ? 'fr-input--filled' : 'fr-input--empty'
+    },
+    globalSearchWrapClass() {
+      return this.globalSearch ? 'fr-input-wrap--filled' : 'fr-input-wrap--empty'
     }
   },
   created() {
@@ -92,21 +98,5 @@ export default {
 .infosRes {
   border-bottom: 1px solid #ebebeb;
   font-size: 15px;
-}
-
-.selectResource {
-  line-height: 100%;
-  background-color: #F3F3F3;
-  padding: 10px;
-  font-size: 13px;
-  border: none;
-  border-bottom: 2px solid black;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
-  font-family: Marianne-Bold;
-}
-
-.compInfos {
-  color: var(--text-mention-grey);
 }
 </style>

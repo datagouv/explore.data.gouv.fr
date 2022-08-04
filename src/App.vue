@@ -38,6 +38,10 @@ export default {
    url(../public/fonts/Marianne-Bold.woff2) format("woff2");
 }
 
+.text-mention-grey {
+  color: var(--text-mention-grey);
+}
+
 .csvapi {
   font-family: Marianne, Roboto, 'Helvetica Neue', Arial;
   --border-action-high-blue-france: var(--border-plain-blue-cumulus);
@@ -59,5 +63,29 @@ export default {
 .csvapi .fr-input-wrap.fr-input-wrap--icon-left[class^=fr-icon-]::before {
   left: 0.75rem;
   right: auto;
+}
+
+.csvapi .fr-input.fr-input--empty,
+.csvapi .fr-input-wrap.fr-input-wrap--empty[class*=" fr-fi-"]::before,
+.csvapi .fr-input-wrap.fr-input-wrap--empty[class*=" fr-icon-"]::before,
+.csvapi .fr-input-wrap.fr-input-wrap--empty[class^=fr-fi-]::before,
+.csvapi .fr-input-wrap.fr-input-wrap--empty[class^=fr-icon-]::before {
+  color: var(--text-mention-grey);
+}
+
+.csvapi .fr-input.fr-input--empty {
+  box-shadow: inset 0 -2px 0 0 var(--text-mention-grey);
+}
+
+.csvapi .fr-input.fr-input--filled,
+.csvapi .fr-input-wrap.fr-input-wrap--filled[class*=" fr-fi-"]::before,
+.csvapi .fr-input-wrap.fr-input-wrap--filled[class*=" fr-icon-"]::before,
+.csvapi .fr-input-wrap.fr-input-wrap--filled[class^=fr-fi-]::before,
+.csvapi .fr-input-wrap.fr-input-wrap--filled[class^=fr-icon-]::before {
+  color: var(--text-label-blue-cumulus);
+}
+
+.csvapi .fr-input.fr-input--filled {
+  box-shadow: inset 0 -2px 0 0 var(--border-plain-blue-cumulus);
 }
 </style>
