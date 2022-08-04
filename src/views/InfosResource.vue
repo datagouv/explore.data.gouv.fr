@@ -29,7 +29,9 @@
             </button>
           </div>
           <div class="fr-col-12 fr-col-sm">
-            <input class="fr-input" v-model="globalSearch" placeholder="Rechercher">
+            <div class="fr-input-wrap fr-input-wrap--icon-left fr-icon-search-line">
+              <input class="fr-input" v-model="globalSearch" placeholder="Rechercher" />
+            </div>
           </div>
         </div>
       </div>
