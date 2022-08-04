@@ -106,6 +106,7 @@ export default new Vuex.Store({
       const apiUrl = new URL(csvapiUrl)
       apiUrl.pathname = '/apify'
       apiUrl.searchParams.set('url', encodeURI(url))
+      apiUrl.searchParams.set('analysis', 'yes')
       return this.$http.get(apiUrl.toString()).then(res => {
         if (res.body.ok && res.body.endpoint) {
           commit('setEndpoints', res.body)
