@@ -38,7 +38,13 @@ export default {
    url(../public/fonts/Marianne-Bold.woff2) format("woff2");
 }
 
-.csvapi{
+.csvapi {
   font-family: Marianne, Roboto, 'Helvetica Neue', Arial;
+  --border-action-high-blue-france: #146bb8;
+  --text-action-high-blue-france: #146bb8;
+}
+
+.csvapi .fr-btn {
+  border-radius: 30px;
 }
 </style>
