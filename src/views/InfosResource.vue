@@ -24,8 +24,8 @@
       <div class="fr-col-12 fr-col-md-6 fr-col-xl-4">
         <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle">
           <div class="fr-col-auto">
-            <button class="fr-btn fr-btn--sm fr-btn--secondary fr-btn--icon-left fr-icon-close-circle-line reinitFilters">
-              Réinitialiser les filtres
+            <button :disabled="doesntHaveFilter" class="fr-btn fr-btn--sm fr-btn--secondary fr-btn--icon-left fr-icon-filter-line">
+              Configurer les filtres <span v-if="hasActivefilters" class="fr-ml-1w fr-badge fr-badge--blue-cumulus">{{countActiveFilters}}</span>
             </button>
           </div>
           <div class="fr-col-12 fr-col-sm">
@@ -51,9 +51,21 @@ export default {
   mounted() {
   },
   computed: {
+    countActiveFilters() {
+      return this.filters.length
+    },
     dgvInfos() {
       return this.$store.state.dgv_infos
     },
+    filters() {
+      return this.$store.state.filters
+    },
+    hasActivefilters() {
+      return this.countActiveFilters > 0
+    },
+    doesntHaveFilter() {
+      return !this.hasActivefilters;
+    }
   },
   created() {
   },
@@ -93,7 +105,6 @@ export default {
 }
 
 .compInfos {
-  font-size: 13px;
-  color: #898989;
+  color: var(--text-mention-grey);
 }
 </style>
