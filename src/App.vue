@@ -40,8 +40,9 @@ export default {
 
 .csvapi {
   font-family: Marianne, Roboto, 'Helvetica Neue', Arial;
-  --border-action-high-blue-france: #146bb8;
-  --text-action-high-blue-france: #146bb8;
+  --border-action-high-blue-france: var(--border-plain-blue-cumulus);
+  --border-active-blue-france: var(--border-plain-blue-cumulus);
+  --text-action-high-blue-france: var(--text-label-blue-cumulus);
 }
 
 .csvapi .fr-btn {
