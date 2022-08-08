@@ -15,6 +15,21 @@ function _meta(name) {
 
 export const csvapiUrl = process.env.VUE_APP_CSVAPI_URL || _meta('csvapi-url')
 export const pageSize = _meta('page-size') || 10
+export const dataGouvUrl = "https://www.data.gouv.fr/fr/"
+
+/**
+ * @param {string} id
+ */
+export function getResourceUrl(id) {
+  return dataGouvUrl + 'datasets/r/' + id
+}
+
+/**
+ * @param {string} path
+ */
+export function openDataGouv(path) {
+  window.open(dataGouvUrl + path)
+}
 
 let _filtersEnabled = process.env.VUE_APP_FILTERS_ENABLED || _meta('filters-enabled')
 try {

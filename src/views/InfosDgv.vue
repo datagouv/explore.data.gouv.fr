@@ -12,7 +12,7 @@
 
 
 <script>
-
+import {openDataGouv} from '../config'
 export default {
   name: 'DgvInfos',
   components: {},
@@ -25,32 +25,33 @@ export default {
     let uri = window.location.search.substring(1); 
     let params = new URLSearchParams(uri);
     let obj = {}
-    if (params.get('url') && params.get('url').includes('data.gouv.fr')) {
-        let rid = params.get('url').split('/')[params.get('url').split('/').length - 1]
-        fetch(('https://www.data.gouv.fr/api/2/datasets/resources/'+rid))
+    let url = params.get('url')
+    if (url && url.includes('data.gouv.fr')) {
+        let rid = url.split('/')[url.split('/').length - 1]
+        fetch(('https://www.data.gouv.fr/api/2/datasets/resources/' + rid))
         .then((response) => {
             return response.json()
         })
         .then((data) => {
-            obj['resource'] = data['resource']
-            obj['dataset_id'] = data['dataset_id']
-            fetch(('https://www.data.gouv.fr/api/1/datasets/'+data['dataset_id']))
+            obj.resource = data.resource
+            obj.dataset_id = data.dataset_id
+            fetch(('https://www.data.gouv.fr/api/1/datasets/' + data.dataset_id))
             .then((response) => {
                 return response.json()
             })
             .then((data2) => {
-                obj['dataset_title'] = data2['title']
-                if (data2['organization']) {
-                    obj['organization_id'] = data2['organization']['id']
-                    obj['organization_name'] = data2['organization']['name']
+                obj.dataset_title = data2.title
+                if (data2.organization) {
+                    obj.organization_id = data2.organization.id
+                    obj.organization_name = data2.organization.name
                 }
                 let obj2 = []
-                data2['resources'].forEach((res) => {
-                  if(res['id'] != rid) {
-                    obj2.push({ 'resource_id': res['id'], 'resource_title': res['title']})
+                data2.resources.forEach((/** @type {{ id: string; title: string; }} */ res) => {
+                  if(res.id != rid) {
+                    obj2.push({ resource_id: res.id, resource_title: res.title})
                   }
                 });
-                obj['other_resources'] = obj2
+                obj.other_resources = obj2
                 this.$store.commit('setDgvInfos', obj)
             })
             .catch((err) => {
@@ -71,8 +72,11 @@ export default {
   created() {
   },
   methods: {
+    /**
+    * @param {string} path
+    */
     goto(path){
-      window.open('https://www.data.gouv.fr/fr/'+path)
+      openDataGouv(path)
     }
   },
   watch: {
