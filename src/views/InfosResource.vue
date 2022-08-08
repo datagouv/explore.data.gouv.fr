@@ -4,12 +4,16 @@
       <div class="fr-col-12 fr-col-md-6 fr-col-xl-8">
         <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle">
           <div class="fr-col-12 fr-col-sm-9 fr-col-xl-4">
-            <select class="fr-select" v-model="dgvInfos.resource.id">
+            <select class="fr-select" v-model="selectedResource" @change="redirectToResource">
               <option :key="dgvInfos.resource.id" :value="dgvInfos.resource.id">
                 {{ dgvInfos.resource.title || 'Ressource sans nom' }}
               </option>
-              <option v-for="option in dgvInfos.other_resources" :key="option.resource_id"
-                :value="option.resource_id">
+              <option
+                v-for="option in dgvInfos.other_resources"
+                :key="option.resource_id"
+                :value="option.resource_id"
+                :disabled="!option.preview_url"
+              >
                 {{ option.resource_title || 'Ressource sans nom' }}
               </option>
             </select>
@@ -46,16 +50,15 @@
 
 
 <script>
-
+import {getResourceUrl} from '../config'
 export default {
   name: 'DgvInfos',
   components: {},
   data() {
     return {
-      globalSearch: ''
+      globalSearch: '',
+      selectedResource: null,
     }
-  },
-  mounted() {
   },
   computed: {
     countActiveFilters() {
@@ -80,8 +83,6 @@ export default {
       return this.globalSearch ? 'fr-input-wrap--filled' : 'fr-input-wrap--empty'
     }
   },
-  created() {
-  },
   methods: {
     toFrDate(date) {
       return date.substr(8, 2) + "/" + date.substr(5, 2) + "/" + date.substr(0, 4)
@@ -91,9 +92,23 @@ export default {
       if (bytes == 0) return '0 Byte';
       var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
       return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
+    },
+    redirectToResource() {
+      const url = new URL(window.location.toString())
+      url.searchParams.set('url', getResourceUrl(this.selectedResource))
+      window.open(url)
     }
   },
   watch: {
+    dgvInfos: {
+      deep: true,
+      immediate: true,
+      handler(value) {
+        if(value && value.resource) {
+          this.selectedResource = value.resource.id
+        }
+      }
+    }
   }
 }
 </script>
