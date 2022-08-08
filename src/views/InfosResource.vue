@@ -15,9 +15,14 @@
             </select>
           </div>
           <div class="fr-col-12 fr-col-xl-8 fr-text--sm fr-m-0 text-mention-grey">
-            &nbsp;Mis à jour le date {{ toFrDate(dgvInfos.resource.last_modified) }}
-            &nbsp;&nbsp;{{ dgvInfos.resource.format }} ({{ bytesToSize(dgvInfos.resource.filesize) }})
-            &nbsp;&nbsp;{{ dgvInfos.resource.metrics.views }} téléchargements
+            <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle">
+              <div class="fr-col-auto">Mis à jour le date {{ toFrDate(dgvInfos.resource.last_modified) }}</div>
+              <div class="fr-col-auto">
+                <template v-if="dgvInfos.resource.format">{{ dgvInfos.resource.format }} </template>
+                <template v-if="dgvInfos.resource.filesize">({{ bytesToSize(dgvInfos.resource.filesize) }})</template>
+              </div>
+              <div class="fr-col-auto">{{ dgvInfos.resource.metrics.views ? dgvInfos.resource.metrics.views : 0 }} téléchargements</div>
+            </div>
           </div>
         </div>
       </div>
