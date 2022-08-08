@@ -5,11 +5,11 @@
         <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle">
           <div class="fr-col-12 fr-col-sm-9 fr-col-xl-4">
             <select class="fr-select" v-model="dgvInfos.resource.id">
-              <option v-bind:key="dgvInfos.resource.id" v-bind:value="dgvInfos.resource.id">
+              <option :key="dgvInfos.resource.id" :value="dgvInfos.resource.id">
                 {{ dgvInfos.resource.title || 'Ressource sans nom' }}
               </option>
-              <option v-for="option in dgvInfos.other_resources" v-bind:key="option.resource_id"
-                v-bind:value="option.resource_id">
+              <option v-for="option in dgvInfos.other_resources" :key="option.resource_id"
+                :value="option.resource_id">
                 {{ option.resource_title || 'Ressource sans nom' }}
               </option>
             </select>
