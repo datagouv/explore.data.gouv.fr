@@ -1,19 +1,17 @@
 <template>
-  <div>
-    <!-- url field if no url provided -->
-    <b-form v-if="!csvUrl" class="m-4">
-      <b-input
-        class="mb-2 mt-2"
-        placeholder="URL du fichier à visualiser (CSV ou XLS)"
-        v-model="csvUrlFieldValue"
-      ></b-input>
-      <b-button variant="primary" @click="redirect">Lancer la conversion 🚀</b-button>
-    </b-form>
-    <!-- error block -->
-    <Error v-if="hasError" :error="error"></Error>
-    <!-- table block, fed by store -->
-    <Table class="table" v-if="csvUrl && !hasError"></Table>
-  </div>
+  <!-- url field if no url provided -->
+  <b-form v-if="!csvUrl" class="m-4">
+    <b-input
+      class="mb-2 mt-2"
+      placeholder="URL du fichier à visualiser (CSV ou XLS)"
+      v-model="csvUrlFieldValue"
+    ></b-input>
+    <b-button variant="primary" @click="redirect">Lancer la conversion 🚀</b-button>
+  </b-form>
+  <!-- error block -->
+  <Error v-else-if="hasError" :error="error"></Error>
+  <!-- table block, fed by store -->
+  <Table class="fr-table fr-pt-0" v-else-if="csvUrl && !hasError"></Table>
 </template>
 
 <script>
@@ -83,14 +81,3 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-
-.table{
-  width: 100%;
-  overflow-x: auto;
-  font-size: 15px;
-}
-
-</style>
