@@ -50,9 +50,10 @@
             <div class=inputTextDiv>
               <input 
                 @focus="getInfos(field.label)"
-                v-on:keyup="filterText($event, field.label)"
+                @keyup="filterText($event, field.label)"
                 type="text"
-                :class="'inputTextFilter inputTextFilter-'+field.label"
+                class="fr-input"
+                :class="getInputClass(field.label)"
                 placeholder="Filtrer"
               />
             </div>
@@ -277,6 +278,10 @@ export default {
       }
       return this.additionalInformations[format][value]
     },
+    getInputClass(label) {
+      const filtered = this.filters.some(filter => filter.field === label);
+      return {'fr-input--filled': filtered, 'fr-input--empty': !filtered, ['inputTextFilter-' + label]: true }
+    },
     manageCell(e, field, val) {
       this.activeFilterBox = false;
       if(this.columnsInfos.hasOwnProperty(field)) {
@@ -381,7 +386,7 @@ export default {
     random() {
         return (new Date()).getTime() + Math.floor(Math.random() * 10000).toString()
     },
-    filterText(e, field){
+    filterText(e, field) {
       clearTimeout(this.timer)
       this.timer = setTimeout(() => {
         this.filter = {
@@ -582,7 +587,6 @@ export default {
   border: 2px solid #3558A2;
 }
 
-
 .topInfo {
   padding-left: 10px;
   padding-right: 10px;
@@ -654,31 +658,10 @@ export default {
     max-height: 25px;
 }
 
-.inputTextFilter {
-  padding-left: 20px;
-  padding-right: 20px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  background-color: #F3F3F3;
-  width: 100%;
-  border: 0px;
-  font-size: 13px;
-  color: #9CA3AF;
-  border-bottom: 1px solid black;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
-  font-size: 12px;
-}
-
-.inputTextFilter:focus {
-  color: black;
-  outline-width: 0;
-}
-
 .relTh {
   z-index: 5;
   position: absolute;
-  top: 81px;
+  top: 64px;
   left: 50%;
   transform: translateX(-33%);
   width: 250px;
