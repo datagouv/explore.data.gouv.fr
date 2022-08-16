@@ -4,8 +4,9 @@
       <thead>
         <tr>
           <th 
-            :style="field.label === sortBy ? {'borderBottom': '2px solid #2559C1'} : {'borderBottom': '2px solid black'}" 
             scope="col"
+            class="header"
+            :class="{'header--sorted': field.label === sortBy }"
             @click="sortbyfield(field.label)" 
             v-for="field in fields" 
             :key="'header-'+field.label+'-'+random()"
@@ -46,6 +47,8 @@
             scope="col"
             v-for="field in fields"
             :key="'filter-'+field.label"
+            class="filter"
+            :class="getInputWrapperClass(field.label)"
           >
             <div class=inputTextDiv>
               <input 
@@ -246,8 +249,15 @@ export default {
       return this.additionalInformations[format][value]
     },
     getInputClass(label) {
-      const filtered = this.filters.some(filter => filter.field === label);
-      return {'fr-input--filled': filtered, 'fr-input--empty': !filtered, ['inputTextFilter-' + label]: true }
+      const filtered = this.isFieldFiltered(label);
+      return { 'fr-input--filled': filtered, 'fr-input--empty': !filtered, ['inputTextFilter-' + label]: true }
+    },
+    getInputWrapperClass(label) {
+      const filtered = this.isFieldFiltered(label);
+      return { 'filter--filled': filtered }
+    },
+    isFieldFiltered(label) {
+      return this.filters.some(filter => filter.field === label);
     },
     manageCell(e, field, val) {
       this.activeFilterBox = false;
@@ -511,6 +521,14 @@ export default {
 }
 .fr-table thead {
   background-color: white;
+  background-image: none;
+}
+
+thead {
+  position: sticky;
+  top: 4.5625rem;
+  background-color: white;
+  z-index: 2;
 }
 
 .fr-table th {
@@ -599,6 +617,18 @@ export default {
     display: flex;
     flex-direction: row;
     max-height: 25px;
+}
+
+.header, .filter {
+  border-bottom: 2px solid var(--border-plain-grey);
+}
+
+.header--sorted, .filter--filled  {
+  border-color: var(--border-plain-blue-cumulus);
+}
+
+.filter {
+  border-width: 1px;
 }
 
 .relTh {
