@@ -50,8 +50,10 @@ export default new Vuex.Store({
         id: res.body.error_id,
       })
     },
-    changePage ({dispatch}) {
-      return dispatch('getData', 'page')
+    changePage ({dispatch, state}) {
+      if((state.page - 1) <= state.totalRows / state.pageSize) {
+        return dispatch('getData', 'page')
+      }
     },
     sort ({commit, dispatch}, ctx) {
       commit('setSort', {by: ctx.sortBy, desc: ctx.sortDesc})
