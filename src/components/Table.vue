@@ -131,64 +131,30 @@
             <span :class="'cat'+getColor(field.label, row[field.label])">
               {{ row[field.label] }}
             </span>
-            <span v-if="columnsInfos.hasOwnProperty(field.label)">
-              <div 
-                class="relCell relSiren" 
+            <template v-if="columnsInfos.hasOwnProperty(field.label)">
+              <Tooltip
                 v-if="columnsInfos[field.label]['format'] == 'siren'"
-              >
-                <img src="../static/images/loupe.png" width="30" />
-                <br />
-                <br />
-                Il semblerait que ce champ soit un numéro d'entreprise (numéro Siren)
-                <br />
-                <br />
-                Entreprise : {{ messageBox }}
-                <br />
-                <br />
-                <button 
-                  @click="gotoAE(row[field.label])"
-                  class="buttonSiren"
-                >
-                  En savoir plus sur cette entreprise
-                </button>
-              </div>          
-              <div
-                class="relCell relDpt" 
-                v-if="columnsInfos[field.label]['format'] == 'code_departement'"
-              >
-                <img src="../static/images/loupe.png" width="30" />
-                <br />
-                <br />
-                Il semblerait que ce champ soit un code de département
-                <br />
-                <br />
-                Département : {{ messageBox }}
-              </div>
-              <div
-                class="relCell relReg"
-                v-if="columnsInfos[field.label]['format'] == 'code_region'"
-              >
-                <img src="../static/images/loupe.png" width="30" />
-                <br />
-                <br />
-                Il semblerait que ce champ soit un code de région
-                <br />
-                <br />
-                Région : {{ messageBox }}
-              </div>
-              <div
-                class="relCell relCom"
-                v-if="columnsInfos[field.label]['format'] == 'code_commune_insee'"
-              >
-                <img src="../static/images/loupe.png" width="30" />
-                <br />
-                <br />
-                Il semblerait que ce champ soit un code commune
-                <br />
-                <br />
-                Commune : {{ messageBox }}
-              </div>
-            </span>
+                explanation="Il semblerait que ce champ soit un numéro d'entreprise (numéro Siren)"
+                :content="'Entreprise : ' + messageBox"
+                link="En savoir plus sur cette entreprise"
+                :linkHref="gotoAE(row[field.label])"
+                />
+              <Tooltip
+                v-else-if="columnsInfos[field.label]['format'] == 'code_departement'"
+                explanation="Il semblerait que ce champ soit un code de département"
+                :content="'Département : ' + messageBox"
+                />
+              <Tooltip
+                v-else-if="columnsInfos[field.label]['format'] == 'code_region'"
+                explanation="Il semblerait que ce champ soit un code de région"
+                :content="'Région : ' + messageBox"
+                />
+              <Tooltip
+                v-else-if="columnsInfos[field.label]['format'] == 'code_commune_insee'"
+                explanation="Il semblerait que ce champ soit un code commune"
+                :content="'Commune : ' + messageBox"
+                />
+            </template>
           </td>
         </tr> 
       </tbody>
@@ -200,10 +166,11 @@
 import {filtersEnabled} from '@/config'
 import Filters from '@/components/Filters'
 import Histogram from '@/components/Histogram.vue'
+import Tooltip from '@/components/Tooltip.vue'
 
 export default {
   name: 'Table',
-  components: {Filters, Histogram},
+  components: { Filters, Histogram, Tooltip },
   data () {
     return {
       filtersEnabled,
@@ -513,14 +480,13 @@ export default {
       return catnb.toString()
     },
     gotoAE(siren){
-      window.open('https://annuaire-entreprises.data.gouv.fr/entreprise/'+siren+'','_blank');
+      return 'https://annuaire-entreprises.data.gouv.fr/entreprise/'+siren;
     },
     handleScroll (event) {
       let bottomOfWindow = Math.max(window.pageYOffset, document.documentElement.scrollTop, document.body.scrollTop) + window.innerHeight + 1 >= document.documentElement.offsetHeight
       if (bottomOfWindow) {
         this.page = this.page + 1
         this.changePage()
-        console.log('bottom')
       }
     },
   },
@@ -555,12 +521,6 @@ export default {
   position: relative;
 }
 
-.buttonSiren {
-  background-color: #3558A2;
-  border: 0px;
-  color: white;
-}
-
 .buttonCat:hover {
   cursor: pointer;
 }
@@ -568,23 +528,6 @@ export default {
 .catFilter {
   padding-bottom: 10px;
   font-size: 14px;
-}
-
-.relCell {
-  text-align: center;
-  display: none;
-  z-index: 5;
-  position: absolute;
-  top: 0px;
-  left: 150%;
-  transform: translateX(-80%);
-  width: 100%;
-  margin: 0;
-  background-color: white;
-  padding: 20px;
-  font-weight: normal;
-  font-size: 13px;
-  border: 2px solid #3558A2;
 }
 
 .topInfo {
@@ -662,8 +605,6 @@ export default {
   z-index: 5;
   position: absolute;
   top: 64px;
-  left: 50%;
-  transform: translateX(-33%);
   width: 250px;
   margin: 0;
   background-color: #f5f5fe;
