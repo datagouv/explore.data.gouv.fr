@@ -42,6 +42,10 @@ export default {
   color: var(--text-mention-grey);
 }
 
+.no-wrap {
+  flex-wrap: nowrap;
+}
+
 .csvapi {
   font-family: Marianne, Roboto, 'Helvetica Neue', Arial;
   --border-action-high-blue-france: var(--border-plain-blue-cumulus);

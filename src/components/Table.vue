@@ -6,19 +6,19 @@
           <th 
             scope="col"
             class="header"
-            :class="{'header--sorted': field.label === sortBy }"
-            @click="sortbyfield(field.label)" 
+            :class="{'header--sorted': field.key === sortBy }"
+            @click="sortbyfield(field.key)" 
             v-for="field in fields" 
-            :key="'header-'+field.label+'-'+random()"
+            :key="'header-'+field.key"
           >
             <div 
-                class="headerWrap" 
+                class="fr-grid-row fr-grid-row--middle no-wrap" 
                 @mouseover="hoverArrow = true" 
                 @mouseleave="hoverArrow = false"
               >
                 <div 
-                  class="arrowIcon" 
-                  v-if="field.label === sortBy"
+                  class="fr-col-auto fr-mr-2w"
+                  v-if="field.key === sortBy"
                 >
                   <span 
                     v-if="sortDesc == true"
@@ -33,10 +33,10 @@
                     aria-hidden="true"
                   ></span>
                 </div>
-                <div :style="field.label === sortBy ? { 'color': '#2559C1'} : ''">
+                <div class="fr-col" :style="field.key === sortBy ? { 'color': '#2559C1'} : ''">
                   {{ field.label }}
                 </div>
-                <div :style="field.label === sortBy ? { 'color': '#2559C1'} : ''" class="infoIcon">
+                <div class="fr-col-auto fr-ml-2w" :style="field.key === sortBy ? { 'color': '#2559C1'} : ''">
                   <span class="fr-icon-info-line" aria-hidden="true"></span>
                 </div>            
               </div>
@@ -46,22 +46,23 @@
           <th 
             scope="col"
             v-for="field in fields"
-            :key="'filter-'+field.label"
+            :key="'filter-'+field.key"
             class="filter"
-            :class="getInputWrapperClass(field.label)"
+            :class="getInputWrapperClass(field.key)"
           >
             <div class=inputTextDiv>
               <input 
-                @focus="getInfos(field.label)"
-                @keyup="filterText($event, field.label)"
+                @focus="getInfos(field.key)"
+                @keyup="filterText($event, field.key)"
                 type="text"
                 class="fr-input"
-                :class="getInputClass(field.label)"
+                :class="getInputClass(field.key)"
+                :value="getInputValue(field.key)"
                 placeholder="Filtrer"
               />
             </div>
-            <template v-if="columnsInfos.hasOwnProperty(field.label) && activeFilterBox && activeFilterField == field.label">
-              <template v-if="columnsInfos[field.label]['type'] == 'Categorical'">
+            <template v-if="columnsInfos.hasOwnProperty(field.key) && activeFilterBox && activeFilterField == field.key">
+              <template v-if="columnsInfos[field.key]['type'] == 'Categorical'">
                 <div 
                   v-if="categoricalInfos.length > 0"
                   class="relTh"
@@ -75,8 +76,8 @@
                     :key="cat.value"
                   >
                     <span 
-                      @click="filterTextCat(cat.value, field.label)"
-                      :class="'buttonCat cat'+getColor(field.label, cat.value)"
+                      @click="filterTextCat(cat.value, field.key)"
+                      :class="'buttonCat cat' + getColor(field.key, cat.value)"
                     >
                       {{ cat.value+" ("+cat.count+")" }}
                     </span>
@@ -96,7 +97,7 @@
                   >
                     <span
                       class="topInfo"
-                      @click="filterTextCat(top.value, field.label)"
+                      @click="filterTextCat(top.value, field.key)"
                     >
                       {{ top.value }} ({{ top.count }})
                     </span>
@@ -104,7 +105,7 @@
                 </div >
               </template>
               <div 
-                v-if="columnsInfos[field.label]['type'] == 'Numeric' && numericPlotInfosBins.length > 0" class="relTh"
+                v-if="columnsInfos[field.key]['type'] == 'Numeric' && numericPlotInfosBins.length > 0" class="relTh"
               >
                 Distribution : 
                 <br />
@@ -122,38 +123,38 @@
       <tbody>
         <tr
           v-for="(row, index) in rows" 
-          :key="row[0]+'-'+random()"
+          :key="row[0]"
         >
           <td 
             @mouseleave="manageCellOut"
-            @mouseover="manageCell($event, field.label, row[field.label])"
-            @click="manageCell($event, field.label, row[field.label])"
+            @mouseover="manageCell($event, field.key, row[field.key])"
+            @click="manageCell($event, field.key, row[field.key])"
             v-for="field in fields"
-            :key="'row-'+field.label+'-'+row[field.label]+'-'+random()"
+            :key="'row-'+field.key+'-'+row[field.key]"
           >
-            <span :class="'cat'+getColor(field.label, row[field.label])">
-              {{ row[field.label] }}
+            <span :class="'cat'+getColor(field.key, row[field.key])">
+              {{ row[field.key] }}
             </span>
-            <template v-if="columnsInfos.hasOwnProperty(field.label)">
+            <template v-if="columnsInfos.hasOwnProperty(field.key)">
               <Tooltip
-                v-if="columnsInfos[field.label]['format'] == 'siren'"
+                v-if="columnsInfos[field.key]['format'] == 'siren'"
                 explanation="Il semblerait que ce champ soit un numéro d'entreprise (numéro Siren)"
                 :content="'Entreprise : ' + messageBox"
                 link="En savoir plus sur cette entreprise"
-                :linkHref="gotoAE(row[field.label])"
+                :linkHref="gotoAE(row[field.key])"
                 />
               <Tooltip
-                v-else-if="columnsInfos[field.label]['format'] == 'code_departement'"
+                v-else-if="columnsInfos[field.key]['format'] == 'code_departement'"
                 explanation="Il semblerait que ce champ soit un code de département"
                 :content="'Département : ' + messageBox"
                 />
               <Tooltip
-                v-else-if="columnsInfos[field.label]['format'] == 'code_region'"
+                v-else-if="columnsInfos[field.key]['format'] == 'code_region'"
                 explanation="Il semblerait que ce champ soit un code de région"
                 :content="'Région : ' + messageBox"
                 />
               <Tooltip
-                v-else-if="columnsInfos[field.label]['format'] == 'code_commune_insee'"
+                v-else-if="columnsInfos[field.key]['format'] == 'code_commune_insee'"
                 explanation="Il semblerait que ce champ soit un code commune"
                 :content="'Commune : ' + messageBox"
                 />
@@ -161,6 +162,21 @@
           </td>
         </tr> 
       </tbody>
+      <tfoot class="fr-p-2w">
+        <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle">
+          <div class="fr-col-auto">
+            <div class="fr-grid-row fr-grid-row--gutters">
+              <p class="fr-col-auto"><strong>Nb. Colonnes</strong> : {{fields.length}}</p>
+              <p class="fr-col-auto"><strong>Nb. Lignes</strong> : {{totalRows}}</p>
+            </div>
+          </div>
+          <div class="fr-col-auto">
+            <button class="fr-btn fr-btn--sm fr-btn--secondary fr-btn--icon-left fr-icon-download-line">
+              Télécharger les données
+            </button>
+          </div>
+        </div>
+      </tfoot>
     </table>
   </div>
 </template>
@@ -248,16 +264,23 @@ export default {
       }
       return this.additionalInformations[format][value]
     },
-    getInputClass(label) {
-      const filtered = this.isFieldFiltered(label);
-      return { 'fr-input--filled': filtered, 'fr-input--empty': !filtered, ['inputTextFilter-' + label]: true }
+    getFilter(field) {
+      return this.filters.find(filter => filter.field === field)
     },
-    getInputWrapperClass(label) {
-      const filtered = this.isFieldFiltered(label);
+    getInputClass(field) {
+      const filtered = this.isFieldFiltered(field)
+      return { 'fr-input--filled': filtered, 'fr-input--empty': !filtered, ['inputTextFilter-' + field]: true }
+    },
+    getInputWrapperClass(field) {
+      const filtered = this.isFieldFiltered(field)
       return { 'filter--filled': filtered }
     },
-    isFieldFiltered(label) {
-      return this.filters.some(filter => filter.field === label);
+    getInputValue(field) {
+      const filter = this.getFilter(field)
+      return filter ? filter.value : ''
+    },
+    isFieldFiltered(field) {
+      return this.getFilter(field)
     },
     manageCell(e, field, val) {
       this.activeFilterBox = false;
@@ -359,9 +382,6 @@ export default {
     },
     changePage () {
       return this.$store.dispatch('changePage')
-    },
-    random() {
-        return (new Date()).getTime() + Math.floor(Math.random() * 10000).toString()
     },
     filterText(e, field) {
       clearTimeout(this.timer)
@@ -519,6 +539,11 @@ export default {
   height: 100%;
   overflow: visible;
 }
+
+.fr-table {
+  margin-bottom: 3.5rem;
+}
+
 .fr-table thead {
   background-color: white;
   background-image: none;
@@ -529,6 +554,24 @@ thead {
   top: 4.5625rem;
   background-color: white;
   z-index: 2;
+}
+
+tfoot {
+  position: fixed;
+  bottom: 0;
+  background-color: var(--background-flat-grey);
+  color: var(--text-inverted-grey);
+  width: 100%;
+}
+
+tfoot .fr-btn--secondary {
+  --border-action-high-blue-france: var(--text-inverted-grey);
+  --border-active-blue-france: var(--text-inverted-grey);
+  --text-action-high-blue-france: var(--text-inverted-greys);
+}
+
+tfoot .fr-grid-row {
+  justify-content: space-between;
 }
 
 .fr-table th {
@@ -613,12 +656,6 @@ thead {
   background-color: var(--background-contrast-blue-cumulus-hover);
 }
 
-.headerWrap {
-    display: flex;
-    flex-direction: row;
-    max-height: 25px;
-}
-
 .header, .filter {
   border-bottom: 2px solid var(--border-plain-grey);
 }
@@ -643,14 +680,4 @@ thead {
   font-size: 14px;
   border: 1px solid #cfcccc;
 }
-
-
-.infoIcon {
-    margin-left: auto;
-    padding-left: 20px;
-}
-.arrowIcon {
-  padding-right: 10px;
-}
-
 </style>
