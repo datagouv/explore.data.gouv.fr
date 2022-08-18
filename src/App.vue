@@ -42,6 +42,10 @@ export default {
   color: var(--text-mention-grey);
 }
 
+.text-label-blue-cumulus {
+  color: var(--text-label-blue-cumulus);
+}
+
 .no-wrap {
   flex-wrap: nowrap;
 }

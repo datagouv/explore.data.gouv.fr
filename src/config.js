@@ -27,8 +27,8 @@ export function getResourceUrl(id) {
 /**
  * @param {string} path
  */
-export function openDataGouv(path) {
-  window.open(dataGouvUrl + path)
+export function getDataGouvUrl(path) {
+  return dataGouvUrl + path
 }
 
 let _filtersEnabled = process.env.VUE_APP_FILTERS_ENABLED || _meta('filters-enabled')

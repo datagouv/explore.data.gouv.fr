@@ -1,6 +1,6 @@
 <template>
-  <div class="fr-container--fluid fr-p-2w sticky-bar">
-    <div v-if="dgvInfos.resource" class="fr-grid-row fr-grid-row--gutters">
+  <div v-if="dgvInfos.resource" class="fr-container--fluid fr-p-2w sticky-bar">
+    <div class="fr-grid-row fr-grid-row--gutters">
       <div class="fr-col-12 fr-col-md-6 fr-col-xl-8">
         <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle">
           <div class="fr-col-12 fr-col-sm-9 fr-col-xl-4">
