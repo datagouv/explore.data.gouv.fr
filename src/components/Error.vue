@@ -1,26 +1,30 @@
 <template>
-    <div class="m-4">
-        <b-card
-            header-bg-variant="danger"
-            border-variant="danger"
-            header="🤕 Nous n'avons pas pu convertir ce fichier"
-            header-border-variant="danger"
-            header-text-variant="white"
-            align="center"
-        >
-            <b-card-text>
-                <dl>
-                    <dt>Détails de l'erreur</dt>
-                    <dd>
+    <div class="fr-container fr-mt-2w">
+        <div class="fr-card">
+            <div class="fr-card__body">
+                <div class="fr-card__content">
+                    <h3 class="fr-card__title">
+                        Détails de l'erreur
+                    </h3>
+                    <p class="fr-card__desc">
                         {{ error.error }}
                         <span v-if="error.details"> {{ error.details }}</span>
-                    </dd>
-                    <dt v-if="error.id">Identifiant de l'erreur</dt>
-                    <dd v-if="error.id">{{ error.id }}</dd>
-                </dl>
-                <b-button @click="openIssue" variant="outline-danger" size="lg">Signaler cette erreur sur Github</b-button>
-            </b-card-text>
-        </b-card>
+                    </p>
+                    <div class="fr-card__start">
+                        <p class="fr-card__detail fr-icon-warning-fill" v-if="error.id" >Identifiant de l'erreur : {{ error.id }}</p>
+                    </div>
+                </div>
+                <div class="fr-card__footer">
+                    <ul class="fr-btns-group fr-btns-group--inline-reverse fr-btns-group--inline-lg">
+                        <li>
+                            <button class="fr-btn fr-btn--secondary" @click="openIssue">
+                                Signaler cette erreur sur Github
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 

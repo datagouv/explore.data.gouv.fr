@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <table>
+  <div class="fr-table">
+    <table ref="table">
       <thead>
         <tr>
           <th 
@@ -16,8 +16,14 @@
                 @mouseover="hoverArrow = true" 
                 @mouseleave="hoverArrow = false"
               >
+                <div class="fr-col-auto fr-mr-2w" :style="field.key === sortBy ? { 'color': '#2559C1'} : ''">
+                  <span class="fr-icon-info-line" aria-hidden="true"></span>
+                </div>    
+                <div class="fr-col" :style="field.key === sortBy ? { 'color': '#2559C1'} : ''">
+                  {{ field.label }}
+                </div>
                 <div 
-                  class="fr-col-auto fr-mr-2w"
+                  class="fr-col-auto fr-ml-2w"
                   v-if="field.key === sortBy"
                 >
                   <span 
@@ -33,12 +39,6 @@
                     aria-hidden="true"
                   ></span>
                 </div>
-                <div class="fr-col" :style="field.key === sortBy ? { 'color': '#2559C1'} : ''">
-                  {{ field.label }}
-                </div>
-                <div class="fr-col-auto fr-ml-2w" :style="field.key === sortBy ? { 'color': '#2559C1'} : ''">
-                  <span class="fr-icon-info-line" aria-hidden="true"></span>
-                </div>            
               </div>
           </th>
         </tr>
@@ -537,23 +537,11 @@ export default {
 <style scoped>
 .fr-table, .fr-table table {
   height: 100%;
-  overflow: visible;
-}
-
-.fr-table {
-  margin-bottom: 3.5rem;
-}
-
-.fr-table thead {
-  background-color: white;
-  background-image: none;
 }
 
 thead {
-  position: sticky;
-  top: 4.5625rem;
   background-color: white;
-  z-index: 2;
+  background-image: none;
 }
 
 tfoot {
@@ -574,11 +562,11 @@ tfoot .fr-grid-row {
   justify-content: space-between;
 }
 
-.fr-table th {
+th {
   vertical-align: middle;
 }
 
-.fr-table th, .fr-table td {
+th, td {
   position: relative;
 }
 

@@ -1,17 +1,16 @@
 <template>
   <!-- url field if no url provided -->
-  <b-form v-if="!csvUrl" class="m-4">
-    <b-input
-      class="mb-2 mt-2"
-      placeholder="URL du fichier à visualiser (CSV ou XLS)"
-      v-model="csvUrlFieldValue"
-    ></b-input>
-    <b-button variant="primary" @click="redirect">Lancer la conversion 🚀</b-button>
-  </b-form>
+  <form v-if="!csvUrl" class="fr-mt-4w fr-container">
+    <label class="fr-label" for="text-input-text">URL du fichier à visualiser (CSV ou XLS)</label>
+    <input class="fr-input fr-mb-2w" type="text" v-model="csvUrlFieldValue" id="text-input-text" name="text-input-text" />
+    <button class="fr-btn fr-btn--secondary" @click="redirect">
+      Lancer la conversion 🚀
+    </button>
+  </form>
   <!-- error block -->
   <Error v-else-if="hasError" :error="error"></Error>
   <!-- table block, fed by store -->
-  <Table class="fr-table fr-pt-0" v-else-if="csvUrl && !hasError"></Table>
+  <Table class="fr-pt-0" v-else-if="csvUrl && !hasError"></Table>
 </template>
 
 <script>
