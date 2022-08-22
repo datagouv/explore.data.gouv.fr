@@ -50,73 +50,11 @@
             class="filter"
             :class="getInputFilterClass(field.key)"
           >
-          <div class="fr-input-wrap fr-input-wrap--icon-left fr-icon-filter-line" :class="getInputWrapClass(field.key)">
-              <input
-                @focus="getInfos(field.key)"
-                @keyup="filterText($event, field.key)"
-                type="text"
-                class="fr-input"
-                :class="getInputClass(field.key)"
-                :value="getInputValue(field.key)"
-                placeholder="Filtrer"
-              />
-            </div>
-            <template v-if="columnsInfos.hasOwnProperty(field.key) && activeFilterBox && activeFilterField == field.key">
-              <template v-if="columnsInfos[field.key]['type'] == 'Categorical'">
-                <div 
-                  v-if="categoricalInfos.length > 0"
-                  class="relTh"
-                >
-                  Catégories : 
-                  <br />
-                  <br />
-                  <div 
-                    class="catFilter"
-                    v-for="cat in categoricalInfos"
-                    :key="cat.value"
-                  >
-                    <span 
-                      @click="filterTextCat(cat.value, field.key)"
-                      :class="'buttonCat cat' + getColor(field.key, cat.value)"
-                    >
-                      {{ cat.value+" ("+cat.count+")" }}
-                    </span>
-                  </div>
-                </div >
-                <div
-                  v-if="topInfos.length > 0"
-                  class="relTh"
-                >
-                  Valeurs les plus fréquentes : 
-                  <br />
-                  <br />
-                  <div 
-                    class="catFilter"
-                    v-for="top in topInfos"
-                    :key="top.value"
-                  >
-                    <span
-                      class="topInfo"
-                      @click="filterTextCat(top.value, field.key)"
-                    >
-                      {{ top.value }} ({{ top.count }})
-                    </span>
-                  </div>
-                </div >
-              </template>
-              <div 
-                v-if="columnsInfos[field.key]['type'] == 'Numeric' && numericPlotInfosBins.length > 0" class="relTh"
-              >
-                Distribution : 
-                <br />
-                <br />
-                <histogram 
-                  :datachart="numericPlotInfosCounts"
-                  :labels="numericPlotInfosBins"
-                  :title="field.label"
-                ></histogram>
-              </div >
-            </template>
+          <Input
+            :columnsInfos="columnsInfos"
+            :field="field"
+            :getColor="getColor"
+          />
           </th>
         </tr>
       </thead>
@@ -132,7 +70,7 @@
             v-for="field in fields"
             :key="'row-'+field.key+'-'+row[field.key]"
           >
-            <span :class="'cat'+getColor(field.key, row[field.key])">
+            <span :class="getCellColor(field.key, row[field.key])">
               {{ row[field.key] }}
             </span>
             <template v-if="columnsInfos.hasOwnProperty(field.key)">
@@ -186,10 +124,11 @@ import {filtersEnabled} from '@/config'
 import Filters from '@/components/Filters'
 import Histogram from '@/components/Histogram.vue'
 import Tooltip from '@/components/Tooltip.vue'
+import Input from './Input.vue'
 
 export default {
   name: 'Table',
-  components: { Filters, Histogram, Tooltip },
+  components: { Filters, Histogram, Tooltip, Input },
   data () {
     return {
       filtersEnabled,
@@ -267,23 +206,9 @@ export default {
     getFilter(field) {
       return this.filters.find(filter => filter.field === field)
     },
-    getInputClass(field) {
-      const filtered = this.isFieldFiltered(field)
-      return { 'fr-input--filled': filtered, 'fr-input--empty': !filtered, ['inputTextFilter-' + field]: true }
-    },
-    getInputWrapClass(field) {
-      return this.isFieldFiltered(field) ? 'fr-input-wrap--filled' : 'fr-input-wrap--empty'
-    },
     getInputFilterClass(field) {
-      const filtered = this.isFieldFiltered(field)
+      const filtered = !!this.getFilter(field)
       return { 'filter--filled': filtered }
-    },
-    getInputValue(field) {
-      const filter = this.getFilter(field)
-      return filter ? filter.value : ''
-    },
-    isFieldFiltered(field) {
-      return this.getFilter(field)
     },
     manageCell(e, field, val) {
       this.activeFilterBox = false;
@@ -386,98 +311,6 @@ export default {
     changePage () {
       return this.$store.dispatch('changePage')
     },
-    filterText(e, field) {
-      clearTimeout(this.timer)
-      this.timer = setTimeout(() => {
-        this.filter = {
-          field: field,
-          value: e.target.value,
-          comp: 'contains'
-        }
-        if(e.target.value != '') {
-          this.$store.commit('deleteAllFiltersWithField', this.filter.field)
-          this.$store.commit('addFilter', this.filter)
-          this.addToQueryString(`${this.filter.field}__${this.filter.comp}`, this.filter.value)
-          this.filter = {field: '', value: '', comp: ''}
-          this.$store.dispatch('getData')
-        } else {
-          this.removeFromQueryString(`${this.filter.field}__${this.filter.comp}`)
-          this.$store.commit('deleteAllFiltersWithField', this.filter.field)
-          this.$store.dispatch('getData')
-        }
-      }, 1000)
-    },
-    filterTextCat(value, field) {
-      this.filter = {
-        field: field,
-        value: value,
-        comp: 'exact'
-      }
-      this.$store.commit('deleteAllFiltersWithField', this.filter.field)
-      this.$store.commit('addFilter', this.filter)
-      this.addToQueryString(`${this.filter.field}__${this.filter.comp}`, this.filter.value)
-      this.filter = {field: '', value: '', comp: ''}
-      this.activeFilterBox = false
-      this.$store.dispatch('getData')
-      let obj = document.getElementsByClassName('inputTextFilter-'+field)
-      obj[0].value = value
-    },
-    getSearchParams () {
-      return new URLSearchParams(document.location.search)
-    },
-    setSearchParams (params) {
-      window.history.pushState(null, '', `/?${params.toString()}`)
-    },
-    addToQueryString (key, value) {
-      const params = this.getSearchParams()
-      params.set(key, value)
-      this.setSearchParams(params)
-    },
-    removeFromQueryString (key) {
-      const params = this.getSearchParams()
-      params.delete(key)
-      this.setSearchParams(params)
-    },
-    getInfos(field){
-      this.activeFilterBox = false
-      if ((this.columnsInfos[field]) && (this.columnsInfos[field]['categorical_infos']) && (Array.isArray(this.columnsInfos[field]['categorical_infos']))) {
-        this.getCategoricalInfos(field)
-      }
-      else if ((this.columnsInfos[field]) &&  (this.columnsInfos[field]['top_infos'])) {
-        this.getTopInfos(field)
-      }
-      if((this.columnsInfos[field]) && (this.columnsInfos[field]['numeric_plot_infos'])) {
-        this.getNumericPlotInfos(field)
-      }
-    },
-    getCategoricalInfos(field) {
-      this.activeFilterBox = true
-      if(this.columnsInfos[field]['categorical_infos']) {
-        this.activeFilterField = field
-        this.categoricalInfos = this.columnsInfos[field]['categorical_infos']
-      } else {
-        this.activeFilterField = undefined
-      }
-    },
-    getTopInfos(field) {
-      this.activeFilterBox = true
-      if(this.columnsInfos[field]['top_infos']) {
-        this.activeFilterField = field
-        this.topInfos = this.columnsInfos[field]['top_infos']
-      } else {
-        this.activeFilterField = undefined
-      }
-    },
-    getNumericPlotInfos(field) {
-      this.activeFilterBox = true
-      if(this.columnsInfos[field]['numeric_plot_infos']) {
-        this.activeFilterField = field
-        this.numericPlotInfosBins = this.columnsInfos[field]['numeric_plot_infos']['bin_edges']
-        this.numericPlotInfosCounts = this.columnsInfos[field]['numeric_plot_infos']['counts']
-      } else {
-        this.activeFilterField = undefined
-      }
-    },
     manageColumnInfos() {
       let rowsColors = this.rows
       Object.keys(this.columnsInfos).forEach((key) => {
@@ -497,10 +330,10 @@ export default {
           }
       });
     },
-    getColor(col, value){
+    getColor(col, value) {
       let catnb = 0
       Object.keys(this.colorsCat).forEach((key) => {
-        if(key == col){
+        if(key == col) {
           this.colorsCat[key].forEach((val) =>{
             Object.keys(val).forEach((cat) => {
               if(cat == value){
@@ -510,7 +343,15 @@ export default {
           });
         }
       });
-      return catnb.toString()
+      return catnb
+    },
+    getCellColor(col, value) {
+      const color = this.getColor(col, value)
+      let classes = 'cat'+ color
+      if(color > 0) {
+        classes += " fr-badge"
+      }
+      return classes
     },
     gotoAE(siren){
       return 'https://annuaire-entreprises.data.gouv.fr/entreprise/'+siren;
@@ -573,72 +414,10 @@ th, td {
   position: relative;
 }
 
-.buttonCat:hover {
-  cursor: pointer;
-}
-
-.catFilter {
-  padding-bottom: 10px;
-  font-size: 14px;
-}
-
-.topInfo {
-  padding-left: 10px;
-  padding-right: 10px;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  border-radius: 8px;
-  background-color: #ebebeb;
-  cursor: pointer;
-}
-
-.cat1, .cat2, .cat3, .cat4, .cat5, .cat6, .cat7, .cat8, .cat9, .cat10 {
-  padding-left: 10px;
-  padding-right: 10px;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  border-radius: 8px;
-}
-
-.cat1 {
-  background-color: #fddede;
-}
-
-.cat2 {
-  background-color: #b8fec9;
-}
-.cat3 {
-  background-color: #fceeac;
-}
-.cat4 {
-  background-color: #bafaee;
-}
-.cat5 {
-  background-color: #fee7fc;
-}
-.cat6 {
-  background-color: #fee9e6;
-}
-.cat7 {
-  background-color: #feecc2;
-}
-.cat8 {
-  background-color: #bfccfb;
-}
-.cat9 {
-  background-color: #60e0eb;
-}
-.cat10 {
-  background-color: #ffbeb4;
-}
-
 .titleColumn:hover {
   cursor: pointer;
 }
 
-.rowClass {
-  height: 50px;
-}
 .fr-table tbody tr:hover {
   background-color: var(--background-alt-blue-cumulus-hover);
 }
@@ -657,18 +436,5 @@ th, td {
 
 .filter {
   border-width: 1px;
-}
-
-.relTh {
-  z-index: 5;
-  position: absolute;
-  top: 64px;
-  width: 250px;
-  margin: 0;
-  background-color: #f5f5fe;
-  padding: 20px;
-  font-weight: normal;
-  font-size: 14px;
-  border: 1px solid #cfcccc;
 }
 </style>

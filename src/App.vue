@@ -55,6 +55,9 @@ export default {
   --border-action-high-blue-france: var(--border-plain-blue-cumulus);
   --border-active-blue-france: var(--border-plain-blue-cumulus);
   --text-action-high-blue-france: var(--text-label-blue-cumulus);
+  --background-action-low-blue-france-hover: var(--background-action-low-blue-cumulus-hover);
+  --background-action-low-blue-france-active: var(--background-action-low-blue-cumulus-active);
+  --background-action-low-blue-france: var(--background-action-low-blue-cumulus);
 }
 
 .csvapi .fr-btn {
@@ -95,5 +98,93 @@ export default {
 
 .csvapi .fr-input.fr-input--filled {
   box-shadow: inset 0 -2px 0 0 var(--border-plain-blue-cumulus);
+}
+
+.cat1, .cat2, .cat3, .cat4, .cat5, .cat6, .cat7, .cat8, .cat9, .cat10, .topInfo {
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-radius: 8px;
+}
+
+.fr-badge.cat1, .fr-tag.cat1 {
+  --idle: transparent;
+  --hover: var(--background-action-low-green-tilleul-verveine-hover);
+  --active: var(--background-action-low-green-tilleul-verveine-active);
+  background-color: var(--background-action-low-green-tilleul-verveine);
+  color: var(--text-action-high-green-tilleul-verveine);
+}
+
+.fr-badge.cat2, .fr-tag.cat2 {
+  --idle: transparent;
+  --hover: var(--background-action-low-purple-glycine-hover);
+  --active: var(--background-action-low-purple-glycine-active);
+  background-color: var(--background-action-low-purple-glycine);
+  color: var(--text-action-high-purple-glycine);
+}
+
+.fr-badge.cat3, .fr-tag.cat3 {
+  --idle: transparent;
+  --hover: var(--background-action-low-blue-ecume-hover);
+  --active: var(--background-action-low-blue-ecume-active);
+  background-color: var(--background-action-low-blue-ecume);
+  color: var(--text-action-high-blue-ecume);
+}
+
+.fr-badge.cat4, .fr-tag.cat4 {
+  --idle: transparent;
+  --hover: var(--background-action-low-green-menthe-hover);
+  --active: var(--background-action-low-green-menthe-active);
+  background-color: var(--background-action-low-green-menthe);
+  color: var(--text-action-high-green-menthe);
+}
+
+.fr-badge.cat5, .fr-tag.cat5 {
+  --idle:transparent;
+  --hover:var(--background-action-low-pink-macaron-hover);
+  --active:var(--background-action-low-pink-macaron-active);
+  background-color:var(--background-action-low-pink-macaron);
+  color:var(--text-action-high-pink-macaron);
+}
+
+.fr-badge.cat6, .fr-tag.cat6 {
+  --idle:transparent;
+  --hover:var(--background-action-low-yellow-tournesol-hover);
+  --active:var(--background-action-low-yellow-tournesol-active);
+  background-color:var(--background-action-low-yellow-tournesol);
+  color:var(--text-action-high-yellow-tournesol);
+}
+
+.fr-badge.cat7, .fr-tag.cat7 {
+  --idle:transparent;
+  --hover:var(--background-action-low-orange-terre-battue-hover);
+  --active:var(--background-action-low-orange-terre-battue-active);
+  background-color:var(--background-action-low-orange-terre-battue);
+  color:var(--text-action-high-orange-terre-battue);
+}
+
+.fr-badge.cat8, .fr-tag.cat8 {
+  --idle:transparent;
+  --hover:var(--background-action-low-yellow-moutarde-hover);
+  --active:var(--background-action-low-yellow-moutarde-active);
+  background-color:var(--background-action-low-yellow-moutarde);
+  color:var(--text-action-high-yellow-moutarde);
+}
+
+.fr-badge.cat9, .fr-tag.cat9 {
+  --idle:transparent;
+  --hover:var(--background-action-low-green-emeraude-hover);
+  --active:var(--background-action-low-green-emeraude-active);
+  background-color:var(--background-action-low-green-emeraude);
+  color:var(--text-action-high-green-emeraude);
+}
+
+.fr-badge.cat10, .fr-tag.cat10 {
+  --idle:transparent;
+  --hover:var(--background-action-low-brown-opera-hover);
+  --active:var(--background-action-low-brown-opera-active);
+  background-color:var(--background-action-low-brown-opera);
+  color:var(--text-action-high-brown-opera);
 }
 </style>
