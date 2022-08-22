@@ -1,23 +1,23 @@
 <template>
   <div>
-    <div v-if="display" class="fr-pl-2w infosdgv">
-        Exploration du jeu de données 
-        <a 
-          :href="getDataGouvUrl('datasets/'+dgvInfos.dataset_id)"
-          class="text-label-blue-cumulus"
-          target="_blank"
-        >
-          {{ dgvInfos.dataset_title }}
-        </a>
-        publié par 
-        <a
-          :href="getDataGouvUrl('organizations/'+dgvInfos.organization_id)"
-          class="text-label-blue-cumulus"
-          target="_blank"
-        >
-          {{ dgvInfos.organization_name}}
-        </a>
-    </div>
+    <h2 v-if="display" class="fr-pl-2w fr-py-2w fr-m-0 infosdgv">
+      Exploration du jeu de données 
+      <a 
+        :href="getDataGouvUrl('datasets/'+dgvInfos.dataset_id)"
+        class="text-label-blue-cumulus"
+        target="_blank"
+      >
+        {{ dgvInfos.dataset_title }}
+      </a>
+      publié par 
+      <a
+        :href="getDataGouvUrl('organizations/'+dgvInfos.organization_id)"
+        class="text-label-blue-cumulus"
+        target="_blank"
+      >
+        {{ dgvInfos.organization_name}}
+      </a>
+    </h2>
   </div>
 </template>
 
@@ -98,7 +98,9 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .infosdgv {
-  line-height: 50px;
+  font-size: 1rem;
+  font-weight: normal;
+  line-height: 1;
   background-color: #F3F3F3;
   border-bottom: 2px solid #ebebeb;
 }
