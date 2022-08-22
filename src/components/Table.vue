@@ -48,10 +48,10 @@
             v-for="field in fields"
             :key="'filter-'+field.key"
             class="filter"
-            :class="getInputWrapperClass(field.key)"
+            :class="getInputFilterClass(field.key)"
           >
-            <div class=inputTextDiv>
-              <input 
+          <div class="fr-input-wrap fr-input-wrap--icon-left fr-icon-filter-line" :class="getInputWrapClass(field.key)">
+              <input
                 @focus="getInfos(field.key)"
                 @keyup="filterText($event, field.key)"
                 type="text"
@@ -271,7 +271,10 @@ export default {
       const filtered = this.isFieldFiltered(field)
       return { 'fr-input--filled': filtered, 'fr-input--empty': !filtered, ['inputTextFilter-' + field]: true }
     },
-    getInputWrapperClass(field) {
+    getInputWrapClass(field) {
+      return this.isFieldFiltered(field) ? 'fr-input-wrap--filled' : 'fr-input-wrap--empty'
+    },
+    getInputFilterClass(field) {
       const filtered = this.isFieldFiltered(field)
       return { 'filter--filled': filtered }
     },
