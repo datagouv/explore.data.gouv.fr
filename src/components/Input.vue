@@ -45,16 +45,8 @@ import Histogram from '@/components/Histogram.vue'
 export default {
   components: {Histogram},
   props: {
-    columnsInfos: {
-      type: Object,
-      required: true,
-    },
     field: {
       type: Object,
-      required: true,
-    },
-    getColor: {
-      type: Function,
       required: true,
     },
   },
@@ -66,14 +58,16 @@ export default {
   },
   computed: {
     categoricalInfos() {
-      console.log(this.columnInfos)
       return this.columnInfos['categorical_infos'] ? this.columnInfos['categorical_infos'] : [];
     },
     columnInfos() {
       return this.columnsInfos[this.field.key] ? this.columnsInfos[this.field.key] : {}
     },
+    columnsInfos () {
+      return this.$store.state.columnsInfos
+    },
     filter() {
-      return this.filters.find(filter => filter.field === this.field)
+      return this.filters.find(filter => filter.field === this.field.key)
     },
     filters() {
       return this.$store.state.filters
@@ -136,6 +130,9 @@ export default {
       this.$store.dispatch('getData')
       let obj = document.getElementsByClassName('inputTextFilter-' + this.field.key)
       obj[0].value = value
+    },
+    getColor(key, value) {
+      return this.$store.getters.color(key, value)
     },
     getInfos() {
       this.activeFilterBox = false

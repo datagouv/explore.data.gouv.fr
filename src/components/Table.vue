@@ -53,7 +53,6 @@
           <Input
             :columnsInfos="columnsInfos"
             :field="field"
-            :getColor="getColor"
           />
           </th>
         </tr>
@@ -146,7 +145,6 @@ export default {
       numericPlotInfosCounts: [],
       activeFilterField: undefined,
       activeFilterBox: false,
-      colorsCat: {},
       messageBox: '',
       additionalInformations: {
         siren: {},
@@ -177,6 +175,9 @@ export default {
     },
     columnsInfos () {
       return this.$store.state.columnsInfos
+    },
+    colorsCat () {
+      return this.$store.state.colorsCat
     },
     sortDesc () {
       return this.$store.state.sortDesc
@@ -311,42 +312,8 @@ export default {
     changePage () {
       return this.$store.dispatch('changePage')
     },
-    manageColumnInfos() {
-      let rowsColors = this.rows
-      Object.keys(this.columnsInfos).forEach((key) => {
-          if(this.columnsInfos[key]['categorical_infos']){
-            this.colorsCat[key] = []
-            let cpt = 0
-            if (Array.isArray(this.columnsInfos[key]['categorical_infos'])){
-              this.columnsInfos[key]['categorical_infos'].forEach((item) => {
-                if(item.value){
-                  cpt = cpt + 1  
-                  let obj = {}
-                  obj[item.value] = cpt
-                  this.colorsCat[key].push(obj)
-                }
-              });
-            }
-          }
-      });
-    },
-    getColor(col, value) {
-      let catnb = 0
-      Object.keys(this.colorsCat).forEach((key) => {
-        if(key == col) {
-          this.colorsCat[key].forEach((val) =>{
-            Object.keys(val).forEach((cat) => {
-              if(cat == value){
-                catnb = val[cat]
-              }
-            }); 
-          });
-        }
-      });
-      return catnb
-    },
     getCellColor(col, value) {
-      const color = this.getColor(col, value)
+      const color = this.$store.getters.color(col, value)
       let classes = 'cat'+ color
       if(color > 0) {
         classes += " fr-badge"
@@ -356,17 +323,12 @@ export default {
     gotoAE(siren){
       return 'https://annuaire-entreprises.data.gouv.fr/entreprise/'+siren;
     },
-    handleScroll (event) {
+    handleScroll () {
       let bottomOfWindow = Math.max(window.pageYOffset, document.documentElement.scrollTop, document.body.scrollTop) + window.innerHeight + 1 >= document.documentElement.offsetHeight
       if (bottomOfWindow) {
         this.page = this.page + 1
         this.changePage()
       }
-    },
-  },
-  watch: {
-    columnsInfos: function () {
-      this.manageColumnInfos()
     },
   },
   created () {

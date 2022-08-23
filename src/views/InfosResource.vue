@@ -59,8 +59,12 @@
                           <button class="fr-link--close fr-link" title="Fermer la fenêtre modale" aria-controls="fr-modal-filters">Fermer</button>
                       </div>
                       <div class="fr-modal__content">
-                          <h1 id="fr-modal-title-modal-filters" class="fr-modal__title"><span class="fr-fi-arrow-right-line fr-fi--lg"></span>Configurer les filtres</h1>
-                          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas varius tortor nibh, sit amet tempor nibh finibus et. Aenean eu enim justo. Vestibulum aliquam hendrerit molestie. Mauris malesuada nisi sit amet augue accumsan tincidunt. Maecenas tincidunt, velit ac porttitor pulvinar, tortor eros facilisis libero, vitae commodo nunc quam et ligula. Ut nec ipsum sapien. Interdum et malesuada fames ac ante ipsum primis in faucibus. Integer id nisi nec nulla luctus lacinia non eu turpis. Etiam in ex imperdiet justo tincidunt egestas. Ut porttitor urna ac augue cursus tincidunt sit amet sed orci.</p>
+                          <h1 id="fr-modal-title-modal-filters" class="fr-modal__title">Configurer les filtres</h1>
+                          <div class="fr-py-2w" v-for="filter in filters">
+                            <Input 
+                              :field="getField(filter.field)"
+                            />
+                          </div>
                       </div>
                   </div>
               </div>
@@ -73,9 +77,10 @@
 
 <script>
 import {getResourceUrl} from '../config'
+import Input from '../components/Input.vue'
 export default {
   name: 'DgvInfos',
-  components: {},
+  components: { Input },
   data() {
     return {
       globalSearch: '',
@@ -88,6 +93,9 @@ export default {
     },
     dgvInfos() {
       return this.$store.state.dgv_infos
+    },
+    fields() {
+      return this.$store.getters.fields
     },
     filters() {
       return this.$store.state.filters
@@ -114,6 +122,9 @@ export default {
       if (bytes == 0) return '0 Byte';
       var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
       return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
+    },
+    getField(key) {
+      return this.fields.find(field => field.key === key)
     },
     redirectToResource() {
       const url = new URL(window.location.toString())
