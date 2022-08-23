@@ -1,17 +1,18 @@
 <template>
-  <div @mouseenter="getInfos()" @mouseleave="hideBox" @keyup.esc="hideBox">
-    <div class="fr-input-wrap fr-input-wrap--icon-left fr-icon-filter-line" :class="inputWrapClass">
+  <div @mouseenter="getInfos()" @mouseleave="hideBox" @keyup.esc="hideBox" class="fr-input-group">
+    <label v-if="label" class="fr-label" :for="field.key">{{ label }}</label>
+    <div class="fr-input-wrap fr-input-wrap--icon-left fr-icon-filter-line relative" :class="inputWrapClass">
       <input 
         @focus="getInfos()"
-        @keyup="filterText($event)"
+        @input="filterText($event)"
         type="search"
         class="fr-input"
         :class="inputClass"
         :value="inputValue"
+        :id="field.key"
         placeholder="Filtrer"
       />
-    </div>
-    <template v-if="columnInfos && activeFilterBox">
+      <template v-if="columnInfos && activeFilterBox">
       <template v-if="columnInfos.type == 'Categorical'">
         <div v-if="categoricalInfos.length > 0" class="relTh">
           <h3 class="fr-mb-1w fr-text--sm fr-text--regular">Catégories :</h3>
@@ -36,6 +37,7 @@
         <histogram :datachart="numericPlotInfos.counts" :labels="numericPlotInfos.bin_edges" :title="field.label"></histogram>
       </div>
     </template>
+    </div>
   </div>
 </template>
 
@@ -49,6 +51,10 @@ export default {
       type: Object,
       required: true,
     },
+    label: {
+      type: String,
+      required: false,
+    }
   },
   data() {
     return {
@@ -115,7 +121,7 @@ export default {
           this.$store.commit('deleteAllFiltersWithField', filter.field)
           this.$store.dispatch('getData')
         }
-      }, 1000)
+      }, 650)
     },
     filterTextCat(value) {
       let filter = {
@@ -169,7 +175,7 @@ export default {
 .relTh {
   z-index: 5;
   position: absolute;
-  top: 50px;
+  top: 2.5rem;
   width: 250px;
   margin: 0;
   background-color: #f5f5fe;
