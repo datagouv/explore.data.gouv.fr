@@ -5,12 +5,21 @@ import {csvapiUrl, pageSize} from '@/config'
 
 Vue.use(Vuex)
 
+function getColor(col, value, colors) {
+  let catnb = 0
+  if(colors[col] && colors[col][value]) {
+    catnb = colors[col][value]
+  }
+  return catnb
+}
+
 export default new Vuex.Store({
   state: {
     rows: [],
     columns: [],
     generalInfos: {},
     columnsInfos: {},
+    colorsCat: {},
     fields: [],
     filters: [],
     page: 1,
@@ -32,6 +41,9 @@ export default new Vuex.Store({
     }
   },
   getters: {
+    color (state) {
+      return (col, value) => getColor(col, value,state.colorsCat)
+    },
     fields (state) {
       return state.columns.map(c => {
         return {
@@ -132,6 +144,22 @@ export default new Vuex.Store({
     },
     setColumnsInfos (state, columnsInfos) {
       state.columnsInfos = columnsInfos
+      for (let column in columnsInfos) {
+        let infos = columnsInfos[column]
+        if(infos.categorical_infos) {
+          const colorCat = {}
+          let cpt = 0
+          if (Array.isArray(infos.categorical_infos)) {
+            for (let category of infos.categorical_infos) {
+              if(category.value) {
+                cpt = cpt + 1
+                colorCat[category.value] = cpt
+              }
+            };
+          }
+          state.colorsCat[column] = colorCat;
+        }
+      }
     },
     setPage (state, page) {
       state.page = page
