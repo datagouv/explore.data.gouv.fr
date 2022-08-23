@@ -50,9 +50,9 @@
         </div>
       </div>
     </div>
-    <dialog aria-labelledby="fr-modal-title-modal-filters" role="dialog" id="fr-modal-filters" class="fr-modal">
-      <div class="fr-container fr-container--fluid fr-container-md">
-          <div class="fr-grid-row fr-grid-row--center">
+    <dialog aria-labelledby="fr-modal-title-modal-filters" role="dialog" id="fr-modal-filters" class="fr-modal fr-modal--popover">
+      <div class="fr-container--fluid">
+          <div class="fr-grid-row fr-grid-row--right">
               <div class="fr-col-12 fr-col-md-8 fr-col-lg-6">
                   <div class="fr-modal__body">
                       <div class="fr-modal__header">
