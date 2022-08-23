@@ -12,49 +12,33 @@
             :key="'header-'+field.key"
           >
             <div 
-                class="fr-grid-row fr-grid-row--middle no-wrap" 
-                @mouseover="hoverArrow = true" 
-                @mouseleave="hoverArrow = false"
+              class="fr-grid-row fr-grid-row--middle no-wrap" 
+              @mouseover="hoverArrow = true" 
+              @mouseleave="hoverArrow = false"
+            >
+              <button
+                class="fr-col-auto fr-mr-2w"
+                :class="{'text-label-blue-cumulus': field.key === sortBy}"
+                data-fr-opened="false"
+                :aria-controls="'fr-modal-' + field.key"
               >
-                <button
-                  class="fr-col-auto fr-mr-2w"
-                  :class="{'text-label-blue-cumulus': field.key === sortBy}"
-                  data-fr-opened="false"
-                  :aria-controls="'fr-modal-' + field.key"
-                >
-                  <span class="fr-icon-info-line" aria-hidden="true"></span>
-                </button>
-                <div class="fr-col" :class="{'text-label-blue-cumulus': field.key === sortBy}">
-                  {{ field.label }}
-                </div>
-                <div 
-                  class="fr-col-auto fr-ml-2w"
-                  v-if="field.key === sortBy"
-                >
-                  <span 
-                    class="fr-icon-arrow-down-line text-label-blue-cumulus"
-                    :class="{'fr-icon-arrow-down-line': sortDesc, 'fr-icon-arrow-up-line': !sortDesc }"
-                    aria-hidden="true"
-                  ></span>
-                </div>
+                <span class="fr-icon-info-line" aria-hidden="true"></span>
+              </button>
+              <div class="fr-col" :class="{'text-label-blue-cumulus': field.key === sortBy}">
+                {{ field.label }}
               </div>
-              <dialog :aria-labelledby="'fr-modal-title-modal-' + field.key" role="dialog" :id="'fr-modal-' + field.key" class="fr-modal fr-modal--popover">
-              <div class="fr-container--fluid">
-                  <div class="fr-grid-row fr-grid-row--right">
-                      <div class="fr-col-12 fr-col-sm-7 fr-col-md-5 fr-col-lg-4 fr-col-xl-3">
-                          <div class="fr-modal__body">
-                              <div class="fr-modal__header">
-                                  <button class="fr-link--close fr-link" title="Fermer la fenêtre modale" :aria-controls="'fr-modal-' + field.key">Fermer</button>
-                              </div>
-                              <div class="fr-modal__content">
-                                  <h1 :id="'fr-modal-title-modal-' + field.key" class="fr-modal__title">{{ field.label }}</h1>
-                                  <h2 class="fr-text--sm fr-text--regular text-mention-grey">Description</h2>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
+              <div 
+                class="fr-col-auto fr-ml-2w"
+                v-if="field.key === sortBy"
+              >
+                <span 
+                  class="fr-icon-arrow-down-line text-label-blue-cumulus"
+                  :class="{'fr-icon-arrow-down-line': sortDesc, 'fr-icon-arrow-up-line': !sortDesc }"
+                  aria-hidden="true"
+                ></span>
               </div>
-            </dialog>
+            </div>
+            <FieldModal :id="'fr-modal-' + field.key" :field="field" />
           </th>
         </tr>
         <tr>
@@ -65,10 +49,7 @@
             class="filter"
             :class="getInputFilterClass(field.key)"
           >
-          <Input
-            :columnsInfos="columnsInfos"
-            :field="field"
-          />
+            <Input :field="field" />
           </th>
         </tr>
       </thead>
@@ -139,10 +120,11 @@ import Filters from '@/components/Filters'
 import Histogram from '@/components/Histogram.vue'
 import Tooltip from '@/components/Tooltip.vue'
 import Input from './Input.vue'
+import FieldModal from './FieldModal.vue'
 
 export default {
   name: 'Table',
-  components: { Filters, Histogram, Tooltip, Input },
+  components: { Filters, Histogram, Tooltip, Input, FieldModal },
   data () {
     return {
       filtersEnabled,
