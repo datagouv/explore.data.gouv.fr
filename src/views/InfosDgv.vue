@@ -100,7 +100,7 @@ export default {
 .infosdgv {
   font-size: 1rem;
   font-weight: normal;
-  line-height: 1;
+  line-height: 1.5;
   background-color: #F3F3F3;
   border-bottom: 2px solid #ebebeb;
 }

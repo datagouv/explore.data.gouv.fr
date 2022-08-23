@@ -40,15 +40,6 @@
     line-height: 1.2;
 }
 
-.betaCard{
-    color: #285FC3;
-    padding: 2px;
-    background-color: #E9EDFD;
-    font-family: Marianne-Bold;
-    font-size: 0.8rem;
-    margin-left: 10px;
-}
-
 .adviceCall{
     color: #37529A;
     font-family: Marianne;

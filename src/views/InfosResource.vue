@@ -71,7 +71,7 @@
               </div>
           </div>
       </div>
-  </dialog>
+    </dialog>
   </div>
 </template>
 
