@@ -178,11 +178,11 @@ export default {
   top: 2.5rem;
   width: 250px;
   margin: 0;
-  background-color: #f5f5fe;
-  padding: 20px;
+  background-color: white;
+  padding: 16px;
   font-weight: normal;
   font-size: 14px;
-  border: 1px solid #cfcccc;
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.16), 0px 1px 0px -2px rgba(0, 0, 0, 0.16), 0px 1px 4px rgba(0, 0, 0, 0.23);
 }
 
 .topInfo {
