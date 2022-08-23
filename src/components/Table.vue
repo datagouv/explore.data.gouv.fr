@@ -48,6 +48,7 @@
                               </div>
                               <div class="fr-modal__content">
                                   <h1 :id="'fr-modal-title-modal-' + field.key" class="fr-modal__title">{{ field.label }}</h1>
+                                  <h2 class="fr-text--sm fr-text--regular text-mention-grey">Description</h2>
                               </div>
                           </div>
                       </div>
@@ -376,6 +377,7 @@ tfoot .fr-btn--secondary {
   --border-action-high-blue-france: var(--text-inverted-grey);
   --border-active-blue-france: var(--text-inverted-grey);
   --text-action-high-blue-france: var(--text-inverted-greys);
+  --hover-tint: var(--grey-425-625);
 }
 
 tfoot .fr-grid-row {

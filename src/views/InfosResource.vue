@@ -61,9 +61,9 @@
                       <div class="fr-modal__content">
                           <h1 id="fr-modal-title-modal-filters" class="fr-modal__title">Configurer les filtres</h1>
                           <div class="fr-py-2w relative" v-for="filter in filters" :key="filter.field">
-                            <Input 
+                            <Input
                               :field="getField(filter.field)"
-                              :label="getField(filter.field).label"
+                              showLabel
                             />
                           </div>
                       </div>

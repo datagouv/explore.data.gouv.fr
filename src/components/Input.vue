@@ -1,6 +1,6 @@
 <template>
-  <div @mouseenter="getInfos()" @mouseleave="hideBox" @keyup.esc="hideBox" class="fr-input-group">
-    <label v-if="label" class="fr-label" :for="field.key">{{ label }}</label>
+  <div v-if="field" @mouseenter="getInfos()" @mouseleave="hideBox" @keyup.esc="hideBox" class="fr-input-group">
+    <label v-if="showLabel" class="fr-label" :for="field.key">{{ field.label }}</label>
     <div class="fr-input-wrap fr-input-wrap--icon-left fr-icon-filter-line relative" :class="inputWrapClass">
       <input 
         @focus="getInfos()"
@@ -51,9 +51,9 @@ export default {
       type: Object,
       required: true,
     },
-    label: {
-      type: String,
-      required: false,
+    showLabel: {
+      type: Boolean,
+      default: false,
     }
   },
   data() {
@@ -69,7 +69,7 @@ export default {
     columnInfos() {
       return this.columnsInfos[this.field.key] ? this.columnsInfos[this.field.key] : {}
     },
-    columnsInfos () {
+    columnsInfos() {
       return this.$store.state.columnsInfos
     },
     filter() {
