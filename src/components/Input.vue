@@ -4,7 +4,7 @@
       <input 
         @focus="getInfos()"
         @keyup="filterText($event)"
-        type="text"
+        type="search"
         class="fr-input"
         :class="inputClass"
         :value="inputValue"

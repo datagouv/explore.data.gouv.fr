@@ -100,6 +100,14 @@ export default {
   box-shadow: inset 0 -2px 0 0 var(--border-plain-blue-cumulus);
 }
 
+.fr-table__shadow:before {
+  --table-offset: 0;
+}
+
+.fr-modal.fr-modal--popover .fr-container--fluid, .fr-modal.fr-modal--popover .fr-grid-row, .fr-modal.fr-modal--popover .fr-modal__body {
+  height: 100%;
+}
+
 .cat1, .cat2, .cat3, .cat4, .cat5, .cat6, .cat7, .cat8, .cat9, .cat10, .topInfo {
   padding-left: 10px;
   padding-right: 10px;
