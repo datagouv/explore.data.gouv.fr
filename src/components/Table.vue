@@ -16,10 +16,15 @@
                 @mouseover="hoverArrow = true" 
                 @mouseleave="hoverArrow = false"
               >
-                <div class="fr-col-auto fr-mr-2w" :style="field.key === sortBy ? { 'color': '#2559C1'} : ''">
+                <button
+                  class="fr-col-auto fr-mr-2w"
+                  :class="{'text-label-blue-cumulus': field.key === sortBy}"
+                  data-fr-opened="false"
+                  :aria-controls="'fr-modal-' + field.key"
+                >
                   <span class="fr-icon-info-line" aria-hidden="true"></span>
-                </div>    
-                <div class="fr-col" :style="field.key === sortBy ? { 'color': '#2559C1'} : ''">
+                </button>
+                <div class="fr-col" :class="{'text-label-blue-cumulus': field.key === sortBy}">
                   {{ field.label }}
                 </div>
                 <div 
@@ -27,19 +32,28 @@
                   v-if="field.key === sortBy"
                 >
                   <span 
-                    v-if="sortDesc == true"
-                    style="color: #2559C1;"
-                    class="fr-icon-arrow-down-line"
-                    aria-hidden="true"
-                  ></span>
-                  <span 
-                    v-else
-                    style="color: #2559C1;"
-                    class="fr-icon-arrow-up-line"
+                    class="fr-icon-arrow-down-line text-label-blue-cumulus"
+                    :class="{'fr-icon-arrow-down-line': sortDesc, 'fr-icon-arrow-up-line': !sortDesc }"
                     aria-hidden="true"
                   ></span>
                 </div>
               </div>
+              <dialog :aria-labelledby="'fr-modal-title-modal-' + field.key" role="dialog" :id="'fr-modal-' + field.key" class="fr-modal fr-modal--popover">
+              <div class="fr-container--fluid">
+                  <div class="fr-grid-row fr-grid-row--right">
+                      <div class="fr-col-12 fr-col-sm-7 fr-col-md-5 fr-col-lg-4 fr-col-xl-3">
+                          <div class="fr-modal__body">
+                              <div class="fr-modal__header">
+                                  <button class="fr-link--close fr-link" title="Fermer la fenêtre modale" :aria-controls="'fr-modal-' + field.key">Fermer</button>
+                              </div>
+                              <div class="fr-modal__content">
+                                  <h1 :id="'fr-modal-title-modal-' + field.key" class="fr-modal__title">{{ field.label }}</h1>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+            </dialog>
           </th>
         </tr>
         <tr>
