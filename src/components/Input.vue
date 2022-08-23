@@ -182,6 +182,7 @@ export default {
   padding: 16px;
   font-weight: normal;
   font-size: 14px;
+  border-bottom: 1px solid black;
   box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.16), 0px 1px 0px -2px rgba(0, 0, 0, 0.16), 0px 1px 4px rgba(0, 0, 0, 0.23);
 }
 
