@@ -53,16 +53,17 @@
     <dialog aria-labelledby="fr-modal-title-modal-filters" role="dialog" id="fr-modal-filters" class="fr-modal fr-modal--popover">
       <div class="fr-container--fluid">
           <div class="fr-grid-row fr-grid-row--right">
-              <div class="fr-col-12 fr-col-md-8 fr-col-lg-6">
+              <div class="fr-col-12 fr-col-sm-7 fr-col-md-5 fr-col-lg-4 fr-col-xl-3">
                   <div class="fr-modal__body">
                       <div class="fr-modal__header">
                           <button class="fr-link--close fr-link" title="Fermer la fenêtre modale" aria-controls="fr-modal-filters">Fermer</button>
                       </div>
                       <div class="fr-modal__content">
                           <h1 id="fr-modal-title-modal-filters" class="fr-modal__title">Configurer les filtres</h1>
-                          <div class="fr-py-2w" v-for="filter in filters">
+                          <div class="fr-py-2w relative" v-for="filter in filters" :key="filter.field">
                             <Input 
                               :field="getField(filter.field)"
+                              :label="getField(filter.field).label"
                             />
                           </div>
                       </div>
