@@ -59,18 +59,18 @@
           :key="row[0]"
         >
           <td 
-            @mouseleave="manageCellOut"
-            @mouseover="manageCell($event, field.key, row[field.key])"
-            @click="manageCell($event, field.key, row[field.key])"
+            @mouseleave="hideTooltips"
+            @mouseover="loadTooltip(field.key, index)"
+            @click="loadTooltip(field.key, index)"
             v-for="field in fields"
-            :key="'row-'+field.key+'-'+row[field.key]"
+            :key="'row-' + index + '-' + field.key "
           >
             <span :class="getCellColor(field.key, row[field.key])">
-              {{ row[field.key] }}
+              LE CONTENU
             </span>
-            <template v-if="columnsInfos.hasOwnProperty(field.key)">
+            <template v-if="columnsInfos[field.key] && isTooltipActive(field.key, index)">
               <Tooltip
-                v-if="columnsInfos[field.key]['format'] == 'siren'"
+                v-if="columnsInfos[field.key]['format'] === 'siren'"
                 explanation="Il semblerait que ce champ soit un numéro d'entreprise (numéro Siren)"
                 :content="'Entreprise : ' + messageBox"
                 link="En savoir plus sur cette entreprise"
@@ -82,12 +82,12 @@
                 :content="'Département : ' + messageBox"
                 />
               <Tooltip
-                v-else-if="columnsInfos[field.key]['format'] == 'code_region'"
+                v-else-if="columnsInfos[field.key]['format'] === 'code_region'"
                 explanation="Il semblerait que ce champ soit un code de région"
                 :content="'Région : ' + messageBox"
                 />
               <Tooltip
-                v-else-if="columnsInfos[field.key]['format'] == 'code_commune_insee'"
+                v-else-if="columnsInfos[field.key]['format'] === 'code_commune_insee'"
                 explanation="Il semblerait que ce champ soit un code commune"
                 :content="'Commune : ' + messageBox"
                 />
@@ -140,8 +140,7 @@ export default {
       topInfos: [],
       numericPlotInfosBins: [],
       numericPlotInfosCounts: [],
-      activeFilterField: undefined,
-      activeFilterBox: false,
+      activeTooltips: {},
       messageBox: '',
       additionalInformations: {
         siren: {},
@@ -208,8 +207,11 @@ export default {
       const filtered = !!this.getFilter(field)
       return { 'filter--filled': filtered }
     },
-    manageCell(e, field, val) {
-      this.activeFilterBox = false;
+    isTooltipActive(field, index) {
+      return this.activeTooltips[index] ? this.activeTooltips[index][field] : false
+    },
+    loadTooltip(field, index) {
+      const val =  this.rows[index][field]
       if(this.columnsInfos.hasOwnProperty(field)) {
         if(this.columnsInfos[field]['format'] == 'siren') {
           this.getLocalOrFetch(
@@ -223,9 +225,6 @@ export default {
           .catch((err) => {
             // Do something for an error here
           })
-          if(e.currentTarget.getElementsByClassName('relSiren')[0]){
-            e.currentTarget.getElementsByClassName('relSiren')[0].style.display = 'block'
-          }
         }
         if(this.columnsInfos[field]['format'] == 'code_departement') {
           this.getLocalOrFetch(
@@ -239,9 +238,6 @@ export default {
           .catch((err) => {
             // Do something for an error here
           })
-          if(e.currentTarget.getElementsByClassName('relDpt')[0]){
-            e.currentTarget.getElementsByClassName('relDpt')[0].style.display = 'block'
-          }
         }
         if(this.columnsInfos[field]['format'] == 'code_region') {
           this.getLocalOrFetch(
@@ -255,9 +251,6 @@ export default {
           .catch((err) => {
             // Do something for an error here
           })
-          if(e.currentTarget.getElementsByClassName('relReg')[0]){
-            e.currentTarget.getElementsByClassName('relReg')[0].style.display = 'block'
-          }
         }
         if(this.columnsInfos[field]['format'] == 'code_commune_insee') {
           this.getLocalOrFetch(
@@ -271,24 +264,21 @@ export default {
           .catch((err) => {
             // Do something for an error here
           })
-          if(e.currentTarget.getElementsByClassName('relCom')[0]){
-            e.currentTarget.getElementsByClassName('relCom')[0].style.display = 'block'
-          }
         }
+        this.hideTooltips()
+        if(!this.activeTooltips[index]) {
+          this.$set(this.activeTooltips, index, {})
+        }
+        this.$set(this.activeTooltips[index], field, true)
+        this.$set(this.activeTooltips, index, this.activeTooltips[index])
       }
     },  
-    manageCellOut(e){
-      if(e.currentTarget.getElementsByClassName('relSiren')[0]){
-        e.currentTarget.getElementsByClassName('relSiren')[0].style.display = 'none'
-      }
-      if(e.currentTarget.getElementsByClassName('relDpt')[0]){
-        e.currentTarget.getElementsByClassName('relDpt')[0].style.display = 'none'
-      }
-      if(e.currentTarget.getElementsByClassName('relReg')[0]){
-        e.currentTarget.getElementsByClassName('relReg')[0].style.display = 'none'
-      }
-      if(e.currentTarget.getElementsByClassName('relCom')[0]){
-        e.currentTarget.getElementsByClassName('relCom')[0].style.display = 'none'
+    hideTooltips() {
+      for(let index in this.activeTooltips) {
+        for(let key in this.activeTooltips[index]) {
+          this.$set(this.activeTooltips[index], key, false)
+          this.$set(this.activeTooltips, index, this.activeTooltips[index])
+        }
       }
     },
     sortbyfield (field) {

@@ -1,6 +1,6 @@
 <template>
     <div 
-    class="fr-p-2w relCell relSiren" 
+    class="fr-p-2w relCell" 
     >
     <p class="fr-text--xs relCell-explanation">
         <span class="fr-fi--sm fr-icon-lightbulb-line" aria-hidden="true"></span>
@@ -10,6 +10,7 @@
         {{ content }}
     </p>
     <a 
+        v-if="linkHref"
         class="fr-text--sm"
         :href="linkHref"
         target="_blank"
@@ -46,7 +47,6 @@ export default {
 }
 
 .relCell {
-    display: none;
     z-index: 5;
     position: absolute;
     bottom: -80px;
