@@ -122,18 +122,18 @@ export default {
 
 .fr-tag.cat1 {
   --idle: transparent;
-  --hover: var(--background-action-low-purple-glycine-hover);
-  --active: var(--background-action-low-purple-glycine-active);
-  background-color: var(--background-action-low-purple-glycine);
-  color: var(--text-action-high-purple-glycine);
+  --hover: var(--background-action-low-green-menthe-hover);
+  --active: var(--background-action-low-green-menthe-active);
+  background-color: var(--background-action-low-green-menthe);
+  color: var(--text-action-high-green-menthe);
 }
 
 .fr-badge.cat1 {
   --idle: transparent;
-  --hover: var(--background-contrast-purple-glycine-hover);
-  --active: var(--background-contrast-purple-glycine-active);
-  background-color: var(--background-contrast-purple-glycine);
-  color: var(--text-label-purple-glycine);
+  --hover: var(--background-contrast-green-menthe-hover);
+  --active: var(--background-contrast-green-menthe-active);
+  background-color: var(--background-contrast-green-menthe);
+  color: var(--text-label-green-menthe);
 }
 
 .fr-tag.cat2 {
@@ -170,18 +170,18 @@ export default {
 
 .fr-tag.cat4 {
   --idle: transparent;
-  --hover: var(--background-action-low-green-menthe-hover);
-  --active: var(--background-action-low-green-menthe-active);
-  background-color: var(--background-action-low-green-menthe);
-  color: var(--text-action-high-green-menthe);
+  --hover: var(--background-action-low-purple-glycine-hover);
+  --active: var(--background-action-low-purple-glycine-active);
+  background-color: var(--background-action-low-purple-glycine);
+  color: var(--text-action-high-purple-glycine);
 }
 
 .fr-badge.cat4 {
   --idle: transparent;
-  --hover: var(--background-contrast-green-menthe-hover);
-  --active: var(--background-contrast-green-menthe-active);
-  background-color: var(--background-contrast-green-menthe);
-  color: var(--text-label-green-menthe);
+  --hover: var(--background-contrast-purple-glycine-hover);
+  --active: var(--background-contrast-purple-glycine-active);
+  background-color: var(--background-contrast-purple-glycine);
+  color: var(--text-label-purple-glycine);
 }
 
 .fr-tag.cat5 {
