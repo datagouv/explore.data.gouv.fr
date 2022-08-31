@@ -66,7 +66,7 @@
             :key="'row-' + index + '-' + field.key "
           >
             <span :class="getCellColor(field.key, row[field.key])">
-              LE CONTENU
+              {{ row[field.key] }}
             </span>
             <template v-if="columnsInfos[field.key] && isTooltipActive(field.key, index)">
               <Tooltip
