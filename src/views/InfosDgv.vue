@@ -15,12 +15,11 @@
         class="text-label-blue-cumulus"
         target="_blank"
       >
-        {{ dgvInfos.organization_name}}
+        {{ dgvInfos.organization_name }}
       </a>
     </h2>
   </div>
 </template>
-
 
 <script>
 import {getDataGouvUrl} from '../config'
