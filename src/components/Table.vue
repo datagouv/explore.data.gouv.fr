@@ -103,10 +103,14 @@
               <p class="fr-col-auto"><strong>Nb. Lignes</strong> : {{totalRows}}</p>
             </div>
           </div>
-          <div class="fr-col-auto">
-            <button class="fr-btn fr-btn--sm fr-btn--secondary fr-btn--icon-left fr-icon-download-line">
+          <div class="fr-col-auto" v-if="dgvInfos.resource">
+            <a
+              download 
+              :href="dgvInfos.resource.latest"
+              class="fr-btn fr-btn--sm fr-btn--secondary fr-btn--icon-left fr-icon-download-line"
+            >
               Télécharger les données
-            </button>
+            </a>
           </div>
         </div>
       </tfoot>
@@ -151,6 +155,9 @@ export default {
     }
   },
   computed: {
+    dgvInfos () {
+      return this.$store.state.dgv_infos
+    },
     rows () {
       return this.$store.state.rows
     },
