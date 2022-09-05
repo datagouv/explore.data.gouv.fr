@@ -32,7 +32,7 @@
           </div>
         </div>
       </template>
-      <div v-if="columnInfos.type == 'Numeric' && numericPlotInfos.bin_edges && numericPlotInfos.bin_edges.length > 0" class="relTh">
+      <div v-if="columnInfos.type == 'Numeric' && numericPlotInfos.bin_edges && numericPlotInfos.bin_edges.length > 0" class="relTh relTh--histogram">
         <h3 class="fr-mb-1w fr-text--sm fr-text--regular">Distribution :</h3>
         <histogram :datachart="numericPlotInfos.counts" :labels="numericPlotInfos.bin_edges" :title="field.label"></histogram>
       </div>
@@ -184,6 +184,10 @@ export default {
   font-size: 14px;
   border-bottom: 1px solid black;
   box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.16), 0px 1px 0px -2px rgba(0, 0, 0, 0.16), 0px 1px 4px rgba(0, 0, 0, 0.23);
+}
+
+.relTh--histogram {
+  width: auto;
 }
 
 .topInfo {
