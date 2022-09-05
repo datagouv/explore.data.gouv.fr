@@ -58,6 +58,10 @@ export default {
   --background-action-low-blue-france-hover: var(--background-action-low-blue-cumulus-hover);
   --background-action-low-blue-france-active: var(--background-action-low-blue-cumulus-active);
   --background-action-low-blue-france: var(--background-action-low-blue-cumulus);
+  --background-action-high-blue-france-hover: var(--background-action-high-blue-cumulus-hover);
+  --background-action-high-blue-france-active: var(--background-action-high-blue-cumulus-active);
+  --background-action-high-blue-france: var(--background-action-high-blue-cumulus);
+  --border-default-blue-france: var(--border-default-blue-cumulus);
 }
 
 .csvapi .fr-btn {
