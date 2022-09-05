@@ -25,7 +25,7 @@
                 <template v-if="dgvInfos.resource.format">{{ dgvInfos.resource.format }} </template>
                 <template v-if="dgvInfos.resource.filesize">({{ bytesToSize(dgvInfos.resource.filesize) }})</template>
               </div>
-              <div class="fr-col-auto">{{ dgvInfos.resource.metrics.views ? dgvInfos.resource.metrics.views : 0 }} téléchargements</div>
+              <div class="fr-col-auto">{{ dgvInfos.resource.metrics.views ? dgvInfos.resource.metrics.views : 0 }} téléchargement<template v-if="dgvInfos.resource.metrics.views > 1">s</template></div>
             </div>
           </div>
         </div>
