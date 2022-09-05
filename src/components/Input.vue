@@ -194,4 +194,9 @@ export default {
   background-color: var(--background-contrast-grey);
   cursor: pointer;
 }
+
+.catFilter {
+  max-height: 7.5rem;
+  overflow: hidden;
+}
 </style>
