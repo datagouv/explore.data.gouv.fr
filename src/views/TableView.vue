@@ -1,12 +1,27 @@
 <template>
   <!-- url field if no url provided -->
-  <form v-if="!csvUrl" class="fr-mt-4w fr-container">
-    <label class="fr-label" for="text-input-text">URL du fichier à visualiser (CSV ou XLS)</label>
-    <input class="fr-input fr-mb-2w" type="text" v-model="csvUrlFieldValue" id="text-input-text" name="text-input-text" />
-    <button class="fr-btn fr-btn--secondary" @click="redirect">
-      Lancer la conversion 🚀
-    </button>
-  </form>
+  <div class="fr-mt-4w fr-container" v-if="!csvUrl">
+    <h2>Bienvenue sur le prototype d'exploration des données de data.gouv.fr</h2>
+    <p>Ce prototype vise à permettre d'explorer plus facilement les données référencées sur data.gouv.fr<br/>
+    Sélectionnez un fichier qui vous intéresse sur data.gouv.fr et coller le lien dans la barre ci-dessous pour l'explorer.</p>
+    <div class="fr-callout">
+      <h3 class="fr-callout__title">Précautions d'usages</h3>
+      <p class="fr-callout__text">
+          Le chargement de l'explorateur peut prendre un certain temps s'il s'agit de la première exploration d'un jeu de données.
+          <br/>
+          Ce prototype ne permet pas d'explorer les fichiers de plus de 500 Mo.
+      </p>
+    </div>
+    <form class="fr-mt-4w">
+      <label class="fr-label" for="text-input-text">URL du fichier à visualiser (CSV ou XLS)</label>
+      <input class="fr-input fr-mb-2w" type="text" v-model="csvUrlFieldValue" id="text-input-text" name="text-input-text" />
+      <div class="fr-grid-row fr-grid-row--center">
+        <button class="fr-btn fr-btn--icon-left fr-icon-test-tube-line" @click="redirect">
+          Explorer les données
+        </button>
+      </div>
+    </form>
+  </div>
   <!-- error block -->
   <Error v-else-if="hasError" :error="error"></Error>
   <!-- table block, fed by store -->
