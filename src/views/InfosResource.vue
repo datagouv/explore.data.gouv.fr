@@ -20,7 +20,7 @@
           </div>
           <div class="fr-col-12 fr-col-xl-8 fr-text--sm fr-m-0 text-mention-grey">
             <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle">
-              <div class="fr-col-auto">Mis à jour le date {{ toFrDate(dgvInfos.resource.last_modified) }}</div>
+              <div class="fr-col-auto">Mis à jour le {{ toFrDate(dgvInfos.resource.last_modified) }}</div>
               <div class="fr-col-auto">
                 <template v-if="dgvInfos.resource.format">{{ dgvInfos.resource.format }} </template>
                 <template v-if="dgvInfos.resource.filesize">({{ bytesToSize(dgvInfos.resource.filesize) }})</template>
