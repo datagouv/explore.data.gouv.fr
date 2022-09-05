@@ -63,11 +63,11 @@
             @mouseover="loadTooltip(field.key, index)"
             @click="loadTooltip(field.key, index)"
             v-for="field in fields"
-            :key="'row-' + index + '-' + field.key "
+            :key="'row-' + index + '-' + field.key"
           >
-            <span :class="getCellColor(field.key, row[field.key])">
-              {{ row[field.key] }}
-            </span>
+            <div class="cell">
+              <span :class="getCellColor(field.key, row[field.key])">{{ row[field.key] }}</span>
+            </div>
             <template v-if="columnsInfos[field.key] && isTooltipActive(field.key, index)">
               <Tooltip
                 v-if="columnsInfos[field.key]['format'] === 'siren'"
@@ -393,5 +393,11 @@ th, td {
 
 .filter {
   border-width: 1px;
+}
+
+.cell {
+  max-height: 7.5rem;
+  overflow: auto;
+  overflow-x: hidden;
 }
 </style>
