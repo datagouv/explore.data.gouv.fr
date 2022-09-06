@@ -38,14 +38,14 @@ export default {
     let url = params.get('url')
     if (url && url.includes('data.gouv.fr')) {
         let rid = url.split('/')[url.split('/').length - 1]
-        fetch(('https://www.data.gouv.fr/api/2/datasets/resources/' + rid))
+        fetch(('https://www.data.gouv.fr/api/2/datasets/resources/' + rid + '/'))
         .then((response) => {
             return response.json()
         })
         .then((data) => {
             obj.resource = data.resource
             obj.dataset_id = data.dataset_id
-            fetch(('https://www.data.gouv.fr/api/1/datasets/' + data.dataset_id))
+            fetch(('https://www.data.gouv.fr/api/1/datasets/' + data.dataset_id + '/'))
             .then((response) => {
                 return response.json()
             })
