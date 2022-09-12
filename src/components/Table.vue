@@ -155,7 +155,7 @@
           <div class="fr-col-auto" v-if="dgvInfos.resource">
             <a
               download 
-              :href="dgvInfos.resource.latest"
+              :href="exportData()"
               class="fr-btn fr-btn--sm fr-btn--secondary fr-btn--icon-left fr-icon-download-line"
             >
               Télécharger les données
@@ -174,6 +174,7 @@ import Histogram from '@/components/Histogram.vue'
 import Tooltip from '@/components/Tooltip.vue'
 import Input from './Input.vue'
 import FieldModal from './FieldModal.vue'
+import {csvapiUrl} from '@/config'
 
 export default {
   name: 'Table',
@@ -244,6 +245,9 @@ export default {
     },
     sortBy () {
       return this.$store.state.sortBy
+    },
+    dataEndpoint () {
+       return this.$store.state.dataEndpoint
     },
     page: {
       get() {
@@ -505,6 +509,9 @@ export default {
     userChangePage(){
       this.page = this.page + 1
       this.changePage()
+    },
+    exportData(){
+      return this.dataEndpoint + '/export' + document.location.search
     }
   },
   created () {
