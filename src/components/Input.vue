@@ -26,7 +26,7 @@
         <div v-else-if="topInfos.length > 0" class="relTh">
           <h3 class="fr-mb-1w fr-text--sm fr-text--regular">Valeurs les plus fréquentes :</h3>
           <div class="catFilter fr-mb-1w" v-for="top in topInfos" :key="top.value">
-            <button class="fr-tag fr-tag--sm" @click="filterTextCat(top.value)">
+            <button class="fr-tag fr-tag--sm top" @click="filterTextCat(top.value)">
               {{ top.value }} ({{ top.count }})
             </button>
           </div>
@@ -104,24 +104,29 @@ export default {
       this.setSearchParams(params)
     },
     filterText(e) {
-      clearTimeout(this.timer)
-      this.timer = setTimeout(() => {
+       if (e.target.value != '') {
         let filter = {
           field: this.field.key,
           value: e.target.value,
           comp: 'contains'
         }
-        if (e.target.value != '') {
-          this.$store.commit('deleteAllFiltersWithField', filter.field)
-          this.$store.commit('addFilter', filter)
-          this.addToQueryString(`${filter.field}__${filter.comp}`, filter.value)
-          this.$store.dispatch('getData')
-        } else {
+        this.$store.commit('deleteAllFiltersWithField', filter.field)
+        this.$store.commit('addFilter', filter)
+        this.addToQueryString(`${filter.field}__${filter.comp}`, filter.value)
+        this.$store.dispatch('getData')
+      } else {
+        clearTimeout(this.timer)
+        this.timer = setTimeout(() => {
+          let filter = {
+            field: this.field.key,
+            value: e.target.value,
+            comp: 'contains'
+          }
           this.removeFromQueryString(`${filter.field}__${filter.comp}`)
           this.$store.commit('deleteAllFiltersWithField', filter.field)
           this.$store.dispatch('getData')
-        }
-      }, 650)
+        }, 650)
+      }
     },
     filterTextCat(value) {
       let filter = {

@@ -64,6 +64,7 @@ export default {
   --border-default-blue-france: var(--border-default-blue-cumulus);
 }
 
+
 .csvapi .fr-btn {
   border-radius: 30px;
 }
@@ -122,6 +123,11 @@ export default {
   padding-top: 4px;
   padding-bottom: 4px;
   border-radius: 8px;
+  text-align: left;
+}
+
+.top {
+  text-align: left;
 }
 
 .fr-tag.cat1 {
@@ -283,4 +289,5 @@ export default {
   background-color:var(--background-contrast-brown-opera);
   color:var(--text-label-brown-opera);
 }
+
 </style>

@@ -95,6 +95,7 @@
           </td>
         </tr> 
       </tbody>
+      <button v-if="rows.length != 0" class="fr-tag fr-tag--sm" @click="userChangePage()">Charger plus de données</button>
       <tfoot class="fr-p-2w">
         <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle">
           <div class="fr-col-auto">
@@ -324,6 +325,10 @@ export default {
         this.changePage()
       }
     },
+    userChangePage(){
+      this.page = this.page + 1
+      this.changePage()
+    }
   },
   created () {
     window.addEventListener('scroll', this.handleScroll);
@@ -335,6 +340,10 @@ export default {
 </script>
 
 <style scoped>
+html {
+    height: 100%;
+}
+
 .fr-table, .fr-table table {
   height: 100%;
 }
@@ -399,5 +408,8 @@ th, td {
   max-height: 7.5rem;
   overflow: auto;
   overflow-x: hidden;
-}
+} 
+
+
+
 </style>
