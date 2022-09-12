@@ -87,9 +87,57 @@
                 :content="'Région : ' + messageBox"
                 />
               <Tooltip
+                v-else-if="columnsInfos[field.key]['format'] == 'departement'"
+                explanation="Il semblerait que ce champ soit un nom de département"
+                :content="'Code Département : ' + messageBox"
+                />
+              <Tooltip
+                v-else-if="columnsInfos[field.key]['format'] === 'region'"
+                explanation="Il semblerait que ce champ soit un nom de région"
+                :content="'Code Région : ' + messageBox"
+                />
+              <Tooltip
                 v-else-if="columnsInfos[field.key]['format'] === 'code_commune_insee'"
                 explanation="Il semblerait que ce champ soit un code commune"
                 :content="'Commune : ' + messageBox"
+                />
+              <Tooltip
+                v-else-if="columnsInfos[field.key]['format'] === 'code_postal'"
+                explanation="Il semblerait que ce champ soit un code postal"
+                :content="'Commune possibles : ' + messageBox"
+                />
+              <Tooltip
+                v-else-if="columnsInfos[field.key]['format'] === 'commune'"
+                explanation="Il semblerait que ce champ soit une commune"
+                :content="'Code commune : ' + messageBox"
+                />
+              <Tooltip
+                v-else-if="columnsInfos[field.key]['format'] === 'email'"
+                explanation="Il semblerait que ce champ soit un email"
+                link="Ecrire un mail"
+                content=""
+                :linkHref="'mailto:' + row[field.key]"
+                />
+              <Tooltip
+                v-else-if="columnsInfos[field.key]['format'] === 'longitude_wgs' & messageBox"
+                explanation="Il semblerait que ce champ soit une coordonnée de longitude. Nous avons également trouvé une coordonnée de latitude dans le fichier."
+                link="Voir sur une carte"
+                :content="'La localisation semble être à ' + messageBox"
+                :linkHref="banurl"
+                />
+              <Tooltip
+                v-else-if="columnsInfos[field.key]['format'] === 'latitude_wgs' & messageBox"
+                explanation="Il semblerait que ce champ soit une coordonnée de latitude. Nous avons également trouvé une coordonnée de longitude dans le fichier."
+                link="Voir sur une carte"
+                :content="'La localisation semble être à ' + messageBox"
+                :linkHref="banurl"
+                />
+              <Tooltip
+                v-else-if="columnsInfos[field.key]['format'] === 'adresse'"
+                explanation="Il semblerait que ce champ soit une adresse."
+                link="Voir sur une carte"
+                :content="'Adresse consolidée : ' + messageBox"
+                :linkHref="banurl"
                 />
             </template>
           </td>
@@ -147,11 +195,19 @@ export default {
       numericPlotInfosCounts: [],
       activeTooltips: {},
       messageBox: '',
+      banurl: '',
       additionalInformations: {
         siren: {},
         code_departement: {},
         code_region: {},
-        code_commune_insee: {}
+        code_commune_insee: {},
+        code_postal: {},
+        commune: {},
+        email: {},
+        latlonseparate: {},
+        adresse: {},
+        departement: {},
+        region: {},
       },
     }
   },
@@ -247,6 +303,19 @@ export default {
             // Do something for an error here
           })
         }
+        if(this.columnsInfos[field]['format'] == 'departement') {
+          this.getLocalOrFetch(
+            this.columnsInfos[field]['format'], 
+            val,
+            'https://geo.api.gouv.fr/departements?nom=' + val
+          )
+          .then((data) => {
+            this.messageBox = data[0]['code']
+          })
+          .catch((err) => {
+            // Do something for an error here
+          })
+        }
         if(this.columnsInfos[field]['format'] == 'code_region') {
           this.getLocalOrFetch(
             this.columnsInfos[field]['format'], 
@@ -255,6 +324,19 @@ export default {
           )
           .then((data) => {
             this.messageBox = data['nom']
+          })
+          .catch((err) => {
+            // Do something for an error here
+          })
+        }
+        if(this.columnsInfos[field]['format'] == 'region') {
+          this.getLocalOrFetch(
+            this.columnsInfos[field]['format'], 
+            val,
+            'https://geo.api.gouv.fr/regions?nom=' + val
+          )
+          .then((data) => {
+            this.messageBox = data[0]['code']
           })
           .catch((err) => {
             // Do something for an error here
@@ -272,6 +354,101 @@ export default {
           .catch((err) => {
             // Do something for an error here
           })
+        }
+        if(this.columnsInfos[field]['format'] == 'code_postal') {
+          this.getLocalOrFetch(
+            this.columnsInfos[field]['format'], 
+            val,
+            'https://geo.api.gouv.fr/communes?codePostal=' + val
+          )
+          .then((data) => {
+            let msg = ''
+            data.forEach((d) => {
+              msg = msg + d['nom'] + ', '
+            })
+            this.messageBox = msg.slice(0, -2)
+          })
+          .catch((err) => {
+            // Do something for an error here
+          })
+        }
+        if(this.columnsInfos[field]['format'] == 'commune') {
+          this.getLocalOrFetch(
+            this.columnsInfos[field]['format'], 
+            val,
+            'https://geo.api.gouv.fr/communes?nom=' + val
+          )
+          .then((data) => {
+            this.messageBox = data[0]['code'] + ', ' + data[0]['population'] + ' habitants.'
+          })
+          .catch((err) => {
+            // Do something for an error here
+          })
+        }
+        if(this.columnsInfos[field]['format'] == 'email') {
+          this.messageBox = '<href="mailto:' + val + '"></a>'
+        }
+        if(this.columnsInfos[field]['format'] == 'longitude_wgs') {
+          for (let c in this.columnsInfos) {
+            if(this.columnsInfos[c]['format'] == 'latitude_wgs'){
+              this.getLocalOrFetch(
+                'latlonseparate', 
+                this.rows[index][c] + ',' + val,
+                'https://geo.api.gouv.fr/communes?lon=' + val + '&lat=' + this.rows[index][c]
+              )
+              .then((data) => {
+                this.messageBox = data[0]['nom'] + ' (' + data[0]['code'] + ')'
+                this.banurl = 'https://adresse.data.gouv.fr/base-adresse-nationale#15/' + this.rows[index][c] + '/' + val
+              })
+              .catch((err) => {
+                // Do something for an error here
+              })
+            } else {
+              this.messageBox = undefined
+            }
+          }
+        }
+        if(this.columnsInfos[field]['format'] == 'latitude_wgs') {
+          for (let c in this.columnsInfos) {
+            if(this.columnsInfos[c]['format'] == 'longitude_wgs'){
+              this.getLocalOrFetch(
+                'latlonseparate', 
+                val + ',' + this.rows[index][c] + ',',
+                'https://geo.api.gouv.fr/communes?lon=' + this.rows[index][c] + '&lat=' + val
+              )
+              .then((data) => {
+                this.messageBox = data[0]['nom'] + ' (' + data[0]['code'] + ')'
+                this.banurl = 'https://adresse.data.gouv.fr/base-adresse-nationale#15/' + val + '/' + this.rows[index][c]
+              })
+              .catch((err) => {
+                // Do something for an error here
+              })
+            } else {
+              this.messageBox = undefined
+            }
+          }
+        }
+        if(this.columnsInfos[field]['format'] == 'adresse') {
+          let cci = ''
+          for (let c in this.columnsInfos) {
+            if(this.columnsInfos[c]['format'] == 'code_commune_insee'){              
+              cci = this.rows[index][c]
+            }
+          }
+          let adr = val + cci 
+          this.getLocalOrFetch(
+            'adresse', 
+            adr,
+            'https://api-adresse.data.gouv.fr/search/?q=' + adr
+          )
+          .then((data) => {
+            this.messageBox = data['features'][0]['properties']['label']
+            this.banurl = 'https://adresse.data.gouv.fr/base-adresse-nationale/' + data['features'][0]['properties']['id']
+          })
+          .catch((err) => {
+            // Do something for an error here
+          })
+        
         }
         this.hideTooltips()
         if(!this.activeTooltips[index]) {
