@@ -110,6 +110,8 @@ export default {
           value: e.target.value,
           comp: 'contains'
         }
+        this.removeFromQueryString(`${filter.field}__contains`)
+        this.removeFromQueryString(`${filter.field}__exact`)
         this.$store.commit('deleteAllFiltersWithField', filter.field)
         this.$store.commit('addFilter', filter)
         this.addToQueryString(`${filter.field}__${filter.comp}`, filter.value)
@@ -122,7 +124,8 @@ export default {
             value: e.target.value,
             comp: 'contains'
           }
-          this.removeFromQueryString(`${filter.field}__${filter.comp}`)
+          this.removeFromQueryString(`${filter.field}__contains`)
+          this.removeFromQueryString(`${filter.field}__exact`)
           this.$store.commit('deleteAllFiltersWithField', filter.field)
           this.$store.dispatch('getData')
         }, 650)
@@ -134,6 +137,8 @@ export default {
         value: value,
         comp: 'exact'
       }
+      this.removeFromQueryString(`${filter.field}__contains`)
+      this.removeFromQueryString(`${filter.field}__exact`)
       this.$store.commit('deleteAllFiltersWithField', filter.field)
       this.$store.commit('addFilter', filter)
       this.addToQueryString(`${filter.field}__${filter.comp}`, filter.value)
