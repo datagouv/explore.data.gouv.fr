@@ -28,18 +28,24 @@ export default {
   mounted() {
 
     let labs = []
-    this.labels.forEach((l) => {
-        labs.push(l.toFixed(2))
-    });
+    let max = this.labels.length
+    let originLabels = this.labels
+    for (let i = 0; i < max; i++) {
+      if(i+1 != max) {
+        labs.push('valeurs entre '+this.choseIntFloat(originLabels[i])+' et '+this.choseIntFloat(originLabels[i+1]))
+      } else {
+        labs.push('supérieur à '+this.choseIntFloat(originLabels[i]))
+      }
+    }  
     
     const myChart = new Chart(document.getElementById('myChart'), {
         type: 'bar',
         data: {
             labels: labs,
             datasets: [{
-            label: this.title,
+            label: 'occurrences',
             data: this.datachart,
-            backgroundColor: '#3558A2',
+            backgroundColor: '#dae6fd',
             }]
         },
         options: {
@@ -47,11 +53,18 @@ export default {
                 x: {
                     grid: {
                         display: false
+                    },
+                    ticks: {
+                        display: false,
+                        //maxTicksLimit: 2
                     }
                 },
                 y: {
                     grid: {
                         display: false
+                    },
+                    ticks: {
+                        maxTicksLimit: 5
                     }
                 }
             },
@@ -60,6 +73,13 @@ export default {
 
   },
   methods: {
+    choseIntFloat(n) {
+      if(n.toFixed(1) % 1 === 0) {
+        return n.toFixed(0)
+      } else {
+        return n.toFixed(1)
+      }
+    }
   },
   watch:{
   },
