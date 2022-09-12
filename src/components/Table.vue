@@ -7,7 +7,6 @@
             scope="col"
             class="header"
             :class="{'header--sorted': field.key === sortBy }"
-            @click="sortbyfield(field.key)" 
             v-for="field in fields" 
             :key="'header-'+field.key"
           >
@@ -24,12 +23,13 @@
               >
                 <span class="fr-icon-info-line" aria-hidden="true"></span>
               </button>
-              <div class="fr-col" :class="{'text-label-blue-cumulus': field.key === sortBy}">
+              <div @click="sortbyfield(field.key)" class="fr-col style-header-col" :class="{'text-label-blue-cumulus': field.key === sortBy}">
                 {{ field.label }}
               </div>
               <div 
-                class="fr-col-auto fr-ml-2w"
+                class="fr-col-auto fr-ml-2w style-header-col"
                 v-if="field.key === sortBy"
+                @click="sortbyfield(field.key)"
               >
                 <span 
                   class="fr-icon-arrow-down-line text-label-blue-cumulus"
@@ -410,6 +410,8 @@ th, td {
   overflow-x: hidden;
 } 
 
-
+.style-header-col {
+  cursor: pointer;
+}
 
 </style>
