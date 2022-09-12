@@ -28,7 +28,6 @@ export default {
         },
         content: {
             type: String,
-            required: true,
         },
         link: {
             type: String,
