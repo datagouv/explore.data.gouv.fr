@@ -7,7 +7,7 @@
     <b-collapse class="mt-2" v-model="filtersVisible">
       <b-card no-body>
         <b-list-group flush v-if="filters.length">
-          <b-list-group-item v-for="(f, idx) in filters" v-bind:key="idx">
+          <b-list-group-item v-for="(f, idx) in filters" :key="idx">
             {{ `"${f.field}" ${getCompLabel(f.comp)} "${f.value}"` }}
             <a href="" @click.prevent="deleteFilter(idx)" class="float-right">Supprimer le filtre</a>
           </b-list-group-item>
