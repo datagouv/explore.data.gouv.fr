@@ -37,8 +37,9 @@ export default new Vuex.Store({
       dataset_title: undefined,
       organization_id: undefined,
       organization_name: undefined,
-      other_resources: []
-    }
+      other_resources: [],
+    },
+    hasLoaded: false,
   },
   getters: {
     color (state) {
@@ -124,14 +125,19 @@ export default new Vuex.Store({
       return this.$http.get(apiUrl.toString()).then(res => {
         if (res.body.ok && res.body.endpoint) {
           commit('setEndpoints', res.body)
+          commit('updateLoadingState', true)
           return dispatch('getData', 'apify')
         } else {
+          commit('updateLoadingState', true)
           return dispatch('showError', res)
         }
       }).catch(res => dispatch('handleError', res))
     }
   },
   mutations: {
+    updateLoadingState(state, data) {
+      state.hasLoaded = data
+    },
     setEndpoints (state, data) {
       state.dataEndpoint = data.endpoint
       state.profileEndpoint = data.profile_endpoint
