@@ -128,9 +128,7 @@ export default {
       return this.fields.find(field => field.key === key)
     },
     redirectToResource() {
-      const url = new URL(window.location.toString())
-      url.searchParams.set('url', getResourceUrl(this.selectedResource))
-      window.open(url)
+      window.open(window.location.origin + '/?url=' + getResourceUrl(this.selectedResource))
     }
   },
   watch: {
