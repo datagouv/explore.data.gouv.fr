@@ -25,6 +25,8 @@
   </div>
   <!-- error block -->
   <Error v-else-if="hasError" :error="error"></Error>
+  <!-- loader block -->
+  <Loader v-else-if="!hasLoaded"></Loader>
   <!-- table block, fed by store -->
   <Table class="fr-pt-0" v-else-if="csvUrl && !hasError"></Table>
 </template>
@@ -32,10 +34,11 @@
 <script>
 import Table from '@/components/Table'
 import Error from '@/components/Error'
+import Loader from '@/components/Loader'
 
 export default {
   name: 'TableView',
-  components: {Table, Error},
+  components: {Table, Error, Loader},
   data() {
     return {
       csvUrl: '',
@@ -48,7 +51,10 @@ export default {
     },
     hasError () {
       return this.$store.state.hasError
-    }
+    },
+    hasLoaded () {
+      return this.$store.state.hasLoaded
+    },
   },
   created() {
     const params = new URLSearchParams(document.location.search)
@@ -88,9 +94,7 @@ export default {
   watch: {
     csvUrl (value) {
       if (!value) return
-      const loader = this.$loading.show()
       this.$store.dispatch('apify', this.csvUrl).finally(() => {
-        loader.hide()
       })
     }
   }
