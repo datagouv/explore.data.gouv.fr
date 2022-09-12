@@ -400,6 +400,10 @@ th, td {
   border-color: var(--border-plain-blue-cumulus);
 }
 
+.header {
+  min-width: 150px;
+}
+
 .filter {
   border-width: 1px;
 }
