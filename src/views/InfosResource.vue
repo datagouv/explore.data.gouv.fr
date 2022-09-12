@@ -1,7 +1,7 @@
 <template>
   <div v-if="dgvInfos.resource" class="fr-container--fluid fr-p-2w sticky-bar">
     <div class="fr-grid-row fr-grid-row--gutters">
-      <div class="fr-col-12 fr-col-md-6 fr-col-xl-8">
+      <div class="fr-col-12 fr-col-md-6 fr-col-xl-10">
         <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle">
           <div class="fr-col-12 fr-col-sm-9 fr-col-xl-4">
             <select class="fr-select" v-model="selectedResource" @change="redirectToResource">
@@ -30,7 +30,7 @@
           </div>
         </div>
       </div>
-      <div class="fr-col-12 fr-col-md-6 fr-col-xl-4">
+      <div class="fr-col-12 fr-col-md-6 fr-col-xl-2">
         <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle">
           <div class="fr-col-auto">
             <button
@@ -42,11 +42,11 @@
               Configurer les filtres <span v-if="hasActivefilters" class="fr-ml-1w fr-badge fr-badge--blue-cumulus">{{countActiveFilters}}</span>
             </button>
           </div>
-          <div class="fr-col-12 fr-col-sm">
+          <!-- <div class="fr-col-12 fr-col-sm">
             <div class="fr-input-wrap fr-input-wrap--icon-left fr-icon-search-line" :class="globalSearchWrapClass">
               <input class="fr-input" type="search" :class="globalSearchClass" v-model="globalSearch" placeholder="Rechercher" />
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
