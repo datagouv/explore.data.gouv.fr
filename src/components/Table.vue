@@ -119,14 +119,14 @@
                 :linkHref="'mailto:' + row[field.key]"
                 />
               <Tooltip
-                v-else-if="columnsInfos[field.key]['format'] === 'longitude_wgs' & messageBox"
+                v-else-if="columnsInfos[field.key]['format'] === 'longitude_wgs' & messageBox != undefined"
                 explanation="Il semblerait que ce champ soit une coordonnée de longitude. Nous avons également trouvé une coordonnée de latitude dans le fichier."
                 link="Voir sur une carte"
                 :content="'La localisation semble être à ' + messageBox"
                 :linkHref="banurl"
                 />
               <Tooltip
-                v-else-if="columnsInfos[field.key]['format'] === 'latitude_wgs' & messageBox"
+                v-else-if="columnsInfos[field.key]['format'] === 'latitude_wgs' & messageBox != undefined"
                 explanation="Il semblerait que ce champ soit une coordonnée de latitude. Nous avons également trouvé une coordonnée de longitude dans le fichier."
                 link="Voir sur une carte"
                 :content="'La localisation semble être à ' + messageBox"
