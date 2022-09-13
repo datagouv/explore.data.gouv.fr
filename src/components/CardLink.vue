@@ -40,7 +40,6 @@ export default {
         }
     },
     async created() {
-        console.log(this.did)
         this.dataset = await fetch('https://www.data.gouv.fr/api/1/datasets/' + this.did)
         .then((response) => {
             return response.json()
@@ -51,7 +50,6 @@ export default {
             return response.json()
         })
         this.resource = this.resource['resource']
-        console.log(this.dataset.organization)
         if(this.dataset.owner) {
             this.logo = this.dataset.owner.avatar
         } else {
