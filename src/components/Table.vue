@@ -143,7 +143,7 @@
                 v-else-if="columnsInfos[field.key]['format'] === 'adresse'"
                 explanation="Il semblerait que ce champ soit une adresse."
                 link="Voir sur une carte"
-                :content="'Adresse consolidée : ' + messageBox"
+                :content="'Adresse consolidée : ' + messageBox + banurl"
                 :linkHref="banurl"
                 />
             </template>
@@ -299,7 +299,6 @@ export default {
       return this.activeTooltips[index] ? this.activeTooltips[index][field] : false
     },
     loadTooltip(field, index) {
-      this.displayTooltip = false
       const val =  this.rows[index][field]
       if(this.columnsInfos.hasOwnProperty(field)) {
         if(this.columnsInfos[field]['format'] == 'siren') {
@@ -437,7 +436,6 @@ export default {
           this.displayTooltip = true
         }
         if(this.columnsInfos[field]['format'] == 'longitude_wgs') {
-          this.displayTooltip = false
           for (let c in this.columnsInfos) {
             if(this.columnsInfos[c]['format'] == 'latitude_wgs'){
               this.getLocalOrFetch(
@@ -457,7 +455,6 @@ export default {
           }
         }
         if(this.columnsInfos[field]['format'] == 'latitude_wgs') {
-          this.displayTooltip = false
           for (let c in this.columnsInfos) {
             if(this.columnsInfos[c]['format'] == 'longitude_wgs'){
               this.getLocalOrFetch(
@@ -491,7 +488,6 @@ export default {
             }
           }
           adr = adr + cci
-          console.log(adr) 
           this.getLocalOrFetch(
             'adresse', 
             adr,
@@ -516,6 +512,7 @@ export default {
       }
     },  
     hideTooltips() {
+      this.displayTooltip = false
       for(let index in this.activeTooltips) {
         for(let key in this.activeTooltips[index]) {
           this.$set(this.activeTooltips[index], key, false)

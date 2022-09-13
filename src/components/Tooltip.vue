@@ -46,7 +46,7 @@ export default {
 }
 
 .relCell {
-    z-index: 5;
+    z-index: 51;
     position: absolute;
     bottom: -80px;
     left: 4px;
