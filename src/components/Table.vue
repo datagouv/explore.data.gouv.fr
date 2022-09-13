@@ -74,7 +74,14 @@
                 explanation="Il semblerait que ce champ soit un numéro d'entreprise (numéro Siren)"
                 :content="'Entreprise : ' + messageBox"
                 link="En savoir plus sur cette entreprise"
-                :linkHref="gotoAE(row[field.key])"
+                :linkHref="gotoAE('siren', row[field.key])"
+                />
+              <Tooltip
+                v-if="columnsInfos[field.key]['format'] === 'siret'"
+                explanation="Il semblerait que ce champ soit un numéro d'entreprise (numéro Siret)"
+                :content="'Entreprise : ' + messageBox"
+                link="En savoir plus sur cette entreprise"
+                :linkHref="gotoAE('siret', row[field.key])"
                 />
               <Tooltip
                 v-else-if="columnsInfos[field.key]['format'] == 'code_departement'"
@@ -158,7 +165,15 @@
               :href="exportData()"
               class="fr-btn fr-btn--sm fr-btn--secondary fr-btn--icon-left fr-icon-download-line"
             >
-              Télécharger les données
+              Télécharger la sélection de données
+            </a>
+            &nbsp;&nbsp;
+            <a
+              download 
+              :href="dgvInfos.resource.latest"
+              class="fr-btn fr-btn--sm fr-btn--secondary fr-btn--icon-left fr-icon-download-line"
+            >
+              Télécharger le fichier complet
             </a>
           </div>
         </div>
@@ -200,6 +215,7 @@ export default {
       banurl: '',
       additionalInformations: {
         siren: {},
+        siret: {},
         code_departement: {},
         code_region: {},
         code_commune_insee: {},
@@ -284,6 +300,19 @@ export default {
       const val =  this.rows[index][field]
       if(this.columnsInfos.hasOwnProperty(field)) {
         if(this.columnsInfos[field]['format'] == 'siren') {
+          this.getLocalOrFetch(
+            this.columnsInfos[field]['format'], 
+            val,
+            'https://recherche-entreprises.api.gouv.fr/search?q=' + val + '&page=1&per_page=1'
+          )
+          .then((data) => {
+            this.messageBox = data['results'][0]['nom_complet']
+          })
+          .catch((err) => {
+            // Do something for an error here
+          })
+        }
+        if(this.columnsInfos[field]['format'] == 'siret') {
           this.getLocalOrFetch(
             this.columnsInfos[field]['format'], 
             val,
@@ -498,8 +527,13 @@ export default {
       }
       return classes
     },
-    gotoAE(siren){
-      return 'https://annuaire-entreprises.data.gouv.fr/entreprise/'+siren;
+    gotoAE(type, id){
+      if (type == 'siren') {
+        return 'https://annuaire-entreprises.data.gouv.fr/entreprise/' + id;
+      }
+      else if (type == 'siret') {
+        return 'https://annuaire-entreprises.data.gouv.fr/etablissement/' + id;
+      }
     },
     handleScroll () {
       let bottomOfWindow = Math.max(window.pageYOffset, document.documentElement.scrollTop, document.body.scrollTop) + window.innerHeight + 1 >= document.documentElement.offsetHeight
