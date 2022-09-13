@@ -15,7 +15,7 @@
                 <dt>Type de données</dt>
                 <dd>{{ columnInfos.type }}</dd>
               </dl>
-              <h2 class="fr-text--sm">Analyse des données</h2>
+              <!-- <h2 class="fr-text--sm">Analyse des données</h2> -->
               <dl>
                 <dt>Format</dt>
                 <dd>{{ columnInfos.format }}</dd>
