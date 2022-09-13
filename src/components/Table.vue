@@ -68,7 +68,7 @@
             <div class="cell">
               <span :class="getCellColor(field.key, row[field.key])">{{ row[field.key] }}</span>
             </div>
-            <template v-if="columnsInfos[field.key] && isTooltipActive(field.key, index)">
+            <template v-if="columnsInfos[field.key] && isTooltipActive(field.key, index) && displayTooltip">
               <Tooltip
                 v-if="columnsInfos[field.key]['format'] === 'siren'"
                 explanation="Il semblerait que ce champ soit un numéro d'entreprise (numéro Siren)"
@@ -196,6 +196,7 @@ export default {
       numericPlotInfosCounts: [],
       activeTooltips: {},
       messageBox: '',
+      displayTooltip: true,
       banurl: '',
       additionalInformations: {
         siren: {},
@@ -279,6 +280,7 @@ export default {
       return this.activeTooltips[index] ? this.activeTooltips[index][field] : false
     },
     loadTooltip(field, index) {
+      this.displayTooltip = true
       const val =  this.rows[index][field]
       if(this.columnsInfos.hasOwnProperty(field)) {
         if(this.columnsInfos[field]['format'] == 'siren') {
@@ -393,8 +395,10 @@ export default {
           this.messageBox = '<href="mailto:' + val + '"></a>'
         }
         if(this.columnsInfos[field]['format'] == 'longitude_wgs') {
+          this.displayTooltip = false
           for (let c in this.columnsInfos) {
             if(this.columnsInfos[c]['format'] == 'latitude_wgs'){
+              this.displayTooltip = true
               this.getLocalOrFetch(
                 'latlonseparate', 
                 this.rows[index][c] + ',' + val,
@@ -407,14 +411,14 @@ export default {
               .catch((err) => {
                 // Do something for an error here
               })
-            } else {
-              this.messageBox = undefined
             }
           }
         }
         if(this.columnsInfos[field]['format'] == 'latitude_wgs') {
+          this.displayTooltip = false
           for (let c in this.columnsInfos) {
             if(this.columnsInfos[c]['format'] == 'longitude_wgs'){
+              this.displayTooltip = true
               this.getLocalOrFetch(
                 'latlonseparate', 
                 val + ',' + this.rows[index][c] + ',',
@@ -427,8 +431,6 @@ export default {
               .catch((err) => {
                 // Do something for an error here
               })
-            } else {
-              this.messageBox = undefined
             }
           }
         }
