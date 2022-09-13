@@ -25,6 +25,7 @@
     <br /><br />
     <p>Si vous ne savez pas par quoi commencer à explorer, nous vous proposons ci-dessous une sélection de quelques jeux de données.</p>
     <CardLink v-for="item in listResources" :key="item.resource_id" :did="item.dataset_id" :rid="item.resource_id"></CardLink>
+    <br /><br />
   </div>
   <!-- error block -->
   <Error v-else-if="hasError" :error="error"></Error>
