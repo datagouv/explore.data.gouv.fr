@@ -1,9 +1,9 @@
 <template>
-  <div v-if="field" @mouseenter="getInfos()" @mouseleave="hideBox" @keyup.esc="hideBox" class="fr-input-group">
+  <div v-if="field" @mouseenter="getInfos('div', $event)" @mouseleave="hideBox" @keyup.esc="hideBox" class="fr-input-group">
     <label v-if="showLabel" class="fr-label" :for="field.key">{{ field.label }}</label>
     <div class="fr-input-wrap fr-input-wrap--icon-left fr-icon-filter-line relative" :class="inputWrapClass">
       <input 
-        @focus="getInfos()"
+        @focus="getInfos('input', inputValue)"
         @input="filterText($event)"
         type="search"
         class="fr-input"
@@ -27,7 +27,7 @@
           <h3 class="fr-mb-1w fr-text--sm fr-text--regular">Valeurs les plus fréquentes :</h3>
           <div class="catFilter fr-mb-1w" v-for="top in topInfos" :key="top.value">
             <button class="fr-tag fr-tag--sm top" @click="filterTextCat(top.value)">
-              {{ top.value }} ({{ top.count }})
+              {{ top.value }}<span v-if="filters.length === 0">&nbsp;({{ top.count }})</span>
             </button>
           </div>
         </div>
@@ -104,6 +104,7 @@ export default {
       this.setSearchParams(params)
     },
     filterText(e) {
+       this.getInfos('function', e.target.value)
        if (e.target.value != '') {
         let filter = {
           field: this.field.key,
@@ -150,17 +151,23 @@ export default {
     getColor(key, value) {
       return this.$store.getters.color(key, value)
     },
-    getInfos() {
+    getInfos(el, val) {
+      if(el == 'div') {
+        val = val.srcElement.children[0].children[0].value
+      }
       this.activeFilterBox = false
-      const key = this.field.key
-      if ((this.columnsInfos[key]) && (this.columnsInfos[key]['categorical_infos']) && (Array.isArray(this.columnsInfos[key]['categorical_infos']))) {
-        this.activeFilterBox = true
-      }
-      else if ((this.columnsInfos[key]) && (this.columnsInfos[key]['top_infos'])) {
-        this.activeFilterBox = true
-      }
-      if ((this.columnsInfos[key]) && (this.columnsInfos[key]['numeric_plot_infos'])) {
-        this.activeFilterBox = true
+      if(val == '') {
+        
+        const key = this.field.key
+        if ((this.columnsInfos[key]) && (this.columnsInfos[key]['categorical_infos']) && (Array.isArray(this.columnsInfos[key]['categorical_infos']))) {
+          this.activeFilterBox = true
+        }
+        else if ((this.columnsInfos[key]) && (this.columnsInfos[key]['top_infos'])) {
+          this.activeFilterBox = true
+        }
+        if ((this.columnsInfos[key]) && (this.columnsInfos[key]['numeric_plot_infos'])) {
+          this.activeFilterBox = true
+        }
       }
     },
     getSearchParams () {
