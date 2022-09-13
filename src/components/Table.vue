@@ -621,7 +621,6 @@ th {
 th, td {
   position: relative;
   max-width: 400px;
-  overflow:auto;
 }
 
 .titleColumn:hover {
