@@ -150,7 +150,7 @@
           </td>
         </tr> 
       </tbody>
-      <button v-if="rows.length != 0" class="fr-tag fr-tag--sm" @click="userChangePage()">Charger plus de données</button>
+      <button v-if="rows.length >= 10" class="fr-tag fr-tag--sm" @click="userChangePage()">Charger plus de données</button>
       <tfoot class="fr-p-2w">
         <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle">
           <div class="fr-col-auto">
@@ -296,7 +296,7 @@ export default {
       return this.activeTooltips[index] ? this.activeTooltips[index][field] : false
     },
     loadTooltip(field, index) {
-      this.displayTooltip = true
+      this.displayTooltip = false
       const val =  this.rows[index][field]
       if(this.columnsInfos.hasOwnProperty(field)) {
         if(this.columnsInfos[field]['format'] == 'siren') {
@@ -307,6 +307,7 @@ export default {
           )
           .then((data) => {
             this.messageBox = data['results'][0]['nom_complet']
+            this.displayTooltip = true
           })
           .catch((err) => {
             // Do something for an error here
@@ -320,6 +321,7 @@ export default {
           )
           .then((data) => {
             this.messageBox = data['results'][0]['nom_complet']
+            this.displayTooltip = true
           })
           .catch((err) => {
             // Do something for an error here
@@ -333,6 +335,7 @@ export default {
           )
           .then((data) => {
             this.messageBox = data['nom']
+            this.displayTooltip = true
           })
           .catch((err) => {
             // Do something for an error here
@@ -346,6 +349,7 @@ export default {
           )
           .then((data) => {
             this.messageBox = data[0]['code']
+            this.displayTooltip = true
           })
           .catch((err) => {
             // Do something for an error here
@@ -359,6 +363,7 @@ export default {
           )
           .then((data) => {
             this.messageBox = data['nom']
+            this.displayTooltip = true
           })
           .catch((err) => {
             // Do something for an error here
@@ -372,6 +377,7 @@ export default {
           )
           .then((data) => {
             this.messageBox = data[0]['code']
+            this.displayTooltip = true
           })
           .catch((err) => {
             // Do something for an error here
@@ -385,6 +391,7 @@ export default {
           )
           .then((data) => {
             this.messageBox = data['nom']
+            this.displayTooltip = true
           })
           .catch((err) => {
             // Do something for an error here
@@ -402,6 +409,7 @@ export default {
               msg = msg + d['nom'] + ', '
             })
             this.messageBox = msg.slice(0, -2)
+            this.displayTooltip = true
           })
           .catch((err) => {
             // Do something for an error here
@@ -415,6 +423,7 @@ export default {
           )
           .then((data) => {
             this.messageBox = data[0]['code'] + ', ' + data[0]['population'] + ' habitants.'
+            this.displayTooltip = true
           })
           .catch((err) => {
             // Do something for an error here
@@ -422,12 +431,12 @@ export default {
         }
         if(this.columnsInfos[field]['format'] == 'email') {
           this.messageBox = '<href="mailto:' + val + '"></a>'
+          this.displayTooltip = true
         }
         if(this.columnsInfos[field]['format'] == 'longitude_wgs') {
           this.displayTooltip = false
           for (let c in this.columnsInfos) {
             if(this.columnsInfos[c]['format'] == 'latitude_wgs'){
-              this.displayTooltip = true
               this.getLocalOrFetch(
                 'latlonseparate', 
                 this.rows[index][c] + ',' + val,
@@ -436,6 +445,7 @@ export default {
               .then((data) => {
                 this.messageBox = data[0]['nom'] + ' (' + data[0]['code'] + ')'
                 this.banurl = 'https://adresse.data.gouv.fr/base-adresse-nationale#15/' + this.rows[index][c] + '/' + val
+                this.displayTooltip = true
               })
               .catch((err) => {
                 // Do something for an error here
@@ -447,7 +457,6 @@ export default {
           this.displayTooltip = false
           for (let c in this.columnsInfos) {
             if(this.columnsInfos[c]['format'] == 'longitude_wgs'){
-              this.displayTooltip = true
               this.getLocalOrFetch(
                 'latlonseparate', 
                 val + ',' + this.rows[index][c] + ',',
@@ -456,6 +465,7 @@ export default {
               .then((data) => {
                 this.messageBox = data[0]['nom'] + ' (' + data[0]['code'] + ')'
                 this.banurl = 'https://adresse.data.gouv.fr/base-adresse-nationale#15/' + val + '/' + this.rows[index][c]
+                this.displayTooltip = true
               })
               .catch((err) => {
                 // Do something for an error here
@@ -467,10 +477,18 @@ export default {
           let cci = ''
           for (let c in this.columnsInfos) {
             if(this.columnsInfos[c]['format'] == 'code_commune_insee'){              
-              cci = this.rows[index][c]
+              cci = '&citycode=' + this.rows[index][c]
             }
           }
-          let adr = val + cci 
+          let adr = val + cci
+          cci = ''
+          for (let c in this.columnsInfos) {
+            if(this.columnsInfos[c]['format'] == 'code_postal'){              
+              cci = '&code_postal=' + this.rows[index][c]
+            }
+          }
+          adr = adr + cci
+          console.log(adr) 
           this.getLocalOrFetch(
             'adresse', 
             adr,
@@ -479,6 +497,7 @@ export default {
           .then((data) => {
             this.messageBox = data['features'][0]['properties']['label']
             this.banurl = 'https://adresse.data.gouv.fr/base-adresse-nationale/' + data['features'][0]['properties']['id']
+            this.displayTooltip = true
           })
           .catch((err) => {
             // Do something for an error here
