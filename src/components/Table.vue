@@ -5,7 +5,7 @@
         <tr>
           <th 
             scope="col"
-            class="header"
+            class="header sticky-bar"
             :class="{'header--sorted': field.key === sortBy }"
             v-for="field in fields" 
             :key="'header-'+field.key"
@@ -620,6 +620,8 @@ th {
 
 th, td {
   position: relative;
+  max-width: 400px;
+  overflow:auto;
 }
 
 .titleColumn:hover {
