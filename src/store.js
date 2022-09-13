@@ -139,7 +139,9 @@ export default new Vuex.Store({
       state.hasLoaded = data
     },
     setEndpoints (state, data) {
-      state.dataEndpoint = data.endpoint
+      // Patch waiting csvapi in prod
+      state.dataEndpoint = csvapiUrl + '/' + data.endpoint.split('/').slice(3).join('/')
+      //state.dataEndpoint = data.endpoint
       state.profileEndpoint = data.profile_endpoint
     },
     setRows (state, rows) {
