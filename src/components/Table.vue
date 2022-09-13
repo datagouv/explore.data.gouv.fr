@@ -151,6 +151,8 @@
         </tr> 
       </tbody>
       <button v-if="rows.length >= 10" class="fr-tag fr-tag--sm" @click="userChangePage()">Charger plus de données</button>
+      <div v-if="rows.length === 0"><br /><p>Basé sur les filtres appliqués, l'explorateur ne trouve aucun résultat dans le fichier.</p></div>
+      <div v-if="rows.length < 10" class="messageNoResults"></div>
       <tfoot class="fr-p-2w">
         <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle">
           <div class="fr-col-auto">
@@ -161,11 +163,12 @@
           </div>
           <div class="fr-col-auto" v-if="dgvInfos.resource">
             <a
+              v-if="filters.length > 0"
               download 
               :href="exportData()"
               class="fr-btn fr-btn--sm fr-btn--secondary fr-btn--icon-left fr-icon-download-line"
             >
-              Télécharger la sélection de données
+              Télécharger les données filtrées
             </a>
             &nbsp;&nbsp;
             <a
@@ -655,6 +658,10 @@ th, td {
 
 .style-header-col {
   cursor: pointer;
+}
+
+.messageNoResults{
+  min-height: 400px;
 }
 
 </style>
