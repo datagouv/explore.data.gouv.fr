@@ -46,7 +46,6 @@ export default {
         })
         this.resource = await fetch('https://www.data.gouv.fr/api/2/datasets/resources/' + this.rid)
         .then((response) => {
-            //console.log(response.json())
             return response.json()
         })
         this.resource = this.resource['resource']

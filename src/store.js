@@ -93,11 +93,9 @@ export default new Vuex.Store({
         const param = state.sortDesc ? '_sort_desc' : '_sort'
         dataUrl.searchParams.set(param, state.sortBy)
       }
-      console.log(dataUrl.search)
       return dataUrl
     },
     async getData ({state, commit, dispatch}, action) {
-      console.log(action)
       const dataUrl = await dispatch('makeDataUrl', action)
       this.$http.get(dataUrl.toString()).then(res => {
         if (res.body.ok) {
