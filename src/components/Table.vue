@@ -301,7 +301,7 @@ export default {
     loadTooltip(field, index) {
       const val =  this.rows[index][field]
       if(this.columnsInfos.hasOwnProperty(field)) {
-        if(this.columnsInfos[field]['format'] == 'siren') {
+        if(this.columnsInfos[field]['format'] == 'siren' && val != null) {
           this.getLocalOrFetch(
             this.columnsInfos[field]['format'], 
             val,
@@ -315,7 +315,7 @@ export default {
             // Do something for an error here
           })
         }
-        if(this.columnsInfos[field]['format'] == 'siret') {
+        if(this.columnsInfos[field]['format'] == 'siret' && val != null) {
           this.getLocalOrFetch(
             this.columnsInfos[field]['format'], 
             val,
