@@ -60,7 +60,7 @@
         >
           <td 
             @mouseleave="hideTooltips"
-            @mouseover="loadTooltip(field.key, index)"
+            @mouseenter="loadTooltip(field.key, index)"
             @click="loadTooltip(field.key, index)"
             v-for="field in fields"
             :key="'row-' + index + '-' + field.key"
@@ -299,6 +299,7 @@ export default {
       return this.activeTooltips[index] ? this.activeTooltips[index][field] : false
     },
     loadTooltip(field, index) {
+      this.displayTooltip = false
       const val =  this.rows[index][field]
       if(this.columnsInfos.hasOwnProperty(field)) {
         if(this.columnsInfos[field]['format'] == 'siren' && val != null) {
@@ -424,6 +425,7 @@ export default {
             'https://geo.api.gouv.fr/communes?nom=' + val
           )
           .then((data) => {
+            console.log('https://geo.api.gouv.fr/communes?nom=' + val)
             this.messageBox = data[0]['code'] + ', ' + data[0]['population'] + ' habitants.'
             this.displayTooltip = true
           })
