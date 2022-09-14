@@ -1,77 +1,84 @@
 <template>
-  <div v-if="dgvInfos.resource" class="fr-container--fluid fr-p-2w sticky-bar">
-    <div class="fr-grid-row fr-grid-row--gutters">
-      <div class="fr-col-12 fr-col-md-6 fr-col-xl-10">
-        <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle">
-          <div class="fr-col-12 fr-col-sm-9 fr-col-xl-4">
-            <select class="fr-select" v-model="selectedResource" @change="redirectToResource">
-              <option :key="dgvInfos.resource.id" :value="dgvInfos.resource.id">
-                {{ dgvInfos.resource.title || 'Ressource sans nom' }}
-              </option>
-              <option
-                v-for="option in dgvInfos.other_resources"
-                :key="option.resource_id"
-                :value="option.resource_id"
-                :disabled="!option.preview_url"
-              >
-                {{ option.resource_title || 'Ressource sans nom' }}
-              </option>
-            </select>
-          </div>
-          <div class="fr-col-12 fr-col-xl-8 fr-text--sm fr-m-0 text-mention-grey">
-            <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle">
-              <div class="fr-col-auto">Mis à jour le {{ toFrDate(dgvInfos.resource.last_modified) }}</div>
-              <div class="fr-col-auto">
-                <template v-if="dgvInfos.resource.format">{{ dgvInfos.resource.format }} </template>
-                <template v-if="dgvInfos.resource.filesize">({{ bytesToSize(dgvInfos.resource.filesize) }})</template>
-              </div>
-              <!-- <div class="fr-col-auto">{{ dgvInfos.resource.metrics.views ? dgvInfos.resource.metrics.views : 0 }} téléchargement<template v-if="dgvInfos.resource.metrics.views > 1">s</template></div> -->
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="fr-col-12 fr-col-md-6 fr-col-xl-2">
-        <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle">
-          <div class="fr-col-auto">
-            <button
-              :disabled="doesntHaveFilter"
-              class="fr-btn fr-btn--sm fr-btn--secondary fr-btn--icon-left fr-icon-filter-line"
-              data-fr-opened="false"
-              aria-controls="fr-modal-filters"
-            >
-              Configurer les filtres <span v-if="hasActivefilters" class="fr-ml-1w fr-badge fr-badge--blue-cumulus">{{countActiveFilters}}</span>
-            </button>
-          </div>
-          <!-- <div class="fr-col-12 fr-col-sm">
-            <div class="fr-input-wrap fr-input-wrap--icon-left fr-icon-search-line" :class="globalSearchWrapClass">
-              <input class="fr-input" type="search" :class="globalSearchClass" v-model="globalSearch" placeholder="Rechercher" />
-            </div>
-          </div> -->
-        </div>
+  <div>
+    <div v-if="generalInfos.filetype && generalInfos.filetype === 'excel'" class="fr-grid-row fr-grid-row--gutters">
+      <div class="fr-col-12 fr-col-md-12 fr-col-xl-12 preventExcel">
+        Attention, vous avez sélectionné un fichier Excel, les fonctionnalités d'analyses sur ce type de fichiers sont limitées.
       </div>
     </div>
-    <dialog aria-labelledby="fr-modal-title-modal-filters" role="dialog" id="fr-modal-filters" class="fr-modal fr-modal--popover">
-      <div class="fr-container--fluid">
-          <div class="fr-grid-row fr-grid-row--right">
-              <div class="fr-col-12 fr-col-sm-7 fr-col-md-5 fr-col-lg-4 fr-col-xl-3">
-                  <div class="fr-modal__body">
-                      <div class="fr-modal__header">
-                          <button class="fr-link--close fr-link" title="Fermer la fenêtre modale" aria-controls="fr-modal-filters">Fermer</button>
-                      </div>
-                      <div class="fr-modal__content">
-                          <h1 id="fr-modal-title-modal-filters" class="fr-modal__title">Configurer les filtres</h1>
-                          <div class="fr-py-2w relative" v-for="filter in filters" :key="filter.field">
-                            <Input
-                              :field="getField(filter.field)"
-                              showLabel
-                            />
-                          </div>
-                      </div>
-                  </div>
+    <div v-if="dgvInfos.resource" class="fr-container--fluid fr-p-2w sticky-bar">
+      <div class="fr-grid-row fr-grid-row--gutters">
+        <div class="fr-col-12 fr-col-md-6 fr-col-xl-10">
+          <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle">
+            <div class="fr-col-12 fr-col-sm-9 fr-col-xl-4">
+              <select class="fr-select" v-model="selectedResource" @change="redirectToResource">
+                <option :key="dgvInfos.resource.id" :value="dgvInfos.resource.id">
+                  {{ dgvInfos.resource.title || 'Ressource sans nom' }}
+                </option>
+                <option
+                  v-for="option in dgvInfos.other_resources"
+                  :key="option.resource_id"
+                  :value="option.resource_id"
+                  :disabled="!option.preview_url"
+                >
+                  {{ option.resource_title || 'Ressource sans nom' }}
+                </option>
+              </select>
+            </div>
+            <div class="fr-col-12 fr-col-xl-8 fr-text--sm fr-m-0 text-mention-grey">
+              <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle">
+                <div class="fr-col-auto">Mis à jour le {{ toFrDate(dgvInfos.resource.last_modified) }}</div>
+                <div class="fr-col-auto">
+                  <template v-if="dgvInfos.resource.format">{{ dgvInfos.resource.format }} </template>
+                  <template v-if="dgvInfos.resource.filesize">({{ bytesToSize(dgvInfos.resource.filesize) }})</template>
+                </div>
+                <!-- <div class="fr-col-auto">{{ dgvInfos.resource.metrics.views ? dgvInfos.resource.metrics.views : 0 }} téléchargement<template v-if="dgvInfos.resource.metrics.views > 1">s</template></div> -->
               </div>
+            </div>
           </div>
+        </div>
+        <div class="fr-col-12 fr-col-md-6 fr-col-xl-2">
+          <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle">
+            <div class="fr-col-auto">
+              <button
+                :disabled="doesntHaveFilter"
+                class="fr-btn fr-btn--sm fr-btn--secondary fr-btn--icon-left fr-icon-filter-line"
+                data-fr-opened="false"
+                aria-controls="fr-modal-filters"
+              >
+                Configurer les filtres <span v-if="hasActivefilters" class="fr-ml-1w fr-badge fr-badge--blue-cumulus">{{countActiveFilters}}</span>
+              </button>
+            </div>
+            <!-- <div class="fr-col-12 fr-col-sm">
+              <div class="fr-input-wrap fr-input-wrap--icon-left fr-icon-search-line" :class="globalSearchWrapClass">
+                <input class="fr-input" type="search" :class="globalSearchClass" v-model="globalSearch" placeholder="Rechercher" />
+              </div>
+            </div> -->
+          </div>
+        </div>
       </div>
-    </dialog>
+      <dialog aria-labelledby="fr-modal-title-modal-filters" role="dialog" id="fr-modal-filters" class="fr-modal fr-modal--popover">
+        <div class="fr-container--fluid">
+            <div class="fr-grid-row fr-grid-row--right">
+                <div class="fr-col-12 fr-col-sm-7 fr-col-md-5 fr-col-lg-4 fr-col-xl-3">
+                    <div class="fr-modal__body">
+                        <div class="fr-modal__header">
+                            <button class="fr-link--close fr-link" title="Fermer la fenêtre modale" aria-controls="fr-modal-filters">Fermer</button>
+                        </div>
+                        <div class="fr-modal__content">
+                            <h1 id="fr-modal-title-modal-filters" class="fr-modal__title">Configurer les filtres</h1>
+                            <div class="fr-py-2w relative" v-for="filter in filters" :key="filter.field">
+                              <Input
+                                :field="getField(filter.field)"
+                                showLabel
+                              />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </dialog>
+    </div>
   </div>
 </template>
 
@@ -94,6 +101,9 @@ export default {
     },
     dgvInfos() {
       return this.$store.state.dgv_infos
+    },
+    generalInfos() {
+      return this.$store.state.generalInfos
     },
     fields() {
       return this.$store.getters.fields
@@ -154,4 +164,12 @@ export default {
   z-index: 1;
   border-bottom: 1px solid var(--border-default-grey);
 }
+
+.preventExcel {
+  background-color: #FBCB04;
+  height: 60px;
+  padding-left: 30px;
+  color: #1353B5;
+}
+
 </style>
