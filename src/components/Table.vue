@@ -143,7 +143,7 @@
                 v-else-if="columnsInfos[field.key]['format'] === 'adresse'"
                 explanation="Il semblerait que ce champ soit une adresse."
                 link="Voir sur une carte"
-                :content="'Adresse consolidée : ' + messageBox + banurl"
+                :content="'Adresse consolidée : ' + messageBox"
                 :linkHref="banurl"
                 />
             </template>
@@ -512,7 +512,6 @@ export default {
       }
     },  
     hideTooltips() {
-      this.displayTooltip = false
       for(let index in this.activeTooltips) {
         for(let key in this.activeTooltips[index]) {
           this.$set(this.activeTooltips[index], key, false)
