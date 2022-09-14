@@ -111,7 +111,7 @@ export default {
     },
     redirect() {
       this.csvUrl = this.csvUrlFieldValue
-      history.pushState(null, '', `/?url=${this.csvUrl}`)
+      window.location.href = window.location.origin + '/?url=' + this.csvUrl
     }
   },
   watch: {

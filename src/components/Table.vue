@@ -151,7 +151,7 @@
         </tr> 
       </tbody>
       <button v-if="rows.length >= 10" class="fr-tag fr-tag--sm" @click="userChangePage()">Charger plus de données</button>
-      <div v-if="rows.length === 0"><br /><p>Basé sur les filtres appliqués, l'explorateur ne trouve aucun résultat dans le fichier.</p></div>
+      <div v-if="rows.length === 0 && filters.left > 0"><br /><p>Basé sur les filtres appliqués, l'explorateur ne trouve aucun résultat dans le fichier.</p></div>
       <div v-if="rows.length < 10" class="messageNoResults"></div>
       <tfoot class="fr-p-2w">
         <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle">
