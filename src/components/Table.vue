@@ -68,7 +68,7 @@
             <div class="cell">
               <span :class="getCellColor(field.key, row[field.key])">{{ row[field.key] }}</span>
             </div>
-            <template v-if="columnsInfos[field.key] && isTooltipActive(field.key, index) && displayTooltip">
+            <template v-if="columnsInfos[field.key] && isTooltipActive(field.key, index) && displayTooltip && messageBox != ''">
               <Tooltip
                 v-if="columnsInfos[field.key]['format'] === 'siren'"
                 explanation="Il semblerait que ce champ soit un numéro d'entreprise (numéro Siren)"
@@ -299,6 +299,7 @@ export default {
       return this.activeTooltips[index] ? this.activeTooltips[index][field] : false
     },
     loadTooltip(field, index) {
+      this.messageBox = ''
       this.displayTooltip = false
       const val =  this.rows[index][field]
       if(this.columnsInfos.hasOwnProperty(field)) {
@@ -408,10 +409,15 @@ export default {
           )
           .then((data) => {
             let msg = ''
-            data.forEach((d) => {
+            data.slice(0,5).forEach((d) => {
               msg = msg + d['nom'] + ', '
             })
-            this.messageBox = msg.slice(0, -2)
+            msg = msg.slice(0, -2)
+            if(data.length > 5){
+              msg = msg + '...'
+            }
+            this.messageBox = msg
+
             this.displayTooltip = true
           })
           .catch((err) => {
