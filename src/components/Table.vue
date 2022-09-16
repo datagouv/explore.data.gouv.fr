@@ -66,7 +66,18 @@
             :key="'row-' + index + '-' + field.key"
           >
             <div class="cell">
-              <span :class="getCellColor(field.key, row[field.key])">{{ row[field.key] }}</span>
+              <span 
+                v-if="columnsInfos[field.key]['format'] === 'url'"
+                :class="getCellColor(field.key, row[field.key])"
+              >
+                <a :href="row[field.key]">{{ row[field.key] }}</a>
+              </span>
+              <span 
+                v-else
+                :class="getCellColor(field.key, row[field.key])"
+              >
+                {{ row[field.key] }}
+              </span>
             </div>
             <template v-if="columnsInfos[field.key] && isTooltipActive(field.key, index) && displayTooltip && messageBox != ''">
               <Tooltip
@@ -229,6 +240,7 @@ export default {
         adresse: {},
         departement: {},
         region: {},
+        url: {}
       },
     }
   },
