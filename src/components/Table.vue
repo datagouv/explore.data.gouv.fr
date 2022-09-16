@@ -364,8 +364,10 @@ export default {
             'https://geo.api.gouv.fr/departements?nom=' + val
           )
           .then((data) => {
-            this.messageBox = data[0]['code']
-            this.displayTooltip = true
+            if (data[0]['_score'] > 0.75) {
+              this.messageBox = data[0]['code']
+              this.displayTooltip = true
+            }
           })
           .catch((err) => {
             // Do something for an error here
@@ -392,8 +394,10 @@ export default {
             'https://geo.api.gouv.fr/regions?nom=' + val
           )
           .then((data) => {
-            this.messageBox = data[0]['code']
-            this.displayTooltip = true
+            if (data[0]['_score'] > 0.75) {
+              this.messageBox = data[0]['code']
+              this.displayTooltip = true
+            }
           })
           .catch((err) => {
             // Do something for an error here
@@ -443,9 +447,10 @@ export default {
             'https://geo.api.gouv.fr/communes?nom=' + val
           )
           .then((data) => {
-            console.log('https://geo.api.gouv.fr/communes?nom=' + val)
-            this.messageBox = data[0]['code'] + ', ' + data[0]['population'] + ' habitants.'
-            this.displayTooltip = true
+            if (data[0]['_score'] > 0.75) {
+              this.messageBox = data[0]['code']
+              this.displayTooltip = true
+            }
           })
           .catch((err) => {
             // Do something for an error here
