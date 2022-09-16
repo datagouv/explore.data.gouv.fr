@@ -605,6 +605,7 @@ tfoot {
   background-color: var(--background-flat-grey);
   color: var(--text-inverted-grey);
   width: 100%;
+  z-index: 6;
 }
 
 tfoot .fr-btn--secondary {
@@ -624,7 +625,6 @@ th {
 
 th, td {
   position: relative;
-  max-width: 400px;
 }
 
 .titleColumn:hover {
