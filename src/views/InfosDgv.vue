@@ -9,6 +9,7 @@
       >
         {{ dgvInfos.dataset_title }}
       </a>
+      <span v-if="dgvInfos.organization_id">
       publié par 
       <a
         :href="getDataGouvUrl('organizations/'+dgvInfos.organization_id)"
@@ -17,6 +18,7 @@
       >
         {{ dgvInfos.organization_name }}
       </a>
+      </span>
     </h2>
   </div>
 </template>
