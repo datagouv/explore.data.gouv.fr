@@ -11,16 +11,33 @@
             </div>
             <div class="fr-modal__content fr-text--regular">
               <h1 :id="'fr-modal-title-modal-' + field.key" class="fr-modal__title">{{ field.label }}</h1>
-              <dl>
-                <dt>Type de données</dt>
-                <dd>{{ columnInfos.type }}</dd>
-              </dl>
               <!-- <h2 class="fr-text--sm">Analyse des données</h2> -->
               <dl>
-                <dt>Format</dt>
+                <dt>Format détecté</dt>
                 <dd>{{ columnInfos.format }}</dd>
-                <dt>Nombre</dt>
-                <dd>{{ columnInfos.count }}</dd>
+                <dt>Nombre de valeurs distinctes</dt>
+                <dd>{{ columnInfos.nb_distinct }}</dd>
+                <span v-if="columnInfos.type === 'Numeric'">
+                  <dt>Valeur minimale</dt>
+                  <dd>{{ columnInfos.numeric_infos.min }}</dd>
+                  <dt>Valeur maximale</dt>
+                  <dd>{{ columnInfos.numeric_infos.max }}</dd>
+                  <dt>Valeur moyenne</dt>
+                  <dd>{{ columnInfos.numeric_infos.mean }}</dd>
+                  <dt>Ecart-type</dt>
+                  <dd>{{ columnInfos.numeric_infos.std }}</dd>
+                  <span v-if="columnInfos.type == 'Numeric' && numericPlotInfos.bin_edges && numericPlotInfos.bin_edges.length > 0">
+                    <dt>Distribution</dt>
+                    <dd>
+                      <histogram 
+                        :datachart="numericPlotInfos.counts"
+                        :labels="numericPlotInfos.bin_edges"
+                        :title="field.label"
+                        :id="'mychart-'+field.label"
+                      ></histogram>
+                    </dd>
+                  </span>
+                </span>
               </dl>
             </div>
           </div>
@@ -31,7 +48,10 @@
 </template>
 
 <script>
+import Histogram from '@/components/Histogram.vue'
+
 export default {
+  components: {Histogram},
   props: {
     field: {
       type: Object,
@@ -48,6 +68,9 @@ export default {
     },
     columnInfos() {
       return this.columnsInfos[this.field.key] ? this.columnsInfos[this.field.key] : {}
+    },
+    numericPlotInfos() {
+      return this.columnInfos['numeric_plot_infos'] ? this.columnInfos['numeric_plot_infos'] : {}
     },
   }
 }

@@ -1,6 +1,6 @@
 <template>
   <div class="page">
-      <canvas id="myChart"></canvas>
+      <canvas :id="id"></canvas>
   </div>
 </template>
 
@@ -22,6 +22,7 @@ export default {
     title: String,
     datachart: Array,
     labels: Array,
+    id: String,
   },
   computed: {
   },
@@ -38,7 +39,7 @@ export default {
       }
     }  
     
-    const myChart = new Chart(document.getElementById('myChart'), {
+    const myChart = new Chart(document.getElementById(this.id), {
         type: 'bar',
         data: {
             labels: labs,
@@ -94,7 +95,7 @@ export default {
 
 
 canvas{
-  width:350px !important;
+  width:300px !important;
   margin: auto;
 
 }
