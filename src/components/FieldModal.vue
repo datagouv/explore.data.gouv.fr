@@ -13,7 +13,6 @@
               <h1 :id="'fr-modal-title-modal-' + field.key" class="fr-modal__title">{{ field.label }}</h1>
               <!-- <h2 class="fr-text--sm">Analyse des données</h2> -->
               <dl>
-                {{ columnInfos.type }}
                 <dt>Format détecté</dt>
                 <dd>{{ columnInfos.format }}</dd>
                 <dt>Nombre de valeurs distinctes</dt>
