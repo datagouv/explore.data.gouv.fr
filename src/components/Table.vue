@@ -21,7 +21,7 @@
                 data-fr-opened="false"
                 :aria-controls="'fr-modal-' + field.key"
               >
-                <span class="fr-icon-info-line" aria-hidden="true"></span>
+                <span v-if="columnsInfos && columnsInfos[field.key]" class="fr-icon-info-line" aria-hidden="true"></span>
               </button>
               <div @click="sortbyfield(field.key)" class="fr-col style-header-col" :class="{'text-label-blue-cumulus': field.key === sortBy}">
                 {{ field.label }}
@@ -67,7 +67,7 @@
           >
             <div class="cell">
               <span 
-                v-if="columnsInfos[field.key]['format'] === 'url'"
+                v-if="columnsInfos && columnsInfos[field.key] && columnsInfos[field.key]['format'] === 'url'"
                 :class="getCellColor(field.key, row[field.key])"
               >
                 <a :href="row[field.key]">{{ row[field.key] }}</a>
