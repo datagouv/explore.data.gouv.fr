@@ -231,23 +231,21 @@ export default {
           )
         ))
       }
-
-      //if(el == 'div') {
-      val = ""
-      //  val = val.srcElement.children[0].children[0].value
-      //}
-      this.activeFilterBox = false
-      if(val == '') {
-        
-        const key = this.field.key
-        if ((this.columnsInfos[key]) && (this.columnsInfos[key]['categorical_infos']) && (Array.isArray(this.columnsInfos[key]['categorical_infos']))) {
-          this.activeFilterBox = true
-        }
-        else if ((this.columnsInfos[key]) && (this.columnsInfos[key]['top_infos'])) {
-          this.activeFilterBox = true
-        }
-        if ((this.columnsInfos[key]) && (this.columnsInfos[key]['numeric_plot_infos'])) {
-          this.activeFilterBox = true
+      if(!this.columnsInfos.numeric_infos || el == 'div') {
+        val = ""
+        this.activeFilterBox = false
+        if(val == '') {
+          
+          const key = this.field.key
+          if ((this.columnsInfos[key]) && (this.columnsInfos[key]['categorical_infos']) && (Array.isArray(this.columnsInfos[key]['categorical_infos']))) {
+            this.activeFilterBox = true
+          }
+          else if ((this.columnsInfos[key]) && (this.columnsInfos[key]['top_infos'])) {
+            this.activeFilterBox = true
+          }
+          if ((this.columnsInfos[key]) && (this.columnsInfos[key]['numeric_plot_infos'])) {
+            this.activeFilterBox = true
+          }
         }
       }
     },
