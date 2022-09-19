@@ -332,8 +332,8 @@ export default {
         if(this.columnsInfos[field]['format'] == 'siret' && val != null) {
           this.getLocalOrFetch(
             this.columnsInfos[field]['format'], 
-            val,
-            'https://recherche-entreprises.api.gouv.fr/search?q=' + val + '&page=1&per_page=1'
+            val.replace(' ', ''),
+            'https://recherche-entreprises.api.gouv.fr/search?q=' + val.replace(' ', '') + '&page=1&per_page=1'
           )
           .then((data) => {
             this.messageBox = data['results'][0]['nom_complet']
