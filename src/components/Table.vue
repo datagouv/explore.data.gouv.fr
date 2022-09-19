@@ -151,6 +151,13 @@
                 :linkHref="banurl"
                 />
               <Tooltip
+                v-else-if="columnsInfos[field.key]['format'] === 'latlon_wgs'"
+                explanation="Il semblerait que ce champ contienne des coodonnées géographiques."
+                link="Voir sur une carte"
+                :content="'La localisation semble être à ' + messageBox"
+                :linkHref="banurl"
+                />
+              <Tooltip
                 v-else-if="columnsInfos[field.key]['format'] === 'adresse'"
                 explanation="Il semblerait que ce champ soit une adresse."
                 link="Voir sur une carte"
@@ -484,7 +491,7 @@ export default {
             if(this.columnsInfos[c]['format'] == 'longitude_wgs'){
               this.getLocalOrFetch(
                 'latlonseparate', 
-                val + ',' + this.rows[index][c] + ',',
+                val + ',' + this.rows[index][c],
                 'https://geo.api.gouv.fr/communes?lon=' + this.rows[index][c] + '&lat=' + val
               )
               .then((data) => {
@@ -496,6 +503,23 @@ export default {
                 // Do something for an error here
               })
             }
+          }
+        }
+        if (this.columnsInfos[field]['format'] == 'latlon_wgs') {
+          if (val && val.split(',').length === 2) {
+            this.getLocalOrFetch(
+              'latlonseparate', 
+              val.split(',')[0] + ',' + val.split(',')[1],
+              'https://geo.api.gouv.fr/communes?lon=' + val.split(',')[1] + '&lat=' + val.split(',')[0]
+            )
+            .then((data) => {
+              this.messageBox = data[0]['nom'] + ' (' + data[0]['code'] + ')'
+              this.banurl = 'https://adresse.data.gouv.fr/base-adresse-nationale#15/' + val.split(',')[0] + '/' + val.split(',')[1]
+              this.displayTooltip = true
+            })
+            .catch((err) => {
+              // Do something for an error here
+            })
           }
         }
         if(this.columnsInfos[field]['format'] == 'adresse') {
