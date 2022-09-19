@@ -62,8 +62,8 @@ export default {
           'resource_id': '8d9398ae-3037-48b2-be19-412c24561fbb',
         },
         {
-          'dataset_id': '62eb0ecc55e3904e620505d1',
-          'resource_id': '2824df12-c542-4250-97f4-d6e566f69ef1',
+          'dataset_id': '613f046e591014061e0c325f',
+          'resource_id': '48cc1a6a-b319-4b57-90cb-21246b780575',
         },
       ]
     }
