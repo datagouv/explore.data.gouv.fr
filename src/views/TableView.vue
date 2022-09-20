@@ -63,7 +63,7 @@ export default {
         },
         {
           'dataset_id': '613f046e591014061e0c325f',
-          'resource_id': '48cc1a6a-b319-4b57-90cb-21246b780575',
+          'resource_id': '7d1e05b7-a5b7-4818-8d3e-ed222ca3aa71',
         },
       ]
     }

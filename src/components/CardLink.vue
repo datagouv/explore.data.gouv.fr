@@ -1,21 +1,19 @@
 <template>
     <div
-        @click="goToExplore()" 
-        class="fr-container fr-mt-2w card"
+        class="fr-container fr-mt-2w"
     >
-        <div class="fr-card fr-row">
-            <div class="fr-card__body cardDetail">
-                <div class="logoCard">
-                    <img :src="logo" width="100" alt=""/>
-                </div>
-                <div class="titleCard">
+        <div class="fr-card fr-enlarge-link fr-card--horizontal">
+            <div class="fr-card__body">
+                <div class="fr-card__content">
                     <h3 class="fr-card__title">
-                        {{ dataset.title }}
+                        <a :href="href">{{ dataset.title }}</a>
                     </h3>
-                    <p class="fr-card__desc">
-                        {{ resource.title }}
-                    </p>
-                    <br />
+                    <p class="fr-card__desc">{{ resource.title }}</p>
+                </div>
+            </div>
+            <div class="fr-card__header">
+                <div class="fr-card__img">
+                    <img class="fr-responsive-img" width="100"  :src="logo" alt="" />
                 </div>
             </div>
         </div>
@@ -28,15 +26,15 @@ export default {
     name: 'CardLink',
     props: ['did', 'rid'],
     data() {
-      return {
-        dataset: {},
-        resource: {},
-        logo: '',
-      }
+        return {
+            dataset: {},
+            resource: {},
+            logo: '',
+        }
     },
-    methods: {
-        goToExplore(){
-            window.location.href = window.location.origin + '/?url=https://www.data.gouv.fr/fr/datasets/r/' + this.rid
+    computed: {
+        href() {
+            return window.location.origin + '/?url=https://www.data.gouv.fr/fr/datasets/r/' + this.rid
         }
     },
     async created() {
@@ -58,28 +56,13 @@ export default {
 }
 </script>
 
-<style>
-
-.card{
-    cursor: pointer
+<style scoped>
+.fr-card--horizontal .fr-card__header {
+    width: 200px;
+    flex: 0 0 200px;
 }
 
-.cardDetail{
-    width: 100%;
-    display: -webkit-box;
-    padding: 10px;
+.fr-card--horizontal .fr-card__img img {
+    object-fit: contain;
 }
-
-.logoCard{
-    line-height: 100%;
-    margin-top: auto;
-    margin-bottom: auto;
-}
-
-.titleCard{
-    margin-left: 20px;
-    margin-top: auto;
-    margin-bottom: auto;
-}
-
 </style>
