@@ -27,8 +27,11 @@ export default {
 </script>
 
 <style>
-@import "~@gouvfr/dsfr/dist/dsfr/dsfr.css";
-@import "~@gouvfr/dsfr/dist/utility/utility.css";
+@import "~@gouvfr/dsfr/dist/dsfr/dsfr.main.css";
+@import "~@gouvfr/dsfr/dist/utility/colors/colors.main.css";
+@import "~@gouvfr/dsfr/dist/utility/icons/icons-health/icons-health.css";
+@import "~@gouvfr/dsfr/dist/utility/icons/icons-others/icons-others.css";
+@import "~@gouvfr/dsfr/dist/utility/icons/icons-system/icons-system.css";
 
 .text-mention-grey {
   color: var(--text-mention-grey);
