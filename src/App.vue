@@ -27,16 +27,7 @@ export default {
 </script>
 
 <style>
-@font-face {
-  font-family: "Marianne";
-  src: local("Marianne"),
-   url(../public/fonts/Marianne-Regular.woff2) format("woff2");
-}
-@font-face {
-  font-family: "Marianne-Bold";
-  src: local("Marianne-Bold"),
-   url(../public/fonts/Marianne-Bold.woff2) format("woff2");
-}
+@import "~@gouvfr/dsfr/dist/dsfr/dsfr.css";
 
 .text-mention-grey {
   color: var(--text-mention-grey);

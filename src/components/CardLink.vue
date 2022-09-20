@@ -6,7 +6,7 @@
         <div class="fr-card fr-row">
             <div class="fr-card__body cardDetail">
                 <div class="logoCard">
-                    <img :src="logo" width="100"/>
+                    <img :src="logo" width="100" alt=""/>
                 </div>
                 <div class="titleCard">
                     <h3 class="fr-card__title">

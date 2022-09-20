@@ -1,7 +1,7 @@
-import 'url-search-params-polyfill';
+import 'url-search-params-polyfill'
 import Vue from 'vue'
-
 import VueResource from 'vue-resource'
+import "@gouvfr/dsfr/dist/dsfr/dsfr.module"
 
 import App from './App.vue'
 import store from './store'

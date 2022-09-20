@@ -13,7 +13,7 @@
                         Nous travaillons à ce que ce temps soit réduit pour toutes les ressources csv présentes sur data.gouv.fr. 
                     </p>
                     <div class="fr-card__desc">
-                        <img src="../static/images/loader.gif" width="80" />
+                        <img src="../static/images/loader.gif" width="80" alt="" />
                     </div>
                     <br />
                 </div>

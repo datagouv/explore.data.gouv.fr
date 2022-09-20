@@ -13,7 +13,7 @@
         </svg>
     </div>
     <div @click="goToForm()" class="adviceCall">
-        <img src="../static/images/ampoule.png" width="15" /> Donnez nous votre avis sur l'explorateur
+        <img src="../static/images/ampoule.png" width="15" alt="" /> Donnez nous votre avis sur l'explorateur
     </div>
   </div>
 </template>
@@ -48,9 +48,9 @@ export default {
     border-bottom: 2px solid #ebebeb;
 }
 
-.subtitle{
-    font-family: Marianne-Bold;
+.subtitle {
     font-size: 1rem;
+    font-weight: bold;
     line-height: 1.2;
     cursor: pointer;
 }
