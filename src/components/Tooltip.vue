@@ -1,6 +1,7 @@
 <template>
     <div 
-    class="fr-p-2w relCell" 
+        class="fr-p-2w relCell"
+        ref="tooltip"
     >
     <p class="fr-text--xs relCell-explanation">
         <span class="fr-fi--sm fr-icon-lightbulb-line" aria-hidden="true"></span>
@@ -34,6 +35,33 @@ export default {
         },
         linkHref: {
             type: String,
+        }
+    },
+    data() {
+        return {
+            listener: null,
+        }
+    },
+    methods: {
+        moveTooltipIfRequired() {
+            const rect = this.$refs.tooltip.getBoundingClientRect()
+            if(document.documentElement.clientWidth < rect.width) {
+                this.$refs.tooltip.style.left = `-${rect.x}px`
+                this.$refs.tooltip.style.width = `${document.documentElement.clientWidth}px`
+            } else {
+                if(rect.right > document.documentElement.clientWidth) {
+                    this.$refs.tooltip.style.left = `-${rect.right - document.documentElement.clientWidth}px`
+                }
+            }
+        }
+    },
+    mounted() {
+        this.moveTooltipIfRequired()
+        this.listener = document.addEventListener('resize', this.moveTooltipIfRequired)
+    },
+    beforeDestroy() {
+        if(this.listener) {
+            document.removeEventListener('resize', this.listener)
         }
     }
 }
