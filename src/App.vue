@@ -28,6 +28,7 @@ export default {
 
 <style>
 @import "~@gouvfr/dsfr/dist/dsfr/dsfr.css";
+@import "~@gouvfr/dsfr/dist/utility/utility.css";
 
 .text-mention-grey {
   color: var(--text-mention-grey);
