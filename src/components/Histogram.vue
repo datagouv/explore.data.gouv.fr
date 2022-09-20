@@ -93,11 +93,9 @@ export default {
 
 <style scoped lang="scss">
 
-
 canvas{
   width:300px !important;
   margin: auto;
 
 }
-
 </style>
