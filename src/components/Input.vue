@@ -10,7 +10,7 @@
     </div>
     <div v-if="field" @mouseenter="getInfos('div', $event)" @mouseleave="hideBox" @keyup.esc="hideBox" class="fr-input-group">
       <label v-if="showLabel" class="fr-label" :for="field.key">{{ field.label }}</label>
-      <div class="fr-input-wrap fr-input-wrap--icon-left fr-icon-filter-line relative" :class="inputWrapClass">
+      <div ref="wrap" class="fr-input-wrap fr-input-wrap--icon-left fr-icon-filter-line relative" :class="inputWrapClass">
         <input 
           @focus="getInfos('input', inputValue)"
           @input="filterText($event, columnInfos.type)"
@@ -21,39 +21,41 @@
           :id="field.key"
           placeholder="Filtrer"
         />
-        <template v-if="columnInfos && activeFilterBox">
-        <template v-if="columnInfos.type == 'Categorical'">
-          <div v-if="categoricalInfos.length > 0" class="relTh">
-            <h3 class="fr-mb-1w fr-text--sm fr-text--regular">Catégories :</h3>
-            <div class="catFilter fr-my-1v" v-for="cat in categoricalInfos" :key="cat.value">
-              <button @click="filterTextCat(cat.value)"
-                :class="'fr-tag fr-tag--sm cat' + getColor(field.key, cat.value)">
-                {{ cat.value + " (" + cat.count + ")" }}
-              </button>
-            </div>
-          </div>
-          <div v-else-if="topInfos.length > 0" class="relTh">
-            <h3 class="fr-mb-1w fr-text--sm fr-text--regular">Valeurs les plus fréquentes :</h3>
-            <div class="catFilter fr-mb-1w" v-for="top in topInfos" :key="top.value">
-              <button class="fr-tag fr-tag--sm top" @click="filterTextCat(top.value)">
-                {{ top.value }}<span v-if="filters.length === 0">&nbsp;({{ top.count }})</span>
-              </button>
-            </div>
+        <template v-if="columnInfos">
+          <div ref="tooltip" class="relTh" v-show="activeFilterBox">
+            <template v-if="columnInfos.type == 'Categorical'">
+              <template v-if="categoricalInfos.length > 0">
+                <h3 class="fr-mb-1w fr-text--sm fr-text--regular">Catégories :</h3>
+                <div class="catFilter fr-my-1v" v-for="cat in categoricalInfos" :key="cat.value">
+                  <button @click="filterTextCat(cat.value)"
+                    :class="'fr-tag fr-tag--sm cat' + getColor(field.key, cat.value)">
+                    {{ cat.value + " (" + cat.count + ")" }}
+                  </button>
+                </div>
+              </template>
+              <template v-else-if="topInfos.length > 0">
+                <h3 class="fr-mb-1w fr-text--sm fr-text--regular">Valeurs les plus fréquentes :</h3>
+                <div class="catFilter fr-mb-1w" v-for="top in topInfos" :key="top.value">
+                  <button class="fr-tag fr-tag--sm top" @click="filterTextCat(top.value)">
+                    {{ top.value }}<span v-if="filters.length === 0">&nbsp;({{ top.count }})</span>
+                  </button>
+                </div>
+              </template>
+            </template>
+            <template v-if="columnInfos.type == 'Numeric'">
+              <h3 class="fr-mb-1w fr-text--sm fr-text--regular">Intervalle :</h3>
+              <p class="fr-mb-1w fr-text--sm fr-text--regular">Entre {{ intervalFilter[0] }} et {{ intervalFilter[1] }}</p>
+              <vue-slider 
+                v-model="intervalFilter" 
+                process-style="{ backgroundColor:  'green'  }"
+                :min="Math.floor(columnInfos.numeric_infos.min)"
+                :interval="interval"
+                :max="Math.floor(columnInfos.numeric_infos.max) + 1" 
+                @change="sliderChange($event)"
+              ></vue-slider>
+            </template>
           </div>
         </template>
-        <div v-if="columnInfos.type == 'Numeric'" class="relTh">
-          <h3 class="fr-mb-1w fr-text--sm fr-text--regular">Intervalle :</h3>
-          <p class="fr-mb-1w fr-text--sm fr-text--regular">Entre {{ intervalFilter[0] }} et {{ intervalFilter[1] }}</p>
-          <vue-slider 
-            v-model="intervalFilter" 
-            process-style="{ backgroundColor:  'green'  }"
-            :min="Math.floor(columnInfos.numeric_infos.min)"
-            :interval="interval"
-            :max="Math.floor(columnInfos.numeric_infos.max) + 1" 
-            @change="sliderChange($event)"
-          ></vue-slider>
-        </div>
-      </template>
       </div>
       <div class="fr-mb-1w fr-text--sm fr-text--regular" v-if="showLabel && columnInfos.type == 'Numeric' && intervalFilter">
         Entre {{ intervalFilter[0] }} et {{ intervalFilter[1] }}
@@ -84,12 +86,31 @@ export default {
       activeFilterBox: false,
       timer: null,
       intervalFilter: null,
-      interval: 1
+      interval: 1,
+      listener: null,
     }
   },
-  mounted(){
+  mounted() {
     if(this.field && this.filterLess && this.filterGreater) {
       this.intervalFilter = [this.filterLess.value, this.filterGreater.value]
+    }
+  },
+  beforeDestroy() {
+    if(this.listener) {
+      document.removeEventListener('resize', this.listener)
+    }
+  },
+  watch: {
+    activeFilterBox(value) {
+      if(this.listener) {
+        document.removeEventListener('resize', this.listener)
+      }
+      if(value) {
+        this.$nextTick(function () {
+          this.moveTooltipIfRequired()
+        })
+        this.listener = document.addEventListener('resize', this.moveTooltipIfRequired)
+      }
     }
   },
   computed: {
@@ -137,8 +158,8 @@ export default {
       this.setSearchParams(params)
     },
     filterText(e, type) {
-       this.getInfos('function', e.target.value)
-       if (e.target.value != '') {
+      this.getInfos('function', e.target.value)
+      if (e.target.value != '') {
         let filter = {}
         if (type == 'Categorical') {
           filter = {
@@ -264,27 +285,33 @@ export default {
       window.history.pushState(null, '', `/?${params.toString()}`)
     },
     sliderChange(e) {
-        clearTimeout(this.timer)
-        this.timer = setTimeout(() => {
-          let filter_less = {
-            field: this.field.key,
-            value: this.intervalFilter[1],
-            comp: 'less'
-          }
-          let filter_greater = {
-            field: this.field.key,
-            value: this.intervalFilter[0],
-            comp: 'greater'
-          }
-          this.removeFromQueryString(`${filter_greater.field}__greater`)
-          this.removeFromQueryString(`${filter_less.field}__less`)
-          this.$store.commit('deleteAllFiltersWithField', filter_less.field)
-          this.$store.commit('addFilter', filter_less)
-          this.$store.commit('addFilter', filter_greater)
-          this.addToQueryString(`${filter_less.field}__${filter_less.comp}`, filter_less.value)
-          this.addToQueryString(`${filter_greater.field}__${filter_greater.comp}`, filter_greater.value)
-          this.$store.dispatch('getData')
-        }, 1000)
+      clearTimeout(this.timer)
+      this.timer = setTimeout(() => {
+        let filter_less = {
+          field: this.field.key,
+          value: this.intervalFilter[1],
+          comp: 'less'
+        }
+        let filter_greater = {
+          field: this.field.key,
+          value: this.intervalFilter[0],
+          comp: 'greater'
+        }
+        this.removeFromQueryString(`${filter_greater.field}__greater`)
+        this.removeFromQueryString(`${filter_less.field}__less`)
+        this.$store.commit('deleteAllFiltersWithField', filter_less.field)
+        this.$store.commit('addFilter', filter_less)
+        this.$store.commit('addFilter', filter_greater)
+        this.addToQueryString(`${filter_less.field}__${filter_less.comp}`, filter_less.value)
+        this.addToQueryString(`${filter_greater.field}__${filter_greater.comp}`, filter_greater.value)
+        this.$store.dispatch('getData')
+      }, 1000)
+    },
+    moveTooltipIfRequired() {
+      const rect = this.$refs.tooltip.getBoundingClientRect()
+      if(rect.right > document.documentElement.clientWidth) {
+        this.$refs.tooltip.style.left = `-${rect.right - document.documentElement.clientWidth}px`
+      }
     }
   }
 }
@@ -303,10 +330,6 @@ export default {
   font-size: 14px;
   border-bottom: 1px solid black;
   box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.16), 0px 1px 0px -2px rgba(0, 0, 0, 0.16), 0px 1px 4px rgba(0, 0, 0, 0.23);
-}
-
-.relTh--histogram {
-  width: auto;
 }
 
 .topInfo {
