@@ -42,7 +42,7 @@
                 </div>
               </template>
             </template>
-            <template v-if="columnInfos.type == 'Numeric'">
+            <template v-if="columnInfos.type == 'Numeric' && intervalFilter">
               <h3 class="fr-mb-1w fr-text--sm fr-text--regular">Intervalle :</h3>
               <p class="fr-mb-1w fr-text--sm fr-text--regular">Entre {{ intervalFilter[0] }} et {{ intervalFilter[1] }}</p>
               <vue-slider 
