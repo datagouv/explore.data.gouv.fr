@@ -1,14 +1,14 @@
 {
-  "name": "@opendatateam/csvapi-front",
-  "version": "0.5.0",
+  "name": "@etalab/csvapi-front",
+  "version": "0.6.3",
+  "files": [
+    "dist/*"
+  ],
   "scripts": {
     "serve": "vue-cli-service serve --open",
     "build": "vue-cli-service build",
     "start": "vue-cli-service serve --open"
   },
-  "files": [
-    "dist/*"
-  ],
   "dependencies": {
     "@gouvfr/dsfr": "^1.7.2",
     "bootstrap-vue": "^2.1.0",
