@@ -51,3 +51,6 @@ Known environment variables are:
 
 - `VUE_APP_CSVAPI_URL`: csvapi instance URL
 - `VUE_APP_FILTERS_ENABLED`: boolean, enables or disables filter support
+
+If you want to enable matomo tracking, you should specify the target site id:
+- `VUE_APP_MATOMO_SITE_ID`
