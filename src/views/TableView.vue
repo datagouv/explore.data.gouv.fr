@@ -1,38 +1,41 @@
 <template>
-  <!-- url field if no url provided -->
-  <div class="fr-mt-4w fr-container" v-if="!csvUrl">
-    <h2>Bienvenue sur le prototype d'exploration des données de data.gouv.fr</h2>
-    <p>Ce prototype vise à permettre d’explorer plus facilement les données référencées sur data.gouv.fr.<br />
-      Sélectionnez un fichier de moins de 100Mo qui vous intéresse sur data.gouv.fr et collez le lien dans la barre ci-dessous pour l’explorer.</p>
-    <!-- <div class="fr-callout">
-      <h3 class="fr-callout__title">Précautions d'usages</h3>
-      <p class="fr-callout__text">
-        Si l'explorateur est utilisé sur un jeu de données pour la première fois, le chargement peut prendre un certain temps.
-        Ce prototype ne permet pas d’explorer les fichiers de plus de 100 Mo.
-      </p>
-    </div> -->
-    <form class="fr-mt-4w">
-      <label class="fr-label" for="text-input-text">URL du fichier à visualiser au format CSV
-        <span class="fr-hint-text">Il s’agit du lien vers un fichier et non d’une page de jeu de données</span>
-      </label>
-      <input class="fr-input fr-mb-2w" type="text" v-model="csvUrlFieldValue" id="text-input-text" name="text-input-text" />
-      <div class="fr-grid-row fr-grid-row--center">
-        <button class="fr-btn fr-btn--icon-left fr-icon-test-tube-line" @click="redirect">
-          Explorer les données
-        </button>
-      </div>
-    </form>
-    <br /><br />
-    <p>Si vous ne savez pas par quoi commencer à explorer, nous vous proposons ci-dessous une sélection de quelques jeux de données.</p>
-    <CardLink v-for="item in listResources" :key="item.resource_id" :did="item.dataset_id" :rid="item.resource_id"></CardLink>
-    <br /><br />
+  <div>
+    <infos-resource></infos-resource>
+    <!-- url field if no url provided -->
+    <div class="fr-mt-4w fr-container" v-if="!csvUrl">
+      <h2>Bienvenue sur le prototype d'exploration des données de data.gouv.fr</h2>
+      <p>Ce prototype vise à permettre d’explorer plus facilement les données référencées sur data.gouv.fr.<br />
+        Sélectionnez un fichier de moins de 100Mo qui vous intéresse sur data.gouv.fr et collez le lien dans la barre ci-dessous pour l’explorer.</p>
+      <!-- <div class="fr-callout">
+        <h3 class="fr-callout__title">Précautions d'usages</h3>
+        <p class="fr-callout__text">
+          Si l'explorateur est utilisé sur un jeu de données pour la première fois, le chargement peut prendre un certain temps.
+          Ce prototype ne permet pas d’explorer les fichiers de plus de 100 Mo.
+        </p>
+      </div> -->
+      <form class="fr-mt-4w">
+        <label class="fr-label" for="text-input-text">URL du fichier à visualiser au format CSV
+          <span class="fr-hint-text">Il s’agit du lien vers un fichier et non d’une page de jeu de données</span>
+        </label>
+        <input class="fr-input fr-mb-2w" type="text" v-model="csvUrlFieldValue" id="text-input-text" name="text-input-text" />
+        <div class="fr-grid-row fr-grid-row--center">
+          <button class="fr-btn fr-btn--icon-left fr-icon-test-tube-line" @click="redirect">
+            Explorer les données
+          </button>
+        </div>
+      </form>
+      <br /><br />
+      <p>Si vous ne savez pas par quoi commencer à explorer, nous vous proposons ci-dessous une sélection de quelques jeux de données.</p>
+      <CardLink v-for="item in listResources" :key="item.resource_id" :did="item.dataset_id" :rid="item.resource_id"></CardLink>
+      <br /><br />
+    </div>
+    <!-- error block -->
+    <Error v-else-if="hasError" :error="error"></Error>
+    <!-- loader block -->
+    <Loader v-else-if="!hasLoaded"></Loader>
+    <!-- table block, fed by store -->
+    <Table class="fr-pt-0" v-else-if="csvUrl && !hasError"></Table>
   </div>
-  <!-- error block -->
-  <Error v-else-if="hasError" :error="error"></Error>
-  <!-- loader block -->
-  <Loader v-else-if="!hasLoaded"></Loader>
-  <!-- table block, fed by store -->
-  <Table class="fr-pt-0" v-else-if="csvUrl && !hasError"></Table>
 </template>
 
 <script>
@@ -40,10 +43,11 @@ import Table from '@/components/Table'
 import Error from '@/components/Error'
 import Loader from '@/components/Loader'
 import CardLink from '@/components/CardLink'
+import InfosResource from '@/views/InfosResource.vue'
 
 export default {
   name: 'TableView',
-  components: {Table, Error, Loader, CardLink},
+  components: {Table, Error, Loader, CardLink, InfosResource},
   data() {
     return {
       csvUrl: '',

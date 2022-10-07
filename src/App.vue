@@ -3,8 +3,8 @@
     <div id="app">
       <header-app></header-app>
       <infos-dgv></infos-dgv>
-      <infos-resource></infos-resource>
-      <table-view></table-view>
+      <!-- <table-view></table-view> -->
+      <router-view></router-view>
     </div>
   </div>
 </template>
@@ -12,7 +12,6 @@
 <script>
 import HeaderApp from './views/HeaderApp.vue'
 import InfosDgv from './views/InfosDgv.vue'
-import InfosResource from './views/InfosResource.vue'
 import TableView from './views/TableView.vue'
 
 export default {
@@ -20,7 +19,6 @@ export default {
   components: {
     HeaderApp,
     InfosDgv,
-    InfosResource,
     TableView,
   },
 }

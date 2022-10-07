@@ -16,7 +16,10 @@ function getColor(col, value, colors) {
 export default new Vuex.Store({
   state: {
     rows: [],
+    valuesx: [],
+    valuesy: [],
     columns: [],
+    displayChart: false,
     generalInfos: {},
     columnsInfos: {},
     colorsCat: {},
@@ -115,6 +118,36 @@ export default new Vuex.Store({
         }
       }).catch(res => dispatch('handleError', res))
     },
+    graphdata({state, commit, dispatch}, viz){
+      const dataUrl = new URL(state.dataEndpoint)
+      console.log(dataUrl)
+      dataUrl.searchParams.set('_viz', 'yes')
+      dataUrl.searchParams.set('viz_axis_x', viz.x)
+      dataUrl.searchParams.set('viz_op', viz.op)
+      if (viz.y != '') {
+        dataUrl.searchParams.set('viz_axis_y', viz.y)
+      }
+      if (viz.xtop != '') {
+        dataUrl.searchParams.set('viz_axis_x_top', viz.xtop)
+      }
+      if (viz.xgb != ''){
+        dataUrl.searchParams.set('viz_axis_x_substring', viz.xgb)
+      }
+      viz.filters.forEach((item) => {
+        dataUrl.searchParams.set(`${item.column}__${item.operation}`, item.value)
+      })
+      console.log(dataUrl)
+      this.$http.get(dataUrl.toString()).then(res => {
+        if (res.body.ok) {
+          commit('setValuesX', res.body.resx)
+          commit('setValuesY', res.body.resy)
+          commit('setDisplayChart', true)
+        }
+      }).catch(res => dispatch('handleError', res))
+    },
+    deleteChart({state, commit, dispatch}){
+      commit('setDisplayChart', false)
+    },
     apify ({commit, dispatch}, url) {
       const apiUrl = new URL(csvapiUrl)
       apiUrl.pathname = '/apify'
@@ -122,6 +155,7 @@ export default new Vuex.Store({
       apiUrl.searchParams.set('analysis', 'yes')
       return this.$http.get(apiUrl.toString()).then(res => {
         if (res.body.ok && res.body.endpoint) {
+          console.log(res.body.ok)
           commit('setEndpoints', res.body)
           commit('updateLoadingState', true)
           return dispatch('getData', 'apify')
@@ -144,6 +178,12 @@ export default new Vuex.Store({
     },
     setRows (state, rows) {
       state.rows = rows
+    },
+    setValuesX (state, values) {
+      state.valuesx = values
+    },
+    setValuesY (state, values) {
+      state.valuesy = values
     },
     setGeneralInfos (state, generalInfos) {
       state.generalInfos = generalInfos
@@ -172,6 +212,9 @@ export default new Vuex.Store({
     },
     setColumns (state, columns) {
       state.columns = columns
+    },
+    setDisplayChart (state, val) {
+      state.displayChart = val
     },
     setTotalRows (state, totalRows) {
       state.totalRows = totalRows

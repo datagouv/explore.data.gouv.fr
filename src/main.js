@@ -1,5 +1,6 @@
 import 'url-search-params-polyfill';
 import Vue from 'vue'
+import router from './router';
 
 import VueResource from 'vue-resource'
 
@@ -14,6 +15,7 @@ Vue.config.productionTip = false
 store.$http = Vue.http
 
 new Vue({
+  router,
   store,
   render: h => h(App),
 }).$mount('#app')
