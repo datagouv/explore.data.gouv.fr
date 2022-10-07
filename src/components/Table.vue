@@ -635,7 +635,7 @@ html {
   height: 100%;
 }
 
-thead {
+.fr-table thead {
   background-color: white;
   background-image: none;
 }
