@@ -161,17 +161,17 @@ export default {
       this.getInfos('function', e.target.value)
       if (e.target.value != '') {
         let filter = {}
-        if (type == 'Categorical') {
+        if (type == 'Numeric') {
           filter = {
             field: this.field.key,
             value: e.target.value,
-            comp: 'contains'
+            comp: 'exact'
           }
         } else {
           filter = {
             field: this.field.key,
             value: e.target.value,
-            comp: 'exact'
+            comp: 'contains'
           }
 
         }
