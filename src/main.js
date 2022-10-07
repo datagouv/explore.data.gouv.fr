@@ -5,6 +5,7 @@ import "@gouvfr/dsfr/dist/dsfr/dsfr.module"
 
 import App from './App.vue'
 import store from './store'
+import matomo from './matomo'
 
 Vue.use(VueResource)
 
