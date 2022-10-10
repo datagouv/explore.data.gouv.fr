@@ -28,7 +28,7 @@
     <br /><br />
   </div>
   <!-- error block -->
-  <Error v-else-if="hasError" :error="error"></Error>
+  <Error v-else-if="hasError" :error="error" :csvUrl="csvUrl"></Error>
   <!-- loader block -->
   <Loader v-else-if="!hasLoaded"></Loader>
   <!-- table block, fed by store -->
