@@ -31,7 +31,15 @@
 <script>
 export default {
     name: 'Error',
-    props: ['error'],
+    props: {
+        error: {
+        type: Object,
+        required: true,
+        },
+        csvUrl: {
+            type: String,
+        }
+    },
     methods: {
         openIssue() {
             const title = `Impossible de convertir le fichier`
