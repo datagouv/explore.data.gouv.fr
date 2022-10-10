@@ -38,7 +38,6 @@ export default {
             const body = `
 Impossible de convertir le fichier situé ici : ${this.csvUrl}%0A%0A
 ${this.error.error} ${this.error.details || ''}%0A%0A
-Identifiant : ${this.error.id || ''}
 `
             const githubLink = `https://github.com/etalab/csvapi/issues/new?labels=live-feedback&title=${title}&body=${body}`
             window.open(githubLink, '_blank')
