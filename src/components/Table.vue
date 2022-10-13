@@ -137,14 +137,14 @@
                 :linkHref="'mailto:' + row[field.key]"
                 />
               <Tooltip
-                v-else-if="columnsInfos[field.key]['format'] === 'longitude_wgs'"
+                v-else-if="(columnsInfos[field.key]['format'] === 'longitude_wgs') || (columnsInfos[field.key]['format'] === 'longitude_wgs_fr_metropole')"
                 explanation="Il semblerait que ce champ soit une coordonnée de longitude. Nous avons également trouvé une coordonnée de latitude dans le fichier."
                 link="Voir sur une carte"
                 :content="'La localisation semble être à ' + messageBox"
                 :linkHref="banurl"
                 />
               <Tooltip
-                v-else-if="columnsInfos[field.key]['format'] === 'latitude_wgs'"
+                v-else-if="(columnsInfos[field.key]['format'] === 'latitude_wgs') || (columnsInfos[field.key]['format'] === 'latitude_wgs_fr_metropole')"
                 explanation="Il semblerait que ce champ soit une coordonnée de latitude. Nous avons également trouvé une coordonnée de longitude dans le fichier."
                 link="Voir sur une carte"
                 :content="'La localisation semble être à ' + messageBox"
@@ -467,9 +467,9 @@ export default {
           this.messageBox = '<href="mailto:' + val + '"></a>'
           this.displayTooltip = true
         }
-        if(this.columnsInfos[field]['format'] == 'longitude_wgs') {
+        if((this.columnsInfos[field]['format'] == 'longitude_wgs') || (this.columnsInfos[field]['format'] == 'longitude_wgs_fr_metropole')) {
           for (let c in this.columnsInfos) {
-            if(this.columnsInfos[c]['format'] == 'latitude_wgs'){
+            if((this.columnsInfos[c]['format'] == 'latitude_wgs') || (this.columnsInfos[c]['format'] == 'latitude_wgs_fr_metropole')){
               this.getLocalOrFetch(
                 'latlonseparate', 
                 this.rows[index][c] + ',' + val,
@@ -486,9 +486,9 @@ export default {
             }
           }
         }
-        if(this.columnsInfos[field]['format'] == 'latitude_wgs') {
+        if((this.columnsInfos[field]['format'] == 'latitude_wgs') || (this.columnsInfos[field]['format'] == 'latitude_wgs_fr_metropole')) {
           for (let c in this.columnsInfos) {
-            if(this.columnsInfos[c]['format'] == 'longitude_wgs'){
+            if((this.columnsInfos[c]['format'] == 'longitude_wgs') || (this.columnsInfos[c]['format'] == 'longitude_wgs_fr_metropole')){
               this.getLocalOrFetch(
                 'latlonseparate', 
                 val + ',' + this.rows[index][c],
