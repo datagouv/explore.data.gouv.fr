@@ -10,12 +10,12 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
-      path: '/test',
+      path: '/',
       name: 'home',
       component: TableView
     },
     {
-      path: '/',
+      path: '/prix-carburants',
       name: 'map',
       component: MapView
     },
