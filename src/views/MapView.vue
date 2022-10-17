@@ -114,7 +114,24 @@
                 Gazole
               </option>
             </select>
-            <br />
+            <div class="fr-toggle">
+                <input 
+                  v-model="showRupture" 
+                  type="checkbox" 
+                  class="fr-toggle__input" 
+                  aria-describedby="toggle-698-hint-text" 
+                  id="checkbox"
+                  @change="displayRupture"
+                >
+                <label 
+                  class="fr-toggle__label"
+                  for="checkbox"
+                  data-fr-checked-label="Activé"
+                  data-fr-unchecked-label="Désactivé"
+                >
+                  Stations en rupture de {{ this.fuelFr[this.currentFuel] }}
+                </label>
+            </div>
             <div v-if="this.legend.meanPrix" class="kpisPrix">
               <div class="kpiPrix">
                 <div class="kpiTitle">Prix moyen :</div>
@@ -130,6 +147,9 @@
                 <div class="kpiTitle">Station en rupture :</div>
                 {{ this.legend.percentRupture }} %
               </div>
+            </div>
+            <div v-if="valuesx && valuesy">
+              <bar-or-graph indicateur="toto" color="#3558a2" :titleChart="titleChart" unitChart="€" typeChart="line" :valuesx="valuesx" :valuesy="valuesy"></bar-or-graph>
             </div>
           </div>
           <br />
@@ -164,15 +184,16 @@
 
 <script>
 import { Map } from 'maplibre-gl';
+import BarOrGraph from '@/components/BarOrGraph.vue'
+
 import { markRaw } from 'vue';
 import styleVector from '../static/json/vector.json'
 import CenterDeps from '../static/json/centers_deps.json'
-import prixImage from '../static/images/green.png'
 import * as d3 from 'd3-scale'
 
 export default {
   name: 'MapView',
-  components: {Map, markRaw},
+  components: {Map, markRaw, BarOrGraph},
   data() {
     return {
       map: Object,
@@ -204,6 +225,7 @@ export default {
       },
       dataChloropleth: null,
       dataPoints: null,
+      partialData: null,
       matchExpression: null,
       searchAdress: null,
       resultsAdresses: null,
@@ -213,6 +235,11 @@ export default {
       lat: null,
       lng: null,
       firstResult: null,
+      valuesx: null,
+      valuesy: null,
+      valuesPrices: null,
+      titleChart: '',
+      showRupture: false,
     }
   },
   computed: {
@@ -239,9 +266,10 @@ export default {
         return response.json()
     })
     .then((data) => {
-      this.dataPoints = data
-      //let partialdata = data
-      //partialdata.features =  data.features.filter(feature => feature.properties[this.currentFuel])
+      this.dataPoints = JSON.parse(JSON.stringify(data))
+      this.partialData = JSON.parse(JSON.stringify(data))
+      this.partialData.features =  this.partialData.features.filter(feature => (feature.properties[this.currentFuel] & feature.properties[this.currentFuel] != "R"))
+
       this.legend.minPrix = data.properties[this.currentFuel][0]
       this.legend.tertilePrix1 = data.properties[this.currentFuel][1]
       this.legend.tertilePrix2 = data.properties[this.currentFuel][2]
@@ -257,7 +285,7 @@ export default {
         let self = this
         self.map.addSource('station_points', {
             type: 'geojson',
-            data: data
+            data: this.dataPoints
         });
         self.map.addLayer({
             id: 'stations',
@@ -277,8 +305,6 @@ export default {
               'circle-color': [
                 'match',
                 ['get', self.currentFuel + '_color'],
-                "0",
-                '#000000',
                 "1",
                 '#67A532',
                 "2",
@@ -310,16 +336,60 @@ export default {
           
         });
       });
-
-
-
     })
+
+
+    fetch('https://raw.githubusercontent.com/geoffreyaldebert/prix-carburants-data/master/dist/prix_2022.json')
+    .then((response) => {
+        return response.json()
+    })
+    .then((data) => {
+      this.valuesPrices = data
+      let valuesx = []
+      let valuesy = []
+      data.forEach((d) => {
+        valuesx.push(d["date"].split('-')[2] + "/" + d["date"].split('-')[1] + "/" + d["date"].split('-')[0].slice(2,4))
+        valuesy.push(parseFloat(d[this.currentFuel + "_mean"]).toFixed(2))
+      });
+      this.valuesx = valuesx;
+      this.valuesy = valuesy;
+      this.titleChart = "Evolution des prix moyens de " + this.fuelFr[this.currentFuel]
+
+    });
 
 
   },
   created() {
   },
   methods: {
+    displayRupture(){
+      if(this.showRupture) {  
+        this.partialData = JSON.parse(JSON.stringify(this.dataPoints))
+        this.partialData.features =  this.partialData.features.filter(
+          feature => (feature.properties[this.currentFuel] && feature.properties[this.currentFuel] === "R")
+        )
+        
+        // this.legend.minPrix = null
+        // this.legend.tertilePrix1 = null
+        // this.legend.tertilePrix2 = null
+        // this.legend.maxPrix = null
+        // this.legend.meanPrix = null
+        // this.legend.medianPrix = null
+        // this.legend.percentRupture = null
+
+        let toto = [
+          'match',
+          ['get', this.currentFuel + '_color'],
+          "0",
+          '#000000',
+          /* other */ 'hsla(0%, 0%, 0%, 0)'
+        ]
+        this.map.setPaintProperty("stations", "circle-color", toto)
+      } else {
+        this.changeMap();
+      }
+    
+    },
     goToFirstResult(){
       if(this.firstResult){
         this.moveTo(this.firstResult.geometry.coordinates, 13)
@@ -330,7 +400,6 @@ export default {
       return "MAJ: " + date.getDate() + "/" + (date.getMonth()+1) + "/" + date.getFullYear() + " à " + date.getHours() + "H" + date.getMinutes()
     },
     getAdresses(){
-        console.log('https://api-adresse.data.gouv.fr/search/?q=' + this.searchAdress)
         fetch('https://api-adresse.data.gouv.fr/search/?q=' + this.searchAdress.replace(' ', '%20'))
         .then((response) => {
             return response.json()
@@ -350,19 +419,23 @@ export default {
       });
     },
     changeMap(){
-      this.legend.minPrix = this.dataPoints.properties[this.currentFuel][0]
-      this.legend.tertilePrix1 = this.dataPoints.properties[this.currentFuel][1]
-      this.legend.tertilePrix2 = this.dataPoints.properties[this.currentFuel][2]
-      this.legend.maxPrix = this.dataPoints.properties[this.currentFuel][3]
-      this.legend.meanPrix = parseFloat(this.dataPoints.properties[this.currentFuel + "_mean"]).toFixed(2)
-      this.legend.medianPrix = parseFloat(this.dataPoints.properties[this.currentFuel + "_median"]).toFixed(2)
-      this.legend.percentRupture = parseFloat(this.dataPoints.properties[this.currentFuel + "_rupture"]).toFixed(2)
+
+      this.partialData = JSON.parse(JSON.stringify(this.dataPoints))
+
+      this.partialData.features =  this.partialData.features.filter(
+        feature => (feature.properties[this.currentFuel] && feature.properties[this.currentFuel] != "R")
+      )
+      this.legend.minPrix = this.partialData.properties[this.currentFuel][0]
+      this.legend.tertilePrix1 = this.partialData.properties[this.currentFuel][1]
+      this.legend.tertilePrix2 = this.partialData.properties[this.currentFuel][2]
+      this.legend.maxPrix = this.partialData.properties[this.currentFuel][3]
+      this.legend.meanPrix = parseFloat(this.partialData.properties[this.currentFuel + "_mean"]).toFixed(2)
+      this.legend.medianPrix = parseFloat(this.partialData.properties[this.currentFuel + "_median"]).toFixed(2)
+      this.legend.percentRupture = parseFloat(this.partialData.properties[this.currentFuel + "_rupture"]).toFixed(2)
 
       let toto = [
         'match',
         ['get', this.currentFuel + '_color'],
-        "0",
-        '#000000',
         "1",
         '#67A532',
         "2",
@@ -372,6 +445,16 @@ export default {
         /* other */ 'hsla(0%, 0%, 0%, 0)'
       ]
       this.map.setPaintProperty("stations", "circle-color", toto)
+
+      let valuesx = []
+      let valuesy = []
+      this.valuesPrices.forEach((d) => {
+        valuesx.push(d["date"].split('-')[2] + "/" + d["date"].split('-')[1] + "/" + d["date"].split('-')[0].slice(2,4))
+        valuesy.push(parseFloat(d[this.currentFuel + "_mean"]).toFixed(2))
+      });
+      this.valuesx = valuesx;
+      this.valuesy = valuesy;
+      this.titleChart = "Evolution des prix moyens de " + this.fuelFr[this.currentFuel]
     },
     autoComplete(){
       if(this.searchAdress.length === 0){
@@ -403,7 +486,7 @@ export default {
 
   .map {
     width: 100%;
-    height: 100%;
+    height: 680px;
     cursor: pointer;
   }
 
