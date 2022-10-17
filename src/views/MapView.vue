@@ -144,13 +144,20 @@
             </div>
             <div v-if="this.legend.percentRupture" class="kpisPrix">
               <div class="kpiPrix">
-                <div class="kpiTitle">Station en rupture :</div>
+                <div class="kpiTitle">Stations en rupture de {{ currentFuel }}* :</div>
                 {{ this.legend.percentRupture }} %
               </div>
             </div>
             <div v-if="valuesx && valuesy">
               <bar-or-graph indicateur="toto" color="#3558a2" :titleChart="titleChart" unitChart="€" typeChart="line" :valuesx="valuesx" :valuesy="valuesy"></bar-or-graph>
             </div>
+            <br />
+            <div class="nb-legend">
+              <i>* Les ruptures ne sont comptabilisées qu'à partir du 15 septembre 2022</i>
+              <br />
+              <i>Les sources de données utilisées pour réaliser cette application <a href="https://www.data.gouv.fr/fr/datasets/prix-des-carburants-en-france-flux-instantane/">sont disponibles sur data.gouv.fr</a></i>
+            </div>
+            <br />
           </div>
           <br />
         </div>
@@ -171,9 +178,17 @@
                 {{ legend.tertilePrix2 }} €
               </div>
             </div>
+            <div class="nb-legend">
+              <i>NB : Le prix des carburants est réparti en trois groupes équivalents.</i>
+            </div>
           </div>
           <div id="titleMap">
-            {{ titleFr[currentFuel] }}
+            <span v-if="!showRupture">
+              {{ titleFr[currentFuel] }}
+            </span>
+            <span v-if="showRupture">
+              {{ titleFrRupture[currentFuel] }}
+            </span>
           </div>
         </div>
 
@@ -208,6 +223,12 @@ export default {
         SP98: 'Stations disposant du Sans Plomb 98 et prix associés',
         Gazole: 'Stations disposant du Gazole et prix associés',
         E10: 'Stations disposant du Sans Plomb 95 (E10) et prix associés',
+      },
+      titleFrRupture: {
+        SP95: 'Stations en rupture de Sans Plomb 95',
+        SP98: 'Stations en rupture de Sans Plomb 98',
+        Gazole: 'Stations en rupture de Gazole',
+        E10: 'Stations en rupture de Sans Plomb 95 (E10)',
       },
       legend: {
         minPrix: null,
@@ -261,7 +282,7 @@ export default {
 
     //this.changeMap("Gazole")
     
-    fetch('https://raw.githubusercontent.com/geoffreyaldebert/prix-carburants-data/master/dist/synthese_france.json')
+    fetch('https://data.explore.data.gouv.fr/synthese_france.json')
     .then((response) => {
         return response.json()
     })
@@ -270,7 +291,7 @@ export default {
       this.partialData = JSON.parse(JSON.stringify(data))
       this.partialData.features =  this.partialData.features.filter(feature => (feature.properties[this.currentFuel] & feature.properties[this.currentFuel] != "R"))
 
-      this.legend.minPrix = data.properties[this.currentFuel][0]
+      this.legend.minPrix = 0
       this.legend.tertilePrix1 = data.properties[this.currentFuel][1]
       this.legend.tertilePrix2 = data.properties[this.currentFuel][2]
       this.legend.maxPrix = data.properties[this.currentFuel][3]
@@ -331,6 +352,20 @@ export default {
           }
         });
 
+        self.map.on('click', 'stations', (e) => {
+          var features = self.map.queryRenderedFeatures(e.point, {
+            layers: ['stations']
+          });
+          if (features && features.length > 0) {
+            self.tooltip.top = (document.getElementById('map').getBoundingClientRect().y + e.point.y + 10).toString() + 'px'
+            self.tooltip.left = (document.getElementById('map').getBoundingClientRect().x + e.point.x + 10).toString() + 'px'
+            self.tooltip.display = 'block'
+            self.tooltip.properties = features[0].properties
+          } else {
+            self.tooltip.display = 'none'
+          }
+        });
+
         self.map.on('mouseleave', 'stations', (e) => {
           self.tooltip.display = 'none'
           
@@ -339,7 +374,7 @@ export default {
     })
 
 
-    fetch('https://raw.githubusercontent.com/geoffreyaldebert/prix-carburants-data/master/dist/prix_2022.json')
+    fetch('https://data.explore.data.gouv.fr/prix_2022.json')
     .then((response) => {
         return response.json()
     })
@@ -419,13 +454,13 @@ export default {
       });
     },
     changeMap(){
-
+      this.showRupture = false;
       this.partialData = JSON.parse(JSON.stringify(this.dataPoints))
 
       this.partialData.features =  this.partialData.features.filter(
         feature => (feature.properties[this.currentFuel] && feature.properties[this.currentFuel] != "R")
       )
-      this.legend.minPrix = this.partialData.properties[this.currentFuel][0]
+      this.legend.minPrix = 0
       this.legend.tertilePrix1 = this.partialData.properties[this.currentFuel][1]
       this.legend.tertilePrix2 = this.partialData.properties[this.currentFuel][2]
       this.legend.maxPrix = this.partialData.properties[this.currentFuel][3]
@@ -506,7 +541,7 @@ export default {
   #legendMap{
     position: absolute;
     width: 500px;
-    height: 70px;
+    height: 80px;
     top: 10px;
     left: 10px;
     background-color: white;
@@ -515,6 +550,10 @@ export default {
     padding-right: 5px;
   }
 
+  .fr-input{
+    width: 370px;
+    background-color: white;
+  }
 }
 
 @media only screen and (max-width: 600px) {
@@ -537,6 +576,10 @@ export default {
     display: 'hidden';
   }
 
+  .fr-input{
+    width: 200px;
+    background-color: white;
+  }
 }
 
 .menu{
@@ -645,10 +688,6 @@ export default {
   border-radius: 0px;
 }
 
-.fr-input{
-  width: 370px;
-  background-color: white;
-}
 
 .autocomplete{
   position: absolute;
@@ -712,6 +751,10 @@ export default {
     font-weight: bold;
     line-height: 1.2;
     cursor: pointer;
+}
+
+.nb-legend {
+  font-size: 11px;
 }
 
 
