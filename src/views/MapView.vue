@@ -486,7 +486,7 @@ export default {
 
   .map {
     width: 100%;
-    height: 680px;
+    height: 100%;
     cursor: pointer;
   }
 
