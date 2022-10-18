@@ -1,6 +1,6 @@
 {
-  "name": "@etalab/csvapi-front",
-  "version": "0.6.3",
+  "name": "@etalab/prix-carburants",
+  "version": "0.0.1",
   "scripts": {
     "serve": "vue-cli-service serve --open",
     "build": "vue-cli-service build",
@@ -13,12 +13,15 @@
     "@gouvfr/dsfr": "^1.7.2",
     "bootstrap-vue": "^2.1.0",
     "chart.js": "^3.8.0",
+    "d3-scale": "^4.0.2",
+    "maplibre-gl": "^2.4.0",
     "sass": "^1.52.3",
     "sass-loader": "^10.1.1",
     "url-search-params-polyfill": "^5.1.0",
     "vue": "^2.6.11",
     "vue-loading-overlay": "^2.2.2",
     "vue-resource": "^1.5.0",
+    "vue-router": "^3.0.1",
     "vue-slider-component": "^3.2.20",
     "vuex": "^3.1.2"
   },
