@@ -29,7 +29,8 @@
                               <button class="fr-btn--close fr-btn" aria-controls="modal-541" title="Fermer">
                                   Fermer
                               </button>
-                              <div class="fr-search-bar" id="search-540" role="search">
+                              <div class="autocomplete-container">
+                                <div class="fr-search-bar" id="search-540" role="search">
                                   <label class="fr-label" for="search-540-input">
                                       Rechercher
                                   </label>
@@ -46,18 +47,19 @@
                                   <button class="fr-btn" title="Rechercher" @click="getAdresses()">
                                       Rechercher
                                   </button>
-                              </div>
-                              <div v-if="resultsAdresses" class="autocomplete">
-                                <div 
-                                  @click="moveTo(item.geometry.coordinates, 13)" 
-                                  v-for="item in resultsAdresses.features"
-                                  :key="item.properties.label"
-                                >
+                                </div>
+                                <div v-if="resultsAdresses" class="autocomplete">
                                   <div 
-                                    :class="firstResult.properties.label === item.properties.label ? 'autocomplete-item autocomplete-item-select' : 'autocomplete-item'"
-                                    @mouseover="firstResult = item"
+                                    @click="moveTo(item.geometry.coordinates, 13)" 
+                                    v-for="item in resultsAdresses.features"
+                                    :key="item.properties.label"
                                   >
-                                    {{ item.properties.label }}
+                                    <div 
+                                      :class="firstResult.properties.label === item.properties.label ? 'autocomplete-item autocomplete-item-select' : 'autocomplete-item'"
+                                      @mouseover="firstResult = item"
+                                    >
+                                      {{ item.properties.label }}
+                                    </div>
                                   </div>
                                 </div>
                               </div>
@@ -547,9 +549,44 @@ export default {
   cursor: pointer;
 }
 
+#titleMap {
+  position: absolute;
+  height: 50px;
+  bottom: 2.5rem;
+  right: 10px;
+  background-color: white;
+  z-index: 100;
+  padding-left: 5px;
+  padding-right: 5px;
+  line-height: 50px;
+  font-size: 13px;
+  display: none;
+}
+
+#legendMap {
+  position: absolute;
+  width: 500px;
+  height: 80px;
+  top: 10px;
+  left: 10px;
+  background-color: white;
+  z-index: 100;
+  padding-left: 5px;
+  padding-right: 5px;
+  display: none;
+}
+
 @media (min-width: 48em) {
   .map {
     height: 100%;
+  }
+
+  #titleMap {
+    display: block;
+  }
+
+  #legendMap {
+    display: block;
   }
 }
 
@@ -557,52 +594,9 @@ export default {
   .map-wrap {
     height: calc(100vh - 100.5px); /* calculate height of the screen minus the heading */
   }
-}
 
-@media only screen and (min-width: 600px) {
-  #titleMap{
-    position: absolute;
-    height: 50px;
-    bottom: 30px;
-    right: 10px;
-    background-color: white;
-    z-index: 100;
-    padding-left: 5px;
-    padding-right: 5px;
-    line-height: 50px;
-    font-size: 13px;
-  }
-
-  #legendMap{
-    position: absolute;
-    width: 500px;
-    height: 80px;
-    top: 10px;
-    left: 10px;
-    background-color: white;
-    z-index: 100;
-    padding-left: 5px;
-    padding-right: 5px;
-  }
-
-  .fr-input{
-    width: 370px;
-    background-color: white;
-  }
-}
-
-@media only screen and (max-width: 600px) {
-  #titleMap{
-    display: 'hidden'
-  }
-
-  #legendMap{
-    display: 'hidden';
-  }
-
-  .fr-input{
-    width: 200px;
-    background-color: white;
+  .autocomplete {
+    right: 2.5rem;
   }
 }
 
@@ -705,16 +699,18 @@ export default {
   border-radius: 0px;
 }
 
-
-.autocomplete{
-  position: absolute;
-  top: 70px;
-  z-index: 1000;
-  border-top: 1px solid #ebebeb;
-
+.autocomplete-container {
+  position: relative;
 }
 
-.autocomplete-item{
+.autocomplete {
+  position: absolute;
+  top: 40px;
+  z-index: 1000;
+  border-top: 1px solid #ebebeb;
+}
+
+.autocomplete-item {
   width: 100%;
   height: 40px;
   line-height: 40px;
@@ -725,6 +721,9 @@ export default {
   padding-left: 10px;
   padding-right: 10px;
   cursor: pointer;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .autocomplete-item:hover{
@@ -737,40 +736,14 @@ export default {
   color: white;
 }
 
-.kpisPrix{
-  display: flex;
-  margin-bottom: 20px;
-}
-
-.kpiPrix{
-  text-align: left;
-  min-width: 180px;
-}
-
-.kpiTitle{
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-.headerapp{
-    padding-left: 15px;
-    padding-right: 15px;
-    padding-top: 20px;
-    padding-bottom: 20px;
-    background-color: #F3F3F3;
-}
-
 .subtitle {
-    font-size: 1rem;
-    font-weight: bold;
-    line-height: 1.2;
-    cursor: pointer;
+  font-size: 1rem;
+  font-weight: bold;
+  line-height: 1.2;
+  cursor: pointer;
 }
 
 .nb-legend {
   font-size: 11px;
 }
-
-
-
 </style>
