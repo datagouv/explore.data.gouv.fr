@@ -7,7 +7,7 @@
                   <div class="fr-header__brand fr-enlarge-link">
                       <div class="fr-header__brand-top">
                           <div class="fr-header__logo">
-                            <h1 class="subtitle fr-m-0">Prix des carburants
+                            <h1 class="subtitle fr-m-0">explorateur de données
                                 <span class="fr-badge fr-badge--info fr-badge--no-icon">BETA</span>
                             </h1>
                             <svg role="img" aria-label="data.gouv.fr" width="131" cursor="pointer" height="22" class="logotype" viewBox="0 0 131 22" fill="none" xmlns="http://www.w3.org/2000/svg">
