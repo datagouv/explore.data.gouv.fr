@@ -296,7 +296,7 @@ export default {
     this.lng = 2
     const initialState = { lng: this.lng, lat: this.lat, zoom: this.zoomLevel };
     this.map = markRaw(new Map({
-      container: this.$refs["mapContainer"],
+      container: this.$refs.mapContainer,
       style: styleVector,
       center: [initialState.lng, initialState.lat],
       zoom: initialState.zoom
@@ -325,12 +325,11 @@ export default {
       this.dateMaj = dateMaj.getDate() + "/" + (dateMaj.getMonth()+1) + "/" + dateMaj.getFullYear()
       
       this.map.on('load', (m) => {
-        let self = this
-        self.map.addSource('station_points', {
+        this.map.addSource('station_points', {
             type: 'geojson',
             data: this.dataPoints
         });
-        self.map.addLayer({
+        this.map.addLayer({
             id: 'stations',
             type: 'circle',
             source: 'station_points',
@@ -347,7 +346,7 @@ export default {
               // Color circles by ethnicity, using a `match` expression.
               'circle-color': [
                 'match',
-                ['get', self.currentFuel + '_color'],
+                ['get', this.currentFuel + '_color'],
                 "1",
                 '#67A532',
                 "2",
@@ -360,36 +359,12 @@ export default {
             minzoom:1,
         });
 
-        self.map.on('mousemove', 'stations', (e) => {
-          var features = self.map.queryRenderedFeatures(e.point, {
-            layers: ['stations']
-          });
-          if (features && features.length > 0) {
-            self.tooltip.top = (document.getElementById('map').getBoundingClientRect().y + e.point.y + 10).toString() + 'px'
-            self.tooltip.left = (document.getElementById('map').getBoundingClientRect().x + e.point.x + 10).toString() + 'px'
-            self.tooltip.display = 'block'
-            self.tooltip.properties = features[0].properties
-          } else {
-            self.tooltip.display = 'none'
-          }
-        });
+        this.map.on('mousemove', this.showMapTooltip);
+        this.map.on('touchmove', this.showMapTooltip);
+        this.map.on('click', this.showMapTooltip);
 
-        self.map.on('click', 'stations', (e) => {
-          var features = self.map.queryRenderedFeatures(e.point, {
-            layers: ['stations']
-          });
-          if (features && features.length > 0) {
-            self.tooltip.top = (document.getElementById('map').getBoundingClientRect().y + e.point.y + 10).toString() + 'px'
-            self.tooltip.left = (document.getElementById('map').getBoundingClientRect().x + e.point.x + 10).toString() + 'px'
-            self.tooltip.display = 'block'
-            self.tooltip.properties = features[0].properties
-          } else {
-            self.tooltip.display = 'none'
-          }
-        });
-
-        self.map.on('mouseleave', 'stations', (e) => {
-          self.tooltip.display = 'none'
+        this.map.on('mouseleave', 'stations', (e) => {
+          this.tooltip.display = 'none'
           
         });
       });
@@ -416,10 +391,27 @@ export default {
 
 
   },
-  created() {
-  },
   methods: {
-    displayRupture(){
+    showMapTooltip(e) {
+      var width = 10;
+      var height = 10;
+      let features = this.map.queryRenderedFeatures([
+        [e.point.x - width / 2, e.point.y - height / 2],
+        [e.point.x + width / 2, e.point.y + height / 2]
+      ], {
+        layers: ['stations']
+      });
+      features = features.filter(feature => feature.layer.paint['circle-color'].a > 0)
+      if (features && features.length > 0) {
+        this.tooltip.top = (this.$refs.mapContainer.getBoundingClientRect().y + e.point.y + 10).toString() + 'px'
+        this.tooltip.left = (this.$refs.mapContainer.getBoundingClientRect().x + e.point.x + 10).toString() + 'px'
+        this.tooltip.display = 'block'
+        this.tooltip.properties = features[0].properties
+      } else {
+        this.tooltip.display = 'none'
+      }
+    },
+    displayRupture() {
       if(this.showRupture) {  
         this.partialData = JSON.parse(JSON.stringify(this.dataPoints))
         this.partialData.features =  this.partialData.features.filter(
@@ -447,7 +439,7 @@ export default {
       }
     
     },
-    goToFirstResult(){
+    goToFirstResult() {
       if(this.firstResult){
         this.moveTo(this.firstResult.geometry.coordinates, 13)
       }
@@ -456,7 +448,7 @@ export default {
       let date = new Date(maj);
       return "MAJ: " + date.getDate() + "/" + (date.getMonth()+1) + "/" + date.getFullYear() + " à " + date.getHours() + "H" + date.getMinutes()
     },
-    getAdresses(){
+    getAdresses() {
         fetch('https://api-adresse.data.gouv.fr/search/?q=' + this.searchAdress.replace(' ', '%20'))
         .then((response) => {
             return response.json()
@@ -467,7 +459,7 @@ export default {
           //this.moveTo(data.features[0].geometry.coordinates, 13)
         })
     },
-    moveTo(coordinates, zoomLevel){
+    moveTo(coordinates, zoomLevel) {
       this.resultsAdresses = null
       this.zoomLevel = zoomLevel
       this.map.flyTo({
@@ -475,7 +467,7 @@ export default {
         zoom: zoomLevel,
       });
     },
-    changeMap(){
+    changeMap() {
       this.showRupture = false;
       this.partialData = JSON.parse(JSON.stringify(this.dataPoints))
 
@@ -513,7 +505,7 @@ export default {
       this.valuesy = valuesy;
       this.titleChart = "Evolution des prix moyens de " + this.fuelFr[this.currentFuel]
     },
-    autoComplete(){
+    autoComplete() {
       if(this.searchAdress.length === 0){
         this.resultsAdresses = null
       }
