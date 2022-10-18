@@ -177,7 +177,8 @@
                       <div class="nb-legend">
                         <i>* Les ruptures ne sont comptabilisées qu'à partir du 15 septembre 2022</i>
                         <br />
-                        <i>Les sources de données utilisées pour réaliser cette application <a href="https://www.data.gouv.fr/fr/datasets/prix-des-carburants-en-france-flux-instantane/">sont disponibles sur data.gouv.fr</a></i>
+                        <i>Les sources de données utilisées pour réaliser cette application <a href="https://www.data.gouv.fr/fr/datasets/prix-des-carburants-en-france-flux-instantane/">sont disponibles sur data.gouv.fr</a>et <a href="https://explore.data.gouv.fr/?url=https://www.data.gouv.fr/fr/datasets/r/64e02cff-9e53-4cb2-adfd-5fcc88b2dc09">sont explorables ici.</a></i>
+                        <br />
                       </div>
                       <br />
                     </div>
@@ -303,8 +304,6 @@ export default {
       center: [initialState.lng, initialState.lat],
       zoom: initialState.zoom
     }));
-
-    //this.changeMap("Gazole")
     
     fetch('https://data.explore.data.gouv.fr/synthese_france.json')
     .then((response) => {
@@ -415,29 +414,33 @@ export default {
     },
     displayRupture() {
       if(this.showRupture) {  
-        this.partialData = JSON.parse(JSON.stringify(this.dataPoints))
-        this.partialData.features =  this.partialData.features.filter(
-          feature => (feature.properties[this.currentFuel] && feature.properties[this.currentFuel] === "R")
-        )
-        
-        // this.legend.minPrix = null
-        // this.legend.tertilePrix1 = null
-        // this.legend.tertilePrix2 = null
-        // this.legend.maxPrix = null
-        // this.legend.meanPrix = null
-        // this.legend.medianPrix = null
-        // this.legend.percentRupture = null
-
-        let toto = [
+        let paintProperties = [
           'match',
           ['get', this.currentFuel + '_color'],
           "0",
           '#000000',
+          "1",
+          '#67A532',
+          "2",
+          '#C8AA39',
+          "3",
+          '#FA7A35',
           /* other */ 'hsla(0%, 0%, 0%, 0)'
         ]
-        this.map.setPaintProperty("stations", "circle-color", toto)
+        this.map.setPaintProperty("stations", "circle-color", paintProperties)
       } else {
-        this.changeMap();
+        let paintProperties = [
+          'match',
+          ['get', this.currentFuel + '_color'],
+          "1",
+          '#67A532',
+          "2",
+          '#C8AA39',
+          "3",
+          '#FA7A35',
+          /* other */ 'hsla(0%, 0%, 0%, 0)'
+        ]
+        this.map.setPaintProperty("stations", "circle-color", paintProperties)
       }
     
     },
@@ -470,12 +473,7 @@ export default {
       });
     },
     changeMap() {
-      this.showRupture = false;
-      this.partialData = JSON.parse(JSON.stringify(this.dataPoints))
-
-      this.partialData.features =  this.partialData.features.filter(
-        feature => (feature.properties[this.currentFuel] && feature.properties[this.currentFuel] != "R")
-      )
+      //this.showRupture = false;
       this.legend.minPrix = 0
       this.legend.tertilePrix1 = this.partialData.properties[this.currentFuel][1]
       this.legend.tertilePrix2 = this.partialData.properties[this.currentFuel][2]
@@ -484,7 +482,7 @@ export default {
       this.legend.medianPrix = parseFloat(this.partialData.properties[this.currentFuel + "_median"]).toFixed(2)
       this.legend.percentRupture = parseFloat(this.partialData.properties[this.currentFuel + "_rupture"]).toFixed(2)
 
-      let toto = [
+      let paintProperties = [
         'match',
         ['get', this.currentFuel + '_color'],
         "1",
@@ -495,7 +493,24 @@ export default {
         '#FA7A35',
         /* other */ 'hsla(0%, 0%, 0%, 0)'
       ]
-      this.map.setPaintProperty("stations", "circle-color", toto)
+
+      if(this.showRupture){
+        paintProperties = [
+          'match',
+          ['get', this.currentFuel + '_color'],
+          "0",
+          "#000000",
+          "1",
+          '#67A532',
+          "2",
+          '#C8AA39',
+          "3",
+          '#FA7A35',
+          /* other */ 'hsla(0%, 0%, 0%, 0)'
+        ]
+
+      }
+      this.map.setPaintProperty("stations", "circle-color", paintProperties)
 
       let valuesx = []
       let valuesy = []
@@ -556,16 +571,20 @@ export default {
   right: 10px;
   background-color: white;
   z-index: 100;
-  padding-left: 5px;
-  padding-right: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
   line-height: 50px;
-  font-size: 13px;
+  font-size: 15px;
   display: none;
+  font-weight: bold;
+  font-style: italic;
+  font-family: Marianne;
+  cursor: grab;
 }
 
 #legendMap {
   position: absolute;
-  width: 500px;
+  width: 400px;
   height: 80px;
   top: 10px;
   left: 10px;
@@ -574,19 +593,17 @@ export default {
   padding-left: 5px;
   padding-right: 5px;
   display: none;
+  font-family: Marianne;
+  cursor: grab;
 }
 
 @media (min-width: 48em) {
   .map {
     height: 100%;
   }
-
-  #titleMap {
-    display: block;
-  }
-
+    
   #legendMap {
-    display: block;
+    width: 500px;
   }
 }
 
@@ -598,6 +615,17 @@ export default {
   .autocomplete {
     right: 2.5rem;
   }
+  
+}
+
+
+
+#titleMap {
+  display: block;
+}
+
+#legendMap {
+  display: block;
 }
 
 .menu{

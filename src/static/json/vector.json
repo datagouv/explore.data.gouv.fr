@@ -1686,21 +1686,24 @@
       "source-layer": "communes",
       "minzoom": 10,
       "maxzoom": 24,
-      "layout": {"visibility": "visible"}
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "line-opacity": 0.3,
+        "line-color": "black",
+        "line-width": 0.5
+      }
     },
     {
       "id": "departements",
       "type": "line",
       "source": "decoupage-administratif",
       "source-layer": "departements",
-      "layout": {"visibility": "visible"}
-    },
-    {
-      "id": "regions",
-      "type": "line",
-      "source": "decoupage-administratif",
-      "source-layer": "regions",
-      "layout": {"visibility": "visible"}
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "line-opacity": 0.3,
+        "line-color": "black",
+        "line-width": 0.5
+      }
     },
     {
       "id": "water-name-lakeline",

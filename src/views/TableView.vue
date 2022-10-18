@@ -2,6 +2,8 @@
   <!-- url field if no url provided -->
   <div>
   <header-app></header-app>
+  <infos-dgv></infos-dgv>
+  <infos-resource></infos-resource>
   <div class="fr-mt-4w fr-container" v-if="!csvUrl">
     <h2>Bienvenue sur le prototype d'exploration des données de data.gouv.fr</h2>
     <p>Ce prototype vise à permettre d’explorer plus facilement les données référencées sur data.gouv.fr.<br />
@@ -44,10 +46,12 @@ import Error from '@/components/Error'
 import Loader from '@/components/Loader'
 import CardLink from '@/components/CardLink'
 import HeaderApp from '@/views/HeaderApp'
+import InfosDgv from '@/views/InfosDgv'
+import InfosResource from '@/views/InfosResource'
 
 export default {
   name: 'TableView',
-  components: {Table, Error, Loader, CardLink, HeaderApp},
+  components: {Table, Error, Loader, CardLink, HeaderApp, InfosDgv, InfosResource},
   data() {
     return {
       csvUrl: '',
