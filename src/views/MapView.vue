@@ -177,7 +177,7 @@
                       <div class="nb-legend">
                         <i>* Les ruptures ne sont comptabilisées qu'à partir du 15 septembre 2022</i>
                         <br />
-                        <i>Les sources de données utilisées pour réaliser cette application <a href="https://www.data.gouv.fr/fr/datasets/prix-des-carburants-en-france-flux-instantane/">sont disponibles sur data.gouv.fr</a>et <a href="https://explore.data.gouv.fr/?url=https://www.data.gouv.fr/fr/datasets/r/64e02cff-9e53-4cb2-adfd-5fcc88b2dc09">sont explorables ici.</a></i>
+                        <i>Les sources de données utilisées pour réaliser cette application <a href="https://www.data.gouv.fr/fr/datasets/prix-des-carburants-en-france-flux-instantane/">sont disponibles sur data.gouv.fr</a> et <a href="https://explore.data.gouv.fr/?url=https://www.data.gouv.fr/fr/datasets/r/64e02cff-9e53-4cb2-adfd-5fcc88b2dc09">sont explorables ici.</a></i>
                         <br />
                       </div>
                       <br />
