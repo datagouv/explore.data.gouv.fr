@@ -22,6 +22,9 @@
                               </button>
                           </div>
                       </div>
+                      <div v-if="dateMaj" class="fr-header__service fr-hidden-md">
+                        <p class="fr-header__service-tagline">Mis à jour le {{ dateMaj }}</p>
+                    </div>
                   </div>
                   <div class="fr-header__tools">
                       <div class="fr-header__search fr-modal" id="modal-541">
@@ -108,13 +111,13 @@
         <div class="fr-col-12 fr-col-md-4 fr-col-xl-3">
           <nav class="fr-sidemenu fr-sidemenu--sticky fr-p-0" aria-label="Menu latéral">
             <div class="fr-sidemenu__inner">
-                <button class="fr-sidemenu__btn" hidden aria-controls="fr-sidemenu-wrapper" aria-expanded="false">{{this.fuelFr[this.currentFuel]}}</button>
+                <button class="fr-sidemenu__btn" hidden aria-controls="fr-sidemenu-wrapper" aria-expanded="false">Prix des carburants — {{this.fuelFr[this.currentFuel]}}</button>
                 <div class="fr-collapse" id="fr-sidemenu-wrapper">
                     <div class="fr-sidemenu__title fr-h6">Carte des prix des carburants</div>
-                    <div style="border-bottom: 1px solid #EEEEEE;" class="titleMenu fr-pb-1w fr-mr-2w fr-mb-2w">
+                    <div style="border-bottom: 1px solid #EEEEEE;" class="titleMenu fr-pb-1w fr-mr-2w fr-hidden fr-unhidden-md">
                       <p v-if="dateMaj">Mis à jour le {{ dateMaj }}</p>
                     </div>
-                    <div style="border-bottom: 1px solid #EEEEEE;" >
+                    <div style="border-bottom: 1px solid #EEEEEE;" class="fr-mt-2w">
                       <label for="select-fuel" class="fr-label fr-text--bold fr-mb-1w">Sélectionnez un carburant</label>
                       <select id="select-fuel" class="fr-select" v-model="currentFuel" @change="changeMap()">
                         <option 
@@ -177,8 +180,11 @@
                       <div class="nb-legend">
                         <i>* Les ruptures ne sont comptabilisées qu'à partir du 15 septembre 2022</i>
                         <br />
-                        <i>Les sources de données utilisées pour réaliser cette application <a href="https://www.data.gouv.fr/fr/datasets/prix-des-carburants-en-france-flux-instantane/">sont disponibles sur data.gouv.fr</a> et <a href="https://explore.data.gouv.fr/?url=https://www.data.gouv.fr/fr/datasets/r/64e02cff-9e53-4cb2-adfd-5fcc88b2dc09">sont explorables ici.</a></i>
+                        <i><b>Point d'attention : les données affichées sont à la date J-1 (veille du jour en cours).</b></i>
                         <br />
+                        <i>Les sources de données utilisées pour réaliser cette application <a href="https://www.data.gouv.fr/fr/datasets/prix-des-carburants-en-france-flux-instantane/"><u>sont disponibles sur data.gouv.fr</u></a> et <a href="https://explore.data.gouv.fr/?url=https://www.data.gouv.fr/fr/datasets/r/64e02cff-9e53-4cb2-adfd-5fcc88b2dc09"><u>sont explorables ici.</u></a></i>
+                        <i> Celles-ci sont mises à disposition par le Ministère de l'Économie, des Finances et de la Souveraineté industrielle.
+                        Pour plus d'informations rendez-vous sur le site officiel.</i>
                       </div>
                       <br />
                     </div>
@@ -207,7 +213,7 @@
               <i>NB : Le prix des carburants est réparti en trois groupes équivalents.</i>
             </div>
           </div>
-          <div id="titleMap">
+          <div id="titleMap" class="fr-px-1w fr-py-3v fr-text--sm fr-text--bold fr-m-0">
             <span v-if="!showRupture">
               {{ titleFr[currentFuel] }}
             </span>
@@ -366,7 +372,6 @@ export default {
 
         this.map.on('mouseleave', 'stations', (e) => {
           this.tooltip.display = 'none'
-          
         });
       });
     })
@@ -559,7 +564,7 @@ export default {
 }
 
 .map-wrap {
-  height: calc(100vh - 76.5px); /* calculate height of the screen minus the heading */
+  height: calc(100vh - 124px); /* calculate height of the screen minus the heading */
 }
 
 .map {
@@ -570,17 +575,11 @@ export default {
 
 #titleMap {
   position: absolute;
-  height: 50px;
   bottom: 2.5rem;
-  right: 10px;
+  right: 0.5rem;
   background-color: white;
   z-index: 100;
-  padding-left: 10px;
-  padding-right: 10px;
-  line-height: 50px;
-  font-size: 15px;
   display: none;
-  font-weight: bold;
   font-style: italic;
   font-family: Marianne;
   cursor: grab;
@@ -609,6 +608,10 @@ export default {
   #legendMap {
     width: 500px;
   }
+
+  #titleMap {
+    bottom: 2rem;
+  }
 }
 
 @media (min-width: 62em) {
@@ -621,8 +624,6 @@ export default {
   }
   
 }
-
-
 
 #titleMap {
   display: block;
@@ -777,5 +778,9 @@ export default {
 
 .nb-legend {
   font-size: 11px;
+}
+
+.mapboxgl-map::v-deep .maplibregl-ctrl-attrib a::after {
+  content: none;
 }
 </style>
