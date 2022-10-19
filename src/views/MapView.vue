@@ -207,7 +207,7 @@
               <i>NB : Le prix des carburants est réparti en trois groupes équivalents.</i>
             </div>
           </div>
-          <div id="titleMap">
+          <div id="titleMap" class="fr-px-1w fr-py-3v fr-text--sm fr-text--bold fr-m-0">
             <span v-if="!showRupture">
               {{ titleFr[currentFuel] }}
             </span>
@@ -570,17 +570,11 @@ export default {
 
 #titleMap {
   position: absolute;
-  height: 50px;
-  bottom: 2.5rem;
-  right: 10px;
+  bottom: 4rem;
+  right: 0.5rem;
   background-color: white;
   z-index: 100;
-  padding-left: 10px;
-  padding-right: 10px;
-  line-height: 50px;
-  font-size: 15px;
   display: none;
-  font-weight: bold;
   font-style: italic;
   font-family: Marianne;
   cursor: grab;
@@ -609,6 +603,10 @@ export default {
   #legendMap {
     width: 500px;
   }
+
+  #titleMap {
+    bottom: 2rem;
+  }
 }
 
 @media (min-width: 62em) {
@@ -621,8 +619,6 @@ export default {
   }
   
 }
-
-
 
 #titleMap {
   display: block;
