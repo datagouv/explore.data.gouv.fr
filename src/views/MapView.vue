@@ -26,7 +26,7 @@
                   <div class="fr-header__tools">
                       <div class="fr-header__search fr-modal" id="modal-541">
                           <div class="fr-container fr-container-lg--fluid">
-                              <button class="fr-btn--close fr-btn" aria-controls="modal-541" title="Fermer">
+                              <button class="fr-btn--close fr-btn" aria-controls="modal-541" title="Fermer" ref="modalCloseButton">
                                   Fermer
                               </button>
                               <div class="autocomplete-container">
@@ -464,7 +464,11 @@ export default {
           //this.moveTo(data.features[0].geometry.coordinates, 13)
         })
     },
+    closeModal() {
+      this.$refs.modalCloseButton.click()
+    },
     moveTo(coordinates, zoomLevel) {
+      this.closeModal()
       this.resultsAdresses = null
       this.zoomLevel = zoomLevel
       this.map.flyTo({
@@ -523,12 +527,12 @@ export default {
       this.titleChart = "Evolution des prix moyens de " + this.fuelFr[this.currentFuel]
     },
     autoComplete() {
-      if(this.searchAdress.length === 0){
+      if(this.searchAdress.length === 0) {
         this.resultsAdresses = null
       }
       let search = this.searchAdress
       let timer = setTimeout(() => {
-        if(this.searchAdress === search){
+        if(this.searchAdress === search) {
           this.getAdresses()
         }
       }, 1000)
