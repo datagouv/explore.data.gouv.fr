@@ -256,10 +256,10 @@ export default {
         E10: 'Stations disposant du Sans Plomb 95 (E10) et prix associés',
       },
       titleFrRupture: {
-        SP95: 'Stations en rupture de Sans Plomb 95',
-        SP98: 'Stations en rupture de Sans Plomb 98',
-        Gazole: 'Stations en rupture de Gazole',
-        E10: 'Stations en rupture de Sans Plomb 95 (E10)',
+        SP95: 'Stations disposant du Sans Plomb 95 et ruptures',
+        SP98: 'Stations disposant du Sans Plomb 98 et ruptures',
+        Gazole: 'Stations disposant de Gazole et ruptures',
+        E10: 'Stations disposant du Sans Plomb 95 (E10) et ruptures',
       },
       legend: {
         minPrix: null,
@@ -277,7 +277,6 @@ export default {
       },
       dataChloropleth: null,
       dataPoints: null,
-      partialData: null,
       matchExpression: null,
       searchAdress: null,
       resultsAdresses: null,
@@ -316,9 +315,10 @@ export default {
         return response.json()
     })
     .then((data) => {
+      data.features = data.features.filter((feature) => ((feature.properties.hasOwnProperty("SP95")) || (feature.properties.hasOwnProperty("SP98")) || (feature.properties.hasOwnProperty("E10")) || (feature.properties.hasOwnProperty("Gazole"))))
+      console.log(data.features)
+      //this.dataPoints = JSON.parse(JSON.stringify(data.filter(feature => (feature.properties.hasOwnProperty("SP95")))))
       this.dataPoints = JSON.parse(JSON.stringify(data))
-      this.partialData = JSON.parse(JSON.stringify(data))
-      this.partialData.features =  this.partialData.features.filter(feature => (feature.properties[this.currentFuel] & feature.properties[this.currentFuel] != "R"))
 
       this.legend.minPrix = 0
       this.legend.tertilePrix1 = data.properties[this.currentFuel][1]
@@ -364,6 +364,22 @@ export default {
               ]
             },
             minzoom:1,
+        });
+
+
+        this.map.on('zoom', () => {
+          let timer = setTimeout(() => {
+            const currentZoom = this.map.getZoom();
+            if(currentZoom != this.zoomLevel) {
+              this.zoomLevel = currentZoom
+              if(currentZoom > 8) {
+                console.log('tototo')
+                this.displayAllStations()
+              } else {
+                this.displayAllStations()
+              }
+            }
+          }, 350)
         });
 
         this.map.on('mousemove', this.showMapTooltip);
@@ -418,36 +434,7 @@ export default {
       }
     },
     displayRupture() {
-      if(this.showRupture) {  
-        let paintProperties = [
-          'match',
-          ['get', this.currentFuel + '_color'],
-          "0",
-          '#000000',
-          "1",
-          '#67A532',
-          "2",
-          '#C8AA39',
-          "3",
-          '#FA7A35',
-          /* other */ 'hsla(0%, 0%, 0%, 0)'
-        ]
-        this.map.setPaintProperty("stations", "circle-color", paintProperties)
-      } else {
-        let paintProperties = [
-          'match',
-          ['get', this.currentFuel + '_color'],
-          "1",
-          '#67A532',
-          "2",
-          '#C8AA39',
-          "3",
-          '#FA7A35',
-          /* other */ 'hsla(0%, 0%, 0%, 0)'
-        ]
-        this.map.setPaintProperty("stations", "circle-color", paintProperties)
-      }
-    
+      this.displayAllStations()
     },
     goToFirstResult() {
       if(this.firstResult){
@@ -481,45 +468,80 @@ export default {
         zoom: zoomLevel,
       });
     },
+    displayAllStations(){
+      let paintProperties = []
+      if(this.zoomLevel > 8){
+        if(this.showRupture) {
+            paintProperties = [
+            'match',
+            ['get', this.currentFuel + '_color'],
+            "0",
+            '#000000',
+            "1",
+            '#67A532',
+            "2",
+            '#C8AA39',
+            "3",
+            '#FA7A35',
+            /* other */ '#AAAAAA'
+          ]
+        } else {
+            paintProperties = [
+            'match',
+            ['get', this.currentFuel + '_color'],
+            "1",
+            '#67A532',
+            "2",
+            '#C8AA39',
+            "3",
+            '#FA7A35',
+            /* other */ '#AAAAAA'
+          ]
+        }
+      }
+      else {
+        if(this.showRupture) {
+            paintProperties = [
+            'match',
+            ['get', this.currentFuel + '_color'],
+            "0",
+            '#000000',
+            "1",
+            '#67A532',
+            "2",
+            '#C8AA39',
+            "3",
+            '#FA7A35',
+            /* other */ 'hsla(0%, 0%, 0%, 0)'
+          ]
+        } else {
+            paintProperties = [
+              'match',
+              ['get', this.currentFuel + '_color'],
+              "1",
+              '#67A532',
+              "2",
+              '#C8AA39',
+              "3",
+              '#FA7A35',
+              /* other */ 'hsla(0%, 0%, 0%, 0)'
+            ]
+        }
+      }
+      this.map.setPaintProperty("stations", "circle-color", paintProperties)
+
+    },
     changeMap() {
       //this.showRupture = false;
       this.legend.minPrix = 0
-      this.legend.tertilePrix1 = this.partialData.properties[this.currentFuel][1]
-      this.legend.tertilePrix2 = this.partialData.properties[this.currentFuel][2]
-      this.legend.maxPrix = this.partialData.properties[this.currentFuel][3]
-      this.legend.meanPrix = parseFloat(this.partialData.properties[this.currentFuel + "_mean"]).toFixed(2)
-      this.legend.medianPrix = parseFloat(this.partialData.properties[this.currentFuel + "_median"]).toFixed(2)
-      this.legend.percentRupture = parseFloat(this.partialData.properties[this.currentFuel + "_rupture"]).toFixed(2)
+      this.legend.tertilePrix1 = this.dataPoints.properties[this.currentFuel][1]
+      this.legend.tertilePrix2 = this.dataPoints.properties[this.currentFuel][2]
+      this.legend.maxPrix = this.dataPoints.properties[this.currentFuel][3]
+      this.legend.meanPrix = parseFloat(this.dataPoints.properties[this.currentFuel + "_mean"]).toFixed(2)
+      this.legend.medianPrix = parseFloat(this.dataPoints.properties[this.currentFuel + "_median"]).toFixed(2)
+      this.legend.percentRupture = parseFloat(this.dataPoints.properties[this.currentFuel + "_rupture"]).toFixed(2)
 
-      let paintProperties = [
-        'match',
-        ['get', this.currentFuel + '_color'],
-        "1",
-        '#67A532',
-        "2",
-        '#C8AA39',
-        "3",
-        '#FA7A35',
-        /* other */ 'hsla(0%, 0%, 0%, 0)'
-      ]
-
-      if(this.showRupture){
-        paintProperties = [
-          'match',
-          ['get', this.currentFuel + '_color'],
-          "0",
-          "#000000",
-          "1",
-          '#67A532',
-          "2",
-          '#C8AA39',
-          "3",
-          '#FA7A35',
-          /* other */ 'hsla(0%, 0%, 0%, 0)'
-        ]
-
-      }
-      this.map.setPaintProperty("stations", "circle-color", paintProperties)
+      this.displayAllStations()
 
       let valuesx = []
       let valuesy = []
@@ -686,7 +708,7 @@ export default {
 }
 
 .tooltip-value-grey{
-  color: #777777
+  color: #AAAAAA
 }
 
 .legendMap-colors{
