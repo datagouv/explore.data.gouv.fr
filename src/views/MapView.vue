@@ -77,9 +77,6 @@
       <div v-if="tooltip.properties" class="tooltip" :style="{top:tooltip.top,left:tooltip.left, display:tooltip.display}">
           <div v-if="tooltip.properties.adr" class="tooltip-title">{{ tooltip.properties.adr }}</div>
           <div v-if="tooltip.properties.cpl_adr" class="tooltip-title">{{ tooltip.properties.cpl_adr }}</div>
-          <div v-if="tooltip.properties[currentFuel + '_maj']" class="tooltip-value tooltip-value-italic">
-            {{ isoToDateFr(tooltip.properties[currentFuel + '_maj']) }}
-          </div>
           <div class="tootlip-content">
             <span v-for="item in ['SP95', 'E10', 'SP98', 'Gazole']" :key="item">
               <span v-if="tooltip.properties[item] != 'R'">
@@ -93,14 +90,22 @@
                   <span v-if="tooltip.properties[item + '_color'] === '3'">
                     <img src="../static/images/dispo-red.png" width="12" alt="" />
                   </span>
-                  {{ fuelFr[item] }} : {{ tooltip.properties[item] }} €
+                  <b>{{ fuelFr[item] }} : {{ tooltip.properties[item] }} €</b><br />MAJ le {{ isoToDateFr(tooltip.properties[item + '_maj'], 'short') }}
                 </div>
               </span>
               <span v-else>
                 <div v-if="tooltip.properties[item]" class="tooltip-value tooltip-value-grey">
                   <span>
+                    <img src="../static/images/cross-sign.png" width="12" alt="" />
+                    {{ fuelFr[item] }} : En rupture<br />MAJ le {{ dateMaj.slice(0,5) }}
+                  </span>
+                </div>
+              </span>
+              <span>
+                <div class="tooltip-value tooltip-value-grey">
+                  <span v-if="!tooltip.properties[item]">
                     <img src="../static/images/caution-sign.png" width="12" alt="" />
-                    {{ fuelFr[item] }} : En rupture
+                    {{ fuelFr[item] }} : Non proposé<br/>dans la station
                   </span>
                 </div>
               </span>
@@ -143,6 +148,7 @@
                       </select>
                       <div class="fr-toggle fr-my-1v">
                           <input 
+                            v-if="zoomLevel <= 10"
                             v-model="showRupture" 
                             type="checkbox" 
                             class="fr-toggle__input" 
@@ -151,8 +157,28 @@
                             @change="displayRupture"
                           >
                           <label 
+                            v-if="zoomLevel <= 10"
                             class="fr-toggle__label label-rupture"
                             for="checkbox"
+                            data-fr-checked-label="Activé"
+                            data-fr-unchecked-label="Désactivé"
+                          >
+                            Stations en rupture de {{ this.fuelFr[this.currentFuel] }} (J-1)
+                          </label>
+                          <input 
+                            v-if="zoomLevel > 10"
+                            v-model="showRupture" 
+                            type="checkbox" 
+                            class="fr-toggle__input" 
+                            aria-describedby="toggle-699-hint-text" 
+                            id="checkbox2"
+                            checked
+                            disabled
+                          >
+                          <label 
+                            v-if="zoomLevel > 10"
+                            class="fr-toggle__label label-rupture"
+                            for="checkbox2"
                             data-fr-checked-label="Activé"
                             data-fr-unchecked-label="Désactivé"
                           >
@@ -440,9 +466,13 @@ export default {
         this.moveTo(this.firstResult.geometry.coordinates, 13)
       }
     },
-    isoToDateFr(maj) {
+    isoToDateFr(maj, type) {
       let date = new Date(maj);
-      return "MAJ: " + date.getDate() + "/" + (date.getMonth()+1) + "/" + date.getFullYear() + " à " + date.getHours() + "H" + date.getMinutes()
+      if(type === 'long') {
+        return date.getDate() + "/" + (date.getMonth()+1) + "/" + date.getFullYear() + " à " + date.getHours() + "h" + date.getMinutes()
+      } else {
+        return date.getDate() + "/" + (date.getMonth()+1) + " à " + date.getHours() + "h"
+      }
     },
     getAdresses() {
         fetch('https://api-adresse.data.gouv.fr/search/?q=' + this.searchAdress.replace(' ', '%20'))
@@ -470,33 +500,20 @@ export default {
     displayAllStations(){
       let paintProperties = []
       if(this.zoomLevel > 10){
-        if(this.showRupture) {
-            paintProperties = [
-            'match',
-            ['get', this.currentFuel + '_color'],
-            "0",
-            '#000000',
-            "1",
-            '#67A532',
-            "2",
-            '#C8AA39',
-            "3",
-            '#FA7A35',
-            /* other */ '#AAAAAA'
-          ]
-        } else {
-            paintProperties = [
-            'match',
-            ['get', this.currentFuel + '_color'],
-            "1",
-            '#67A532',
-            "2",
-            '#C8AA39',
-            "3",
-            '#FA7A35',
-            /* other */ '#AAAAAA'
-          ]
-        }
+        this.showRupture = true
+        paintProperties = [
+          'match',
+          ['get', this.currentFuel + '_color'],
+          "0",
+          '#000000',
+          "1",
+          '#67A532',
+          "2",
+          '#C8AA39',
+          "3",
+          '#FA7A35',
+          /* other */ '#AAAAAA'
+        ]
       }
       else {
         if(this.showRupture) {
