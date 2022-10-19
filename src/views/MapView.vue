@@ -151,12 +151,12 @@
                             @change="displayRupture"
                           >
                           <label 
-                            class="fr-toggle__label"
+                            class="fr-toggle__label label-rupture"
                             for="checkbox"
                             data-fr-checked-label="Activé"
                             data-fr-unchecked-label="Désactivé"
                           >
-                            Stations en rupture de {{ this.fuelFr[this.currentFuel] }}
+                            Stations en rupture de {{ this.fuelFr[this.currentFuel] }} (J-1)
                           </label>
                       </div>
                       <div v-if="this.legend.meanPrix" class="fr-grid-row fr-grid-row--gutters">
@@ -804,5 +804,11 @@ export default {
 
 .mapboxgl-map::v-deep .maplibregl-ctrl-attrib a::after {
   content: none;
+}
+
+.label-rupture{
+  font-size: 13px;
+  font-weight: bold;
+  font-style: italic;
 }
 </style>
