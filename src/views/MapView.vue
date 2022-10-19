@@ -184,7 +184,7 @@
                         <br />
                         <i>Les sources de données utilisées pour réaliser cette application <a href="https://www.data.gouv.fr/fr/datasets/prix-des-carburants-en-france-flux-instantane/"><u>sont disponibles sur data.gouv.fr</u></a> et <a href="https://explore.data.gouv.fr/?url=https://www.data.gouv.fr/fr/datasets/r/64e02cff-9e53-4cb2-adfd-5fcc88b2dc09"><u>sont explorables ici.</u></a></i>
                         <i> Celles-ci sont mises à disposition par le Ministère de l'Économie, des Finances et de la Souveraineté industrielle.
-                        Pour plus d'informations rendez-vous sur le site officiel.</i>
+                        Pour plus d'informations <a href="https://www.prix-carburants.gouv.fr/"><u>rendez-vous sur le site officiel.</u></a></i>
                       </div>
                       <br />
                     </div>
