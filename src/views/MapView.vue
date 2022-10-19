@@ -540,7 +540,7 @@ export default {
         if(this.searchAdress === search) {
           this.getAdresses()
         }
-      }, 1000)
+      }, 650)
     },
   },
   watch: {
@@ -587,7 +587,7 @@ export default {
 
 #legendMap {
   position: absolute;
-  width: 400px;
+  width: 380px;
   height: 80px;
   top: 10px;
   left: 10px;
