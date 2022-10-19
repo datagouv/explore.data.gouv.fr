@@ -372,8 +372,7 @@ export default {
             const currentZoom = this.map.getZoom();
             if(currentZoom != this.zoomLevel) {
               this.zoomLevel = currentZoom
-              if(currentZoom > 8) {
-                console.log('tototo')
+              if(currentZoom > 10) {
                 this.displayAllStations()
               } else {
                 this.displayAllStations()
@@ -470,7 +469,7 @@ export default {
     },
     displayAllStations(){
       let paintProperties = []
-      if(this.zoomLevel > 8){
+      if(this.zoomLevel > 10){
         if(this.showRupture) {
             paintProperties = [
             'match',
