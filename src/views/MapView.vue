@@ -22,6 +22,9 @@
                               </button>
                           </div>
                       </div>
+                      <div v-if="dateMaj" class="fr-header__service fr-hidden-md">
+                        <p class="fr-header__service-tagline">Mis à jour le {{ dateMaj }}</p>
+                    </div>
                   </div>
                   <div class="fr-header__tools">
                       <div class="fr-header__search fr-modal" id="modal-541">
@@ -108,13 +111,13 @@
         <div class="fr-col-12 fr-col-md-4 fr-col-xl-3">
           <nav class="fr-sidemenu fr-sidemenu--sticky fr-p-0" aria-label="Menu latéral">
             <div class="fr-sidemenu__inner">
-                <button class="fr-sidemenu__btn" hidden aria-controls="fr-sidemenu-wrapper" aria-expanded="false">{{this.fuelFr[this.currentFuel]}}</button>
+                <button class="fr-sidemenu__btn" hidden aria-controls="fr-sidemenu-wrapper" aria-expanded="false">Prix des carburants — {{this.fuelFr[this.currentFuel]}}</button>
                 <div class="fr-collapse" id="fr-sidemenu-wrapper">
                     <div class="fr-sidemenu__title fr-h6">Carte des prix des carburants</div>
-                    <div style="border-bottom: 1px solid #EEEEEE;" class="titleMenu fr-pb-1w fr-mr-2w fr-mb-2w">
+                    <div style="border-bottom: 1px solid #EEEEEE;" class="titleMenu fr-pb-1w fr-mr-2w fr-hidden fr-unhidden-md">
                       <p v-if="dateMaj">Mis à jour le {{ dateMaj }}</p>
                     </div>
-                    <div style="border-bottom: 1px solid #EEEEEE;" >
+                    <div style="border-bottom: 1px solid #EEEEEE;" class="fr-mt-2w">
                       <label for="select-fuel" class="fr-label fr-text--bold fr-mb-1w">Sélectionnez un carburant</label>
                       <select id="select-fuel" class="fr-select" v-model="currentFuel" @change="changeMap()">
                         <option 
@@ -366,7 +369,6 @@ export default {
 
         this.map.on('mouseleave', 'stations', (e) => {
           this.tooltip.display = 'none'
-          
         });
       });
     })
@@ -559,7 +561,7 @@ export default {
 }
 
 .map-wrap {
-  height: calc(100vh - 76.5px); /* calculate height of the screen minus the heading */
+  height: calc(100vh - 124px); /* calculate height of the screen minus the heading */
 }
 
 .map {
@@ -570,7 +572,7 @@ export default {
 
 #titleMap {
   position: absolute;
-  bottom: 4rem;
+  bottom: 2.5rem;
   right: 0.5rem;
   background-color: white;
   z-index: 100;
@@ -773,5 +775,9 @@ export default {
 
 .nb-legend {
   font-size: 11px;
+}
+
+.mapboxgl-map::v-deep .maplibregl-ctrl-attrib a::after {
+  content: none;
 }
 </style>
