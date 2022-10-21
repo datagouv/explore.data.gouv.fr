@@ -23,7 +23,17 @@
                           </div>
                       </div>
                       <div v-if="dateMaj" class="fr-header__service fr-hidden-md">
-                        <p class="fr-header__service-tagline">Mis à jour le {{ dateMaj }}</p>
+                        <div style="display: flex;" class="fr-header__service-tagline">
+                          <div style="width: 40px;">
+                            <button @click="updateDate(getDayBeforeOrAfter(-1))"><</button>
+                          </div>
+                          <div style="margin: auto;">
+                            Le {{ formatDateMaJ() }}
+                          </div>
+                          <div style="width: 40px;">
+                            <button @click="updateDate(getDayBeforeOrAfter(+1))">></button>
+                          </div>
+                        </div>
                     </div>
                   </div>
                   <div class="fr-header__tools">
@@ -77,9 +87,10 @@
       <div v-if="tooltip.properties" class="tooltip" :style="{top:tooltip.top,left:tooltip.left, display:tooltip.display}">
           <div v-if="tooltip.properties.adr" class="tooltip-title">{{ tooltip.properties.adr }}</div>
           <div v-if="tooltip.properties.cpl_adr" class="tooltip-title">{{ tooltip.properties.cpl_adr }}</div>
-          <div class="tootlip-content">
-            <span v-for="item in ['SP95', 'E10', 'SP98', 'Gazole']" :key="item">
-              <span v-if="tooltip.properties[item] != 'R'">
+          <div class="tootlip-content" style="display: flex;">
+            <div>
+            <span v-for="item in ['SP95', 'E10', 'SP98']" :key="item">
+              <span v-if="(tooltip.properties[item] != 'R') & (tooltip.properties[item] != 'N')">
                 <div v-if="tooltip.properties[item]" class="tooltip-value">
                   <span v-if="tooltip.properties[item + '_color'] === '1'">
                     <img src="../static/images/dispo-green.png" width="12" alt="" />
@@ -90,26 +101,61 @@
                   <span v-if="tooltip.properties[item + '_color'] === '3'">
                     <img src="../static/images/dispo-red.png" width="12" alt="" />
                   </span>
-                  <b>{{ fuelFr[item] }} : {{ tooltip.properties[item] }} €</b><br />MAJ le {{ isoToDateFr(tooltip.properties[item + '_maj'], 'short') }}
+                  <b>{{ fuelFr[item] }} : {{ tooltip.properties[item] }} €</b><br />MAJ le {{ isoToDateFr(tooltip.properties[item + '_m'], 'short') }}
                 </div>
               </span>
-              <span v-else>
+              <span v-else-if="tooltip.properties[item] == 'R'">
                 <div v-if="tooltip.properties[item]" class="tooltip-value tooltip-value-grey">
                   <span>
                     <img src="../static/images/cross-sign.png" width="12" alt="" />
-                    {{ fuelFr[item] }} : En rupture<br />MAJ le {{ dateMaj.slice(0,5) }}
+                    {{ fuelFr[item] }} : En rupture<br />depuis le {{ isoToDateFr(tooltip.properties[item + '_s'], 'short') }}
                   </span>
                 </div>
               </span>
-              <span>
+              <span v-else>
                 <div class="tooltip-value tooltip-value-grey">
-                  <span v-if="!tooltip.properties[item]">
+                  <span>
                     <img src="../static/images/caution-sign.png" width="12" alt="" />
                     {{ fuelFr[item] }} : Non proposé<br/>dans la station
                   </span>
                 </div>
               </span>
             </span>
+            </div>
+            <div style="border-left: 1px solid #ebebeb; padding-left: 10px; margin-left: 10px; margin-right: 10px;">
+            <span v-for="item in ['Gazole', 'GPLc', 'E85']" :key="item">
+              <span v-if="(tooltip.properties[item] != 'R') & (tooltip.properties[item] != 'N')">
+                <div v-if="tooltip.properties[item]" class="tooltip-value">
+                  <span v-if="tooltip.properties[item + '_color'] === '1'">
+                    <img src="../static/images/dispo-green.png" width="12" alt="" />
+                  </span>
+                  <span v-if="tooltip.properties[item + '_color'] === '2'">
+                    <img src="../static/images/dispo-orange.png" width="12" alt="" />
+                  </span>
+                  <span v-if="tooltip.properties[item + '_color'] === '3'">
+                    <img src="../static/images/dispo-red.png" width="12" alt="" />
+                  </span>
+                  <b>{{ fuelFr[item] }} : {{ tooltip.properties[item] }} €</b><br />MAJ le {{ isoToDateFr(tooltip.properties[item + '_m'], 'short') }}
+                </div>
+              </span>
+              <span v-else-if="tooltip.properties[item] == 'R'">
+                <div v-if="tooltip.properties[item]" class="tooltip-value tooltip-value-grey">
+                  <span>
+                    <img src="../static/images/cross-sign.png" width="12" alt="" />
+                    {{ fuelFr[item] }} : En rupture<br />depuis le {{ isoToDateFr(tooltip.properties[item + '_s'], 'short') }}
+                  </span>
+                </div>
+              </span>
+              <span v-else>
+                <div class="tooltip-value tooltip-value-grey">
+                  <span>
+                    <img src="../static/images/caution-sign.png" width="12" alt="" />
+                    {{ fuelFr[item] }} : Non proposé<br/>dans la station
+                  </span>
+                </div>
+              </span>
+            </span>
+            </div>
           </div>
       </div>
       <div class="fr-grid-row map-wrap">
@@ -120,7 +166,20 @@
                 <div class="fr-collapse" id="fr-sidemenu-wrapper">
                     <div class="fr-sidemenu__title fr-h6">Carte des prix des carburants</div>
                     <div style="border-bottom: 1px solid #EEEEEE;" class="titleMenu fr-pb-1w fr-mr-2w fr-hidden fr-unhidden-md">
-                      <p v-if="dateMaj">Mis à jour le {{ dateMaj }}</p>
+                      
+                      <span v-if="dateMaj">
+                        <div style="display: flex;" class="fr-header__service-tagline">
+                          <div style="width: 40px;">
+                            <button @click="updateDate(getDayBeforeOrAfter(-1))"><</button>
+                          </div>
+                          <div style="margin: auto;">
+                            Le {{ formatDateMaJ() }}
+                          </div>
+                          <div style="width: 40px;">
+                            <button @click="updateDate(getDayBeforeOrAfter(+1))">></button>
+                          </div>
+                        </div>
+                      </span>
                     </div>
                     <div style="border-bottom: 1px solid #EEEEEE;" class="fr-mt-2w">
                       <label for="select-fuel" class="fr-label fr-text--bold fr-mb-1w">Sélectionnez un carburant</label>
@@ -144,6 +203,16 @@
                           key="Gazole"
                           value="Gazole">
                           Gazole
+                        </option>
+                        <option 
+                          key="GPLc"
+                          value="GPLc">
+                          GPL-c
+                        </option>
+                        <option 
+                          key="E85"
+                          value="E85">
+                          Superéthanol E85
                         </option>
                       </select>
                       <div class="fr-toggle fr-my-1v">
@@ -273,19 +342,26 @@ export default {
         SP95: 'SP 95',
         SP98: 'SP 98',
         Gazole: 'Gazole',
-        E10: 'SP 95-E10'
+        E10: 'SP 95-E10',
+        GPLc: 'GPLc',
+        E85: 'E85'
       },
       titleFr: {
         SP95: 'Stations disposant du Sans Plomb 95 et prix associés',
         SP98: 'Stations disposant du Sans Plomb 98 et prix associés',
         Gazole: 'Stations disposant du Gazole et prix associés',
         E10: 'Stations disposant du Sans Plomb 95 (E10) et prix associés',
+        GPLc: 'Stations disposant de GPL-c et prix associés',
+        E85: 'Stations disposant de Superéthanol E85 et prix associés'
       },
       titleFrRupture: {
         SP95: 'Stations disposant du Sans Plomb 95 et ruptures',
         SP98: 'Stations disposant du Sans Plomb 98 et ruptures',
         Gazole: 'Stations disposant de Gazole et ruptures',
         E10: 'Stations disposant du Sans Plomb 95 (E10) et ruptures',
+        GPLc: 'Stations disposant de GPL-c et ruptures',
+        E85: 'Stations disposant de Superéthanol E85 et ruptures',
+
       },
       legend: {
         minPrix: null,
@@ -336,16 +412,14 @@ export default {
       zoom: initialState.zoom
     }));
     
-    fetch('https://data.explore.data.gouv.fr/synthese_france.json')
+    fetch('https://data.explore.data.gouv.fr/latest_france.json')
     .then((response) => {
         return response.json()
     })
     .then((data) => {
-      data.features = data.features.filter((feature) => ((feature.properties.hasOwnProperty("SP95")) || (feature.properties.hasOwnProperty("SP98")) || (feature.properties.hasOwnProperty("E10")) || (feature.properties.hasOwnProperty("Gazole"))))
-      console.log(data.features)
-      //this.dataPoints = JSON.parse(JSON.stringify(data.filter(feature => (feature.properties.hasOwnProperty("SP95")))))
-      this.dataPoints = JSON.parse(JSON.stringify(data))
+      //data.features = data.features.filter((feature) => ((feature.properties.hasOwnProperty("SP95")) || (feature.properties.hasOwnProperty("SP98")) || (feature.properties.hasOwnProperty("E10")) || (feature.properties.hasOwnProperty("Gazole")) || (feature.properties.hasOwnProperty("GPLc")) || (feature.properties.hasOwnProperty("E85"))))
 
+      this.dataPoints = JSON.parse(JSON.stringify(data))
       this.legend.minPrix = 0
       this.legend.tertilePrix1 = data.properties[this.currentFuel][1]
       this.legend.tertilePrix2 = data.properties[this.currentFuel][2]
@@ -354,8 +428,7 @@ export default {
       this.legend.medianPrix = parseFloat(data.properties[this.currentFuel + "_median"]).toFixed(2)
       this.legend.percentRupture = parseFloat(data.properties[this.currentFuel + "_rupture"]).toFixed(2)
 
-      let dateMaj = new Date(data.properties.maj);
-      this.dateMaj = dateMaj.getDate() + "/" + (dateMaj.getMonth()+1) + "/" + dateMaj.getFullYear()
+      this.dateMaj = new Date(data.properties.maj);
       
       this.map.on('load', (m) => {
         this.map.addSource('station_points', {
@@ -435,10 +508,32 @@ export default {
       this.titleChart = "Evolution des prix moyens de " + this.fuelFr[this.currentFuel]
 
     });
-
-
   },
   methods: {
+    updateDate(val){
+
+      fetch('https://data.explore.data.gouv.fr/historique/' + val + '.json')
+      .then((response) => {
+          return response.json()
+      })
+      .then((data) => {
+        //data.features = data.features.filter((feature) => ((feature.properties.hasOwnProperty("SP95")) || (feature.properties.hasOwnProperty("SP98")) || (feature.properties.hasOwnProperty("E10")) || (feature.properties.hasOwnProperty("Gazole")) || (feature.properties.hasOwnProperty("GPLc")) || (feature.properties.hasOwnProperty("E85"))))
+
+        this.dataPoints = JSON.parse(JSON.stringify(data))
+        this.map.getSource("station_points").setData(this.dataPoints);
+
+        this.legend.minPrix = 0
+        this.legend.tertilePrix1 = data.properties[this.currentFuel][1]
+        this.legend.tertilePrix2 = data.properties[this.currentFuel][2]
+        this.legend.maxPrix = data.properties[this.currentFuel][3]
+        this.legend.meanPrix = parseFloat(data.properties[this.currentFuel + "_mean"]).toFixed(2)
+        this.legend.medianPrix = parseFloat(data.properties[this.currentFuel + "_median"]).toFixed(2)
+        this.legend.percentRupture = parseFloat(data.properties[this.currentFuel + "_rupture"]).toFixed(2)
+
+        this.dateMaj = new Date(val);
+    })
+
+    },
     showMapTooltip(e) {
       var width = 10;
       var height = 10;
@@ -457,6 +552,22 @@ export default {
       } else {
         this.tooltip.display = 'none'
       }
+    },
+    formatDateMaJ(){
+      return this.dateMaj.getDate() + "/" + (this.dateMaj.getMonth()+1) + "/" + this.dateMaj.getFullYear()
+    },
+    getDayBeforeOrAfter(val){
+      let mydate = new Date(this.dateMaj)
+      mydate.setDate(mydate.getDate() + val);
+      let day = mydate.getDate()
+      let month = mydate.getMonth() + 1
+      if((mydate.getDate()) < 10){
+        day = '0' + day
+      }
+      if(mydate.getMonth()+1 < 10){
+        month = '0' + month
+      }
+      return mydate.getFullYear() + "-" + month + "-" + day
     },
     displayRupture() {
       this.displayAllStations()
