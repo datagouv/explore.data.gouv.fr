@@ -24,15 +24,15 @@
                       </div>
                       <div v-if="dateMaj" class="fr-header__service fr-hidden-md">
                         <div style="display: flex;" class="fr-header__service-tagline">
-                          <div style="width: 40px;">
+                          <!-- <div style="width: 40px;">
                             <button @click="updateDate(getDayBeforeOrAfter(-1))"><</button>
-                          </div>
+                          </div> -->
                           <div style="margin: auto;">
                             Le {{ formatDateMaJ() }}
                           </div>
-                          <div style="width: 40px;">
+                          <!-- <div style="width: 40px;">
                             <button @click="updateDate(getDayBeforeOrAfter(+1))">></button>
-                          </div>
+                          </div> -->
                         </div>
                     </div>
                   </div>
@@ -169,15 +169,15 @@
                       
                       <span v-if="dateMaj">
                         <div style="display: flex;" class="fr-header__service-tagline">
-                          <div style="width: 40px;">
+                          <!-- <div style="width: 40px;">
                             <button @click="updateDate(getDayBeforeOrAfter(-1))"><</button>
-                          </div>
+                          </div> -->
                           <div style="margin: auto;">
                             Le {{ formatDateMaJ() }}
                           </div>
-                          <div style="width: 40px;">
+                          <!-- <div style="width: 40px;">
                             <button @click="updateDate(getDayBeforeOrAfter(+1))">></button>
-                          </div>
+                          </div> -->
                         </div>
                       </span>
                     </div>
@@ -326,6 +326,7 @@
 <script>
 import { Map } from 'maplibre-gl';
 import BarOrGraph from '@/components/BarOrGraph.vue'
+import { ungzip } from 'pako';
 
 import { markRaw } from 'vue';
 import styleVector from '../static/json/vector.json'
@@ -412,13 +413,15 @@ export default {
       zoom: initialState.zoom
     }));
     
-    fetch('https://data.explore.data.gouv.fr/latest_france.json')
+    fetch('https://data.explore.data.gouv.fr/latest_france.json', {
+        compress: false,
+        headers: { "accept-encoding": "gzip" },
+    })
     .then((response) => {
         return response.json()
     })
     .then((data) => {
       //data.features = data.features.filter((feature) => ((feature.properties.hasOwnProperty("SP95")) || (feature.properties.hasOwnProperty("SP98")) || (feature.properties.hasOwnProperty("E10")) || (feature.properties.hasOwnProperty("Gazole")) || (feature.properties.hasOwnProperty("GPLc")) || (feature.properties.hasOwnProperty("E85"))))
-
       this.dataPoints = JSON.parse(JSON.stringify(data))
       this.legend.minPrix = 0
       this.legend.tertilePrix1 = data.properties[this.currentFuel][1]
