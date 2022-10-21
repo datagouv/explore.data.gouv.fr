@@ -1676,7 +1676,9 @@
       "source-layer": "communes",
       "minzoom": 10,
       "maxzoom": 24,
-      "layout": {"visibility": "visible"},
+      "layout": {
+        "visibility": "visible"
+      },
       "paint": {
         "line-opacity": 0.3,
         "line-color": "black",
