@@ -334,7 +334,7 @@ import CenterDeps from '../static/json/centers_deps.json'
 import * as d3 from 'd3-scale'
 
 export default {
-  name: 'MapView',
+  name: 'AppCarburant',
   components: {Map, markRaw, BarOrGraph},
   data() {
     return {
@@ -557,7 +557,7 @@ export default {
       }
     },
     formatDateMaJ(){
-      return this.dateMaj.getDate() + "/" + (this.dateMaj.getMonth()+1) + "/" + this.dateMaj.getFullYear()
+      return this.dateMaj.getDate() + "/" + (this.dateMaj.getMonth()+1) + "/" + this.dateMaj.getFullYear() + " à "  + (this.dateMaj.getHours()+2) + 'h' + this.dateMaj.getMinutes()
     },
     getDayBeforeOrAfter(val){
       let mydate = new Date(this.dateMaj)
