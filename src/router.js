@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import TableView from './views/TableView.vue'
-import MapView from './views/MapView.vue'
+import AppCarburant from './views/AppCarburant.vue'
 
 Vue.use(Router)
 
@@ -16,8 +16,8 @@ export default new Router({
     },
     {
       path: '/prix-carburants',
-      name: 'map',
-      component: MapView
+      name: 'AppCarburant',
+      component: AppCarburant
     },
   ]
 })
