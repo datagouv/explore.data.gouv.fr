@@ -432,7 +432,6 @@ export default {
       this.legend.percentRupture = parseFloat(data.properties[this.currentFuel + "_rupture"]).toFixed(2)
 
       this.dateMaj = new Date(data.properties.maj);
-      
       this.map.on('load', (m) => {
         this.map.addSource('station_points', {
             type: 'geojson',
@@ -557,7 +556,15 @@ export default {
       }
     },
     formatDateMaJ(){
-      return this.dateMaj.getDate() + "/" + (this.dateMaj.getMonth()+1) + "/" + this.dateMaj.getFullYear() + " à "  + (this.dateMaj.getHours()+2) + 'h' + this.dateMaj.getMinutes()
+      let minutes = this.dateMaj.getMinutes()
+      let hours = this.dateMaj.getHours() + ((this.dateMaj.getTimezoneOffset()/60) * -1)
+      if (minutes < 10) {
+        minutes = '0' + this.dateMaj.getMinutes()
+      }
+      if (hours < 10) {
+        hours = '0' + this.dateMaj.getHours() + ((this.dateMaj.getTimezoneOffset()/60) * -1)
+      }
+      return this.dateMaj.getDate() + "/" + (this.dateMaj.getMonth()+1) + "/" + this.dateMaj.getFullYear() + " à " + hours + 'h' + minutes
     },
     getDayBeforeOrAfter(val){
       let mydate = new Date(this.dateMaj)
