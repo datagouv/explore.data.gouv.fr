@@ -507,14 +507,16 @@ export default {
         }
         if (this.columnsInfos[field]['format'] == 'latlon_wgs') {
           if (val && val.split(',').length === 2) {
+            let lon = val.split(',')[0].replace('[','').replace(']','')
+            let lat = val.split(',')[1].replace('[','').replace(']','')
             this.getLocalOrFetch(
               'latlonseparate', 
-              val.split(',')[0] + ',' + val.split(',')[1],
-              'https://geo.api.gouv.fr/communes?lon=' + val.split(',')[1] + '&lat=' + val.split(',')[0]
+              lat + ',' + lon,
+              'https://geo.api.gouv.fr/communes?lon=' + lon + '&lat=' + lat
             )
             .then((data) => {
               this.messageBox = data[0]['nom'] + ' (' + data[0]['code'] + ')'
-              this.banurl = 'https://adresse.data.gouv.fr/base-adresse-nationale#15/' + val.split(',')[0] + '/' + val.split(',')[1]
+              this.banurl = 'https://adresse.data.gouv.fr/base-adresse-nationale#15/' + lat + '/' + lon
               this.displayTooltip = true
             })
             .catch((err) => {
