@@ -60,7 +60,7 @@ export default {
                 let obj2 = []
                 data2.resources.forEach((res) => {
                   if(res.id != rid) {
-                    obj2.push({ resource_id: res.id, resource_title: res.title, preview_url: res.preview_url })
+                    obj2.push({ resource_id: res.id, resource_title: res.title, preview_url: res.preview_url, format: res.format })
                   }
                 });
                 obj.other_resources = obj2
