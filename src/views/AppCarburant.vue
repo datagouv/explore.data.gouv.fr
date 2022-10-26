@@ -28,7 +28,7 @@
                             <button @click="updateDate(getDayBeforeOrAfter(-1))"><</button>
                           </div> -->
                           <div style="margin: auto;">
-                            Le {{ formatDateMaJ() }}
+                            {{ formatDateMaJ() }}
                           </div>
                           <!-- <div style="width: 40px;">
                             <button @click="updateDate(getDayBeforeOrAfter(+1))">></button>
@@ -173,7 +173,7 @@
                             <button @click="updateDate(getDayBeforeOrAfter(-1))"><</button>
                           </div> -->
                           <div style="margin: auto;">
-                            Le {{ formatDateMaJ() }}
+                            {{ formatDateMaJ() }}
                           </div>
                           <!-- <div style="width: 40px;">
                             <button @click="updateDate(getDayBeforeOrAfter(+1))">></button>
@@ -568,15 +568,19 @@ export default {
       }
     },
     formatDateMaJ(){
-      let minutes = this.dateMaj.getMinutes()
-      let hours = this.dateMaj.getHours() + ((this.dateMaj.getTimezoneOffset()/60) * -1)
-      if (minutes < 10) {
-        minutes = '0' + this.dateMaj.getMinutes()
+      if(this.dateMaj.getFullYear()){
+        let minutes = this.dateMaj.getMinutes()
+        let hours = this.dateMaj.getHours() + ((this.dateMaj.getTimezoneOffset()/60) * -1)
+        if (minutes < 10) {
+          minutes = '0' + this.dateMaj.getMinutes()
+        }
+        if (hours < 10) {
+          hours = '0' + (parseInt(this.dateMaj.getHours()) + parseInt((this.dateMaj.getTimezoneOffset()/60) * -1)).toString()
+        }
+        return "Le " + this.dateMaj.getDate() + "/" + (this.dateMaj.getMonth()+1) + "/" + this.dateMaj.getFullYear() + " à " + hours + 'h' + minutes
+      } else {
+        return ""
       }
-      if (hours < 10) {
-        hours = '0' + (parseInt(this.dateMaj.getHours()) + parseInt((this.dateMaj.getTimezoneOffset()/60) * -1)).toString()
-      }
-      return this.dateMaj.getDate() + "/" + (this.dateMaj.getMonth()+1) + "/" + this.dateMaj.getFullYear() + " à " + hours + 'h' + minutes
     },
     getDayBeforeOrAfter(val){
       let mydate = new Date(this.dateMaj)
