@@ -495,7 +495,8 @@ export default {
             positionOptions: {
               enableHighAccuracy: true
             },
-            trackUserLocation: true
+            trackUserLocation: true,
+            fitBoundsOptions: {maxZoom:12}
           })
         );
 
@@ -757,7 +758,7 @@ export default {
 
 #legendMap {
   position: absolute;
-  width: 380px;
+  width: 280px;
   height: 80px;
   top: 10px;
   left: 10px;
