@@ -324,7 +324,7 @@
 </template>
 
 <script>
-import { Map } from 'maplibre-gl';
+import { Map, GeolocateControl } from 'maplibre-gl';
 import BarOrGraph from '@/components/BarOrGraph.vue'
 import { ungzip } from 'pako';
 
@@ -489,6 +489,17 @@ export default {
         this.map.on('mouseleave', 'stations', (e) => {
           this.tooltip.display = 'none'
         });
+
+        this.map.addControl(
+          new GeolocateControl({
+            positionOptions: {
+              enableHighAccuracy: true
+            },
+            trackUserLocation: true
+          })
+        );
+
+
       });
     })
 
