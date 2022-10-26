@@ -562,7 +562,7 @@ export default {
         minutes = '0' + this.dateMaj.getMinutes()
       }
       if (hours < 10) {
-        hours = '0' + this.dateMaj.getHours() + ((this.dateMaj.getTimezoneOffset()/60) * -1)
+        hours = '0' + (parseInt(this.dateMaj.getHours()) + parseInt((this.dateMaj.getTimezoneOffset()/60) * -1)).toString()
       }
       return this.dateMaj.getDate() + "/" + (this.dateMaj.getMonth()+1) + "/" + this.dateMaj.getFullYear() + " à " + hours + 'h' + minutes
     },
