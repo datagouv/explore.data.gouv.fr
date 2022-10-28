@@ -367,7 +367,6 @@ export default {
         tertilePrix2: null,
         meanPrix: null,
         medianPrix: null,
-        percentRupture: null,
       },
       tooltip: {
         top: '100px',
@@ -426,7 +425,6 @@ export default {
       this.legend.maxPrix = data.properties[this.currentFuel][3]
       this.legend.meanPrix = parseFloat(data.properties[this.currentFuel + "_mean"]).toFixed(2)
       this.legend.medianPrix = parseFloat(data.properties[this.currentFuel + "_median"]).toFixed(2)
-      this.legend.percentRupture = parseFloat(data.properties[this.currentFuel + "_rupture"]).toFixed(2)
 
       this.dateMaj = new Date(data.properties.maj);
       this.map.on('load', (m) => {
@@ -539,7 +537,6 @@ export default {
         this.legend.maxPrix = data.properties[this.currentFuel][3]
         this.legend.meanPrix = parseFloat(data.properties[this.currentFuel + "_mean"]).toFixed(2)
         this.legend.medianPrix = parseFloat(data.properties[this.currentFuel + "_median"]).toFixed(2)
-        this.legend.percentRupture = parseFloat(data.properties[this.currentFuel + "_rupture"]).toFixed(2)
 
         this.dateMaj = new Date(val);
     })
@@ -689,7 +686,6 @@ export default {
       this.legend.maxPrix = this.dataPoints.properties[this.currentFuel][3]
       this.legend.meanPrix = parseFloat(this.dataPoints.properties[this.currentFuel + "_mean"]).toFixed(2)
       this.legend.medianPrix = parseFloat(this.dataPoints.properties[this.currentFuel + "_median"]).toFixed(2)
-      this.legend.percentRupture = parseFloat(this.dataPoints.properties[this.currentFuel + "_rupture"]).toFixed(2)
 
       this.displayAllStations()
 
