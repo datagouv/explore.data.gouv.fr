@@ -633,7 +633,14 @@ html {
     height: 100%;
 }
 
-.fr-table, .fr-table table {
+.fr-table {
+  overflow: auto;
+  height: 100vh;
+  padding-bottom: 4rem;
+  margin-bottom: 0;
+}
+
+.fr-table table {
   height: 100%;
 }
 
