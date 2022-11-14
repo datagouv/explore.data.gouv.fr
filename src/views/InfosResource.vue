@@ -176,10 +176,6 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .sticky-bar {
-  position: sticky;
-  top: 0;
-  background-color: white;
-  z-index: 1;
   border-bottom: 1px solid var(--border-default-grey);
 }
 
