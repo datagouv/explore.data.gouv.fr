@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 import {csvapiUrl, pageSize} from '@/config'
+import { apify, configure, getData } from './csvapi'
 
 Vue.use(Vuex)
 
@@ -15,12 +16,14 @@ function getColor(col, value, colors) {
 
 export default new Vuex.Store({
   state: {
+    /** @type {Array} */
     rows: [],
     columns: [],
     generalInfos: {},
     columnsInfos: {},
     colorsCat: {},
     fields: [],
+    /** @type {Array<import('./csvapi').CsvapiFilter>} */
     filters: [],
     page: 1,
     pageSize: pageSize,
@@ -53,7 +56,7 @@ export default new Vuex.Store({
           sortable: true,
         }
       })
-    }
+    },
   },
   actions: {
     handleError ({commit}, res) {
@@ -70,61 +73,34 @@ export default new Vuex.Store({
     },
     sort ({commit, dispatch}, ctx) {
       commit('setSort', {by: ctx.sortBy, desc: ctx.sortDesc})
-      return dispatch('getData', 'sort')
+      return dispatch("getData", "sort")
     },
-    makeDataUrl ({state}, action) {
-      let offset
-      if (action && action == 'page') {
-        offset = pageSize * (state.page - 1)
-      }
-      else {
-        offset = 0
-        state.page = 1
-      }
-      const dataUrl = new URL(state.dataEndpoint)
-      dataUrl.searchParams.set('_shape', 'objects')
-      dataUrl.searchParams.set('_rowid', 'hide')
-      dataUrl.searchParams.set('_size', pageSize)
-      dataUrl.searchParams.set('_offset', offset)
-      state.filters.forEach(({field, value, comp}) => {
-        dataUrl.searchParams.set(`${field}__${comp}`, value)
-      })
-      if (state.sortBy) {
-        const param = state.sortDesc ? '_sort_desc' : '_sort'
-        dataUrl.searchParams.set(param, state.sortBy)
-      }
-      return dataUrl
-    },
-    async getData ({state, commit, dispatch}, action) {
-      const dataUrl = await dispatch('makeDataUrl', action)
-      this.$http.get(dataUrl.toString()).then(res => {
-        if (res.body.ok) {
+    getData({commit, dispatch, state}, action) {
+      return getData(action).then(response => {
+        if (response.ok) {
           if(action == 'page') {
-            commit('setRows', state.rows.concat(res.body.rows))
+            commit('setRows', state.rows.concat(response.rows))
           } else {
-            commit('setRows', res.body.rows)
+            commit('setRows', response.rows)
           }
           if (!state.columns.length) {
-            commit('setColumns', res.body.columns)
+            commit('setColumns', response.columns)
           }
-          commit('setTotalRows', res.body.total)
-          commit('setGeneralInfos', res.body.general_infos)
-          commit('setColumnsInfos', res.body.columns_infos)
+          commit('setTotalRows', response.total)
+          commit('setGeneralInfos', response.general_infos)
+          commit('setColumnsInfos', response.columns_infos)
         } else {
-          dispatch('handleError', res)
+          dispatch('handleError', response)
         }
       }).catch(res => dispatch('handleError', res))
     },
     apify ({commit, dispatch}, url) {
-      const apiUrl = new URL(csvapiUrl)
-      apiUrl.pathname = '/apify'
-      apiUrl.searchParams.set('url', encodeURI(url))
-      apiUrl.searchParams.set('analysis', 'yes')
-      return this.$http.get(apiUrl.toString()).then(res => {
-        if (res.body.ok && res.body.endpoint) {
-          commit('setEndpoints', res.body)
+      configure({csvapiUrl})
+      return apify(url).then(res => {
+        if (res.ok && res.endpoint) {
+          commit('setEndpoints', res)
           commit('updateLoadingState', true)
-          return dispatch('getData', 'apify')
+          return dispatch("getData", "apify")
         } else {
           commit('updateLoadingState', true)
           return dispatch('showError', res)
@@ -137,9 +113,8 @@ export default new Vuex.Store({
       state.hasLoaded = data
     },
     setEndpoints (state, data) {
-      // Patch waiting csvapi in prod
-      state.dataEndpoint = csvapiUrl + '/' + data.endpoint.split('/').slice(3).join('/')
-      //state.dataEndpoint = data.endpoint
+      configure({dataEndpoint: data.endpoint})
+      state.dataEndpoint = data.endpoint
       state.profileEndpoint = data.profile_endpoint
     },
     setRows (state, rows) {
@@ -161,9 +136,9 @@ export default new Vuex.Store({
                 cpt = cpt + 1
                 colorCat[category.value] = cpt
               }
-            };
+            }
           }
-          state.colorsCat[column] = colorCat;
+          state.colorsCat[column] = colorCat
         }
       }
     },
@@ -174,6 +149,7 @@ export default new Vuex.Store({
       state.columns = columns
     },
     setTotalRows (state, totalRows) {
+      configure({totalRows})
       state.totalRows = totalRows
     },
     setError (state, error) {
@@ -181,6 +157,7 @@ export default new Vuex.Store({
       state.hasError = true
     },
     setSort (state, sort) {
+      configure({sortBy: sort.by, sortDesc: sort.desc})
       state.sortBy = sort.by
       state.sortDesc = sort.desc
     },
@@ -194,14 +171,17 @@ export default new Vuex.Store({
     },
     addFilter (state, filter) {
       state.filters.push(filter)
+      configure({filters: state.filters})
     },
     deleteFilter (state, index) {
       state.filters.splice(index, 1)
+      configure({filters: state.filters})
     },
     deleteAllFiltersWithField (state, field) {
       state.filters = state.filters.filter((obj) => {
-          return obj.field !== field;
-      });
+          return obj.field !== field
+      })
+      configure({filters: state.filters})
     }
   }
 })
