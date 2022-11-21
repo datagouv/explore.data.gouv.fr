@@ -116,10 +116,11 @@ export function makeDataUrl(action) {
 export function getData(action) {
     const dataUrl = makeDataUrl(action)
     return fetch(dataUrl.toString()).then(res => {
+        const json = res.json()
         if (!res.ok) {
-            Promise.reject(res.json())
+            Promise.reject(json)
         }
-        return res.json()
+        return json
     })
 }
 /**
@@ -136,9 +137,9 @@ export function apify(url) {
     apiUrl.searchParams.set('url', encodeURI(url))
     apiUrl.searchParams.set('analysis', 'yes')
     return fetch(apiUrl.toString()).then(res => {
-        const json = res.json();
+        const json = res.json()
         if (!res.ok) {
-            Promise.reject(json);
+            Promise.reject(json)
         }
         return json;
     })
