@@ -136,9 +136,10 @@ export function apify(url) {
     apiUrl.searchParams.set('url', encodeURI(url))
     apiUrl.searchParams.set('analysis', 'yes')
     return fetch(apiUrl.toString()).then(res => {
+        const json = res.json();
         if (!res.ok) {
-            Promise.reject(res.json())
+            Promise.reject(json);
         }
-        return res.json()
+        return json;
     })
 }
