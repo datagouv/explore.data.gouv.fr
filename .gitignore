@@ -3,6 +3,7 @@ deploy.sh
 .DS_Store
 node_modules
 /dist
+/lib
 
 # local env files
 .env
