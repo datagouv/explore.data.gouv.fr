@@ -1,11 +1,11 @@
-# CSVAPI Front
+# Explore.data.gouv.fr
 
-CSVAPI Front is a UI for [csvapi](https://github.com/opendatateam/csvapi).
+Explore.data.gouv.fr is a UI for [csvapi](https://github.com/opendatateam/csvapi).
 
 ## Install
 
 ```shell
-npm install --save csvapi-front
+npm install --save @etalab/explore.data.gouv.fr
 ```
 
 ## Configuring
