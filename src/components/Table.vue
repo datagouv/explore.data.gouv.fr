@@ -663,6 +663,7 @@ tfoot .fr-btn--secondary {
   --border-active-blue-france: var(--text-inverted-grey);
   --text-action-high-blue-france: var(--text-inverted-greys);
   --hover-tint: var(--grey-425-625);
+  color: var(--text-inverted-grey);
 }
 
 tfoot .fr-grid-row {
