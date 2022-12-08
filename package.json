@@ -1,13 +1,20 @@
 {
-  "name": "@etalab/prix-carburants",
-  "version": "0.0.1",
+  "name": "@etalab/explore.data.gouv.fr",
+  "version": "1.0.1-0",
   "scripts": {
     "serve": "vue-cli-service serve --open",
     "build": "vue-cli-service build",
     "build:lib": "tsc",
-    "start": "vue-cli-service serve --open"
+    "start": "vue-cli-service serve --open",
+    "preversion": "npm run build && npm run build:lib",
+    "update-version": "npm version --no-git-tag-version",
+    "publish": "npm publish --access public"
   },
-  "files": ["dist", "lib", "src"],
+  "files": [
+    "dist",
+    "lib",
+    "src"
+  ],
   "devDependencies": {
     "@fullhuman/postcss-purgecss": "^4.0.0",
     "@fullhuman/vue-cli-plugin-purgecss": "~5.0.0",
