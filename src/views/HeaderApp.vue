@@ -12,7 +12,7 @@
             <span class="fr-badge fr-badge--info fr-badge--no-icon">BETA</span>
         </div>
         <div>
-            <a :href="formHref" class="fr-btn fr-btn--sm fr-btn--tertiary fr-btn--icon-left fr-icon-lightbulb-line">
+            <a :href="formHref" class="fr-btn fr-btn--sm fr-btn--tertiary-no-outline fr-btn--icon-left fr-icon-lightbulb-line">
                 Donnez nous votre avis sur l'explorateur
             </a>
         </div>
@@ -68,12 +68,6 @@ export default {
 
 .fr-badge{
     font-size:0.750rem;
-}
-
-.fr-btn--tertiary{
-    -webkit-box-shadow: none;
-    box-shadow: none;
-
 }
 
 </style>
