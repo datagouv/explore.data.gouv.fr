@@ -1,6 +1,6 @@
 import 'url-search-params-polyfill'
 import Vue from 'vue'
-import router from './router';
+import router from './router'
 import VueResource from 'vue-resource'
 import "@gouvfr/dsfr/dist/dsfr/dsfr.module"
 

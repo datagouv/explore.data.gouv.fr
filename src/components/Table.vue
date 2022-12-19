@@ -633,7 +633,14 @@ html {
     height: 100%;
 }
 
-.fr-table, .fr-table table {
+.fr-table {
+  overflow: auto;
+  height: 100vh;
+  padding-bottom: 4rem;
+  margin-bottom: 0;
+}
+
+.fr-table table {
   height: 100%;
 }
 
@@ -654,7 +661,7 @@ tfoot {
 tfoot .fr-btn--secondary {
   --border-action-high-blue-france: var(--text-inverted-grey);
   --border-active-blue-france: var(--text-inverted-grey);
-  --text-action-high-blue-france: var(--text-inverted-greys);
+  --text-action-high-blue-france: var(--text-inverted-grey);
   --hover-tint: var(--grey-425-625);
 }
 
