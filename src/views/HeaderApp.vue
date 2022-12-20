@@ -56,14 +56,14 @@ export default {
     font-family: 'Spectral';
     font-style: italic;
     font-weight: 400;
-    font-size: 18.4962px;
+    font-size: 18px;
     line-height: 18px;
     cursor: pointer;
     display: inline-block;
 }
 
 .logotype{
-    transform:translate(0,4px);
+    transform:translate(0,4.5px);
 }
 
 .fr-badge{
