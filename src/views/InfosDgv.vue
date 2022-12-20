@@ -108,11 +108,11 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
 .infosdgv {
   font-size: 0.8rem;
   font-weight: normal;
   line-height: 1.4;
-  background-color: #E6EEFE;
 }
 
 .infosdgv a{
