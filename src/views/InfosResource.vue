@@ -2,8 +2,8 @@
   <div class="subheader">
     <infos-dgv></infos-dgv>
     <div class="inforessource">
-      <div v-if="generalInfos.filetype && generalInfos.filetype === 'excel'" class="fr-grid-row fr-grid-row--gutters">
-        <div class="fr-col-12 fr-col-md-12 fr-col-xl-12 preventExcel">
+      <div v-if="generalInfos.filetype && generalInfos.filetype === 'excel'" class="fr-grid-row fr-grid-row--gutters preventExcel">
+        <div class="fr-col-12 fr-col-md-12 fr-col-xl-12">
           Attention, vous avez sélectionné un fichier Excel, les fonctionnalités d'analyses sur ce type de fichiers sont limitées.
         </div>
       </div>
@@ -207,9 +207,12 @@ export default {
   font-weight: 700;
 }
 
-.preventExcel {
+.preventExcel{
+  margin:1px 0 0 0!important;
+}
+
+.preventExcel div{
   background-color: #FBCB04;
-  height: 60px;
   padding-left: 30px;
   color: #1353B5;
 }
