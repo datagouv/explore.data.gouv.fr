@@ -701,6 +701,11 @@ th, td {
   min-width: 150px;
 }
 
+.header.sticky-bar{
+  padding: 0.45rem 1rem 0.4rem 1rem;
+  font-size: 0.8rem;
+}
+
 .filter {
   border-width: 1px;
 }
