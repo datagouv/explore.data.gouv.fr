@@ -196,9 +196,15 @@ export default {
   padding-bottom: 0.5rem!important;
 }
 
+.fr-text--sm, .fr-btn--sm{
+  font-size: 0.8rem!important;
+}
+
 .dgvSelector{
   line-height: 0.9rem;
   max-width: 320px;
+  font-size: 0.8rem;
+  font-weight: 700;
 }
 
 .preventExcel {
