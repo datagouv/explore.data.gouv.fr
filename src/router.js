@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import TableView from './views/TableView.vue'
-import AppCarburant from './views/AppCarburant.vue'
+import AppCarburant from './apps/carburants/AppCarburant.vue'
 
 Vue.use(Router)
 
