@@ -1,13 +1,12 @@
 <template>
   <div>
     <h2 v-if="display" class="fr-pl-2w fr-py-2w fr-m-0 infosdgv">
-      Exploration du jeu de données 
       <a 
         :href="getDataGouvUrl('datasets/'+dgvInfos.dataset_id)"
         class="text-label-blue-cumulus"
         target="_blank"
       >
-        {{ dgvInfos.dataset_title }}
+        {{ prune(dgvInfos.dataset_title) }}
       </a>
       <span v-if="dgvInfos.organization_id">
       publié par 
@@ -16,7 +15,7 @@
         class="text-label-blue-cumulus"
         target="_blank"
       >
-        {{ dgvInfos.organization_name }}
+        {{ prune(dgvInfos.organization_name) }}
       </a>
       </span>
     </h2>
@@ -89,6 +88,17 @@ export default {
     */
     getDataGouvUrl(path){
       return getDataGouvUrl(path)
+    },
+    prune(string){
+      if(string){
+        var pruned
+        if(string.length<40){
+          pruned = string
+        }else{
+          pruned = string.substring(0,37)+"..."
+        }
+        return pruned
+      }
     }
   },
   watch: {
@@ -98,11 +108,15 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
 .infosdgv {
-  font-size: 1rem;
+  font-size: 0.8rem;
   font-weight: normal;
-  line-height: 1.5;
-  background-color: #F3F3F3;
-  border-bottom: 2px solid #ebebeb;
+  line-height: 1.4;
+}
+
+.infosdgv a{
+  font-weight: 700;
+  background-image: none;
 }
 </style>
