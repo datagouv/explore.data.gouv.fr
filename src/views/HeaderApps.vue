@@ -18,7 +18,7 @@
             </div>
             <div class="headerlink">
                 <a :href="formHref" class="fr-btn fr-btn--sm fr-btn--tertiary-no-outline fr-btn--icon-left fr-icon-lightbulb-line">
-                    A propos de cette application
+                    Donnez-nous votre avis
                 </a>
             </div>
         </div>
