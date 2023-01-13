@@ -1,6 +1,6 @@
 <template>
   <div class="fr-container--fluid">
-    <header-app></header-app>
+    <header-apps></header-apps>
     <header role="banner" class="fr-header">
       <div class="fr-header__body">
           <div class="fr-container--fluid fr-px-2w">
@@ -84,13 +84,13 @@
               <span v-if="(tooltip.properties[item] != 'R') & (tooltip.properties[item] != 'N')">
                 <div v-if="tooltip.properties[item]" class="tooltip-value">
                   <span v-if="tooltip.properties[item + '_color'] === '1'">
-                    <img src="../../static/images/dispo-green.png" width="12" alt="" />
+                    <img src="/assets/images/dispo-green.png" width="12" alt="" />
                   </span>
                   <span v-if="tooltip.properties[item + '_color'] === '2'">
-                    <img src="../../static/images/dispo-orange.png" width="12" alt="" />
+                    <img src="/assets/images/dispo-orange.png" width="12" alt="" />
                   </span>
                   <span v-if="tooltip.properties[item + '_color'] === '3'">
-                    <img src="../../static/images/dispo-red.png" width="12" alt="" />
+                    <img src="/assets/images/dispo-red.png" width="12" alt="" />
                   </span>
                   <b>{{ fuelFr[item] }} : {{ tooltip.properties[item] }} €</b><br />MAJ le {{ isoToDateFr(tooltip.properties[item + '_m'], 'short') }}
                 </div>
@@ -98,7 +98,7 @@
               <span v-else-if="tooltip.properties[item] == 'R'">
                 <div v-if="tooltip.properties[item]" class="tooltip-value tooltip-value-grey">
                   <span>
-                    <img src="../../static/images/cross-sign.png" width="12" alt="" />
+                    <img src="/assets/images/cross-sign.png" width="12" alt="" />
                     {{ fuelFr[item] }} : En rupture<br />depuis le {{ isoToDateFr(tooltip.properties[item + '_s'], 'short') }}
                   </span>
                 </div>
@@ -106,7 +106,7 @@
               <span v-else>
                 <div class="tooltip-value tooltip-value-grey">
                   <span>
-                    <img src="../../static/images/caution-sign.png" width="12" alt="" />
+                    <img src="/assets/images/caution-sign.png" width="12" alt="" />
                     {{ fuelFr[item] }} : Non proposé<br/>dans la station
                   </span>
                 </div>
@@ -118,13 +118,13 @@
               <span v-if="(tooltip.properties[item] != 'R') & (tooltip.properties[item] != 'N')">
                 <div v-if="tooltip.properties[item]" class="tooltip-value">
                   <span v-if="tooltip.properties[item + '_color'] === '1'">
-                    <img src="../../static/images/dispo-green.png" width="12" alt="" />
+                    <img src="/assets/images/dispo-green.png" width="12" alt="" />
                   </span>
                   <span v-if="tooltip.properties[item + '_color'] === '2'">
-                    <img src="../../static/images/dispo-orange.png" width="12" alt="" />
+                    <img src="/assets/images/dispo-orange.png" width="12" alt="" />
                   </span>
                   <span v-if="tooltip.properties[item + '_color'] === '3'">
-                    <img src="../../static/images/dispo-red.png" width="12" alt="" />
+                    <img src="/assets/images/dispo-red.png" width="12" alt="" />
                   </span>
                   <b>{{ fuelFr[item] }} : {{ tooltip.properties[item] }} €</b><br />MAJ le {{ isoToDateFr(tooltip.properties[item + '_m'], 'short') }}
                 </div>
@@ -132,7 +132,7 @@
               <span v-else-if="tooltip.properties[item] == 'R'">
                 <div v-if="tooltip.properties[item]" class="tooltip-value tooltip-value-grey">
                   <span>
-                    <img src="../../static/images/cross-sign.png" width="12" alt="" />
+                    <img src="/assets/images/cross-sign.png" width="12" alt="" />
                     {{ fuelFr[item] }} : En rupture<br />depuis le {{ isoToDateFr(tooltip.properties[item + '_s'], 'short') }}
                   </span>
                 </div>
@@ -140,7 +140,7 @@
               <span v-else>
                 <div class="tooltip-value tooltip-value-grey">
                   <span>
-                    <img src="../../static/images/caution-sign.png" width="12" alt="" />
+                    <img src="/assets/images/caution-sign.png" width="12" alt="" />
                     {{ fuelFr[item] }} : Non proposé<br/>dans la station
                   </span>
                 </div>
@@ -315,20 +315,20 @@
 
 import store from './store'
 
-import HeaderApp from '@/views/HeaderApp'
+import HeaderApps from '@/views/HeaderApps'
 
 import { Map, GeolocateControl } from 'maplibre-gl';
 import BarOrGraph from '@/components/BarOrGraph.vue'
 import { ungzip } from 'pako';
 
 import { markRaw } from 'vue';
-import styleVector from '../../static/json/vector.json'
-import CenterDeps from '../../static/json/centers_deps.json'
+import styleVector from './assets/json/vector.json'
+import CenterDeps from './assets/json/centers_deps.json'
 import * as d3 from 'd3-scale'
 
 export default {
   name: 'AppCarburant',
-  components: {Map, markRaw, BarOrGraph, HeaderApp},
+  components: {Map, markRaw, BarOrGraph, HeaderApps},
   data() {
     return {
       map: Object,
