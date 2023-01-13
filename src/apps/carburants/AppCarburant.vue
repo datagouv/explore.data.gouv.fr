@@ -1,79 +1,6 @@
 <template>
   <div class="fr-container--fluid">
     <header-apps></header-apps>
-    <header role="banner" class="fr-header">
-      <div class="fr-header__body">
-          <div class="fr-container--fluid fr-px-2w">
-              <div class="fr-header__body-row">
-                  <div class="fr-header__brand fr-enlarge-link">
-                      <div class="fr-header__brand-top">
-                          <div class="fr-header__navbar">
-                              <button class="fr-btn--search fr-btn" data-fr-opened="false" aria-controls="modal-541" id="button-542" title="Rechercher">
-                                  Rechercher
-                              </button>
-                          </div>
-                      </div>
-                      <div v-if="dateMaj" class="fr-header__service fr-hidden-md">
-                        <div style="display: flex;" class="fr-header__service-tagline">
-                          <!-- <div style="width: 40px;">
-                            <button @click="updateDate(getDayBeforeOrAfter(-1))"><</button>
-                          </div> -->
-                          <div style="margin: auto;">
-                            {{ formatDateMaJ() }}
-                          </div>
-                          <!-- <div style="width: 40px;">
-                            <button @click="updateDate(getDayBeforeOrAfter(+1))">></button>
-                          </div> -->
-                        </div>
-                    </div>
-                  </div>
-                  <div class="fr-header__tools">
-                      <div class="fr-header__search fr-modal" id="modal-541">
-                          <div class="fr-container fr-container-lg--fluid">
-                              <button class="fr-btn--close fr-btn" aria-controls="modal-541" title="Fermer" ref="modalCloseButton">
-                                  Fermer
-                              </button>
-                              <div class="autocomplete-container">
-                                <div class="fr-search-bar" id="search-540" role="search">
-                                  <label class="fr-label" for="search-540-input">
-                                      Rechercher
-                                  </label>
-                                  <input 
-                                    v-model="searchAdress"
-                                    class="fr-input"
-                                    placeholder="Rechercher une station près de chez vous"
-                                    type="search"
-                                    id="search-540-input"
-                                    name="search-540-input"
-                                    v-on:keyup.enter="goToFirstResult()"
-                                    @input="autoComplete()"
-                                  >
-                                  <button class="fr-btn" title="Rechercher" @click="getAdresses()">
-                                      Rechercher
-                                  </button>
-                                </div>
-                                <div v-if="resultsAdresses" class="autocomplete">
-                                  <div 
-                                    @click="moveTo(item.geometry.coordinates, 13)" 
-                                    v-for="item in resultsAdresses.features"
-                                    :key="item.properties.label"
-                                  >
-                                    <div 
-                                      :class="firstResult.properties.label === item.properties.label ? 'autocomplete-item autocomplete-item-select' : 'autocomplete-item'"
-                                      @mouseover="firstResult = item"
-                                    >
-                                      {{ item.properties.label }}
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </div>
-      </div>
-  </header>
     <div>
       <div v-if="tooltip.properties" class="tooltip" :style="{top:tooltip.top,left:tooltip.left, display:tooltip.display}">
           <div v-if="tooltip.properties.adr" class="tooltip-title">{{ tooltip.properties.adr }}</div>
@@ -276,6 +203,44 @@
           </nav>
         </div>
         <div id="map" class="map fr-col-12 fr-col-md-8 fr-col-xl-9" ref="mapContainer">
+          
+            <div class="fr-container fr-container-lg--fluid" id="searchMap">
+                <div class="autocomplete-container">
+                  <div class="fr-search-bar" id="search-540" role="search">
+                    <label class="fr-label" for="search-540-input">
+                        Rechercher
+                    </label>
+                    <input 
+                      v-model="searchAdress"
+                      class="fr-input"
+                      placeholder="Rechercher une station près de chez vous"
+                      type="search"
+                      id="search-540-input"
+                      name="search-540-input"
+                      v-on:keyup.enter="goToFirstResult()"
+                      @input="autoComplete()"
+                    >
+                    <button class="fr-btn" title="Rechercher" @click="getAdresses()">
+                        Rechercher
+                    </button>
+                  </div>
+                  <div v-if="resultsAdresses" class="autocomplete">
+                    <div 
+                      @click="moveTo(item.geometry.coordinates, 13)" 
+                      v-for="item in resultsAdresses.features"
+                      :key="item.properties.label"
+                    >
+                      <div 
+                        :class="firstResult.properties.label === item.properties.label ? 'autocomplete-item autocomplete-item-select' : 'autocomplete-item'"
+                        @mouseover="firstResult = item"
+                      >
+                        {{ item.properties.label }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+          
           <div id="legendMap">
             <div class="legendMap-title">Prix des carburants</div>
             <div class="legendMap-colors">
@@ -612,7 +577,7 @@ export default {
         })
     },
     closeModal() {
-      this.$refs.modalCloseButton.click()
+      /*this.$refs.modalCloseButton.click()*/
     },
     moveTo(coordinates, zoomLevel) {
       this.closeModal()
@@ -751,7 +716,7 @@ export default {
 #legendMap {
   position: absolute;
   width: 280px;
-  height: 80px;
+  height: 110px;
   top: 10px;
   left: 10px;
   background-color: white;
@@ -763,6 +728,17 @@ export default {
   cursor: grab;
 }
 
+#searchMap {
+  position: absolute;
+  width: 400px;
+  height: 80px;
+  top: auto;
+  bottom:100px;
+  right: 0px;
+  left:0px;
+  z-index: 999;
+}
+
 @media (min-width: 48em) {
   .map {
     height: 100%;
@@ -770,20 +746,25 @@ export default {
     
   #legendMap {
     width: 500px;
+    height: 80px;
   }
 
   #titleMap {
     bottom: 2rem;
+  }
+
+  #searchMap {
+    height: 80px;
+    top: 10px;
+    bottom:auto;
+    left:auto;
+    right: 50px;
   }
 }
 
 @media (min-width: 62em) {
   .map-wrap {
     height: calc(100vh - 100.5px); /* calculate height of the screen minus the heading */
-  }
-
-  .autocomplete {
-    right: 2.5rem;
   }
 
   .fr-header__body-row{
@@ -906,8 +887,8 @@ export default {
 .autocomplete {
   position: absolute;
   top: 40px;
-  z-index: 1000;
   border-top: 1px solid #ebebeb;
+  width: 100%;
 }
 
 .autocomplete-item {
