@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import TableView from './views/TableView.vue'
 import AppCarburant from './views/AppCarburant.vue'
+import AppRuptureCarburant from './views/AppRuptureCarburant.vue'
 
 Vue.use(Router)
 
@@ -18,6 +19,11 @@ export default new Router({
       path: '/prix-carburants',
       name: 'AppCarburant',
       component: AppCarburant
+    },
+    {
+      path: '/rupture-carburants',
+      name: 'AppRuptureCarburant',
+      component: AppRuptureCarburant
     },
   ]
 })
