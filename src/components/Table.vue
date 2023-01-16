@@ -656,6 +656,7 @@ tfoot {
   color: var(--text-inverted-grey);
   width: 100%;
   z-index: 6;
+  overflow: hidden;
 }
 
 tfoot .fr-btn--secondary {
@@ -722,6 +723,14 @@ th, td {
 
 .messageNoResults{
   min-height: 400px;
+}
+
+@media (min-width: 48em){
+
+  .fr-table td{
+    padding:0.75rem;
+  }
+
 }
 
 </style>

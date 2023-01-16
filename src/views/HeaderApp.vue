@@ -39,12 +39,13 @@ export default {
 .headerapp{
     padding-left: 15px;
     padding-right: 15px;
-    padding-top: 3px;
-    padding-bottom: 3px;
+    padding-top: 10px;
+    padding-bottom: 10px;
     background-color: #E6EEFE;
     justify-content: space-between;
     width: 100%;
     border-bottom: 2px solid #E6EEFE;
+    overflow: hidden;
 }
 
 .fr-enlarge-link{
