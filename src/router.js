@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import TableView from './views/TableView.vue'
 import AppCarburant from './apps/carburants/AppCarburant.vue'
+import AppDvf from './apps/dvf/AppDvf.vue'
 
 Vue.use(Router)
 
@@ -19,5 +20,11 @@ export default new Router({
       name: 'AppCarburant',
       component: AppCarburant
     },
+    {
+      path: '/dvf',
+      name: 'AppDvf',
+      component: AppDvf
+    },
+
   ]
 })
