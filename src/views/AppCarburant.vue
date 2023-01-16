@@ -158,12 +158,12 @@
             </div>
           </div>
       </div>
-      <div style="height: 60px; padding-top: 20px; display: flex; border-bottom: 1px solid #ebebeb;">
-        <div @click="goToUrl('/prix-carburants')" style="height: 40px; width: 200px; margin-left: 30px; border-left: 1px solid #ebebeb; border-right: 1px solid #ebebeb; border-top: 3px solid #000091;">
-          <div style="text-align: center; line-height: 40px; width: 100%; font-weight: bold;">Prix des carburants</div>
+      <div class="global-panel" >
+        <div @click="goToUrl('/prix-carburants')" class="panel-inactive">
+          <div class="panel-title">Prix des carburants</div>
         </div>
-        <div @click="goToUrl('/rupture-carburants')" style="cursor: pointer; height: 40px; width: 200px; background-color: #E8EDFF; margin-left: 20px;">
-            <div style="text-align: center; line-height: 40px; width: 100%; color: black; font-weight: bold;">Rupture des carburants</div>
+        <div @click="goToUrl('/rupture-carburants')" class="panel-active">
+            <div class="panel-title">Rupture des carburants</div>
         </div>
       </div>
       <div class="fr-grid-row map-wrap">
@@ -960,9 +960,44 @@ export default {
   content: none;
 }
 
+
+
 .label-rupture{
   font-size: 13px;
   font-weight: bold;
   font-style: italic;
+}
+
+.global-panel{
+  height: 60px;
+  width: 100%;
+  overflow-x: auto;
+  padding-top: 20px;
+  display: flex;
+  border-bottom: 1px solid #ebebeb;
+}
+
+.panel-active{
+  cursor: pointer;
+  height: 40px;
+  width: 250px;
+  background-color: #E8EDFF;
+  margin-left: 20px;
+}
+
+.panel-inactive{
+  height: 40px;
+  width: 250px;
+  margin-left: 20px;
+  border-left: 1px solid #ebebeb;
+  border-right: 1px solid #ebebeb;
+  border-top: 3px solid #000091;
+}
+
+.panel-title{
+  text-align: center;
+  line-height: 40px;
+  width: 250px;
+  font-weight: bold;
 }
 </style>
