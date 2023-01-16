@@ -749,6 +749,8 @@ export default {
 
 .global-panel{
   height: 60px;
+  width: 100%;
+  overflow-x: auto;
   padding-top: 20px;
   display: flex;
   border-bottom: 1px solid #ebebeb;
@@ -757,14 +759,14 @@ export default {
 .panel-active{
   cursor: pointer;
   height: 40px;
-  width: 200px;
+  width: 250px;
   background-color: #E8EDFF;
   margin-left: 20px;
 }
 
 .panel-inactive{
   height: 40px;
-  width: 200px;
+  width: 250px;
   margin-left: 20px;
   border-left: 1px solid #ebebeb;
   border-right: 1px solid #ebebeb;
@@ -774,7 +776,7 @@ export default {
 .panel-title{
   text-align: center;
   line-height: 40px;
-  width: 100%;
+  width: 250px;
   font-weight: bold;
 }
 
