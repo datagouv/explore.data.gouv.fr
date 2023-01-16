@@ -158,6 +158,14 @@
             </div>
           </div>
       </div>
+      <div style="height: 60px; padding-top: 20px; display: flex; border-bottom: 1px solid #ebebeb;">
+        <div @click="goToUrl('/prix-carburants')" style="height: 40px; width: 200px; margin-left: 30px; border-left: 1px solid #ebebeb; border-right: 1px solid #ebebeb; border-top: 3px solid #000091;">
+          <div style="text-align: center; line-height: 40px; width: 100%; font-weight: bold;">Prix des carburants</div>
+        </div>
+        <div @click="goToUrl('/rupture-carburants')" style="cursor: pointer; height: 40px; width: 200px; background-color: #E8EDFF; margin-left: 20px;">
+            <div style="text-align: center; line-height: 40px; width: 100%; color: black; font-weight: bold;">Rupture des carburants</div>
+        </div>
+      </div>
       <div class="fr-grid-row map-wrap">
         <div class="fr-col-12 fr-col-md-4 fr-col-xl-3">
           <nav class="fr-sidemenu fr-sidemenu--sticky fr-p-0" aria-label="Menu latéral">
@@ -710,6 +718,9 @@ export default {
         }
       }, 650)
     },
+    goToUrl(url){
+      window.location.href = window.location.origin + url;
+    },
   },
   watch: {
   }
@@ -769,9 +780,6 @@ export default {
 }
 
 @media (min-width: 48em) {
-  .map {
-    height: 100%;
-  }
     
   #legendMap {
     width: 500px;
