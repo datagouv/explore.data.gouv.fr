@@ -28,7 +28,7 @@
                             <button @click="updateDate(getDayBeforeOrAfter(-1))"><</button>
                           </div> -->
                           <div style="margin: auto;">
-                            Dernière mise à jour le {{ formatDateMaJ() }}
+                            {{ formatDateMaJ() }}
                           </div>
                           <!-- <div style="width: 40px;">
                             <button @click="updateDate(getDayBeforeOrAfter(+1))">></button>
@@ -90,11 +90,11 @@
             <div>
                 <div class="tooltip-value">
                   <span>
-                    <b>{{ actualValue }}</b> % de rupture ({{ fuelFr[currentFuel] }})
+                    {{ actualValue }} % de rupture ({{ fuelFr[currentFuel] }})
                     <br />
-                    <b>{{ actualNbStationsRupture }}</b> station(s) en rupture
+                    {{ actualNbStationsRupture }} station(s) en rupture
                     <br />
-                    <b>{{ actualNbStations }}</b> stations distribuant le carburant habituellement*
+                    {{ actualNbStations }} stations distribuant le carburant habituellement*
                   </span>
                 </div>
                 <div class="tooltip-value">
@@ -103,14 +103,6 @@
                 </div>
             </div>
           </div>  
-      </div>
-      <div class="global-panel" >
-        <div @click="goToUrl('/prix-carburants')" class="panel-active">
-          <div class="panel-title">Prix des carburants</div>
-        </div>
-        <div @click="goToUrl('/rupture-carburants')" class="panel-inactive">
-            <div class="panel-title">Rupture des carburants</div>
-        </div>
       </div>
       <div class="fr-grid-row map-wrap">
         <div class="fr-col-12 fr-col-md-4 fr-col-xl-3">
@@ -127,7 +119,7 @@
                             <button @click="updateDate(getDayBeforeOrAfter(-1))"><</button>
                           </div> -->
                           <div style="margin: auto;">
-                            Dernière mise à jour le {{ formatDateMaJ() }}
+                            {{ formatDateMaJ() }}
                           </div>
                           <!-- <div style="width: 40px;">
                             <button @click="updateDate(getDayBeforeOrAfter(+1))">></button>
@@ -146,7 +138,7 @@
                         <option 
                           key="deux_produits"
                           value="deux_produits">
-                          Rupture de Gazole et d'Essence
+                          Rupture des produits Gazole et Essence
                         </option>
                         <option 
                           key="essence"
@@ -184,6 +176,16 @@
                           Rupture de Superéthanol E85
                         </option>
                       </select>
+                      <div v-if="this.legend.meanPrix" class="fr-grid-row fr-grid-row--gutters">
+                        <div class="fr-col">
+                          <div class="fr-text--bold fr-mb-1v">Prix moyen :</div>
+                          {{ this.legend.meanPrix }} €
+                        </div>
+                        <div class="fr-col">
+                          <div class="fr-text--bold fr-mb-1v">Prix médian :</div>
+                          {{ this.legend.medianPrix }} €
+                        </div>
+                      </div>
                       <br />
                       <div v-if="valuesx && valuesy">
                         <bar-or-graph indicateur="toto" color="#3558a2" :titleChart="titleChart" unitChart="€" typeChart="line" :valuesx="valuesx" :valuesy="valuesy"></bar-or-graph>
@@ -194,8 +196,7 @@
                         <br /><br />
                         <i><u><a href="https://www.data.gouv.fr/fr/posts/exploration-de-donnees-zoom-sur-de-nouvelles-briques-disponibles-sur-data-gouv-fr-avec-lexemple-du-prix-des-carburants/">En savoir plus sur ce tableau de bord</a></u> et la méthodologie permettant son développement.</i>
                         <br />
-                        <i>Les sources de données utilisées pour réaliser cette application <a href="https://www.data.gouv.fr/fr/datasets/prix-des-carburants-en-france-flux-instantane/"><u>sont disponibles sur data.gouv.fr</u></a></i>.
-                         <!-- et <a href="https://explore.data.gouv.fr/?url=https://www.data.gouv.fr/fr/datasets/r/64e02cff-9e53-4cb2-adfd-5fcc88b2dc09"><u>sont explorables ici.</u></a></i> -->
+                        <i>Les sources de données utilisées pour réaliser cette application <a href="https://www.data.gouv.fr/fr/datasets/prix-des-carburants-en-france-flux-instantane/"><u>sont disponibles sur data.gouv.fr</u></a> et <a href="https://explore.data.gouv.fr/?url=https://www.data.gouv.fr/fr/datasets/r/64e02cff-9e53-4cb2-adfd-5fcc88b2dc09"><u>sont explorables ici.</u></a></i>
                         <i> Celles-ci sont mises à disposition par le Ministère de l'Économie, des Finances et de la Souveraineté industrielle et numérique.
                         Pour plus d'informations <a href="https://www.prix-carburants.gouv.fr/"><u>rendez-vous sur le site officiel.</u></a></i>
                         <br />
@@ -328,7 +329,7 @@ export default {
     this.depts = lib_deps;
     this.dataChloropleth = null
     this.matchExpression = ['match', ['get', 'code']]
-    this.zoomLevel = 4.6
+    this.zoomLevel = 4.2
     this.lat = 46.3
     this.lng = 2
     const initialState = { lng: this.lng, lat: this.lat, zoom: this.zoomLevel };
@@ -489,10 +490,7 @@ export default {
           day = '0' + day;
 
       return [day, month, year].join('/');
-    },
-    goToUrl(url){
-      window.location.href = window.location.origin + url;
-    },
+    }
   },
   watch: {
   }
@@ -553,7 +551,7 @@ export default {
 
 @media (min-width: 48em) {
   .map {
-    height: 90%;
+    height: 100%;
   }
     
   #legendMap {
@@ -746,38 +744,4 @@ export default {
   font-weight: bold;
   font-style: italic;
 }
-
-.global-panel{
-  height: 60px;
-  width: 100%;
-  overflow-x: auto;
-  padding-top: 20px;
-  display: flex;
-  border-bottom: 1px solid #ebebeb;
-}
-
-.panel-active{
-  cursor: pointer;
-  height: 40px;
-  width: 250px;
-  background-color: #E8EDFF;
-  margin-left: 20px;
-}
-
-.panel-inactive{
-  height: 40px;
-  width: 250px;
-  margin-left: 20px;
-  border-left: 1px solid #ebebeb;
-  border-right: 1px solid #ebebeb;
-  border-top: 3px solid #000091;
-}
-
-.panel-title{
-  text-align: center;
-  line-height: 40px;
-  width: 250px;
-  font-weight: bold;
-}
-
 </style>
