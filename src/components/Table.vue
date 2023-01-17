@@ -1,6 +1,6 @@
 <template>
-  <div class="fr-table">
-    <table ref="table" @scroll="testScroll($event)">
+  <div class="fr-table" >
+    <table ref="table" @scroll="handleScroll($event)">
       <thead :style="{ left: '-' + scrollTab + 'px' }">
         <tr>
           <th 
@@ -53,7 +53,7 @@
           </th>
         </tr>
       </thead>
-      <tbody>
+      <tbody id="body">
         <tr
           v-for="(row, index) in rows" 
           :key="row[0]"
@@ -249,7 +249,8 @@ export default {
         region: {},
         url: {}
       },
-      scrollTab:0
+      scrollTab:0,
+      lastBiggerScroll:0
     }
   },
   computed: {
@@ -605,9 +606,18 @@ export default {
         return 'https://annuaire-entreprises.data.gouv.fr/etablissement/' + id;
       }
     },
-    handleScroll () {
-      let bottomOfWindow = Math.max(window.pageYOffset, document.documentElement.scrollTop, document.body.scrollTop) + window.innerHeight + 1 >= document.documentElement.offsetHeight
-      if (bottomOfWindow) {
+    handleScroll (event) {
+
+      var tableTop = event.target.getBoundingClientRect().top + 100
+
+      console.log(tableTop)
+
+      console.log("scroll",event.target.scrollTop+tableTop)
+      console.log("height",event.target.offsetHeight)
+      console.log("lastScroll",this.lastBiggerScroll)
+      
+      if(event.target.scrollTop+tableTop>event.target.offsetHeight&&event.target.scrollTop+tableTop>this.lastBiggerScroll){
+        this.lastBiggerScroll = event.target.scrollTop+tableTop+event.target.offsetHeight
         this.page = this.page + 1
         this.changePage()
       }
@@ -619,15 +629,12 @@ export default {
     exportData(){
       return this.dataEndpoint + '/export' + document.location.search
     },
-    testScroll(event){
-      this.scrollTab = event.target.scrollLeft
-    }
   },
   created () {
-    window.addEventListener('scroll', this.handleScroll);
+    
   },
   destroyed () {
-    window.removeEventListener('scroll', this.handleScroll);
+    
   }
 }
 </script>
@@ -651,13 +658,11 @@ html {
 .fr-table thead {
   background-color: white;
   background-image: none;
-  position: fixed;
-  z-index: 999;
 
 }
 
 .fr-table tbody {
-  top:116px;
+  height: auto;
 }
 
 tfoot {
