@@ -1,7 +1,7 @@
 <template>
   <div class="fr-table" >
     <table ref="table" @scroll="handleScroll($event)">
-      <thead :style="{ left: '-' + scrollTab + 'px' }">
+      <thead id="tabhead" :style="{ left: '-' + scrollTab + 'px' }">
         <tr>
           <th 
             scope="col"
@@ -608,13 +608,7 @@ export default {
     },
     handleScroll (event) {
 
-      var tableTop = event.target.getBoundingClientRect().top + 100
-
-      console.log(tableTop)
-
-      console.log("scroll",event.target.scrollTop+tableTop)
-      console.log("height",event.target.offsetHeight)
-      console.log("lastScroll",this.lastBiggerScroll)
+      var tableTop = event.target.getBoundingClientRect().top + document.getElementById("tabhead").offsetHeight
       
       if(event.target.scrollTop+tableTop>event.target.offsetHeight&&event.target.scrollTop+tableTop>this.lastBiggerScroll){
         this.lastBiggerScroll = event.target.scrollTop+tableTop+event.target.offsetHeight
@@ -658,8 +652,11 @@ html {
 .fr-table thead {
   background-color: white;
   background-image: none;
-
+  position: sticky;
+  top:0;
+  z-index: 999;
 }
+
 
 .fr-table tbody {
   height: auto;
