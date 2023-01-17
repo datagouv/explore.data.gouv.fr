@@ -1,7 +1,7 @@
 <template>
   <div class="fr-table" >
     <table ref="table" @scroll="handleScroll($event)">
-      <thead id="tabhead" :style="{ left: '-' + scrollTab + 'px' }">
+      <thead id="tabhead">
         <tr>
           <th 
             scope="col"
@@ -249,7 +249,6 @@ export default {
         region: {},
         url: {}
       },
-      scrollTab:0,
       lastBiggerScroll:0
     }
   },
