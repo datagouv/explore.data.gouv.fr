@@ -1,7 +1,7 @@
 <template>
   <div class="fr-table">
-    <table ref="table">
-      <thead>
+    <table ref="table" @scroll="testScroll($event)">
+      <thead :style="{ left: '-' + scrollTab + 'px' }">
         <tr>
           <th 
             scope="col"
@@ -249,6 +249,7 @@ export default {
         region: {},
         url: {}
       },
+      scrollTab:0
     }
   },
   computed: {
@@ -617,6 +618,9 @@ export default {
     },
     exportData(){
       return this.dataEndpoint + '/export' + document.location.search
+    },
+    testScroll(event){
+      this.scrollTab = event.target.scrollLeft
     }
   },
   created () {
@@ -647,6 +651,13 @@ html {
 .fr-table thead {
   background-color: white;
   background-image: none;
+  position: fixed;
+  z-index: 999;
+
+}
+
+.fr-table tbody {
+  top:116px;
 }
 
 tfoot {
