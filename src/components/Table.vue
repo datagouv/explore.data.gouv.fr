@@ -635,13 +635,15 @@ export default {
 <style scoped>
 html {
     height: 100%;
+    overflow: hidden;
 }
 
 .fr-table {
-  overflow: auto;
+  overflow: scroll;
   height: 100vh;
-  padding-bottom: 4rem;
+  padding-bottom: 385px;
   margin-bottom: 0;
+  
 }
 
 .fr-table table {
@@ -741,6 +743,10 @@ th, td {
 
   .fr-table td{
     padding:0.75rem;
+  }
+
+  .fr-table {
+    padding-bottom: 169px;
   }
 
 }
