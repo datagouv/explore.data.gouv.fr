@@ -122,6 +122,7 @@ export default {
   },
   watch: {
     csvUrl (value) {
+      if(value){ document.querySelectorAll('body')[0].style.overflow = 'hidden' }
       if (!value) return
       this.$store.dispatch('apify', this.csvUrl).finally(() => {
       })
@@ -129,9 +130,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-  html {
-    overflow: hidden;
-  }
-</style>
