@@ -158,6 +158,14 @@
             </div>
           </div>
       </div>
+      <div class="global-panel" >
+        <div @click="goToUrl('/prix-carburants')" class="panel-inactive">
+          <div class="panel-title">Prix des carburants</div>
+        </div>
+        <div @click="goToUrl('/rupture-carburants')" class="panel-active">
+            <div class="panel-title">Rupture des carburants</div>
+        </div>
+      </div>
       <div class="fr-grid-row map-wrap">
         <div class="fr-col-12 fr-col-md-4 fr-col-xl-3">
           <nav class="fr-sidemenu fr-sidemenu--sticky fr-p-0" aria-label="Menu latéral">
@@ -710,6 +718,9 @@ export default {
         }
       }, 650)
     },
+    goToUrl(url){
+      window.location.href = window.location.origin + url;
+    },
   },
   watch: {
   }
@@ -769,9 +780,6 @@ export default {
 }
 
 @media (min-width: 48em) {
-  .map {
-    height: 100%;
-  }
     
   #legendMap {
     width: 500px;
@@ -952,9 +960,44 @@ export default {
   content: none;
 }
 
+
+
 .label-rupture{
   font-size: 13px;
   font-weight: bold;
   font-style: italic;
+}
+
+.global-panel{
+  height: 60px;
+  width: 100%;
+  overflow-x: auto;
+  padding-top: 20px;
+  display: flex;
+  border-bottom: 1px solid #ebebeb;
+}
+
+.panel-active{
+  cursor: pointer;
+  height: 40px;
+  width: 250px;
+  background-color: #E8EDFF;
+  margin-left: 20px;
+}
+
+.panel-inactive{
+  height: 40px;
+  width: 250px;
+  margin-left: 20px;
+  border-left: 1px solid #ebebeb;
+  border-right: 1px solid #ebebeb;
+  border-top: 3px solid #000091;
+}
+
+.panel-title{
+  text-align: center;
+  line-height: 40px;
+  width: 250px;
+  font-weight: bold;
 }
 </style>
