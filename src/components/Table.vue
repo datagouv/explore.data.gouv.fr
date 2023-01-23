@@ -1,5 +1,6 @@
 <template>
   <div class="fr-table">
+    {{ this.page }}
     <table ref="table">
       <thead>
         <tr>
