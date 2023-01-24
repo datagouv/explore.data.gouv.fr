@@ -1,6 +1,7 @@
 <template>
   <div>
     <h2 v-if="display" class="fr-pl-2w fr-py-2w fr-m-0 infosdgv">
+      Jeux de données
       <a 
         :href="getDataGouvUrl('datasets/'+dgvInfos.dataset_id)"
         class="text-label-blue-cumulus"

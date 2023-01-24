@@ -1,7 +1,7 @@
 <template>
-  <div class="fr-table">
-    <table ref="table">
-      <thead>
+  <div class="fr-table" >
+    <table ref="table" @scroll="handleScroll($event)">
+      <thead id="tabhead">
         <tr>
           <th 
             scope="col"
@@ -53,7 +53,7 @@
           </th>
         </tr>
       </thead>
-      <tbody>
+      <tbody id="body">
         <tr
           v-for="(row, index) in rows" 
           :key="row[0]"
@@ -249,6 +249,7 @@ export default {
         region: {},
         url: {}
       },
+      lastBiggerScroll:0
     }
   },
   computed: {
@@ -604,9 +605,12 @@ export default {
         return 'https://annuaire-entreprises.data.gouv.fr/etablissement/' + id;
       }
     },
-    handleScroll () {
-      let bottomOfWindow = Math.max(window.pageYOffset, document.documentElement.scrollTop, document.body.scrollTop) + window.innerHeight + 1 >= document.documentElement.offsetHeight
-      if (bottomOfWindow) {
+    handleScroll (event) {
+
+      var tableTop = event.target.getBoundingClientRect().top + document.getElementById("tabhead").offsetHeight
+      
+      if(event.target.scrollTop+tableTop>event.target.offsetHeight&&event.target.scrollTop+tableTop>this.lastBiggerScroll){
+        this.lastBiggerScroll = event.target.scrollTop+tableTop+event.target.offsetHeight
         this.page = this.page + 1
         this.changePage()
       }
@@ -617,13 +621,13 @@ export default {
     },
     exportData(){
       return this.dataEndpoint + '/export' + document.location.search
-    }
+    },
   },
   created () {
-    window.addEventListener('scroll', this.handleScroll);
+    
   },
   destroyed () {
-    window.removeEventListener('scroll', this.handleScroll);
+    
   }
 }
 </script>
@@ -631,13 +635,15 @@ export default {
 <style scoped>
 html {
     height: 100%;
+    overflow: hidden;
 }
 
 .fr-table {
-  overflow: auto;
+  overflow: scroll;
   height: 100vh;
-  padding-bottom: 4rem;
+  padding-bottom: 385px;
   margin-bottom: 0;
+  
 }
 
 .fr-table table {
@@ -647,6 +653,14 @@ html {
 .fr-table thead {
   background-color: white;
   background-image: none;
+  position: sticky;
+  top:0;
+  z-index: 999;
+}
+
+
+.fr-table tbody {
+  height: auto;
 }
 
 tfoot {
@@ -656,6 +670,7 @@ tfoot {
   color: var(--text-inverted-grey);
   width: 100%;
   z-index: 6;
+  overflow: hidden;
 }
 
 tfoot .fr-btn--secondary {
@@ -722,6 +737,18 @@ th, td {
 
 .messageNoResults{
   min-height: 400px;
+}
+
+@media (min-width: 48em){
+
+  .fr-table td{
+    padding:0.75rem;
+  }
+
+  .fr-table {
+    padding-bottom: 169px;
+  }
+
 }
 
 </style>
