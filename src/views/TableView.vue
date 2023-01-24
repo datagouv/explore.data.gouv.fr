@@ -91,7 +91,21 @@ export default {
     this.setFiltersFromQueryString(params)
     const url = params.get('url')
     if (url) {
-      this.csvUrl = url
+      if(url.includes('data.gouv.fr')){
+        let rid = url.split('/')[url.split('/').length - 1]
+        fetch(('https://www.data.gouv.fr/api/2/datasets/resources/' + rid + '/'))
+        .then((response) => {
+            return response.json()
+        })
+        .then((data) => {
+          this.csvUrl = data.resource.url
+        })
+        .catch((err) => {
+            // Do something for an error here
+        })
+      } else {
+        this.csvUrl = url  
+      }
     }
   },
   methods: {
