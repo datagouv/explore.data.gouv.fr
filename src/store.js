@@ -76,7 +76,7 @@ export default new Vuex.Store({
       return dispatch("getData", "sort")
     },
     getData({commit, dispatch, state}, action) {
-      return getData(action, state).then(response => {
+      return getData(action).then(response => {
         if (response.ok) {
           if(action == 'page') {
             commit('setRows', state.rows.concat(response.rows))
