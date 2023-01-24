@@ -608,8 +608,8 @@ export default {
     handleScroll (event) {
 
       var tableTop = event.target.getBoundingClientRect().top + document.getElementById("tabhead").offsetHeight
-      
-      if(event.target.scrollTop+tableTop>event.target.offsetHeight&&event.target.scrollTop+tableTop>this.lastBiggerScroll){
+
+      if(event.target.scrollTop+tableTop>event.target.offsetHeight/4&&event.target.scrollTop+tableTop+100>this.lastBiggerScroll){
         this.lastBiggerScroll = event.target.scrollTop+tableTop+event.target.offsetHeight
         this.page = this.page + 1
         this.changePage()
