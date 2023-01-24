@@ -143,6 +143,7 @@ export default new Vuex.Store({
       }
     },
     setPage (state, page) {
+      configure({page})
       state.page = page
     },
     setColumns (state, columns) {
