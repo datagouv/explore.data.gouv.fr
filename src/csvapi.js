@@ -82,11 +82,10 @@ export function sort(sortBy, sortDesc = false) {
  * 
  * @param {string} action 
  */
-export function makeDataUrl(action, page) {
+export function makeDataUrl(action) {
     let offset = 0
     if (action && action === 'page') {
-        config.page = page
-        offset = config.pageSize * (page - 1)
+        offset = config.pageSize * (config.page - 1)
     }
     else {
         config.page = 1
@@ -114,8 +113,8 @@ export function makeDataUrl(action, page) {
  * @param {string} action - Action to do
  * @returns {Promise<CsvapiResponse>} csvapi response (see {@link CsvapiResponse})
  */
-export function getData(action, state) {
-    const dataUrl = makeDataUrl(action, state.page)
+export function getData(action) {
+    const dataUrl = makeDataUrl(action)
     return fetch(dataUrl.toString()).then(res => {
         const json = res.json()
         if (!res.ok) {
