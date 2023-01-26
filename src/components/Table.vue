@@ -587,6 +587,7 @@ export default {
         obj.sortBy = field
         obj.sortDesc = false
       }
+      this.lastBiggerScroll = 0
       return this.$store.dispatch('sort', obj)
     },
     changePage () {
@@ -611,11 +612,9 @@ export default {
     handleScroll (event) {
 
       var tableTop = event.target.getBoundingClientRect().top + document.getElementById("tabhead").offsetHeight
-
-      if(event.target.scrollTop+tableTop>event.target.offsetHeight/4&&event.target.scrollTop+tableTop+100>this.lastBiggerScroll){
+      if(event.target.scrollTop+tableTop>event.target.offsetHeight/4&&event.target.scrollTop+tableTop+300>this.lastBiggerScroll){
         this.lastBiggerScroll = event.target.scrollTop+tableTop+event.target.offsetHeight
-        this.page = this.page + 1
-        this.changePage()
+        this.userChangePage()
       }
     },
     userChangePage(){
