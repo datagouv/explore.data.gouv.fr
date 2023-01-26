@@ -46,7 +46,7 @@
                   class="fr-btn fr-btn--sm fr-btn--secondary fr-btn--icon-left fr-icon-filter-line"
                   data-fr-opened="false"
                   aria-controls="fr-modal-filters"
-                   style="float: right;white-space: nowrap;"
+                  style="float: right;white-space: nowrap;min-width: 170px;"
                 >
                   Configurer les filtres <span v-if="hasActivefilters" class="fr-ml-1w fr-badge fr-badge--blue-cumulus">{{countActiveFilters}}</span>
                 </button>
@@ -215,6 +215,12 @@ export default {
   background-color: #FBCB04;
   padding-left: 30px;
   color: #1353B5;
+}
+
+@media (max-width: 48em){
+  .fr-col-auto{
+    padding: 0.2rem 0.5rem 0.2rem 0.5rem!important;
+  }
 }
 
 </style>

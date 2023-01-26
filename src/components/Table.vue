@@ -1,5 +1,5 @@
 <template>
-  <div class="fr-table" >
+  <div class="fr-table" :class="(infosDgv.resource==undefined)?'':'padding'">
     <table ref="table" @scroll="handleScroll($event)">
       <thead id="tabhead">
         <tr>
@@ -288,6 +288,9 @@ export default {
     },
     dataEndpoint () {
        return this.$store.state.dataEndpoint
+    },
+    infosDgv () {
+      return this.$store.state.dgv_infos
     },
     page: {
       get() {
@@ -584,6 +587,7 @@ export default {
         obj.sortBy = field
         obj.sortDesc = false
       }
+      this.lastBiggerScroll = 0
       return this.$store.dispatch('sort', obj)
     },
     changePage () {
@@ -608,11 +612,9 @@ export default {
     handleScroll (event) {
 
       var tableTop = event.target.getBoundingClientRect().top + document.getElementById("tabhead").offsetHeight
-
-      if(event.target.scrollTop+tableTop>event.target.offsetHeight/4&&event.target.scrollTop+tableTop+100>this.lastBiggerScroll){
+      if(event.target.scrollTop+tableTop>event.target.offsetHeight/4&&event.target.scrollTop+tableTop+300>this.lastBiggerScroll){
         this.lastBiggerScroll = event.target.scrollTop+tableTop+event.target.offsetHeight
-        this.page = this.page + 1
-        this.changePage()
+        this.userChangePage()
       }
     },
     userChangePage(){
@@ -624,7 +626,6 @@ export default {
     },
   },
   created () {
-    
   },
   destroyed () {
     
@@ -639,11 +640,13 @@ html {
 }
 
 .fr-table {
-  overflow: scroll;
+  overflow: auto;
   height: 100vh;
-  padding-bottom: 385px;
   margin-bottom: 0;
-  
+}
+
+.fr-table.padding{
+  padding-bottom: 285px;
 }
 
 .fr-table table {
@@ -658,7 +661,6 @@ html {
   z-index: 999;
 }
 
-
 .fr-table tbody {
   height: auto;
 }
@@ -671,6 +673,7 @@ tfoot {
   width: 100%;
   z-index: 6;
   overflow: hidden;
+  padding: 0.5rem!important;
 }
 
 tfoot .fr-btn--secondary {
@@ -682,6 +685,14 @@ tfoot .fr-btn--secondary {
 
 tfoot .fr-grid-row {
   justify-content: space-between;
+}
+
+tfoot .fr-col-auto{
+  font-size: 0.850rem;
+}
+
+tfoot .fr-col-auto a{
+  font-size: 0.850rem;
 }
 
 th {
@@ -733,6 +744,7 @@ th, td {
 
 .style-header-col {
   cursor: pointer;
+  white-space: nowrap;
 }
 
 .messageNoResults{
@@ -745,8 +757,24 @@ th, td {
     padding:0.75rem;
   }
 
-  .fr-table {
+  .fr-table.padding{
     padding-bottom: 169px;
+  }
+
+  .style-header-col {
+    white-space: normal;
+  }
+
+  tfoot{
+    padding: 1rem!important;
+  }
+
+  tfoot .fr-col-auto{
+    font-size: 1rem;
+  }
+
+  tfoot .fr-col-auto a{
+    font-size: 1rem;
   }
 
 }
