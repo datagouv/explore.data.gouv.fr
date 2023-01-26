@@ -82,6 +82,7 @@ export default new Vuex.Store({
             commit('setRows', state.rows.concat(response.rows))
           } else {
             commit('setRows', response.rows)
+            commit('setPage', 1)
           }
           if (!state.columns.length) {
             commit('setColumns', response.columns)

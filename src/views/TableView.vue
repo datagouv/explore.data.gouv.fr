@@ -101,7 +101,7 @@ export default {
           this.csvUrl = data.resource.url
         })
         .catch((err) => {
-            // Do something for an error here
+          this.csvUrl = url
         })
       } else {
         this.csvUrl = url  
