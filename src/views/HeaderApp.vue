@@ -13,7 +13,7 @@
         </div>
         <div>
             <a :href="formHref" class="fr-btn fr-btn--sm fr-btn--tertiary-no-outline fr-btn--icon-left fr-icon-lightbulb-line">
-                Donnez nous votre avis sur l'explorateur
+                <span>Donnez nous votre avis sur l'explorateur</span>
             </a>
         </div>
     </div>
@@ -69,6 +69,22 @@ export default {
 
 .fr-badge{
     font-size:0.750rem;
+}
+
+@media (max-width: 48em){
+
+    .headerapp{
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+
+    .fr-btn{
+        padding:0.25rem 0.20rem 0.25rem 0.75rem;
+    }   
+
+    .fr-btn span{
+        display: none;
+    }
 }
 
 </style>

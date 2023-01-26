@@ -1,23 +1,25 @@
 <template>
   <div>
     <h2 v-if="display" class="fr-pl-2w fr-py-2w fr-m-0 infosdgv">
-      Jeux de données
-      <a 
-        :href="getDataGouvUrl('datasets/'+dgvInfos.dataset_id)"
-        class="text-label-blue-cumulus"
-        target="_blank"
-      >
-        {{ prune(dgvInfos.dataset_title) }}
-      </a>
+      <span>
+        Jeux de données
+        <a 
+          :href="getDataGouvUrl('datasets/'+dgvInfos.dataset_id)"
+          class="text-label-blue-cumulus"
+          target="_blank"
+        >
+          {{ prune(dgvInfos.dataset_title) }}
+        </a>
+      </span>
       <span v-if="dgvInfos.organization_id">
-      publié par 
-      <a
-        :href="getDataGouvUrl('organizations/'+dgvInfos.organization_id)"
-        class="text-label-blue-cumulus"
-        target="_blank"
-      >
-        {{ prune(dgvInfos.organization_name) }}
-      </a>
+        publié par 
+        <a
+          :href="getDataGouvUrl('organizations/'+dgvInfos.organization_id)"
+          class="text-label-blue-cumulus"
+          target="_blank"
+        >
+          {{ prune(dgvInfos.organization_name) }}
+        </a>
       </span>
     </h2>
   </div>
@@ -73,7 +75,6 @@ export default {
         .catch((err) => {
             // Do something for an error here
         })
-        this.display = true
     }
   },
   computed: {
@@ -91,18 +92,29 @@ export default {
       return getDataGouvUrl(path)
     },
     prune(string){
+      var lim = Math.round(window.innerWidth/15)
+      console.log(lim)
       if(string){
         var pruned
-        if(string.length<40){
+        if(string.length<lim){
           pruned = string
         }else{
-          pruned = string.substring(0,37)+"..."
+          pruned = string.substring(0,lim)+"..."
         }
         return pruned
       }
     }
   },
   watch: {
+    dgvInfos: {
+      deep: true,
+      immediate: true,
+      handler(value) {
+        if(value && value.resource) {
+          this.display = true
+        }
+      }
+    }
   }
 }
 </script>
@@ -119,5 +131,12 @@ export default {
 .infosdgv a{
   font-weight: 700;
   background-image: none;
+}
+
+@media (max-width: 48em){
+  .infosdgv span{
+    width: 100%;
+    display: block;
+  }
 }
 </style>

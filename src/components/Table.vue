@@ -1,5 +1,5 @@
 <template>
-  <div class="fr-table" >
+  <div class="fr-table" :class="(infosDgv.resource==undefined)?'':'padding'">
     <table ref="table" @scroll="handleScroll($event)">
       <thead id="tabhead">
         <tr>
@@ -288,6 +288,9 @@ export default {
     },
     dataEndpoint () {
        return this.$store.state.dataEndpoint
+    },
+    infosDgv () {
+      return this.$store.state.dgv_infos
     },
     page: {
       get() {
@@ -624,7 +627,7 @@ export default {
     },
   },
   created () {
-    
+  
   },
   destroyed () {
     
@@ -641,9 +644,11 @@ html {
 .fr-table {
   overflow: scroll;
   height: 100vh;
-  padding-bottom: 385px;
   margin-bottom: 0;
-  
+}
+
+.fr-table.padding{
+  padding-bottom: 285px;
 }
 
 .fr-table table {
@@ -656,6 +661,10 @@ html {
   position: sticky;
   top:0;
   z-index: 999;
+}
+
+.fr-table thead th{
+  
 }
 
 
@@ -671,6 +680,7 @@ tfoot {
   width: 100%;
   z-index: 6;
   overflow: hidden;
+  padding: 0.5rem!important;
 }
 
 tfoot .fr-btn--secondary {
@@ -682,6 +692,14 @@ tfoot .fr-btn--secondary {
 
 tfoot .fr-grid-row {
   justify-content: space-between;
+}
+
+tfoot .fr-col-auto{
+  font-size: 0.850rem;
+}
+
+tfoot .fr-col-auto a{
+  font-size: 0.850rem;
 }
 
 th {
@@ -733,6 +751,7 @@ th, td {
 
 .style-header-col {
   cursor: pointer;
+  white-space: nowrap;
 }
 
 .messageNoResults{
@@ -745,8 +764,24 @@ th, td {
     padding:0.75rem;
   }
 
-  .fr-table {
+  .fr-table.padding{
     padding-bottom: 169px;
+  }
+
+  .style-header-col {
+    white-space: normal;
+  }
+
+  tfoot{
+    padding: 1rem!important;
+  }
+
+  tfoot .fr-col-auto{
+    font-size: 1rem;
+  }
+
+  tfoot .fr-col-auto a{
+    font-size: 1rem;
   }
 
 }
