@@ -93,7 +93,6 @@ export default {
     },
     prune(string){
       var lim = Math.round(window.innerWidth/15)
-      console.log(lim)
       if(string){
         var pruned
         if(string.length<lim){

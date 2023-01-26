@@ -20,10 +20,10 @@ export default new Router({
       name: 'AppCarburant',
       component: AppCarburant
     },
-    {
+    /*{
       path: '/rupture-carburants',
       name: 'AppRuptureCarburant',
       component: AppRuptureCarburant
-    },
+    },*/
   ]
 })
