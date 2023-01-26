@@ -627,7 +627,6 @@ export default {
     },
   },
   created () {
-  
   },
   destroyed () {
     
@@ -642,7 +641,7 @@ html {
 }
 
 .fr-table {
-  overflow: scroll;
+  overflow: auto;
   height: 100vh;
   margin-bottom: 0;
 }
@@ -662,11 +661,6 @@ html {
   top:0;
   z-index: 999;
 }
-
-.fr-table thead th{
-  
-}
-
 
 .fr-table tbody {
   height: auto;
