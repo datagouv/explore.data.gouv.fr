@@ -136,8 +136,7 @@ export default {
     },
     globalSearchWrapClass() {
       return this.globalSearch ? 'fr-input-wrap--filled' : 'fr-input-wrap--empty'
-    },
-
+    }
   },
   methods: {
     toFrDate(date) {

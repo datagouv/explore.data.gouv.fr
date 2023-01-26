@@ -92,7 +92,6 @@ export default {
     const url = params.get('url')
     if (url) {
       if(url.includes('data.gouv.fr')){
-        console.log("include data gouv")
         let rid = url.split('/')[url.split('/').length - 1]
         fetch(('https://www.data.gouv.fr/api/2/datasets/resources/' + rid + '/'))
         .then((response) => {
