@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2 v-if="display" class="fr-pl-2w fr-py-2w fr-m-0 infosdgv">
+     <h2 v-if="display" class="fr-pl-2w fr-py-1v fr-py-m-2w fr-m-0 infosdgv">
       <span>
         Jeux de données
         <a 

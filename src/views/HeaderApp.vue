@@ -44,7 +44,6 @@ export default {
     background-color: #E6EEFE;
     justify-content: space-between;
     width: 100%;
-    border-bottom: 2px solid #E6EEFE;
     overflow: hidden;
 }
 
