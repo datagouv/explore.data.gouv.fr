@@ -311,6 +311,8 @@ export default {
       const rect = this.$refs.tooltip.getBoundingClientRect()
       if(rect.right > document.documentElement.clientWidth) {
         this.$refs.tooltip.style.left = `-${rect.right - document.documentElement.clientWidth}px`
+      }else{
+        this.$refs.tooltip.style.left = `0px`
       }
     }
   }

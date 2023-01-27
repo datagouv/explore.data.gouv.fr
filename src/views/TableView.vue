@@ -2,7 +2,6 @@
   <!-- url field if no url provided -->
   <div>
   <header-app></header-app>
-  <infos-dgv></infos-dgv>
   <infos-resource></infos-resource>
   <div class="fr-mt-4w fr-container" v-if="!csvUrl">
     <h2>Bienvenue sur le prototype d'exploration des données de data.gouv.fr</h2>
@@ -46,12 +45,11 @@ import Error from '@/components/Error'
 import Loader from '@/components/Loader'
 import CardLink from '@/components/CardLink'
 import HeaderApp from '@/views/HeaderApp'
-import InfosDgv from '@/views/InfosDgv'
 import InfosResource from '@/views/InfosResource'
 
 export default {
   name: 'TableView',
-  components: {Table, Error, Loader, CardLink, HeaderApp, InfosDgv, InfosResource},
+  components: {Table, Error, Loader, CardLink, HeaderApp, InfosResource},
   data() {
     return {
       csvUrl: '',
@@ -93,7 +91,21 @@ export default {
     this.setFiltersFromQueryString(params)
     const url = params.get('url')
     if (url) {
-      this.csvUrl = url
+      if(url.includes('data.gouv.fr')){
+        let rid = url.split('/')[url.split('/').length - 1]
+        fetch(('https://www.data.gouv.fr/api/2/datasets/resources/' + rid + '/'))
+        .then((response) => {
+            return response.json()
+        })
+        .then((data) => {
+          this.csvUrl = data.resource.url
+        })
+        .catch((err) => {
+          this.csvUrl = url
+        })
+      } else {
+        this.csvUrl = url  
+      }
     }
   },
   methods: {
@@ -124,6 +136,7 @@ export default {
   },
   watch: {
     csvUrl (value) {
+      if(value){ document.querySelectorAll('body')[0].style.overflow = 'hidden' }
       if (!value) return
       this.$store.dispatch('apify', this.csvUrl).finally(() => {
       })

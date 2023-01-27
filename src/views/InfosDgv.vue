@@ -1,23 +1,25 @@
 <template>
   <div>
-    <h2 v-if="display" class="fr-pl-2w fr-py-2w fr-m-0 infosdgv">
-      Exploration du jeu de données 
-      <a 
-        :href="getDataGouvUrl('datasets/'+dgvInfos.dataset_id)"
-        class="text-label-blue-cumulus"
-        target="_blank"
-      >
-        {{ dgvInfos.dataset_title }}
-      </a>
+     <h2 v-if="display" class="fr-pl-2w fr-py-1v fr-py-m-2w fr-m-0 infosdgv">
+      <span>
+        Jeux de données
+        <a 
+          :href="getDataGouvUrl('datasets/'+dgvInfos.dataset_id)"
+          class="text-label-blue-cumulus"
+          target="_blank"
+        >
+          {{ prune(dgvInfos.dataset_title) }}
+        </a>
+      </span>
       <span v-if="dgvInfos.organization_id">
-      publié par 
-      <a
-        :href="getDataGouvUrl('organizations/'+dgvInfos.organization_id)"
-        class="text-label-blue-cumulus"
-        target="_blank"
-      >
-        {{ dgvInfos.organization_name }}
-      </a>
+        publié par 
+        <a
+          :href="getDataGouvUrl('organizations/'+dgvInfos.organization_id)"
+          class="text-label-blue-cumulus"
+          target="_blank"
+        >
+          {{ prune(dgvInfos.organization_name) }}
+        </a>
       </span>
     </h2>
   </div>
@@ -73,7 +75,6 @@ export default {
         .catch((err) => {
             // Do something for an error here
         })
-        this.display = true
     }
   },
   computed: {
@@ -89,20 +90,52 @@ export default {
     */
     getDataGouvUrl(path){
       return getDataGouvUrl(path)
+    },
+    prune(string){
+      var lim = Math.round(window.innerWidth/15)
+      if(string){
+        var pruned
+        if(string.length<lim){
+          pruned = string
+        }else{
+          pruned = string.substring(0,lim)+"..."
+        }
+        return pruned
+      }
     }
   },
   watch: {
+    dgvInfos: {
+      deep: true,
+      immediate: true,
+      handler(value) {
+        if(value && value.resource) {
+          this.display = true
+        }
+      }
+    }
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
 .infosdgv {
-  font-size: 1rem;
+  font-size: 0.8rem;
   font-weight: normal;
-  line-height: 1.5;
-  background-color: #F3F3F3;
-  border-bottom: 2px solid #ebebeb;
+  line-height: 1.4;
+}
+
+.infosdgv a{
+  font-weight: 700;
+  background-image: none;
+}
+
+@media (max-width: 48em){
+  .infosdgv span{
+    width: 100%;
+    display: block;
+  }
 }
 </style>
