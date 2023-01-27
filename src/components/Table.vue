@@ -1,7 +1,7 @@
 <template>
-  <div class="fr-table">
-    <table ref="table">
-      <thead>
+  <div class="fr-table" :class="(infosDgv.resource==undefined)?'':'padding'">
+    <table ref="table" @scroll="handleScroll($event)">
+      <thead id="tabhead">
         <tr>
           <th 
             scope="col"
@@ -53,7 +53,7 @@
           </th>
         </tr>
       </thead>
-      <tbody>
+      <tbody id="body">
         <tr
           v-for="(row, index) in rows" 
           :key="row[0]"
@@ -249,6 +249,7 @@ export default {
         region: {},
         url: {}
       },
+      lastBiggerScroll:0
     }
   },
   computed: {
@@ -287,6 +288,9 @@ export default {
     },
     dataEndpoint () {
        return this.$store.state.dataEndpoint
+    },
+    infosDgv () {
+      return this.$store.state.dgv_infos
     },
     page: {
       get() {
@@ -583,6 +587,7 @@ export default {
         obj.sortBy = field
         obj.sortDesc = false
       }
+      this.lastBiggerScroll = 0
       return this.$store.dispatch('sort', obj)
     },
     changePage () {
@@ -604,11 +609,12 @@ export default {
         return 'https://annuaire-entreprises.data.gouv.fr/etablissement/' + id;
       }
     },
-    handleScroll () {
-      let bottomOfWindow = Math.max(window.pageYOffset, document.documentElement.scrollTop, document.body.scrollTop) + window.innerHeight + 1 >= document.documentElement.offsetHeight
-      if (bottomOfWindow) {
-        this.page = this.page + 1
-        this.changePage()
+    handleScroll (event) {
+
+      var tableTop = event.target.getBoundingClientRect().top + document.getElementById("tabhead").offsetHeight
+      if(event.target.scrollTop+tableTop>event.target.offsetHeight/4&&event.target.scrollTop+tableTop+300>this.lastBiggerScroll){
+        this.lastBiggerScroll = event.target.scrollTop+tableTop+event.target.offsetHeight
+        this.userChangePage()
       }
     },
     userChangePage(){
@@ -617,13 +623,12 @@ export default {
     },
     exportData(){
       return this.dataEndpoint + '/export' + document.location.search
-    }
+    },
   },
   created () {
-    window.addEventListener('scroll', this.handleScroll);
   },
   destroyed () {
-    window.removeEventListener('scroll', this.handleScroll);
+    
   }
 }
 </script>
@@ -631,13 +636,17 @@ export default {
 <style scoped>
 html {
     height: 100%;
+    overflow: hidden;
 }
 
 .fr-table {
   overflow: auto;
   height: 100vh;
-  padding-bottom: 4rem;
   margin-bottom: 0;
+}
+
+.fr-table.padding{
+  padding-bottom: 285px;
 }
 
 .fr-table table {
@@ -647,6 +656,13 @@ html {
 .fr-table thead {
   background-color: white;
   background-image: none;
+  position: sticky;
+  top:0;
+  z-index: 999;
+}
+
+.fr-table tbody {
+  height: auto;
 }
 
 tfoot {
@@ -656,6 +672,8 @@ tfoot {
   color: var(--text-inverted-grey);
   width: 100%;
   z-index: 6;
+  overflow: hidden;
+  padding: 0.5rem!important;
 }
 
 tfoot .fr-btn--secondary {
@@ -667,6 +685,14 @@ tfoot .fr-btn--secondary {
 
 tfoot .fr-grid-row {
   justify-content: space-between;
+}
+
+tfoot .fr-col-auto{
+  font-size: 0.850rem;
+}
+
+tfoot .fr-col-auto a{
+  font-size: 0.850rem;
 }
 
 th {
@@ -701,6 +727,11 @@ th, td {
   min-width: 150px;
 }
 
+.header.sticky-bar{
+  padding: 0.45rem 1rem 0.4rem 1rem;
+  font-size: 0.8rem;
+}
+
 .filter {
   border-width: 1px;
 }
@@ -713,10 +744,39 @@ th, td {
 
 .style-header-col {
   cursor: pointer;
+  white-space: nowrap;
 }
 
 .messageNoResults{
   min-height: 400px;
+}
+
+@media (min-width: 48em){
+
+  .fr-table td{
+    padding:0.75rem;
+  }
+
+  .fr-table.padding{
+    padding-bottom: 169px;
+  }
+
+  .style-header-col {
+    white-space: normal;
+  }
+
+  tfoot{
+    padding: 1rem!important;
+  }
+
+  tfoot .fr-col-auto{
+    font-size: 1rem;
+  }
+
+  tfoot .fr-col-auto a{
+    font-size: 1rem;
+  }
+
 }
 
 </style>

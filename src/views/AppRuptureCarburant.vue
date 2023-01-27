@@ -22,13 +22,13 @@
                               </button>
                           </div>
                       </div>
-                      <div v-if="dateMaj" class="fr-header__service fr-hidden-md">
+                      <div class="fr-header__service fr-hidden-md">
                         <div style="display: flex;" class="fr-header__service-tagline">
                           <!-- <div style="width: 40px;">
                             <button @click="updateDate(getDayBeforeOrAfter(-1))"><</button>
                           </div> -->
                           <div style="margin: auto;">
-                            {{ formatDateMaJ() }}
+                            Dernière mise à jour le {{ formatDateMaJ() }}
                           </div>
                           <!-- <div style="width: 40px;">
                             <button @click="updateDate(getDayBeforeOrAfter(+1))">></button>
@@ -36,7 +36,7 @@
                         </div>
                     </div>
                   </div>
-                  <div class="fr-header__tools">
+                  <!-- <div class="fr-header__tools">
                       <div class="fr-header__search fr-modal" id="modal-541">
                           <div class="fr-container fr-container-lg--fluid">
                               <button class="fr-btn--close fr-btn" aria-controls="modal-541" title="Fermer" ref="modalCloseButton">
@@ -78,110 +78,56 @@
                               </div>
                           </div>
                       </div>
-                  </div>
+                  </div> -->
               </div>
           </div>
       </div>
   </header>
     <div>
-      <div v-if="tooltip.properties" class="tooltip" :style="{top:tooltip.top,left:tooltip.left, display:tooltip.display}">
-          <div v-if="tooltip.properties.adr" class="tooltip-title">{{ tooltip.properties.adr }}</div>
-          <div v-if="tooltip.properties.cpl_adr" class="tooltip-title">{{ tooltip.properties.cpl_adr }}</div>
-          <div class="tootlip-content" style="display: flex;">
+      <div v-if="tooltip.properties && actualDep" class="tooltip" :style="{top:tooltip.top,left:tooltip.left, display:tooltip.display}">
+        <div class="tooltip-title">{{ actualDepLibelle }}</div>
+        <div class="tootlip-content" style="display: flex;">
             <div>
-            <span v-for="item in ['SP95', 'E10', 'SP98']" :key="item">
-              <span v-if="(tooltip.properties[item] != 'R') & (tooltip.properties[item] != 'N')">
-                <div v-if="tooltip.properties[item]" class="tooltip-value">
-                  <span v-if="tooltip.properties[item + '_color'] === '1'">
-                    <img src="../static/images/dispo-green.png" width="12" alt="" />
-                  </span>
-                  <span v-if="tooltip.properties[item + '_color'] === '2'">
-                    <img src="../static/images/dispo-orange.png" width="12" alt="" />
-                  </span>
-                  <span v-if="tooltip.properties[item + '_color'] === '3'">
-                    <img src="../static/images/dispo-red.png" width="12" alt="" />
-                  </span>
-                  <b>{{ fuelFr[item] }} : {{ tooltip.properties[item] }} €</b><br />MAJ le {{ isoToDateFr(tooltip.properties[item + '_m'], 'short') }}
-                </div>
-              </span>
-              <span v-else-if="tooltip.properties[item] == 'R'">
-                <div v-if="tooltip.properties[item]" class="tooltip-value tooltip-value-grey">
+                <div class="tooltip-value">
                   <span>
-                    <img src="../static/images/cross-sign.png" width="12" alt="" />
-                    {{ fuelFr[item] }} : En rupture<br />depuis le {{ isoToDateFr(tooltip.properties[item + '_s'], 'short') }}
+                    <b>{{ actualValue }}</b> % de rupture ({{ fuelFr[currentFuel] }})
+                    <br />
+                    <b>{{ actualNbStationsRupture }}</b> station(s) en rupture
+                    <br />
+                    <b>{{ actualNbStations }}</b> stations distribuant le carburant habituellement*
                   </span>
                 </div>
-              </span>
-              <span v-else>
-                <div class="tooltip-value tooltip-value-grey">
+                <div class="tooltip-value">
                   <span>
-                    <img src="../static/images/caution-sign.png" width="12" alt="" />
-                    {{ fuelFr[item] }} : Non proposé<br/>dans la station
                   </span>
                 </div>
-              </span>
-            </span>
             </div>
-            <div style="border-left: 1px solid #ebebeb; padding-left: 10px; margin-left: 10px; margin-right: 10px;">
-            <span v-for="item in ['Gazole', 'GPLc', 'E85']" :key="item">
-              <span v-if="(tooltip.properties[item] != 'R') & (tooltip.properties[item] != 'N')">
-                <div v-if="tooltip.properties[item]" class="tooltip-value">
-                  <span v-if="tooltip.properties[item + '_color'] === '1'">
-                    <img src="../static/images/dispo-green.png" width="12" alt="" />
-                  </span>
-                  <span v-if="tooltip.properties[item + '_color'] === '2'">
-                    <img src="../static/images/dispo-orange.png" width="12" alt="" />
-                  </span>
-                  <span v-if="tooltip.properties[item + '_color'] === '3'">
-                    <img src="../static/images/dispo-red.png" width="12" alt="" />
-                  </span>
-                  <b>{{ fuelFr[item] }} : {{ tooltip.properties[item] }} €</b><br />MAJ le {{ isoToDateFr(tooltip.properties[item + '_m'], 'short') }}
-                </div>
-              </span>
-              <span v-else-if="tooltip.properties[item] == 'R'">
-                <div v-if="tooltip.properties[item]" class="tooltip-value tooltip-value-grey">
-                  <span>
-                    <img src="../static/images/cross-sign.png" width="12" alt="" />
-                    {{ fuelFr[item] }} : En rupture<br />depuis le {{ isoToDateFr(tooltip.properties[item + '_s'], 'short') }}
-                  </span>
-                </div>
-              </span>
-              <span v-else>
-                <div class="tooltip-value tooltip-value-grey">
-                  <span>
-                    <img src="../static/images/caution-sign.png" width="12" alt="" />
-                    {{ fuelFr[item] }} : Non proposé<br/>dans la station
-                  </span>
-                </div>
-              </span>
-            </span>
-            </div>
-          </div>
+          </div>  
       </div>
-      <!-- <div class="global-panel" >
-        <div @click="goToUrl('/prix-carburants')" class="panel-inactive">
+      <div class="global-panel" >
+        <div @click="goToUrl('/prix-carburants')" class="panel-active">
           <div class="panel-title">Prix des carburants</div>
         </div>
-        <div @click="goToUrl('/rupture-carburants')" class="panel-active">
+        <div @click="goToUrl('/rupture-carburants')" class="panel-inactive">
             <div class="panel-title">Rupture des carburants</div>
         </div>
-      </div> -->
+      </div>
       <div class="fr-grid-row map-wrap">
         <div class="fr-col-12 fr-col-md-4 fr-col-xl-3">
           <nav class="fr-sidemenu fr-sidemenu--sticky fr-p-0" aria-label="Menu latéral">
             <div class="fr-sidemenu__inner">
-                <button class="fr-sidemenu__btn" hidden aria-controls="fr-sidemenu-wrapper" aria-expanded="false">Prix des carburants — {{this.fuelFr[this.currentFuel]}}</button>
+                <button class="fr-sidemenu__btn" hidden aria-controls="fr-sidemenu-wrapper" aria-expanded="false">Rupture des carburants (à J-1) — {{this.fuelFr[this.currentFuel]}}</button>
                 <div class="fr-collapse" id="fr-sidemenu-wrapper">
-                    <div class="fr-sidemenu__title fr-h6">Carte des prix des carburants</div>
+                    <div class="fr-sidemenu__title fr-h6">Carte des ruptures des carburants (à J-1)</div>
                     <div style="border-bottom: 1px solid #EEEEEE;" class="titleMenu fr-pb-1w fr-mr-2w fr-hidden fr-unhidden-md">
                       
-                      <span v-if="dateMaj">
+                      <span>
                         <div style="display: flex;" class="fr-header__service-tagline">
                           <!-- <div style="width: 40px;">
                             <button @click="updateDate(getDayBeforeOrAfter(-1))"><</button>
                           </div> -->
                           <div style="margin: auto;">
-                            {{ formatDateMaJ() }}
+                            Dernière mise à jour le {{ formatDateMaJ() }}
                           </div>
                           <!-- <div style="width: 40px;">
                             <button @click="updateDate(getDayBeforeOrAfter(+1))">></button>
@@ -190,97 +136,66 @@
                       </span>
                     </div>
                     <div style="border-bottom: 1px solid #EEEEEE;" class="fr-mt-2w">
-                      <label for="select-fuel" class="fr-label fr-text--bold fr-mb-1w">Sélectionnez un carburant</label>
+                      <label for="select-fuel" class="fr-label fr-text--bold fr-mb-1w">Sélectionnez un indicateur</label>
                       <select id="select-fuel" class="fr-select" v-model="currentFuel" @change="changeMap()">
+                        <option 
+                          key="au_moins_un_produit"
+                          value="au_moins_un_produit">
+                          Rupture de Gazole ou d'Essence
+                        </option>
+                        <option 
+                          key="deux_produits"
+                          value="deux_produits">
+                          Rupture de Gazole et d'Essence
+                        </option>
+                        <option 
+                          key="essence"
+                          value="essence">
+                          Rupture d'Essence
+                        </option>
                         <option 
                           key="E10"
                           value="E10">
-                          Sans Plomb 95 (E10)
+                          Rupture de Sans Plomb 95 (E10)
                         </option>
                         <option 
                           key="SP95"
                           value="SP95">
-                          Sans Plomb 95
+                          Rupture de Sans Plomb 95
                         </option>
                         <option 
                           key="SP98"
                           value="SP98">
-                          Sans Plomb 98
+                          Rupture de Sans Plomb 98
                         </option>
                         <option 
                           key="Gazole"
                           value="Gazole">
-                          Gazole
+                          Rupture de Gazole
                         </option>
                         <option 
                           key="GPLc"
                           value="GPLc">
-                          GPL-c
+                          Rupture de GPL-c
                         </option>
                         <option 
                           key="E85"
                           value="E85">
-                          Superéthanol E85
+                          Rupture de Superéthanol E85
                         </option>
                       </select>
-                      <div class="fr-toggle fr-my-1v">
-                          <input 
-                            v-if="zoomLevel <= 10"
-                            v-model="showRupture" 
-                            type="checkbox" 
-                            class="fr-toggle__input" 
-                            aria-describedby="toggle-698-hint-text" 
-                            id="checkbox"
-                            @change="displayRupture"
-                          >
-                          <label 
-                            v-if="zoomLevel <= 10"
-                            class="fr-toggle__label label-rupture"
-                            for="checkbox"
-                            data-fr-checked-label="Activé"
-                            data-fr-unchecked-label="Désactivé"
-                          >
-                            Stations en rupture de {{ this.fuelFr[this.currentFuel] }}
-                          </label>
-                          <input 
-                            v-if="zoomLevel > 10"
-                            v-model="showRupture" 
-                            type="checkbox" 
-                            class="fr-toggle__input" 
-                            aria-describedby="toggle-699-hint-text" 
-                            id="checkbox2"
-                            checked
-                            disabled
-                          >
-                          <label 
-                            v-if="zoomLevel > 10"
-                            class="fr-toggle__label label-rupture"
-                            for="checkbox2"
-                            data-fr-checked-label="Activé"
-                            data-fr-unchecked-label="Désactivé"
-                          >
-                            Stations en rupture de {{ this.fuelFr[this.currentFuel] }}
-                          </label>
-                      </div>
-                      <div v-if="this.legend.meanPrix" class="fr-grid-row fr-grid-row--gutters">
-                        <div class="fr-col">
-                          <div class="fr-text--bold fr-mb-1v">Prix moyen :</div>
-                          {{ this.legend.meanPrix }} €
-                        </div>
-                        <div class="fr-col">
-                          <div class="fr-text--bold fr-mb-1v">Prix médian :</div>
-                          {{ this.legend.medianPrix }} €
-                        </div>
-                      </div>
                       <br />
                       <div v-if="valuesx && valuesy">
                         <bar-or-graph indicateur="toto" color="#3558a2" :titleChart="titleChart" unitChart="€" typeChart="line" :valuesx="valuesx" :valuesy="valuesy"></bar-or-graph>
                       </div>
                       <br />
                       <div class="nb-legend">
+                        * les stations sont considérées comme distribuant un carburant habituellement si celui-ci a été distribué au moins une fois au cours de la dernière année.
+                        <br /><br />
                         <i><u><a href="https://www.data.gouv.fr/fr/posts/exploration-de-donnees-zoom-sur-de-nouvelles-briques-disponibles-sur-data-gouv-fr-avec-lexemple-du-prix-des-carburants/">En savoir plus sur ce tableau de bord</a></u> et la méthodologie permettant son développement.</i>
                         <br />
-                        <i>Les sources de données utilisées pour réaliser cette application <a href="https://www.data.gouv.fr/fr/datasets/prix-des-carburants-en-france-flux-instantane/"><u>sont disponibles sur data.gouv.fr</u></a> et <a href="https://explore.data.gouv.fr/?url=https://www.data.gouv.fr/fr/datasets/r/64e02cff-9e53-4cb2-adfd-5fcc88b2dc09"><u>sont explorables ici.</u></a></i>
+                        <i>Les sources de données utilisées pour réaliser cette application <a href="https://www.data.gouv.fr/fr/datasets/prix-des-carburants-en-france-flux-instantane/"><u>sont disponibles sur data.gouv.fr</u></a></i>.
+                         <!-- et <a href="https://explore.data.gouv.fr/?url=https://www.data.gouv.fr/fr/datasets/r/64e02cff-9e53-4cb2-adfd-5fcc88b2dc09"><u>sont explorables ici.</u></a></i> -->
                         <i> Celles-ci sont mises à disposition par le Ministère de l'Économie, des Finances et de la Souveraineté industrielle et numérique.
                         Pour plus d'informations <a href="https://www.prix-carburants.gouv.fr/"><u>rendez-vous sur le site officiel.</u></a></i>
                         <br />
@@ -294,31 +209,32 @@
         </div>
         <div id="map" class="map fr-col-12 fr-col-md-8 fr-col-xl-9" ref="mapContainer">
           <div id="legendMap">
-            <div class="legendMap-title">Prix des carburants</div>
+            <div class="legendMap-title">Rupture des carburants</div>
             <div class="legendMap-colors">
               <div class="legendMap-color">
-                <div class="legendMap-color-green">&nbsp;</div>
-                {{ legend.minPrix }} €
+                <div class="legendMap-color-zero">&nbsp;</div>
+                0%
               </div>
               <div class="legendMap-color">
-                <div class="legendMap-color-orange">&nbsp;</div>
-                {{ legend.tertilePrix1 }} €
+                <div class="legendMap-color-five">&nbsp;</div>
+                5%
               </div>
               <div class="legendMap-color">
-                <div class="legendMap-color legendMap-color-red">&nbsp;</div>
-                {{ legend.tertilePrix2 }} €
+                <div class="legendMap-color-fifty">&nbsp;</div>
+                50%
+              </div>
+              <div class="legendMap-color">
+                <div class="legendMap-color legendMap-color-hundred">&nbsp;</div>
+                100%
               </div>
             </div>
             <div class="nb-legend">
-              <i>NB : Le prix des carburants est réparti en trois groupes équivalents.</i>
+              <i>Pourcentage de rupture</i>
             </div>
           </div>
           <div id="titleMap" class="fr-px-1w fr-py-3v fr-text--sm fr-text--bold fr-m-0">
-            <span v-if="!showRupture">
+            <span>
               {{ titleFr[currentFuel] }}
-            </span>
-            <span v-if="showRupture">
-              {{ titleFrRupture[currentFuel] }}
             </span>
           </div>
         </div>
@@ -336,15 +252,20 @@ import { ungzip } from 'pako';
 import { markRaw } from 'vue';
 import styleVector from '../static/json/vector.json'
 import CenterDeps from '../static/json/centers_deps.json'
+import testDataset from '../static/json/ruptures.json'
+import lib_deps from '../static/json/depts.json'
 import * as d3 from 'd3-scale'
 
 export default {
-  name: 'AppCarburant',
+  name: 'AppRuptureCarburant',
   components: {Map, markRaw, BarOrGraph},
   data() {
     return {
       map: Object,
       fuelFr: {
+        au_moins_un_produit: 'Gazole ou essence',
+        deux_produits: 'Gazole et essence',
+        essence: 'essence',
         SP95: 'SP 95',
         SP98: 'SP 98',
         Gazole: 'Gazole',
@@ -353,21 +274,15 @@ export default {
         E85: 'E85'
       },
       titleFr: {
-        SP95: 'Stations disposant du Sans Plomb 95 et prix associés',
-        SP98: 'Stations disposant du Sans Plomb 98 et prix associés',
-        Gazole: 'Stations disposant du Gazole et prix associés',
-        E10: 'Stations disposant du Sans Plomb 95 (E10) et prix associés',
-        GPLc: 'Stations disposant de GPL-c et prix associés',
-        E85: 'Stations disposant de Superéthanol E85 et prix associés'
-      },
-      titleFrRupture: {
-        SP95: 'Stations disposant du Sans Plomb 95 et ruptures',
-        SP98: 'Stations disposant du Sans Plomb 98 et ruptures',
-        Gazole: 'Stations disposant de Gazole et ruptures',
-        E10: 'Stations disposant du Sans Plomb 95 (E10) et ruptures',
-        GPLc: 'Stations disposant de GPL-c et ruptures',
-        E85: 'Stations disposant de Superéthanol E85 et ruptures',
-
+        au_moins_un_produit: 'Pourcentage des stations en rupture sur au moins un produit (essence ou Gazole)',
+        deux_produits: 'Pourcentage des stations en rupture sur l\'essence et le Gazole',
+        essence: 'Pourcentage de rupture des stations distribuant de l\'essence habituellement*',
+        SP95: 'Pourcentage de rupture des stations distribuant du SP95 habituellement*',
+        SP98: 'Pourcentage de rupture des stations distribuant du SP98 habituellement*',
+        Gazole: 'Pourcentage de rupture des stations distribuant du Gazole habituellement*',
+        E10: 'Pourcentage de rupture des stations distribuant du SP95-E10 habituellement*',
+        GPLc: 'Pourcentage de rupture des stations distribuant du GPLc habituellement*',
+        E85: 'Pourcentage de rupture des stations distribuant du Superéthanol E85 habituellement*'
       },
       legend: {
         minPrix: null,
@@ -387,7 +302,7 @@ export default {
       matchExpression: null,
       searchAdress: null,
       resultsAdresses: null,
-      currentFuel: "E10",
+      currentFuel: "au_moins_un_produit",
       dateMaj: null,
       zoomLevel: null,
       lat: null,
@@ -398,15 +313,22 @@ export default {
       valuesPrices: null,
       titleChart: '',
       showRupture: false,
+      dataRupture: null,
+      actualDep: null,
+      actualDepLibelle: null,
+      actualValue: null,
+      actualNbStations: null,
+      actualNbStationsRupture: null,
+      depts: null,
     }
   },
   computed: {
   },
   mounted() {
-
+    this.depts = lib_deps;
     this.dataChloropleth = null
     this.matchExpression = ['match', ['get', 'code']]
-    this.zoomLevel = 4.2
+    this.zoomLevel = 4.6
     this.lat = 46.3
     this.lng = 2
     const initialState = { lng: this.lng, lat: this.lat, zoom: this.zoomLevel };
@@ -417,7 +339,7 @@ export default {
       zoom: initialState.zoom
     }));
     
-    fetch('https://data.explore.data.gouv.fr/latest_france.json', {
+    fetch('https://data.explore.data.gouv.fr/latest_france_ruptures.json', {
         compress: false,
         headers: { "accept-encoding": "gzip" },
     })
@@ -425,130 +347,87 @@ export default {
         return response.json()
     })
     .then((data) => {
-      //data.features = data.features.filter((feature) => ((feature.properties.hasOwnProperty("SP95")) || (feature.properties.hasOwnProperty("SP98")) || (feature.properties.hasOwnProperty("E10")) || (feature.properties.hasOwnProperty("Gazole")) || (feature.properties.hasOwnProperty("GPLc")) || (feature.properties.hasOwnProperty("E85"))))
-      this.dataPoints = JSON.parse(JSON.stringify(data))
-      this.legend.minPrix = 0
-      this.legend.tertilePrix1 = data.properties[this.currentFuel][1]
-      this.legend.tertilePrix2 = data.properties[this.currentFuel][2]
-      this.legend.maxPrix = data.properties[this.currentFuel][3]
-      this.legend.meanPrix = parseFloat(data.properties[this.currentFuel + "_mean"]).toFixed(2)
-      this.legend.medianPrix = parseFloat(data.properties[this.currentFuel + "_median"]).toFixed(2)
 
-      this.dateMaj = new Date(data.properties.maj);
+      this.dataRupture = data;
+
+      let { x, scaleMin, scaleMax } = this.calculateColor(this.dataRupture, this.currentFuel)
+      let matchExpression = this.getMatchExpression(this.dataRupture, x, 'dep', 'code', this.currentFuel)
+
+      // On map load, add its layers
       this.map.on('load', (m) => {
-        this.map.addSource('station_points', {
-            type: 'geojson',
-            data: this.dataPoints
-        });
-        this.map.addLayer({
-            id: 'stations',
-            type: 'circle',
-            source: 'station_points',
-            paint: {
-              // Make circles larger as the user zooms from z12 to z22.
-              'circle-radius': {
-                base: 3.75,
-                stops: [
-                  [3, 3],
-                  [12, 10],
-                  [18, 60]
-                ]
-              },
-              // Color circles by ethnicity, using a `match` expression.
-              'circle-color': [
-                'match',
-                ['get', this.currentFuel + '_color'],
-                "1",
-                '#67A532',
-                "2",
-                '#C8AA39',
-                "3",
-                '#FA7A35',
-                /* other */ 'hsla(0%, 0%, 0%, 0)'
-              ]
-            },
-            minzoom:1,
-        });
+        
+        const departementsFillLayer = {
+          'id': `departements_fill`,
+          'type': 'fill',
+          'source': 'decoupage-administratif',
+          'source-layer': 'departements',
+          'paint': {
+            'fill-color': matchExpression,
+            'fill-opacity': 0.6,
+          },
+          maxzoom: 9,
+        }
 
+        //parcelle line
+        const departementsLineLayer = {
+          id: `departements_line`,
+          type: "line",
+          source: "decoupage-administratif",
+          "source-layer": "departements",
+          layout: {
+            "line-cap": "butt",
+          },
+          paint: {
+            "line-opacity": 0.6,
+            "line-color": "rgb(90,90,90)",
+            "line-width": 0.5,
+          },
+        };
 
-        this.map.on('zoom', () => {
-          let timer = setTimeout(() => {
-            const currentZoom = this.map.getZoom();
-            if(currentZoom != this.zoomLevel) {
-              this.zoomLevel = currentZoom
-              if(currentZoom > 10) {
-                this.displayAllStations()
-              } else {
-                this.displayAllStations()
-              }
+        this.map.addLayer(departementsFillLayer);
+        this.map.addLayer(departementsLineLayer);  
+
+        this.map.on('mousemove', 'departements_fill', (e) => {
+          this.actualDep = e.features[0]["properties"]["code"]
+          this.depts.forEach((d) => {
+            if (d.dep == this.actualDep){
+              this.actualDepLibelle = d.libelle;
             }
-          }, 350)
+          });
+          this.dataRupture.forEach((d) => {
+
+            if (d.dep == this.actualDep) {
+              this.actualValue = d[this.currentFuel]
+              this.actualNbStationsRupture = d[this.currentFuel + '_nbrup']
+              this.actualNbStations = d[this.currentFuel + '_nbstation']
+            }
+          })
+          let matchExpression = 0
+          
+          matchExpression = ['match', ['get', 'code']]
+          matchExpression.push(this.actualDep, 2); 
+          matchExpression.push(0.5);
+          this.map.setPaintProperty("departements_line", "line-width", matchExpression)
+        });
+
+        this.map.on('mouseleave', 'departements_fill', (e) => {
+          this.map.setPaintProperty("departements_line", "line-width", 0.5)
         });
 
         this.map.on('mousemove', this.showMapTooltip);
-        this.map.on('touchmove', this.showMapTooltip);
-        this.map.on('click', this.showMapTooltip);
-
-        this.map.on('mouseleave', 'stations', (e) => {
-          this.tooltip.display = 'none'
-        });
-
-        this.map.addControl(
-          new GeolocateControl({
-            positionOptions: {
-              enableHighAccuracy: true
-            },
-            trackUserLocation: true,
-            fitBoundsOptions: {maxZoom:12}
-          })
-        );
-
 
       });
-    })
-
-
-    fetch('https://data.explore.data.gouv.fr/prix_2022.json')
-    .then((response) => {
-        return response.json()
-    })
-    .then((data) => {
-      this.valuesPrices = data
-      let valuesx = []
-      let valuesy = []
-      data.forEach((d) => {
-        valuesx.push(d["date"].split('-')[2] + "/" + d["date"].split('-')[1] + "/" + d["date"].split('-')[0].slice(2,4))
-        valuesy.push(parseFloat(d[this.currentFuel + "_mean"]).toFixed(2))
-      });
-      this.valuesx = valuesx;
-      this.valuesy = valuesy;
-      this.titleChart = "Evolution des prix moyens de " + this.fuelFr[this.currentFuel]
-
     });
+
+
   },
-  methods: {
-    updateDate(val){
+  methods: {    
+    changeMap(){
+      let { x, scaleMin, scaleMax } = this.calculateColor(this.dataRupture, this.currentFuel)
+      let matchExpression = this.getMatchExpression(this.dataRupture, x, 'dep', 'code', this.currentFuel)
+      console.log(matchExpression)
 
-      fetch('https://data.explore.data.gouv.fr/historique/' + val + '.json')
-      .then((response) => {
-          return response.json()
-      })
-      .then((data) => {
-        //data.features = data.features.filter((feature) => ((feature.properties.hasOwnProperty("SP95")) || (feature.properties.hasOwnProperty("SP98")) || (feature.properties.hasOwnProperty("E10")) || (feature.properties.hasOwnProperty("Gazole")) || (feature.properties.hasOwnProperty("GPLc")) || (feature.properties.hasOwnProperty("E85"))))
-
-        this.dataPoints = JSON.parse(JSON.stringify(data))
-        this.map.getSource("station_points").setData(this.dataPoints);
-
-        this.legend.minPrix = 0
-        this.legend.tertilePrix1 = data.properties[this.currentFuel][1]
-        this.legend.tertilePrix2 = data.properties[this.currentFuel][2]
-        this.legend.maxPrix = data.properties[this.currentFuel][3]
-        this.legend.meanPrix = parseFloat(data.properties[this.currentFuel + "_mean"]).toFixed(2)
-        this.legend.medianPrix = parseFloat(data.properties[this.currentFuel + "_median"]).toFixed(2)
-
-        this.dateMaj = new Date(val);
-    })
-
+      this.map.setPaintProperty("departements_fill", "fill-color", matchExpression)
     },
     showMapTooltip(e) {
       var width = 10;
@@ -557,9 +436,8 @@ export default {
         [e.point.x - width / 2, e.point.y - height / 2],
         [e.point.x + width / 2, e.point.y + height / 2]
       ], {
-        layers: ['stations']
+        layers: ['departements_fill']
       });
-      features = features.filter(feature => feature.layer.paint['circle-color'].a > 0)
       if (features && features.length > 0) {
         this.tooltip.top = (this.$refs.mapContainer.getBoundingClientRect().y + e.point.y + 10).toString() + 'px'
         this.tooltip.left = (this.$refs.mapContainer.getBoundingClientRect().x + e.point.x + 10).toString() + 'px'
@@ -569,154 +447,48 @@ export default {
         this.tooltip.display = 'none'
       }
     },
-    formatDateMaJ(){
-      if(this.dateMaj.getFullYear()){
-        let minutes = this.dateMaj.getMinutes()
-        let hours = this.dateMaj.getHours() + ((this.dateMaj.getTimezoneOffset()/60) * -1)
-        if (minutes < 10) {
-          minutes = '0' + this.dateMaj.getMinutes()
-        }
-        if (hours < 10) {
-          hours = '0' + (parseInt(this.dateMaj.getHours()) + parseInt((this.dateMaj.getTimezoneOffset()/60) * -1)).toString()
-        }
-        return "Le " + this.dateMaj.getDate() + "/" + (this.dateMaj.getMonth()+1) + "/" + this.dateMaj.getFullYear() + " à " + hours + 'h' + minutes
-      } else {
-        return ""
-      }
-    },
-    getDayBeforeOrAfter(val){
-      let mydate = new Date(this.dateMaj)
-      mydate.setDate(mydate.getDate() + val);
-      let day = mydate.getDate()
-      let month = mydate.getMonth() + 1
-      if((mydate.getDate()) < 10){
-        day = '0' + day
-      }
-      if(mydate.getMonth()+1 < 10){
-        month = '0' + month
-      }
-      return mydate.getFullYear() + "-" + month + "-" + day
-    },
-    displayRupture() {
-      this.displayAllStations()
-    },
-    goToFirstResult() {
-      if(this.firstResult){
-        this.moveTo(this.firstResult.geometry.coordinates, 13)
-      }
-    },
-    isoToDateFr(maj, type) {
-      let date = new Date(maj);
-      if(type === 'long') {
-        return date.getDate() + "/" + (date.getMonth()+1) + "/" + date.getFullYear() + " à " + date.getHours() + "h" + date.getMinutes()
-      } else {
-        return date.getDate() + "/" + (date.getMonth()+1) + " à " + date.getHours() + "h"
-      }
-    },
-    getAdresses() {
-        fetch('https://api-adresse.data.gouv.fr/search/?q=' + this.searchAdress.replace(' ', '%20'))
-        .then((response) => {
-            return response.json()
-        })
-        .then((data) => {
-          this.resultsAdresses = data
-          this.firstResult = data.features[0]
-          //this.moveTo(data.features[0].geometry.coordinates, 13)
-        })
-    },
-    closeModal() {
-      this.$refs.modalCloseButton.click()
-    },
-    moveTo(coordinates, zoomLevel) {
-      this.closeModal()
-      this.resultsAdresses = null
-      this.zoomLevel = zoomLevel
-      this.map.flyTo({
-        center: coordinates,
-        zoom: zoomLevel,
-      });
-    },
-    displayAllStations(){
-      let paintProperties = []
-      if(this.zoomLevel > 10){
-        this.showRupture = true
-        paintProperties = [
-          'match',
-          ['get', this.currentFuel + '_color'],
-          "0",
-          '#000000',
-          "1",
-          '#67A532',
-          "2",
-          '#C8AA39',
-          "3",
-          '#FA7A35',
-          /* other */ '#AAAAAA'
-        ]
-      }
-      else {
-        if(this.showRupture) {
-            paintProperties = [
-            'match',
-            ['get', this.currentFuel + '_color'],
-            "0",
-            '#000000',
-            "1",
-            '#67A532',
-            "2",
-            '#C8AA39',
-            "3",
-            '#FA7A35',
-            /* other */ 'hsla(0%, 0%, 0%, 0)'
-          ]
+    getMatchExpression(data, x, propertyData, propertyTile, propertyValue){
+      let matchExpression = ['match', ['get', propertyTile]]
+      const values = {}
+      data.forEach((d) => {
+        if (d[propertyValue] != null) {
+          let color = x(parseFloat(d[propertyValue]))
+          matchExpression.push(d[propertyData], color);
+          values[d[propertyData]] = d[propertyValue]
         } else {
-            paintProperties = [
-              'match',
-              ['get', this.currentFuel + '_color'],
-              "1",
-              '#67A532',
-              "2",
-              '#C8AA39',
-              "3",
-              '#FA7A35',
-              /* other */ 'hsla(0%, 0%, 0%, 0)'
-            ]
+          matchExpression.push(d[propertyData], 'rgba(0, 0, 0, 0)');
         }
-      }
-      this.map.setPaintProperty("stations", "circle-color", paintProperties)
-
+      })
+      matchExpression.push('rgba(0, 0, 0, 0)');
+      return matchExpression
     },
-    changeMap() {
-      //this.showRupture = false;
-      this.legend.minPrix = 0
-      this.legend.tertilePrix1 = this.dataPoints.properties[this.currentFuel][1]
-      this.legend.tertilePrix2 = this.dataPoints.properties[this.currentFuel][2]
-      this.legend.maxPrix = this.dataPoints.properties[this.currentFuel][3]
-      this.legend.meanPrix = parseFloat(this.dataPoints.properties[this.currentFuel + "_mean"]).toFixed(2)
-      this.legend.medianPrix = parseFloat(this.dataPoints.properties[this.currentFuel + "_median"]).toFixed(2)
-
-      this.displayAllStations()
-
-      let valuesx = []
-      let valuesy = []
-      this.valuesPrices.forEach((d) => {
-        valuesx.push(d["date"].split('-')[2] + "/" + d["date"].split('-')[1] + "/" + d["date"].split('-')[0].slice(2,4))
-        valuesy.push(parseFloat(d[this.currentFuel + "_mean"]).toFixed(2))
-      });
-      this.valuesx = valuesx;
-      this.valuesy = valuesy;
-      this.titleChart = "Evolution des prix moyens de " + this.fuelFr[this.currentFuel]
-    },
-    autoComplete() {
-      if(this.searchAdress.length === 0) {
-        this.resultsAdresses = null
-      }
-      let search = this.searchAdress
-      let timer = setTimeout(() => {
-        if(this.searchAdress === search) {
-          this.getAdresses()
+    calculateColor(data, valProperty){      
+      const valStat = []
+      data.forEach((d) => {
+        if (d[valProperty] != null) {
+          valStat.push(parseFloat(d[valProperty]))
         }
-      }, 650)
+      })
+      let scaleMin = Math.min.apply(null, valStat)
+      let scaleMax = Math.max.apply(null, valStat)
+      scaleMin = 0
+      let pivot = 5
+      scaleMax = 50
+      let x = d3.scaleLinear().domain([scaleMin, pivot, scaleMax]).range(['#028758', '#FFF64E', '#CC000A'])
+      return { x, scaleMin, scaleMax }
+    },
+    formatDateMaJ(){
+      var d = new Date(new Date().setDate(new Date().getDate()-1)),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear();
+
+      if (month.length < 2) 
+          month = '0' + month;
+      if (day.length < 2) 
+          day = '0' + day;
+
+      return [day, month, year].join('/');
     },
     goToUrl(url){
       window.location.href = window.location.origin + url;
@@ -729,24 +501,29 @@ export default {
 
 <style scoped>
 @import '~maplibre-gl/dist/maplibre-gl.css';
+
 .fr-container--fluid .fr-sidemenu {
   margin-left: 0;
   margin-right: 0;
 }
+
 @media (min-width: 48em) {
   .fr-sidemenu--sticky .fr-sidemenu__inner {
     max-height: calc(100vh - 106px);
     padding: 1.25rem;
   }
 }
+
 .map-wrap {
   height: calc(100vh - 124px); /* calculate height of the screen minus the heading */
 }
+
 .map {
   width: 100%;
   height: calc(100% - 48px);
   cursor: pointer;
 }
+
 #titleMap {
   position: absolute;
   bottom: 2.5rem;
@@ -758,6 +535,7 @@ export default {
   font-family: Marianne;
   cursor: grab;
 }
+
 #legendMap {
   position: absolute;
   width: 280px;
@@ -772,58 +550,69 @@ export default {
   font-family: Marianne;
   cursor: grab;
 }
+
 @media (min-width: 48em) {
   .map {
-    height: 100%;
+    height: 90%;
   }
     
   #legendMap {
     width: 500px;
   }
+
   #titleMap {
     bottom: 2rem;
   }
 }
+
 @media (min-width: 62em) {
   .map-wrap {
     height: calc(100vh - 100.5px); /* calculate height of the screen minus the heading */
   }
+
   .autocomplete {
     right: 2.5rem;
   }
   
 }
+
 #titleMap {
   display: block;
 }
+
 #legendMap {
   display: block;
 }
+
 .menu{
   min-width: 400px;
   padding-left: 20px;
   padding-right: 20px;
   padding-top: 20px;
 }
+
 .input-adresse{
     width: 350px;
 }
+
+
 .watermark {
   position: absolute;
   left: 10px;
   bottom: 10px;
   z-index: 999;
 }
+
 .tooltip{
   position: fixed;
-  min-width: 200px;
-  max-width: 450px;
+  width: 250px;
   background-color: white;
   z-index: 999;
   border-radius: 5px;
   padding-top: 10px;
   padding-bottom: 10px;
 }
+
 .tooltip-title{
   border-radius: 5px;
   color: black;
@@ -832,63 +621,85 @@ export default {
   padding-right: 10px;
   font-size: 14px;
 }
+
+
 .tooltip-value{
   font-size: 12px;
   padding-left: 10px;
   padding-right: 10px;
   padding: 5px;
 }
+
 .tooltip-value{
   font-style: italic;
   padding-left: 10px;
 }
+
 .tooltip-value-grey{
   color: #AAAAAA
 }
+
 .legendMap-colors{
   display: flex;
   width: 100%;
   padding-left: 5px;
   padding-right: 5px;
 }
+
 .legendMap-color{
   width: 100%;
   margin: auto;
 }
-.legendMap-color-green{
-  background-color: #67A532;
+
+.legendMap-color-zero{
+  background-color: #67B395;
   height: 10px;
   margin-right: 5px;
 }
-.legendMap-color-orange{
-  background-color: #C8AA39;
+
+.legendMap-color-five{
+  background-color: #FFF64E;
   height: 10px;
   margin-right: 5px;
 }
-.legendMap-color-red{
-  background-color: #FA7A35;
+
+.legendMap-color-fifty{
+  background-color: #E06266;
   height: 10px;
+  margin-right: 5px;
 }
+
+.legendMap-color-hundred{
+  background-color: #BE6260;
+  height: 10px;
+  margin-right: 5px;
+}
+
 .legendMap-title{
   margin-left: 5px;
   margin-top: 5px;
   margin-bottom: 5px;
 }
+
 .tootlip-content{
   padding-left: 5px;
 }
+
 .csvapi .fr-btn{
   border-radius: 0px;
 }
+
 .autocomplete-container {
   position: relative;
 }
+
 .autocomplete {
   position: absolute;
   top: 40px;
   z-index: 1000;
   border-top: 1px solid #ebebeb;
 }
+
 .autocomplete-item {
   width: 100%;
   height: 40px;
@@ -904,29 +715,69 @@ export default {
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+
 .autocomplete-item:hover{
   background-color: #3558A2;
   color: white;
 }
+
 .autocomplete-item-select{
   background-color: #3558A2;
   color: white;
 }
+
 .subtitle {
   font-size: 1rem;
   font-weight: bold;
   line-height: 1.2;
   cursor: pointer;
 }
+
 .nb-legend {
   font-size: 11px;
 }
+
 .mapboxgl-map::v-deep .maplibregl-ctrl-attrib a::after {
   content: none;
 }
+
 .label-rupture{
   font-size: 13px;
   font-weight: bold;
   font-style: italic;
 }
+
+.global-panel{
+  height: 60px;
+  width: 100%;
+  overflow-x: auto;
+  padding-top: 20px;
+  display: flex;
+  border-bottom: 1px solid #ebebeb;
+}
+
+.panel-active{
+  cursor: pointer;
+  height: 40px;
+  width: 250px;
+  background-color: #E8EDFF;
+  margin-left: 20px;
+}
+
+.panel-inactive{
+  height: 40px;
+  width: 250px;
+  margin-left: 20px;
+  border-left: 1px solid #ebebeb;
+  border-right: 1px solid #ebebeb;
+  border-top: 3px solid #000091;
+}
+
+.panel-title{
+  text-align: center;
+  line-height: 40px;
+  width: 250px;
+  font-weight: bold;
+}
+
 </style>
