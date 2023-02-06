@@ -1,5 +1,5 @@
 <template>
-  <div class="subheader">
+  <div class="subheader" :class="(generalInfos.filetype && generalInfos.filetype === 'excel')?'excel':''">
     <infos-dgv></infos-dgv>
     <div class="inforessource">
       <div v-if="generalInfos.filetype && generalInfos.filetype === 'excel'" class="fr-grid-row fr-grid-row--gutters preventExcel">
@@ -185,6 +185,10 @@ export default {
   flex-wrap: wrap;
   justify-content: flex-start;
   align-items: center;
+}
+
+.subheader.excel{
+  display: block;
 }
 
 .inforessource{
