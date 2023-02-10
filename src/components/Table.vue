@@ -168,7 +168,7 @@
           </td>
         </tr> 
       </tbody>
-      <button v-if="rows.length >= 10" class="fr-tag fr-tag--sm" @click="userChangePage()">Charger plus de données</button>
+      <button v-if="rows.length >= 10" class="fr-tag fr-tag--sm" @click="forceUserChangePage()">Charger plus de données</button>
       <div v-if="rows.length === 0 && filters.left > 0"><br /><p>Basé sur les filtres appliqués, l'explorateur ne trouve aucun résultat dans le fichier.</p></div>
       <div v-if="rows.length < 10" class="messageNoResults"></div>
       <tfoot class="fr-p-2w">
@@ -610,12 +610,15 @@ export default {
       }
     },
     handleScroll (event) {
-
-      var tableTop = event.target.getBoundingClientRect().top + document.getElementById("tabhead").offsetHeight
-      if(event.target.scrollTop+tableTop>event.target.offsetHeight/4&&event.target.scrollTop+tableTop+300>this.lastBiggerScroll){
-        this.lastBiggerScroll = event.target.scrollTop+tableTop+event.target.offsetHeight
+    if(event.target.scrollTop>this.lastBiggerScroll){
+        this.lastBiggerScroll = event.target.scrollTop+(event.target.offsetHeight/2)
         this.userChangePage()
       }
+    },
+
+    forceUserChangePage(){
+      this.lastBiggerScroll = 0
+      this.userChangePage()
     },
     userChangePage(){
       this.page = this.page + 1
@@ -629,7 +632,17 @@ export default {
   },
   destroyed () {
     
+  },
+  watch: {
+    filters: {
+      deep: true,
+      immediate: true,
+      handler() {
+        this.lastBiggerScroll = 0
+      }
+    }
   }
+
 }
 </script>
 
