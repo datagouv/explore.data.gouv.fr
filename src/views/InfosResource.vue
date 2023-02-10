@@ -1,5 +1,5 @@
 <template>
-  <div class="subheader">
+  <div class="subheader" :class="(generalInfos.filetype && generalInfos.filetype === 'excel')?'excel':''">
     <infos-dgv></infos-dgv>
     <div class="inforessource">
       <div v-if="generalInfos.filetype && generalInfos.filetype === 'excel'" class="fr-grid-row fr-grid-row--gutters preventExcel">
@@ -46,7 +46,7 @@
                   class="fr-btn fr-btn--sm fr-btn--secondary fr-btn--icon-left fr-icon-filter-line"
                   data-fr-opened="false"
                   aria-controls="fr-modal-filters"
-                  style="float: right;white-space: nowrap;min-width: 170px;"
+                  style="float: right;white-space: nowrap;min-width: 180px;"
                 >
                   Configurer les filtres <span v-if="hasActivefilters" class="fr-ml-1w fr-badge fr-badge--blue-cumulus">{{countActiveFilters}}</span>
                 </button>
@@ -180,15 +180,21 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .subheader{
+  background-color:#E6EEFE;
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
-  background-color:#E6EEFE;
+  align-items: center;
+}
+
+.subheader.excel{
+  display: block;
 }
 
 .inforessource{
   flex-grow: 99;
 }
+
 
 .sticky-bar {
   z-index: 1;
