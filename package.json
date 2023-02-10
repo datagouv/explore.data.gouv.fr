@@ -18,7 +18,7 @@
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.12.1",
-    "@vue/cli-service": "^4.1.1",
+    "@vue/cli-service": "^5.0.8",
     "hoek": "^5.0.3",
     "vue-template-compiler": "^2.6.11"
   },
