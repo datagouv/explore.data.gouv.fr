@@ -1,49 +1,49 @@
 {
-  "name": "@etalab/explore.data.gouv.fr",
-  "version": "1.0.2-0",
-  "scripts": {
-    "serve": "vue-cli-service serve --open",
-    "build": "vue-cli-service build",
-    "build:lib": "tsc",
-    "start": "vue-cli-service serve --open",
-    "preversion": "npm run build && npm run build:lib",
-    "update-version": "npm version --no-git-tag-version",
-    "publish": "npm publish --access public"
-  },
-  "files": [
-    "dist",
-    "lib",
-    "src"
-  ],
-  "devDependencies": {
-    "@fullhuman/postcss-purgecss": "^4.0.0",
-    "@fullhuman/vue-cli-plugin-purgecss": "~5.0.0",
-    "@gouvfr/dsfr": "^1.7.2",
-    "@vue/cli-plugin-babel": "^3.12.1",
-    "@vue/cli-service": "^4.1.1",
-    "bootstrap-vue": "^2.1.0",
-    "cache-loader": "^4.1.0",
-    "chart.js": "^3.8.0",
-    "d3-scale": "^4.0.2",
-    "hoek": "^5.0.3",
-    "maplibre-gl": "^2.4.0",
-    "sass": "^1.52.3",
-    "sass-loader": "^10.1.1",
-    "typescript": "^4.9.3",
-    "url-search-params-polyfill": "^5.1.0",
-    "vue": "^2.7.14",
-    "vue-loading-overlay": "^2.2.2",
-    "vue-resource": "^1.5.3",
-    "vue-router": "^3.6.5",
-    "vue-slider-component": "^3.2.23",
-    "vue-template-compiler": "^2.7.14",
-    "vuex": "^3.6.2",
-    "webpack": "^4.46.0",
-    "webpack-manifest-plugin": "^2.2.0"
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not ie <= 8"
-  ]
+	"name": "@etalab/explore.data.gouv.fr",
+	"version": "1.0.2-0",
+	"scripts": {
+		"serve": "vue-cli-service serve --open",
+		"build": "vue-cli-service build",
+		"build:lib": "tsc",
+		"start": "vue-cli-service serve --open",
+		"preversion": "npm run build && npm run build:lib",
+		"update-version": "npm version --no-git-tag-version",
+		"publish": "npm publish --access public"
+	},
+	"files": [
+		"dist",
+		"lib",
+		"src"
+	],
+	"devDependencies": {
+		"@fullhuman/postcss-purgecss": "^4.0.0",
+		"@fullhuman/vue-cli-plugin-purgecss": "~5.0.0",
+		"@gouvfr/dsfr": "^1.7.2",
+		"@vue/cli-plugin-babel": "^3.12.1",
+		"@vue/cli-service": "^4.1.1",
+		"bootstrap-vue": "^2.1.0",
+		"cache-loader": "^4.1.0",
+		"chart.js": "^3.8.0",
+		"d3-scale": "^4.0.2",
+		"hoek": "^5.0.3",
+		"maplibre-gl": "^2.4.0",
+		"sass": "^1.52.3",
+		"sass-loader": "^10.1.1",
+		"typescript": "^4.9.3",
+		"url-search-params-polyfill": "^5.1.0",
+		"vue": "^2.7.14",
+		"vue-loading-overlay": "^2.2.2",
+		"vue-resource": "^1.5.3",
+		"vue-router": "^3.6.5",
+		"vue-slider-component": "^3.2.23",
+		"vue-template-compiler": "^2.7.14",
+		"vuex": "^3.6.2",
+		"webpack": "^4.46.0",
+		"webpack-manifest-plugin": "^2.2.0"
+	},
+	"browserslist": [
+		"> 1%",
+		"last 2 versions",
+		"not ie <= 8"
+	]
 }
