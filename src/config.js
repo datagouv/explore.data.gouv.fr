@@ -15,6 +15,23 @@ function _meta(name) {
 
 export const csvapiUrl = process.env.VUE_APP_CSVAPI_URL || _meta('csvapi-url')
 export const pageSize = _meta('page-size') || 10
+export const dataGouvUrl = "https://www.data.gouv.fr/fr/"
+export const matomoUrl = "https://stats.data.gouv.fr/"
+export const matomoSiteId = process.env.VUE_APP_MATOMO_SITE_ID
+
+/**
+ * @param {string} id
+ */
+export function getResourceUrl(id) {
+  return dataGouvUrl + 'datasets/r/' + id
+}
+
+/**
+ * @param {string} path
+ */
+export function getDataGouvUrl(path) {
+  return dataGouvUrl + path
+}
 
 let _filtersEnabled = process.env.VUE_APP_FILTERS_ENABLED || _meta('filters-enabled')
 try {
