@@ -1,0 +1,14 @@
+{
+    "include": ["src/csvapi.js"],
+    "compilerOptions": {
+        "allowJs": true,
+        "checkJs": true,
+        "target": "es2018",
+        "outDir": "lib",
+        "lib": ["dom", "esnext"],
+        "declaration": true,
+        "declarationMap": true,
+        "sourceMap": true,
+        "skipLibCheck": true,
+    }
+}
