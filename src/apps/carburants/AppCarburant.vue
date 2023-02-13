@@ -84,13 +84,13 @@
               <span v-if="(tooltip.properties[item] != 'R') & (tooltip.properties[item] != 'N')">
                 <div v-if="tooltip.properties[item]" class="tooltip-value">
                   <span v-if="tooltip.properties[item + '_color'] === '1'">
-                    <img src="../static/images/dispo-green.png" width="12" alt="" />
+                    <img src="../../static/images/dispo-green.png" width="12" alt="" />
                   </span>
                   <span v-if="tooltip.properties[item + '_color'] === '2'">
-                    <img src="../static/images/dispo-orange.png" width="12" alt="" />
+                    <img src="../../static/images/dispo-orange.png" width="12" alt="" />
                   </span>
                   <span v-if="tooltip.properties[item + '_color'] === '3'">
-                    <img src="../static/images/dispo-red.png" width="12" alt="" />
+                    <img src="../../static/images/dispo-red.png" width="12" alt="" />
                   </span>
                   <b>{{ fuelFr[item] }} : {{ tooltip.properties[item] }} €</b><br />MAJ le {{ isoToDateFr(tooltip.properties[item + '_m'], 'short') }}
                 </div>
@@ -98,7 +98,7 @@
               <span v-else-if="tooltip.properties[item] == 'R'">
                 <div v-if="tooltip.properties[item]" class="tooltip-value tooltip-value-grey">
                   <span>
-                    <img src="../static/images/cross-sign.png" width="12" alt="" />
+                    <img src="../../static/images/cross-sign.png" width="12" alt="" />
                     {{ fuelFr[item] }} : En rupture<br />depuis le {{ isoToDateFr(tooltip.properties[item + '_s'], 'short') }}
                   </span>
                 </div>
@@ -106,7 +106,7 @@
               <span v-else>
                 <div class="tooltip-value tooltip-value-grey">
                   <span>
-                    <img src="../static/images/caution-sign.png" width="12" alt="" />
+                    <img src="../../static/images/caution-sign.png" width="12" alt="" />
                     {{ fuelFr[item] }} : Non proposé<br/>dans la station
                   </span>
                 </div>
@@ -118,13 +118,13 @@
               <span v-if="(tooltip.properties[item] != 'R') & (tooltip.properties[item] != 'N')">
                 <div v-if="tooltip.properties[item]" class="tooltip-value">
                   <span v-if="tooltip.properties[item + '_color'] === '1'">
-                    <img src="../static/images/dispo-green.png" width="12" alt="" />
+                    <img src="../../static/images/dispo-green.png" width="12" alt="" />
                   </span>
                   <span v-if="tooltip.properties[item + '_color'] === '2'">
-                    <img src="../static/images/dispo-orange.png" width="12" alt="" />
+                    <img src="../../static/images/dispo-orange.png" width="12" alt="" />
                   </span>
                   <span v-if="tooltip.properties[item + '_color'] === '3'">
-                    <img src="../static/images/dispo-red.png" width="12" alt="" />
+                    <img src="../../static/images/dispo-red.png" width="12" alt="" />
                   </span>
                   <b>{{ fuelFr[item] }} : {{ tooltip.properties[item] }} €</b><br />MAJ le {{ isoToDateFr(tooltip.properties[item + '_m'], 'short') }}
                 </div>
@@ -132,7 +132,7 @@
               <span v-else-if="tooltip.properties[item] == 'R'">
                 <div v-if="tooltip.properties[item]" class="tooltip-value tooltip-value-grey">
                   <span>
-                    <img src="../static/images/cross-sign.png" width="12" alt="" />
+                    <img src="../../static/images/cross-sign.png" width="12" alt="" />
                     {{ fuelFr[item] }} : En rupture<br />depuis le {{ isoToDateFr(tooltip.properties[item + '_s'], 'short') }}
                   </span>
                 </div>
@@ -140,7 +140,7 @@
               <span v-else>
                 <div class="tooltip-value tooltip-value-grey">
                   <span>
-                    <img src="../static/images/caution-sign.png" width="12" alt="" />
+                    <img src="../../static/images/caution-sign.png" width="12" alt="" />
                     {{ fuelFr[item] }} : Non proposé<br/>dans la station
                   </span>
                 </div>
@@ -149,14 +149,6 @@
             </div>
           </div>
       </div>
-      <!-- <div class="global-panel" >
-        <div @click="goToUrl('/prix-carburants')" class="panel-inactive">
-          <div class="panel-title">Prix des carburants</div>
-        </div>
-        <div @click="goToUrl('/rupture-carburants')" class="panel-active">
-            <div class="panel-title">Rupture des carburants</div>
-        </div>
-      </div> -->
       <div class="fr-grid-row map-wrap">
         <div class="fr-col-12 fr-col-md-4 fr-col-xl-3">
           <nav class="fr-sidemenu fr-sidemenu--sticky fr-p-0" aria-label="Menu latéral">
@@ -321,6 +313,8 @@
 
 <script>
 
+import store from './store'
+
 import HeaderApp from '@/views/HeaderApp'
 
 import { Map, GeolocateControl } from 'maplibre-gl';
@@ -328,8 +322,8 @@ import BarOrGraph from '@/components/BarOrGraph.vue'
 import { ungzip } from 'pako';
 
 import { markRaw } from 'vue';
-import styleVector from '../static/json/vector.json'
-import CenterDeps from '../static/json/centers_deps.json'
+import styleVector from '../../static/json/vector.json'
+import CenterDeps from '../../static/json/centers_deps.json'
 import * as d3 from 'd3-scale'
 
 export default {
@@ -397,7 +391,6 @@ export default {
   computed: {
   },
   mounted() {
-
     this.dataChloropleth = null
     this.matchExpression = ['match', ['get', 'code']]
     this.zoomLevel = 4.2
@@ -712,9 +705,6 @@ export default {
         }
       }, 650)
     },
-    goToUrl(url){
-      window.location.href = window.location.origin + url;
-    },
   },
   watch: {
   }
@@ -723,24 +713,29 @@ export default {
 
 <style scoped>
 @import '~maplibre-gl/dist/maplibre-gl.css';
+
 .fr-container--fluid .fr-sidemenu {
   margin-left: 0;
   margin-right: 0;
 }
+
 @media (min-width: 48em) {
   .fr-sidemenu--sticky .fr-sidemenu__inner {
     max-height: calc(100vh - 106px);
     padding: 1.25rem;
   }
 }
+
 .map-wrap {
   height: calc(100vh - 124px); /* calculate height of the screen minus the heading */
 }
+
 .map {
   width: 100%;
   height: calc(100% - 48px);
   cursor: pointer;
 }
+
 #titleMap {
   position: absolute;
   bottom: 2.5rem;
@@ -752,6 +747,7 @@ export default {
   font-family: Marianne;
   cursor: grab;
 }
+
 #legendMap {
   position: absolute;
   width: 280px;
@@ -766,6 +762,7 @@ export default {
   font-family: Marianne;
   cursor: grab;
 }
+
 @media (min-width: 48em) {
   .map {
     height: 100%;
@@ -774,14 +771,17 @@ export default {
   #legendMap {
     width: 500px;
   }
+
   #titleMap {
     bottom: 2rem;
   }
 }
+
 @media (min-width: 62em) {
   .map-wrap {
     height: calc(100vh - 100.5px); /* calculate height of the screen minus the heading */
   }
+
   .autocomplete {
     right: 2.5rem;
   }
@@ -791,27 +791,34 @@ export default {
   }
   
 }
+
 #titleMap {
   display: block;
 }
+
 #legendMap {
   display: block;
 }
+
 .menu{
   min-width: 400px;
   padding-left: 20px;
   padding-right: 20px;
   padding-top: 20px;
 }
+
 .input-adresse{
     width: 350px;
 }
+
+
 .watermark {
   position: absolute;
   left: 10px;
   bottom: 10px;
   z-index: 999;
 }
+
 .tooltip{
   position: fixed;
   min-width: 200px;
@@ -822,6 +829,7 @@ export default {
   padding-top: 10px;
   padding-bottom: 10px;
 }
+
 .tooltip-title{
   border-radius: 5px;
   color: black;
@@ -830,63 +838,78 @@ export default {
   padding-right: 10px;
   font-size: 14px;
 }
+
+
 .tooltip-value{
   font-size: 12px;
   padding-left: 10px;
   padding-right: 10px;
   padding: 5px;
 }
+
 .tooltip-value{
   font-style: italic;
   padding-left: 10px;
 }
+
 .tooltip-value-grey{
   color: #AAAAAA
 }
+
 .legendMap-colors{
   display: flex;
   width: 100%;
   padding-left: 5px;
   padding-right: 5px;
 }
+
 .legendMap-color{
   width: 100%;
   margin: auto;
 }
+
 .legendMap-color-green{
   background-color: #67A532;
   height: 10px;
   margin-right: 5px;
 }
+
 .legendMap-color-orange{
   background-color: #C8AA39;
   height: 10px;
   margin-right: 5px;
 }
+
 .legendMap-color-red{
   background-color: #FA7A35;
   height: 10px;
 }
+
 .legendMap-title{
   margin-left: 5px;
   margin-top: 5px;
   margin-bottom: 5px;
 }
+
 .tootlip-content{
   padding-left: 5px;
 }
+
 .csvapi .fr-btn{
   border-radius: 0px;
 }
+
 .autocomplete-container {
   position: relative;
 }
+
 .autocomplete {
   position: absolute;
   top: 40px;
   z-index: 1000;
   border-top: 1px solid #ebebeb;
 }
+
 .autocomplete-item {
   width: 100%;
   height: 40px;
@@ -902,26 +925,32 @@ export default {
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+
 .autocomplete-item:hover{
   background-color: #3558A2;
   color: white;
 }
+
 .autocomplete-item-select{
   background-color: #3558A2;
   color: white;
 }
+
 .subtitle {
   font-size: 1rem;
   font-weight: bold;
   line-height: 1.2;
   cursor: pointer;
 }
+
 .nb-legend {
   font-size: 11px;
 }
+
 .mapboxgl-map::v-deep .maplibregl-ctrl-attrib a::after {
   content: none;
 }
+
 .label-rupture{
   font-size: 13px;
   font-weight: bold;
