@@ -1,10 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import TableView from './views/TableView.vue'
-<<<<<<< HEAD
 import AppRuptureCarburant from './views/AppRuptureCarburant.vue'
-=======
->>>>>>> a182925b374cbed7049045b3c93fab6c5b5d9bba
 import AppCarburant from './apps/carburants/AppCarburant.vue'
 import AppDvf from './apps/dvf/AppDvf.vue'
 

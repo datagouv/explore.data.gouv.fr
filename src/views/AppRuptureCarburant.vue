@@ -251,8 +251,8 @@ import BarOrGraph from '@/components/BarOrGraph.vue'
 import { ungzip } from 'pako';
 
 import { markRaw } from 'vue';
-import styleVector from '../static/json/vector.json'
-import CenterDeps from '../static/json/centers_deps.json'
+import styleVector from '../apps/carburants/assets/json/vector.json'
+import CenterDeps from '../apps/carburants/assets/json/centers_deps.json'
 import testDataset from '../static/json/ruptures.json'
 import lib_deps from '../static/json/depts.json'
 import * as d3 from 'd3-scale'
