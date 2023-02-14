@@ -679,6 +679,10 @@ export default {
 <style scoped>
 @import '~maplibre-gl/dist/maplibre-gl.css';
 
+html{
+  height: 100%;
+}
+
 .fr-container--fluid .fr-sidemenu {
   margin-left: 0;
   margin-right: 0;
@@ -686,19 +690,20 @@ export default {
 
 @media (min-width: 48em) {
   .fr-sidemenu--sticky .fr-sidemenu__inner {
-    max-height: calc(100vh - 106px);
+    max-height: calc(100vh - 60px);
     padding: 1.25rem;
   }
 }
 
 .map-wrap {
-  height: calc(100vh - 124px); /* calculate height of the screen minus the heading */
+  height: calc(100vh - 60px);
 }
 
 .map {
   width: 100%;
-  height: calc(100% - 48px);
+  height: calc(100% - 60px);
   cursor: pointer;
+
 }
 
 #titleMap {
@@ -764,7 +769,7 @@ export default {
 
 @media (min-width: 62em) {
   .map-wrap {
-    height: calc(100vh - 100.5px); /* calculate height of the screen minus the heading */
+    height: calc(100vh - 60px); /* calculate height of the screen minus the heading */
   }
 
   .fr-header__body-row{
