@@ -47,14 +47,14 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .headerapps{
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-left: 20px;
+    padding-right: 20px;
     padding-top: 13px;
     padding-bottom: 13px;
     background-color: white;
     justify-content: space-between;
     width: 100%;
-    border-bottom: 2px solid #E6EEFE;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
 .fr-enlarge-link{

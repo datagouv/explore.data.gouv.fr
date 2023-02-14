@@ -5,7 +5,11 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    activePanel:"carte"
   },
   mutations: {
+    changeActivePanel (state,data) {
+      state.activePanel = data
+    },
   }
 })
