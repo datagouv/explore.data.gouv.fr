@@ -56,6 +56,7 @@ export default {
     },
   },
   mounted() {
+
   },
   methods: {
     changeActivePanel(id){
@@ -100,7 +101,6 @@ export default {
 
   .dvf_content{
     position: absolute;
-    background-color: green;
     top:158px;
     bottom:130px;
     width: 100%;
@@ -110,7 +110,7 @@ export default {
     display: flex;
     padding-left: 15px;
     padding-right: 15px;
-    border-bottom:1px solid grey;
+    border-bottom:1px solid #E5E5E5;
   }
 
   .panel{
@@ -128,15 +128,19 @@ export default {
     border-top:2px solid transparent;
     border-left:1px solid transparent;
     border-right:1px solid transparent;
+    border-bottom:1px solid #E5E5E5;
     cursor: pointer;
+    transform:translate(0,1px);
   }
 
   .panel.active{
     background-color: white;
     border-top:2px solid #3558A2;
-    border-left:1px solid grey;
-    border-right:1px solid grey;
+    border-left:1px solid #E5E5E5;
+    border-right:1px solid #E5E5E5;
+    border-bottom:1px solid #ffffff;
     cursor: default;
+    color:#3558A2;
   }
 
 </style>
