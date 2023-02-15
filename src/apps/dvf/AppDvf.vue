@@ -21,7 +21,10 @@
         </div>
 
         <div class="dvf_app">
-          
+          <map-view v-if="activePanel=='carte'"></map-view>
+          <tableau-view v-if="activePanel=='tableau'"></tableau-view>
+          <faq-view v-if="activePanel=='faq'"></faq-view>
+          <sources-view v-if="activePanel=='sources'"></sources-view>
         </div>
 
     </div>
@@ -35,11 +38,14 @@
 import appStore from '@/apps/dvf/store'
 import HeaderApps from '@/views/HeaderApps'
 import FooterApps from '@/views/FooterApps'
-/* import CustomComponent from '@/apps/dvf/components/CustomComponent' */
+import MapView from '@/apps/dvf/views/MapView'
+import TableauView from '@/apps/dvf/views/TableauView'
+import FaqView from '@/apps/dvf/views/FaqView'
+import SourcesView from '@/apps/dvf/views/SourcesView'
 
 export default {
   name: 'AppDvf',
-  components: {HeaderApps, FooterApps},
+  components: {HeaderApps, FooterApps, MapView,TableauView,FaqView,SourcesView},
   data() {
     return {
       panels:[
@@ -142,5 +148,24 @@ export default {
     cursor: default;
     color:#3558A2;
   }
+
+  .dvf_app{
+    position: absolute;
+    width:100%;
+    top:40px;    
+    bottom:0;
+  }
+
+</style>
+
+<style>
+
+   .mainView{
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top:0;
+        bottom:0; 
+    }
 
 </style>
