@@ -32,7 +32,7 @@ export default {
     display: inline-block;
     width: 25%;
     min-height: 100%;
-    border:1px solid green;
+    border:1px dashed black;
     box-sizing: border-box;
 }
 
