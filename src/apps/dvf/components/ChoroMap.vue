@@ -30,7 +30,7 @@ export default {
 
   .choroMap{
     width: 75%;
-    border:1px solid red;
+    border:1px dashed black;
     box-sizing: border-box;
     display: inline-block;
     min-height: 100%;
