@@ -5,7 +5,13 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    activePanel:"carte"
+    activePanel:"carte",
+    map:{
+      lng:2,
+      lat:46.3,
+      zoom:null,
+      zoomLevel:4.8
+    }
   },
   mutations: {
     changeActivePanel (state,data) {

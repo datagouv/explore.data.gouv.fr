@@ -1,5 +1,7 @@
 <template>
-    <div class="leftCol">LeftCol</div>
+    <div class="leftCol">
+      current zoom level : {{zoomLevel}}
+    </div>
 </template>
 
 <script>
@@ -14,6 +16,9 @@ export default {
     }
   },
   computed: {
+    zoomLevel:function(){
+      return appStore.state.map.zoomLevel
+    },
   },
   mounted() {
 
@@ -32,8 +37,7 @@ export default {
     display: inline-block;
     width: 25%;
     min-height: 100%;
-    border:1px dashed black;
-    box-sizing: border-box;
+    float:left;
 }
 
 </style>
