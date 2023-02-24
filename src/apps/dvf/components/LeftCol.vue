@@ -51,7 +51,14 @@ export default {
     }
   },
   mounted() {
-
+      fetch("http://dvf.dataeng.etalab.studio/nation")
+      .then((response) => {
+          return response.json()
+      })
+      .then((data) => {
+       this.apiResult = data
+       this.apiLevel = "nation"
+      });
   },
   methods: {
     fetchHistoricalData(level){
@@ -65,7 +72,6 @@ export default {
       if (level === "section"){
         code = this.section
       }
-      console.log("toto")
       fetch("http://dvf.dataeng.etalab.studio/" + level + "/" + code)
       .then((response) => {
           return response.json()
