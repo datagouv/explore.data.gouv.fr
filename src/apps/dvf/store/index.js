@@ -12,6 +12,7 @@ export default new Vuex.Store({
       zoom:null,
       zoomLevel:4.8
     },
+    apiData:null,
     location:{
       level: 'fra',
       dep: null,
@@ -58,5 +59,8 @@ export default new Vuex.Store({
     changeLocationLabelCom (state, data){
       state.locationLabels.com = data
     },
+    updateApiData (state, data){
+      state.apiData = data
+    }
   }
 })
