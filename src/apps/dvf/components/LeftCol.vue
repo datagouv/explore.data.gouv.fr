@@ -164,7 +164,9 @@ export default {
        this.apiResult = data
        this.apiLevel = level
       });
-
+    },
+    storeApiData(){
+      appStore.commit("updateApiData",this.apiResult)
     }
   },
   watch: {
@@ -173,6 +175,9 @@ export default {
         this.fetchHistoricalData(value)
       }
     },
+    apiResult(){
+      this.storeApiData()
+    }
   }
 }
 
@@ -207,13 +212,13 @@ export default {
   text-decoration: underline;
 }
 
-.ariane_container div:after{
+.ariane_container div:before{
   content: ">";
   margin:0 5px 0 5px;
   text-decoration: none;
 }
 
-.ariane_container div:last-child:after{
+.ariane_container div:first-child:before{
   display: none;
 }
 
