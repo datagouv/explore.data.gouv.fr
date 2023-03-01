@@ -1,15 +1,34 @@
 <template>
     <div class="leftCol">
-
       <div class="ariane_container">
         <div><span>France</span></div>
-        <div><span>Hérault (34)</span></div>
-        <div><span>EPCI (130025265)</span></div>
+        <div v-if="dep"><span>{{depLabel}} ({{dep}})</span></div>
+        <div v-if="com"><span>{{comLabel}}</span></div>
+        <div v-if="section"><span>section {{section}}</span></div>
       </div>
 
       <div class="location_container">
-       <div><span class="location_title">DÉPARTEMENT</span></div>
-       <div><span class="location_label">Hérault (34)</span></div>
+
+        <div v-if="level === 'fra'">
+         <div><span class="location_title">PAYS</span></div>
+         <div><span class="location_label">France entière</span></div>
+        </div>
+
+        <div v-if="level === 'departement'">
+         <div><span class="location_title">DÉPARTEMENT</span></div>
+         <div><span class="location_label">{{depLabel}} ({{dep}})</span></div>
+        </div>
+
+        <div v-if="level === 'commune'">
+         <div><span class="location_title">COMMUNE</span></div>
+         <div><span class="location_label">{{comLabel}}</span></div>
+        </div>
+
+        <div v-if="level === 'section'">
+         <div><span class="location_title">SECTION</span></div>
+         <div><span class="location_label">{{section}}</span></div>
+        </div>
+
       </div>
 
       <div class="global_numbers_container">
@@ -46,6 +65,16 @@
         </table>
       </div>
 
+      <div class="chart_container">
+        <span class="chart_title">Evolution du prix de vente moyen au m2</span>
+        <line-chart></line-chart>
+      </div>
+
+      <div class="chart_container">
+        <span class="chart_title">Distribution du prix de vente au m2</span>
+        <bar-chart></bar-chart>
+      </div>
+
       <!-- 
       current zoom level : {{zoomLevel}}
       <br/>
@@ -56,7 +85,7 @@
       current section : {{section}}
       <br/>
       current parcelle : {{parcelle}}
-
+        
       <br /><br />
       Resultat API {{ apiLevel }}
       <br />
@@ -67,10 +96,12 @@
 <script>
 
 import appStore from '@/apps/dvf/store'
+import LineChart from '@/apps/dvf/components/LineChart'
+import BarChart from '@/apps/dvf/components/BarChart'
 
 export default {
   name: 'LeftCol',
-  components: {},
+  components: {LineChart, BarChart},
   data() {
     return {
       apiLevel: null,
@@ -95,6 +126,12 @@ export default {
     },
     level:function(){
       return appStore.state.location.level
+    },
+    depLabel:function(){
+      return appStore.state.locationLabels.dep
+    },
+    comLabel:function(){
+      return appStore.state.locationLabels.com
     }
   },
   mounted() {
@@ -144,12 +181,14 @@ export default {
 <style scoped>
 
 .leftCol{
-    display: inline-block;
-    width: 25%;
-    min-height: 100%;
-    float:left;
-    padding-left: 20px;
-    padding-right: 20px;
+  position: relative;
+  display: inline-block;
+  width: 25%;
+  float:left;
+  padding-left: 20px;
+  padding-right: 20px;
+  height: 100%;
+  overflow: scroll;
 }
 
 .ariane_container{
@@ -242,6 +281,17 @@ export default {
 }
 
 .tab_container table td{
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.chart_container{
+  padding-top: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #E5E5E5;
+}
+
+.chart_title{
   font-size: 12px;
   font-weight: 700;
 }

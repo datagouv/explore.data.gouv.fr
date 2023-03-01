@@ -1,7 +1,7 @@
 <template>
-    <span>
-      <div class="choroMap" ref="mapContainer">ChoroMap</div>
-    </span>
+  <div class="choroMap">
+    <div class="map_container" ref="mapContainer"></div>
+  </div>
 </template>
 
 <script>
@@ -257,6 +257,7 @@ export default {
 
         this.map.on('click', 'communes_fill', (e) => {
           let comId = e.features[0]["properties"]["code"]
+          let comLabel = e.features[0]["properties"]["nom"]
           if(comId.substring(0,2) == this.dep){
             if (this.map.getZoom() <= 12 && comId) {
               fetch('https://geo.api.gouv.fr/communes?code=' + comId + '&fields=centre')
@@ -265,6 +266,7 @@ export default {
                 })
                 .then((data) => {
                   appStore.commit("changeLocationLevel", "commune")
+                  appStore.commit("changeLocationLabelCom",comLabel)
                   this.map.flyTo({
                     center: data[0].centre.coordinates,
                     zoom: 12,
@@ -280,6 +282,7 @@ export default {
           if (this.dep != depId) {
             if (this.map.getZoom() <= 8) {
               appStore.commit("changeLocationDep",e.features[0].properties.code)
+              appStore.commit("changeLocationLabelDep",e.features[0].properties.nom)
               appStore.commit("changeLocationLevel", "departement")
               this.map.flyTo({
                 center: CenterDeps[e.features[0].properties.code].coordinates,
@@ -440,6 +443,13 @@ export default {
     width: 75%;
     display: inline-block;
     min-height: 100%;
+    position: relative;
+  }
+
+  .map_container{
+    position: absolute;
+    width: 100%;
+    height: 100%;
   }
 
 </style>
