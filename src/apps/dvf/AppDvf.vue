@@ -108,7 +108,7 @@ export default {
   .dvf_content{
     position: absolute;
     top:158px;
-    bottom:130px;
+    bottom:0px;
     width: 100%;
   }
 

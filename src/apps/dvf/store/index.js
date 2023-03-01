@@ -18,6 +18,10 @@ export default new Vuex.Store({
       com: null,
       section: null,
       parcelle: null
+    },
+    locationLabels:{
+      dep:null,
+      com: null
     }
   },
   mutations: {
@@ -47,6 +51,12 @@ export default new Vuex.Store({
     },
     changeLocationParcelle (state, data){
       state.location.parcelle = data
-    }
+    },
+    changeLocationLabelDep (state, data){
+      state.locationLabels.dep = data
+    },
+    changeLocationLabelCom (state, data){
+      state.locationLabels.com = data
+    },
   }
 })

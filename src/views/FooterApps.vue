@@ -39,7 +39,7 @@ export default {
     width: 100%;
     height: 130px;
     position: absolute;
-    bottom: 0;
+    bottom: -130px;
     border-top:2px solid #000091;
  
 }
