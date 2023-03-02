@@ -1,0 +1,455 @@
+<template>
+  <div class="choroMap">
+    <div class="map_container" ref="mapContainer"></div>
+  </div>
+</template>
+
+<script>
+
+import appStore from '@/apps/dvf/store'
+
+import { Map } from 'maplibre-gl';
+
+import { markRaw } from 'vue';
+import styleVector from '@/apps/dvf/assets/json/vector-dvf.json'
+import testDataset2 from '@/apps/dvf/assets/json/communes44.json'
+import testDataset3 from '@/apps/dvf/assets/json/sections44109.json'
+import CenterDeps from '@/apps/dvf/assets/json/centers_deps.json'
+
+import * as d3 from 'd3-scale'
+
+
+export default {
+  name: 'ChoroMap',
+  components: {Map, markRaw},
+  data() {
+    return {
+      map: Object,
+      dataEpci: null,
+    }
+  },
+  computed: {
+    lng:function(){
+      return appStore.state.map.lng
+    },
+    lat:function(){
+      return appStore.state.map.lat
+    },
+    zoom:function(){
+      return appStore.state.map.zoom
+    },
+    zoomLevel:function(){
+      return appStore.state.map.zoomLevel
+    },
+    dep:function(){
+      return appStore.state.location.dep
+    },
+    com:function(){
+      return appStore.state.location.com
+    },
+    section:function(){
+      return appStore.state.location.section
+    },
+    parcelle:function(){
+      return appStore.state.location.parcelle
+    }
+  },
+  mounted() {
+        
+      fetch('http://dvf.dataeng.etalab.studio/epci')
+      .then((response) => {
+          return response.json()
+      })
+      .then((data) => {
+        let list_epcis = []
+        this.dataEpci = []
+        data["data"].forEach((d) =>{
+          if(!list_epcis.includes(d["code_geo"])){
+            list_epcis.push(d["code_geo"])
+            this.dataEpci.push(d)
+          }
+        });
+
+
+        let { x, scaleMin, scaleMax } = this.calculateColor(this.dataEpci, 'moy_prix_m2_rolling_year')
+        let matchExpression = this.getMatchExpressionStart(this.dataEpci, x, 'moy_prix_m2_rolling_year', 'code_geo', 'code')
+
+
+      this.dataCommunes = testDataset2
+      this.dataSections = testDataset3
+      
+      // let { x, scaleMin, scaleMax } = this.calculateColor(this.dataEpci, 'valeur')
+      // let matchExpression = this.getMatchExpression(this.dataEpci, x, 'code', 'code')
+
+      // Create map
+      this.map = markRaw(new Map({
+        container: this.$refs.mapContainer,
+        style: styleVector,
+        center: [this.lng, this.lat],
+        zoom: this.zoomLevel
+      }));
+
+      this.map.on('zoom', (m) => {
+        appStore.commit("changeZoomLevel",this.map.getZoom())
+      });
+
+      // On map load, add its layers
+      this.map.on('load', (m) => {
+        
+        //parcelle fill
+        const parcellesFillLayer = {
+          id: `parcelles_fill`,
+          type: "fill",
+          source: "cadastre",
+          filter: ["has", "dvf"],
+          "source-layer": "parcelles",
+          minzoom: 14,
+          maxzoom: 24,
+          paint: {
+            "fill-color": "rgba(0, 0, 255, 0.2)",
+          },
+        };
+        //parcelle line
+        const parcellesLineLayer = {
+          id: `parcelles_line`,
+          type: "line",
+          source: "cadastre",
+          filter: ["has", "dvf"],
+          "source-layer": "parcelles",
+          minzoom: 14,
+          maxzoom: 24,
+          layout: {
+            "line-cap": "butt",
+          },
+          paint: {
+            "line-opacity": 0.6,
+            "line-color": "rgb(180,180,180)",
+            "line-width": 0.1,
+          },
+        };
+        this.map.addLayer(parcellesFillLayer);
+        this.map.addLayer(parcellesLineLayer);  
+
+
+        // sections fill
+        const sectionsFillLayer = {
+          'id': `sections_fill`,
+          'type': 'fill',
+          'source': 'cadastre',
+          'source-layer': 'sections',
+          'paint': {
+            'fill-color': "rgba(0,0,255,1)",
+            'fill-opacity': 0.8,
+          },
+          minzoom: 12,
+          maxzoom:15,
+        }
+        this.map.addLayer(sectionsFillLayer)
+
+        const communesLineLayer = {
+          'id': `communes_line`,
+          'type': 'line',
+          'source': 'decoupage-administratif-com',
+          'source-layer': 'communes',
+          'layout': {
+            'line-cap': 'round',
+            'line-join': 'round'
+          },
+          'paint': {
+            'line-opacity': 0.3,
+            'line-color': 'rgb(0,0,0)',
+            'line-width': 0.1
+          }
+        }
+        this.map.addLayer(communesLineLayer)
+
+        // communes fill
+        const communesFillLayer = {
+          'id': `communes_fill`,
+          'type': 'fill',
+          'source': 'decoupage-administratif-com',
+          'source-layer': 'communes',
+          'paint': {
+            'fill-color': "rgba(0,0,0,0)",
+            'fill-opacity': 0.8,
+          },
+          minzoom: 8,
+          maxzoom:11,
+        }
+        this.map.addLayer(communesFillLayer)
+        
+
+        // communes fill
+        const communesFillLayer2 = {
+          'id': `communes_fill2`,
+          'type': 'fill',
+          'source': 'decoupage-administratif-com',
+          'source-layer': 'communes',
+          'paint': {
+            'fill-opacity': 0,
+          },
+          minzoom: 12,
+          maxzoom:15,
+        }
+        this.map.addLayer(communesFillLayer2)
+        
+        // epci fill
+        const epcisFillLayer = {
+          'id': `epcis_fill`,
+          'type': 'fill',
+          'source': 'decoupage-administratif',
+          'source-layer': 'epcis',
+          'paint': {
+            'fill-color': matchExpression,
+            'fill-opacity': 0.8,
+          },
+          maxzoom:7,
+        }
+
+        const departementsLineLayer = {
+          'id': `departements_line`,
+          'type': 'line',
+          'source': 'decoupage-administratif-dep',
+          'source-layer': 'departements',
+          'layout': {
+            'line-cap': 'round',
+            'line-join': 'round'
+          },
+          'paint': {
+            'line-opacity': 0.9,
+            'line-color': 'rgb(0,0,0)',
+            'line-width': 0.1
+          }
+        }
+
+        const departementsFillLayer = {
+          'id': `departements_fill`,
+          'type': 'fill',
+          'source': 'decoupage-administratif-dep',
+          'source-layer': 'departements',
+          'paint': {
+            'fill-opacity': 0,
+          },
+          maxzoom: 9,
+        }
+        this.map.addLayer(epcisFillLayer);
+        // this.map.addLayer(communesFillLayer);
+        // this.map.addLayer(sectionsFillLayer);
+        this.map.addLayer(departementsLineLayer);
+        this.map.addLayer(departementsFillLayer);
+
+        this.map.on('click', 'parcelles_fill', (e) => {
+          let parcelleId = e.features[0]["properties"]["id"]
+          appStore.commit("changeLocationParcelle", parcelleId)
+        });
+
+        this.map.on('click', 'sections_fill', (e) => {
+          let sectionId = e.features[0]["properties"]["id"]
+          appStore.commit("changeLocationSection", sectionId)
+          appStore.commit("changeLocationLevel", "section")
+          if (this.map.getZoom() <= 12) {
+            this.map.flyTo({
+              center: [e.lngLat.lng, e.lngLat.lat],
+              zoom: 15,
+            });
+          }
+        });
+
+        this.map.on('click', 'communes_fill', (e) => {
+          let comId = e.features[0]["properties"]["code"]
+          let comLabel = e.features[0]["properties"]["nom"]
+          if(comId.substring(0,2) == this.dep){
+            if (this.map.getZoom() <= 12 && comId) {
+              fetch('https://geo.api.gouv.fr/communes?code=' + comId + '&fields=centre')
+                .then((response) => {
+                    return response.json()
+                })
+                .then((data) => {
+                  appStore.commit("changeLocationLevel", "commune")
+                  appStore.commit("changeLocationLabelCom",comLabel)
+                  this.map.flyTo({
+                    center: data[0].centre.coordinates,
+                    zoom: 12,
+                  });
+                  this.displaySections(comId)
+                });
+            }
+          }
+        });
+
+        this.map.on('click', 'departements_fill', (e) => {
+          let depId = e.features[0]["properties"]["code"]
+          if (this.dep != depId) {
+            if (this.map.getZoom() <= 8) {
+              appStore.commit("changeLocationDep",e.features[0].properties.code)
+              appStore.commit("changeLocationLabelDep",e.features[0].properties.nom)
+              appStore.commit("changeLocationLevel", "departement")
+              this.map.flyTo({
+                center: CenterDeps[e.features[0].properties.code].coordinates,
+                zoom: 8,
+              });
+              this.displayCommunes(this.dep)
+            }
+          }
+        });
+
+        this.map.on('mousemove', 'departements_fill', (e) => {
+          let depId = e.features[0]["properties"]["code"]
+          let matchExpression = 0
+          if(this.dep != depId) { 
+            matchExpression = ['match', ['get', 'code']]
+            matchExpression.push(depId, 0.4); 
+            matchExpression.push(0);
+          }
+          this.map.setPaintProperty("departements_fill", "fill-opacity", matchExpression)
+        });
+
+        this.map.on('mousemove', 'communes_fill2', (e) => {
+          let comId = e.features[0]["properties"]["code"]
+          let matchExpression = 0
+          if(this.com != comId) { 
+            matchExpression = ['match', ['get', 'code']]
+            matchExpression.push(comId, 0.4); 
+            matchExpression.push(0);
+          }
+          this.map.setPaintProperty("communes_fill2", "fill-opacity", matchExpression)
+        });
+
+        this.map.on('click', 'communes_fill2', (e) => {
+          let comId = e.features[0]["properties"]["code"]
+          if (this.com != comId) {
+            if (this.map.getZoom() <= 12) {
+              appStore.commit("changeLocationCom", comId)
+              fetch('https://geo.api.gouv.fr/communes?code=' + comId + '&fields=centre')
+              .then((response) => {
+                  return response.json()
+              })
+              .then((data) => {
+                appStore.commit("changeLocationLevel", "commune")
+                this.map.flyTo({
+                  center: data[0].centre.coordinates,
+                  zoom: 12,
+                });
+                this.displaySections(comId)
+              });
+            }
+          }
+        });
+
+        
+        this.map.on('mousemove', 'communes_fill', (e) => {
+          let comId = e.features[0]["properties"]["code"]
+          if(comId != this.com && comId.substring(0,2) == this.dep){
+            appStore.commit("changeLocationCom", comId)
+          }
+        });
+        
+
+      });
+
+    })
+
+  },
+  methods: {
+    getMatchExpressionStart(data, x, propertyValueData, propertyCodeData, propertyTile){
+      let matchExpression = ['match', ['get', propertyTile]]
+      data.forEach((d) => {
+        if (d[propertyValueData] != null) {
+          let color = x(parseFloat(d[propertyValueData]))
+          matchExpression.push(d[propertyCodeData], color);
+        } else {
+          matchExpression.push(d[propertyCodeData], 'rgba(100, 100, 100, 0.6)');
+        }
+      })
+      matchExpression.push('rgba(100, 100, 100, 0.1)');
+      return matchExpression
+    },
+    getMatchExpression(data, x, propertyData, propertyTile){
+      let matchExpression = ['match', ['get', propertyTile]]
+      const values = {}
+      data.forEach((d) => {
+        if (d.valeur != null) {
+          let color = x(parseFloat(d.valeur))
+          matchExpression.push(d[propertyData], color);
+          values[d["code"]] = d.valeur
+        } else {
+          matchExpression.push(d[propertyData], 'rgba(255, 255, 255, 1)');
+        }
+      })
+      matchExpression.push('rgba(255, 255, 255, 1)');
+      return matchExpression
+    },
+    calculateColor(data, valProperty){
+      //data = testDataset
+      
+      const valStat = []
+      data.forEach((d) => {
+        if (d[valProperty] != null) {
+          valStat.push(parseFloat(d[valProperty]))
+        }
+      })
+      let scaleMin = Math.min.apply(null, valStat)
+      let scaleMax = Math.max.apply(null, valStat)
+      let pivot = 2000
+
+      let x = d3.scaleLinear().domain([scaleMin, pivot, scaleMax]).range(['#028758', '#FFF64E', '#CC000A'])
+
+      return { x, scaleMin, scaleMax }
+    },
+    displayCommunes(code){
+
+      fetch('http://dvf.dataeng.etalab.studio/departement/' + code + '/communes')
+      .then((response) => {
+          return response.json()
+      })
+      .then((data) => {
+
+        let { x, scaleMin, scaleMax } = this.calculateColor(data["data"], 'moy_prix_m2_rolling_year')
+        let matchExpression = this.getMatchExpressionStart(data["data"], x, 'moy_prix_m2_rolling_year', 'code_geo', 'code')
+        this.map.setPaintProperty("departements_fill", "fill-opacity", 0)
+        this.map.setPaintProperty("communes_fill", "fill-color", matchExpression)
+      });
+
+    },
+    displaySections(code){
+
+      fetch('http://dvf.dataeng.etalab.studio/commune/' + code + '/sections')
+      .then((response) => {
+          return response.json()
+      })
+      .then((data) => {
+
+        let { x, scaleMin, scaleMax } = this.calculateColor(data["data"], 'moy_prix_m2_rolling_year')
+        let matchExpression = this.getMatchExpressionStart(data["data"], x, 'moy_prix_m2_rolling_year', 'code_geo', 'id')
+        this.map.setPaintProperty("communes_fill2", "fill-opacity", 0)
+        this.map.setPaintProperty("sections_fill", "fill-color", matchExpression)
+      });
+    },
+    displayParcelles(code){
+
+    },
+  },
+  watch: {
+  }
+}
+
+</script>
+
+<style scoped>
+
+  @import '~maplibre-gl/dist/maplibre-gl.css';
+
+  .choroMap{
+    width: 75%;
+    display: inline-block;
+    min-height: 100%;
+    position: relative;
+  }
+
+  .map_container{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
+
+</style>
