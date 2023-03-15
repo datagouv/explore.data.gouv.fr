@@ -1,45 +1,49 @@
 <template>
     <div class="barChart">
-      BarChart
+      <canvas id="barchart"></canvas>
     </div>
 </template>
 
 <script>
 
 import appStore from '@/apps/dvf/store'
+import { Chart } from 'chart.js'
 
 export default {
   name: 'BarChart',
   components: {},
   data() {
     return {
+      values:[],
+      labels:[],
+      chart: undefined,
     }
   },
   computed: {
-    zoomLevel:function(){
-      return appStore.state.map.zoomLevel
-    },
-    dep:function(){
-      return appStore.state.location.dep
-    },
-    com:function(){
-      return appStore.state.location.com
-    },
-    section:function(){
-      return appStore.state.location.section
-    },
-    parcelle:function(){
-      return appStore.state.location.parcelle
-    },
-    level:function(){
-      return appStore.state.location.level
+    apiData:function(){
+      return appStore.state.apiData
     }
   },
   mounted() {
   },
   methods: {
+    updateValues(){
+      var self = this
+      this.values = []
+      this.labels = []
+      this.apiData["data"].forEach(function(d,i){
+        self.labels.push(d["annee_mois"])
+        self.values.push(d["moy_prix_m2_appartement"])
+      })
+    }
   },
   watch: {
+    apiData(){
+      this.updateValues()
+    },
+    values(){
+
+    }
   }
 }
 

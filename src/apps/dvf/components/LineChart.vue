@@ -1,6 +1,6 @@
 <template>
     <div class="lineChart">
-      <canvas id="chart"></canvas>
+      <canvas id="linechart"></canvas>
     </div>
 </template>
 
@@ -39,7 +39,7 @@ export default {
     },
     buildChart(){
       var self = this
-      const ctx = document.getElementById('chart').getContext('2d')
+      const ctx = document.getElementById('linechart').getContext('2d')
       this.chart = new Chart(ctx, {
         type: 'line',
         data: {
@@ -97,7 +97,6 @@ export default {
     },
     values(){
       if(this.chart){
-        console.log("this ?")
         this.chart.data.datasets[0].data = this.values
         this.chart.labels = this.labels
         this.chart.update()
