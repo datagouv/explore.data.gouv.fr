@@ -34,11 +34,11 @@
       <div class="global_numbers_container">
         <div class="global_number_wrapper">
           <div class="global_number_title">Nombre total de ventes</div>
-          <div class="global_number_value">123 984</div>
+          <div class="global_number_value">{{clientData["totalVentes"]}}</div>
         </div>
         <div class="global_number_wrapper">
           <div class="global_number_title">Prix de vente moyen au m2</div>
-          <div class="global_number_value">22 341€</div>
+          <div class="global_number_value">{{clientData["totalAverage"]}}</div>
         </div>
       </div>
 
@@ -52,15 +52,15 @@
           </tr>
           <tr>
             <th class='left'>Ventes :</th>
-            <td>42 394</td>
-            <td>18 984</td>
-            <td>2 983</td>
+            <td>{{clientData["appVentes"]}}</td>
+            <td>{{clientData["houseVentes"]}}</td>
+            <td>{{clientData["localVentes"]}}</td>
           </tr>
           <tr>
             <th class='left'>Prix moyen m2 :</th>
-            <td>22 334€</td>
-            <td>22 314€</td>
-            <td>22 344€</td>
+            <td>{{clientData["appPrice"]}}</td>
+            <td>{{clientData["housePrice"]}}</td>
+            <td>{{clientData["localPrice"]}}</td>
           </tr>
         </table>
       </div>
@@ -105,7 +105,17 @@ export default {
   data() {
     return {
       apiLevel: null,
-      apiResult: null
+      apiResult: null,
+      clientData:{
+        totalVentes:0,
+        totalAverage:0,
+        appVentes:0,
+        appPrice:0,
+        houseVentes:0,
+        housePrice:0,
+        localVentes:0,
+        localPrice:0
+      }
     }
   },
   computed: {
@@ -167,6 +177,41 @@ export default {
     },
     storeApiData(){
       appStore.commit("updateApiData",this.apiResult)
+    },
+    buildClientData(){
+      var data = this.apiResult["data"]
+      var lastDataPoint = data[data.length-1]
+
+      console.log(lastDataPoint)
+      
+      this.clientData.totalVentes = (lastDataPoint["nb_ventes_appartement"] + lastDataPoint["nb_ventes_local"] + lastDataPoint["nb_ventes_maison"]).toLocaleString()
+
+      this.clientData.totalAverage = Math.round((lastDataPoint["moy_prix_m2_appartement"] + lastDataPoint["moy_prix_m2_local"] + lastDataPoint["moy_prix_m2_maison"] / 3)).toLocaleString()+" €"
+
+      if(lastDataPoint["nb_ventes_appartement"] == null){
+        this.clientData.appVentes = 0
+        this.clientData.appPrice = "N/A"
+      }else{
+        this.clientData.appVentes = lastDataPoint["nb_ventes_appartement"].toLocaleString()
+        this.clientData.appPrice = lastDataPoint["moy_prix_m2_appartement"].toLocaleString()+" €"
+      }
+
+      if(lastDataPoint["nb_ventes_local"] == null){
+        this.clientData.localVentes = 0
+        this.clientData.localPrice = "N/A"
+      }else{
+        this.clientData.localVentes = lastDataPoint["nb_ventes_local"].toLocaleString()
+        this.clientData.localPrice = lastDataPoint["moy_prix_m2_local"].toLocaleString()+" €"
+      }
+
+      if(lastDataPoint["nb_ventes_maison"] == null){
+        this.clientData.houseVentes = 0
+        this.clientData.housePrice = "N/A"
+      }else{
+        this.clientData.houseVentes = lastDataPoint["nb_ventes_maison"].toLocaleString()
+        this.clientData.housePrice = lastDataPoint["moy_prix_m2_maison"].toLocaleString()+" €"
+      }
+
     }
   },
   watch: {
@@ -176,6 +221,7 @@ export default {
       }
     },
     apiResult(){
+      this.buildClientData()
       this.storeApiData()
     }
   }
