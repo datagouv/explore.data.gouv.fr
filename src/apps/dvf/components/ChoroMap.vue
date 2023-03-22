@@ -1,6 +1,15 @@
 <template>
   <div class="choroMap">
     <div class="map_container" ref="mapContainer"></div>
+    <div class="leg_container">
+      <div class="color_blocks">
+        <span class="leg_title">Prix au m²</span>
+        <span class="leg_borne min">< {{legMin}} €</span>
+        <span class="leg_borne pivot">{{legPivot}} €</span>
+        <span class="leg_borne max">> {{legMax}} €</span>
+      </div>
+
+    </div>
   </div>
 </template>
 
@@ -26,6 +35,9 @@ export default {
     return {
       map: Object,
       dataEpci: null,
+      legMin:0,
+      legMax:0,
+      legPivot:0
     }
   },
   computed: {
@@ -392,6 +404,11 @@ export default {
       let scaleMax = Math.max.apply(null, valStat)
       let pivot = 2000
 
+      this.legMin = scaleMin
+      this.legMax = scaleMax
+      this.legPivot = pivot
+
+
       let x = d3.scaleLinear().domain([scaleMin, pivot, scaleMax]).range(['#028758', '#FFF64E', '#CC000A'])
 
       return { x, scaleMin, scaleMax }
@@ -450,6 +467,51 @@ export default {
     position: absolute;
     width: 100%;
     height: 100%;
+  }
+
+  .leg_container{
+    position: absolute;
+    width: 388px;
+    height: 69px;
+    left:16px;
+    background-color: #ffffff;
+    bottom: 20px;
+  }
+
+  .leg_title{
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 19px;
+    position: absolute;
+    top:-25px;
+  }
+
+  .color_blocks{
+    width: 360px;
+    height: 8px;
+    background: linear-gradient(90deg, rgba(0,114,71,1) 0%, rgba(0,173,52,1) 9%, rgba(34,215,65,1) 18%, rgba(133,220,68,1) 27%, rgba(200,253,79,1) 36%, rgba(255,244,86,1) 45%, rgba(255,223,81,1) 54%, rgba(255,199,66,1) 63%, rgba(255,142,58,1) 72%, rgba(255,97,47,1) 81%, rgba(255,0,31,1) 89%, rgba(205,0,25,1) 98%);
+    margin:35px auto 0;
+    position: relative;
+  }
+
+  .leg_borne{
+    font-weight: 400;
+    font-size: 10px;
+    position: absolute;
+    bottom: -25px;
+  }
+
+  .leg_borne.min{
+    left:0;
+  }
+
+  .leg_borne.pivot{
+    left:50%;
+    transform:translate(-50%,0);
+  }
+
+  .leg_borne.max{
+    right:0;
   }
 
 </style>
