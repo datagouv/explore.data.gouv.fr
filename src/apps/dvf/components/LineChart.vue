@@ -34,7 +34,8 @@ export default {
       this.labels = []
       this.apiData["data"].forEach(function(d,i){
         self.labels.push(d["annee_mois"])
-        self.values.push(d["moy_prix_m2_appartement"])
+        var moyAllVentes = (d["nb_ventes_appartement"] * d["moy_prix_m2_appartement"] + d["nb_ventes_maison"] * d["moy_prix_m2_maison"]) / (d["nb_ventes_appartement"] + d["nb_ventes_maison"])
+        self.values.push(moyAllVentes)
       })
     },
     buildChart(){
