@@ -1,5 +1,6 @@
 <template>
   <div class="choroMap">
+    <search-bar></search-bar>
     <div class="map_container" ref="mapContainer"></div>
     <div class="leg_container">
       <div class="color_blocks">
@@ -16,6 +17,7 @@
 <script>
 
 import appStore from '@/apps/dvf/store'
+import SearchBar from '@/apps/dvf/components/SearchBar'
 
 import { Map } from 'maplibre-gl';
 
@@ -30,7 +32,7 @@ import * as d3 from 'd3-scale'
 
 export default {
   name: 'ChoroMap',
-  components: {Map, markRaw},
+  components: {Map, markRaw, SearchBar},
   data() {
     return {
       map: Object,
