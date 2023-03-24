@@ -11,10 +11,10 @@
     <div class="filtersBody">
       <span class="filtersTitle">TYPE DE BIEN</span>
       <div class="filter"
-        :class="selectedFilter=='tous'?'selected':''" @click="selectedFilter='tous'"><div></div>Tous</div>
-      <div class="filter" :class="selectedFilter=='appartement'?'selected':''"  @click="selectedFilter='appartement'"><div></div>Appartement</div>
-      <div class="filter" :class="selectedFilter=='maison'?'selected':''"  @click="selectedFilter='maison'"><div></div>Maison</div>
-      <div class="filter" :class="selectedFilter=='local'?'selected':''"  @click="selectedFilter='local'"><div></div>Local commercial</div>
+        :class="activeFilter=='tous'?'selected':''" @click="updateActiveFilter('tous')"><div></div>Tous (appt. + maison)</div>
+      <div class="filter" :class="activeFilter=='appartement'?'selected':''"  @click="updateActiveFilter('appartement')"><div></div>Appartement</div>
+      <div class="filter" :class="activeFilter=='maison'?'selected':''"  @click="updateActiveFilter('maison')"><div></div>Maison</div>
+      <div class="filter" :class="activeFilter=='local'?'selected':''"  @click="updateActiveFilter('local')"><div></div>Local commercial</div>
 
     </div>
   </div>
@@ -34,11 +34,17 @@ export default {
     }
   },
   computed: {
+    activeFilter:function(){
+      return appStore.state.activeFilter
+    },
   },
   mounted() {
     
   },
   methods: {
+    updateActiveFilter(f){
+      appStore.commit("updateActiveFilter",f)
+    }
   },
   watch: {
   }

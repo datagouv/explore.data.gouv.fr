@@ -10,7 +10,6 @@
         <span class="leg_borne pivot">{{legPivot}} €</span>
         <span class="leg_borne max">> {{legMax}} €</span>
       </div>
-
     </div>
   </div>
 </template>
@@ -395,9 +394,12 @@ export default {
       matchExpression.push('rgba(255, 255, 255, 1)');
       return matchExpression
     },
+    median(arr){
+      const mid = Math.floor(arr.length / 2),
+      nums = [...arr].sort((a, b) => a - b);
+      return arr.length % 2 !== 0 ? nums[mid] : (nums[mid - 1] + nums[mid]) / 2;
+    },
     calculateColor(data, valProperty){
-      //data = testDataset
-      
       const valStat = []
       data.forEach((d) => {
         if (d[valProperty] != null) {
@@ -406,11 +408,11 @@ export default {
       })
       let scaleMin = Math.min.apply(null, valStat)
       let scaleMax = Math.max.apply(null, valStat)
-      let pivot = 2000
+      let pivot = this.median(valStat)
 
-      this.legMin = scaleMin
-      this.legMax = scaleMax
-      this.legPivot = pivot
+      this.legMin = Math.floor(scaleMin/100)*100
+      this.legMax = Math.ceil(scaleMax/1000)*1000
+      this.legPivot = Math.ceil(pivot/100)*100
 
 
       let x = d3.scaleLinear().domain([scaleMin, pivot, scaleMax]).range(['#028758', '#FFF64E', '#CC000A'])

@@ -22,6 +22,9 @@ export default {
   computed: {
     apiData:function(){
       return appStore.state.apiData
+    },
+    activeFilter:function(){
+      return appStore.state.activeFilter
     }
   },
   mounted() {
@@ -34,7 +37,15 @@ export default {
       this.labels = []
       this.apiData["data"].forEach(function(d,i){
         self.labels.push(d["annee_mois"])
-        var moyAllVentes = (d["nb_ventes_appartement"] * d["moy_prix_m2_appartement"] + d["nb_ventes_maison"] * d["moy_prix_m2_maison"]) / (d["nb_ventes_appartement"] + d["nb_ventes_maison"])
+        if(self.activeFilter == 'tous'){
+          var moyAllVentes = (d["nb_ventes_appartement"] * d["moy_prix_m2_appartement"] + d["nb_ventes_maison"] * d["moy_prix_m2_maison"]) / (d["nb_ventes_appartement"] + d["nb_ventes_maison"])
+        }else if(self.activeFilter=='appartement'){
+          var moyAllVentes = d["moy_prix_m2_appartement"]
+        }else if(self.activeFilter=='maison'){
+          var moyAllVentes = d["moy_prix_m2_maison"]
+        }else if(self.activeFilter == 'local'){
+          var moyAllVentes = d["moy_prix_m2_local"]
+        }
         self.values.push(moyAllVentes)
       })
     },
@@ -104,7 +115,10 @@ export default {
       }else{
         this.buildChart()
       }
-     }
+    },
+    activeFilter(){
+      this.updateValues()
+    }
   }
 }
 
