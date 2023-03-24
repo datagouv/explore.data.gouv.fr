@@ -23,7 +23,8 @@ export default new Vuex.Store({
     locationLabels:{
       dep:null,
       com: null
-    }
+    },
+    activeFilter:"tous"
   },
   mutations: {
     changeActivePanel (state,data) {
@@ -61,6 +62,9 @@ export default new Vuex.Store({
     },
     updateApiData (state, data){
       state.apiData = data
+    },
+    updateActiveFilter(state,filter){
+      state.activeFilter = filter
     }
   }
 })

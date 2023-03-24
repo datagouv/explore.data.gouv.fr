@@ -56,21 +56,21 @@
         <table>
           <tr>
             <th></th>
-            <th>Appartements</th>
-            <th>Maisons</th>
-            <!-- <th>Locaux</th> -->
+            <th :class="activeFilter=='maison'||activeFilter=='local'?'hide':''">Appartements</th>
+            <th :class="activeFilter=='appartement'||activeFilter=='local'?'hide':''">Maisons</th>
+            <th :class="activeFilter!='local'?'hide':''">Locaux</th>
           </tr>
           <tr>
             <th class='left'>Ventes :</th>
-            <td>{{clientData["appVentes"]}}</td>
-            <td>{{clientData["houseVentes"]}}</td>
-            <!-- <td>{{clientData["localVentes"]}}</td> -->
+            <td :class="activeFilter=='maison'||activeFilter=='local'?'hide':''">{{clientData["appVentes"]}}</td>
+            <td :class="activeFilter=='appartement'||activeFilter=='local'?'hide':''">{{clientData["houseVentes"]}}</td>
+            <td :class="activeFilter!='local'?'hide':''">{{clientData["localVentes"]}}</td>
           </tr>
           <tr>
             <th class='left'>Prix moyen m² :</th>
-            <td>{{clientData["appPrice"]}}</td>
-            <td>{{clientData["housePrice"]}}</td>
-            <!-- <td>{{clientData["localPrice"]}}</td> -->
+            <td :class="activeFilter=='maison'||activeFilter=='local'?'hide':''">{{clientData["appPrice"]}}</td>
+            <td :class="activeFilter=='appartement'||activeFilter=='local'?'hide':''">{{clientData["housePrice"]}}</td>
+            <td :class="activeFilter!='local'?'hide':''">{{clientData["localPrice"]}}</td>
           </tr>
         </table>
       </div>
@@ -109,6 +109,14 @@ export default {
         housePrice:0,
         localVentes:0,
         localPrice:0
+      },
+      rollingData:{
+        nb_ventes_appartement:0,
+        nb_ventes_local:0,
+        nb_ventes_maison:0,
+        moy_prix_m2_appartement:0,
+        moy_prix_m2_local:0,
+        moy_prix_m2_maison:0
       }
     }
   },
@@ -136,6 +144,9 @@ export default {
     },
     comLabel:function(){
       return appStore.state.locationLabels.com
+    },
+    activeFilter:function(){
+      return appStore.state.activeFilter
     }
   },
   mounted() {
@@ -173,61 +184,76 @@ export default {
       appStore.commit("updateApiData",this.apiResult)
     },
     buildClientData(){
+      var self = this
       var data = this.apiResult["data"]
 
-      console.log(data)
-
-      /* Initialize rolling year data */
-      var rollingData = {
-        nb_ventes_appartement:0,
-        nb_ventes_local:0,
-        nb_ventes_maison:0,
-        moy_prix_m2_appartement:0,
-        moy_prix_m2_local:0,
-        moy_prix_m2_maison:0
-      }
+      this.rollingData.nb_ventes_appartement = 0
+      this.rollingData.nb_ventes_local = 0
+      this.rollingData.nb_ventes_maison = 0
+      this.rollingData.moy_prix_m2_appartement = 0
+      this.rollingData.moy_prix_m2_local = 0
+      this.rollingData.moy_prix_m2_maison = 0
 
       /* Build rolling year data */
       data.forEach(function(d){
-        rollingData["nb_ventes_appartement"] = rollingData["nb_ventes_appartement"] + d["nb_ventes_appartement"]
-        rollingData["nb_ventes_maison"] = rollingData["nb_ventes_maison"] + d["nb_ventes_maison"]
-        rollingData["moy_prix_m2_appartement"] = rollingData["moy_prix_m2_appartement"] + d["nb_ventes_appartement"] * d["moy_prix_m2_appartement"]
-        rollingData["moy_prix_m2_maison"] = rollingData["moy_prix_m2_maison"] + d["nb_ventes_maison"] * d["moy_prix_m2_maison"]
+        self.rollingData["nb_ventes_appartement"] = self.rollingData["nb_ventes_appartement"] + d["nb_ventes_appartement"]
+        self.rollingData["nb_ventes_maison"] = self.rollingData["nb_ventes_maison"] + d["nb_ventes_maison"]
+        self.rollingData["nb_ventes_local"] = self.rollingData["nb_ventes_local"] + d["nb_ventes_local"]
+        self.rollingData["moy_prix_m2_appartement"] = self.rollingData["moy_prix_m2_appartement"] + d["nb_ventes_appartement"] * d["moy_prix_m2_appartement"]
+        self.rollingData["moy_prix_m2_maison"] = self.rollingData["moy_prix_m2_maison"] + d["nb_ventes_maison"] * d["moy_prix_m2_maison"]
+        self.rollingData["moy_prix_m2_local"] = self.rollingData["moy_prix_m2_local"] + d["nb_ventes_local"] * d["moy_prix_m2_local"]
       })
-      
+      this.updateTabs()
+    },
+    updateTabs(){
       /* Total ventes in database */
-      this.clientData.totalVentes =  (rollingData["nb_ventes_appartement"]+rollingData["nb_ventes_maison"]).toLocaleString()
+      if(this.activeFilter === 'tous'){
+        this.clientData.totalVentes =  (this.rollingData["nb_ventes_appartement"]+this.rollingData["nb_ventes_maison"]).toLocaleString()
+      }else if(this.activeFilter === 'maison'){
+        this.clientData.totalVentes =  this.rollingData["nb_ventes_maison"].toLocaleString()
+      }else if(this.activeFilter === 'appartement'){
+        this.clientData.totalVentes =  this.rollingData["nb_ventes_appartement"].toLocaleString()
+      }else if(this.activeFilter === 'local'){
+        this.clientData.totalVentes =  this.rollingData["nb_ventes_local"].toLocaleString()
+      }
 
       /* Average of all data */
       
-      this.clientData.totalAverage = Math.round(((rollingData["moy_prix_m2_appartement"] + rollingData["moy_prix_m2_maison"]) / (rollingData["nb_ventes_appartement"] + rollingData["nb_ventes_maison"]))).toLocaleString()+" €"
+      if(this.activeFilter === 'tous'){
+        this.clientData.totalAverage = Math.round(((this.rollingData["moy_prix_m2_appartement"] + this.rollingData["moy_prix_m2_maison"]) / (this.rollingData["nb_ventes_appartement"] + this.rollingData["nb_ventes_maison"]))).toLocaleString()+" €"
+      }else if(this.activeFilter === 'maison'){
+        this.clientData.totalAverage = Math.round(this.rollingData["moy_prix_m2_maison"]/this.rollingData["nb_ventes_maison"]).toLocaleString()+" €"
+      }else if(this.activeFilter === 'appartement'){
+        this.clientData.totalAverage = Math.round(this.rollingData["moy_prix_m2_appartement"]/this.rollingData["nb_ventes_appartement"]).toLocaleString()+" €"
+      }else if(this.activeFilter === 'local'){
+        this.clientData.totalAverage = Math.round(this.rollingData["moy_prix_m2_local"]/this.rollingData["nb_ventes_local"]).toLocaleString()+" €"
+      }
 
       /* Tab by type of vente */
 
-      if(rollingData["nb_ventes_appartement"] == null){
+      if(this.rollingData["nb_ventes_appartement"] == null){
         this.clientData.appVentes = 0
         this.clientData.appPrice = "N/A"
       }else{
-        this.clientData.appVentes = rollingData["nb_ventes_appartement"].toLocaleString()
-        this.clientData.appPrice = Math.round(rollingData["moy_prix_m2_appartement"]/rollingData["nb_ventes_appartement"]).toLocaleString()+" €"
+        this.clientData.appVentes = this.rollingData["nb_ventes_appartement"].toLocaleString()
+        this.clientData.appPrice = Math.round(this.rollingData["moy_prix_m2_appartement"]/this.rollingData["nb_ventes_appartement"]).toLocaleString()+" €"
       }
 
-      /*if(rollingData["nb_ventes_local"] == null){
+      if(this.rollingData["nb_ventes_local"] == null){
         this.clientData.localVentes = 0
         this.clientData.localPrice = "N/A"
       }else{
-        this.clientData.localVentes = rollingData["nb_ventes_local"].toLocaleString()
-        this.clientData.localPrice = Math.round(rollingData["moy_prix_m2_local"]/rollingData["nb_ventes_local"]).toLocaleString()+" €"
-      }*/
+        this.clientData.localVentes = this.rollingData["nb_ventes_local"].toLocaleString()
+        this.clientData.localPrice = Math.round(this.rollingData["moy_prix_m2_local"]/this.rollingData["nb_ventes_local"]).toLocaleString()+" €"
+      }
 
-      if(rollingData["nb_ventes_maison"] == null){
+      if(this.rollingData["nb_ventes_maison"] == null){
         this.clientData.houseVentes = 0
         this.clientData.housePrice = "N/A"
       }else{
-        this.clientData.houseVentes = rollingData["nb_ventes_maison"].toLocaleString()
-        this.clientData.housePrice = Math.round(rollingData["moy_prix_m2_maison"]/rollingData["nb_ventes_maison"]).toLocaleString()+" €"
+        this.clientData.houseVentes = this.rollingData["nb_ventes_maison"].toLocaleString()
+        this.clientData.housePrice = Math.round(this.rollingData["moy_prix_m2_maison"]/this.rollingData["nb_ventes_maison"]).toLocaleString()+" €"
       }
-
     }
   },
   watch: {
@@ -239,6 +265,9 @@ export default {
     apiResult(){
       this.buildClientData()
       this.storeApiData()
+    },
+    activeFilter(){
+      this.updateTabs()
     }
   }
 }
@@ -358,6 +387,10 @@ export default {
   font-weight: 400;
 }
 
+.tab_container table th.hide{
+  opacity: 0.3;
+}
+
 .tab_container table th.left{
   text-align: left;
 }
@@ -366,6 +399,11 @@ export default {
   font-size: 12px;
   font-weight: 700;
 }
+
+.tab_container table td.hide{
+  opacity: 0.3;
+}
+
 
 .chart_container{
   padding-top: 20px;
