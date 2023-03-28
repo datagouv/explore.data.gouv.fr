@@ -2,6 +2,12 @@
   <div class="choroMap">
     <search-bar></search-bar>
     <filters-box></filters-box>
+    <div ref="mapTooltip" class="map_tooltip" :style="{top:tooltip.top,left:tooltip.left,display:tooltip.display,visibility:tooltip.visibility}">
+      <div class="tooltip_body">
+        {{ level }}
+        <div class="tooltip_place">{{tooltip.place}}</div>
+      </div>
+    </div>
     <div class="map_container" ref="mapContainer"></div>
     <div class="leg_container">
       <div class="color_blocks">
@@ -24,8 +30,6 @@ import { Map } from 'maplibre-gl';
 
 import { markRaw } from 'vue';
 import styleVector from '@/apps/dvf/assets/json/vector-dvf.json'
-import testDataset2 from '@/apps/dvf/assets/json/communes44.json'
-import testDataset3 from '@/apps/dvf/assets/json/sections44109.json'
 import CenterDeps from '@/apps/dvf/assets/json/centers_deps.json'
 
 import * as d3 from 'd3-scale'
@@ -40,7 +44,16 @@ export default {
       dataEpci: null,
       legMin:0,
       legMax:0,
-      legPivot:0
+      legPivot:0,
+      tooltip: {
+        top: '0px',
+        left: '0px',
+        display: 'block',
+        visibility: 'visible',
+        value: 0,
+        date: '',
+        place: 'tttt'
+      }
     }
   },
   computed: {
@@ -67,34 +80,30 @@ export default {
     },
     parcelle:function(){
       return appStore.state.location.parcelle
+    },
+    level:function(){
+      return appStore.state.location.level
     }
   },
   mounted() {
         
-      fetch('http://dvf.dataeng.etalab.studio/epci')
-      .then((response) => {
-          return response.json()
-      })
-      .then((data) => {
-        let list_epcis = []
-        this.dataEpci = []
-        data["data"].forEach((d) =>{
-          if(!list_epcis.includes(d["code_geo"])){
-            list_epcis.push(d["code_geo"])
-            this.dataEpci.push(d)
-          }
-        });
+    fetch('http://dvf.dataeng.etalab.studio/epci')
+    .then((response) => {
+        return response.json()
+    })
+    .then((data) => {
+      let list_epcis = []
+      this.dataEpci = []
+      data["data"].forEach((d) =>{
+        if(!list_epcis.includes(d["code_geo"])){
+          list_epcis.push(d["code_geo"])
+          this.dataEpci.push(d)
+        }
+      });
 
 
-        let { x, scaleMin, scaleMax } = this.calculateColor(this.dataEpci, 'moy_prix_m2_rolling_year')
-        let matchExpression = this.getMatchExpressionStart(this.dataEpci, x, 'moy_prix_m2_rolling_year', 'code_geo', 'code')
-
-
-      this.dataCommunes = testDataset2
-      this.dataSections = testDataset3
-      
-      // let { x, scaleMin, scaleMax } = this.calculateColor(this.dataEpci, 'valeur')
-      // let matchExpression = this.getMatchExpression(this.dataEpci, x, 'code', 'code')
+      let { x, scaleMin, scaleMax } = this.calculateColor(this.dataEpci, 'moy_prix_m2_rolling_year')
+      let matchExpression = this.getMatchExpressionStart(this.dataEpci, x, 'moy_prix_m2_rolling_year', 'code_geo', 'code')
 
       // Create map
       this.map = markRaw(new Map({
@@ -156,16 +165,16 @@ export default {
             'fill-color': "rgba(0,0,255,1)",
             'fill-opacity': 0.8,
           },
-          minzoom: 12,
+          minzoom: 11,
           maxzoom:15,
         }
         this.map.addLayer(sectionsFillLayer)
 
-        const communesLineLayer = {
-          'id': `communes_line`,
+        const sectionsLineLayer = {
+          'id': `sections_line`,
           'type': 'line',
-          'source': 'decoupage-administratif-com',
-          'source-layer': 'communes',
+          'source': 'cadastre',
+          'source-layer': 'sections',
           'layout': {
             'line-cap': 'round',
             'line-join': 'round'
@@ -174,9 +183,10 @@ export default {
             'line-opacity': 0.3,
             'line-color': 'rgb(0,0,0)',
             'line-width': 0.1
-          }
+          },
         }
-        this.map.addLayer(communesLineLayer)
+        this.map.addLayer(sectionsLineLayer)
+
 
         // communes fill
         const communesFillLayer = {
@@ -188,8 +198,7 @@ export default {
             'fill-color': "rgba(0,0,0,0)",
             'fill-opacity': 0.8,
           },
-          minzoom: 8,
-          maxzoom:11,
+          maxzoom: 12,
         }
         this.map.addLayer(communesFillLayer)
         
@@ -208,6 +217,23 @@ export default {
         }
         this.map.addLayer(communesFillLayer2)
         
+        const communesLineLayer = {
+          'id': `communes_line`,
+          'type': 'line',
+          'source': 'decoupage-administratif-com',
+          'source-layer': 'communes',
+          'layout': {
+            'line-cap': 'round',
+            'line-join': 'round'
+          },
+          'paint': {
+            'line-opacity': 0.3,
+            'line-color': 'rgb(0,0,0)',
+            'line-width': 0.1
+          },
+        }
+        this.map.addLayer(communesLineLayer)
+
         // epci fill
         const epcisFillLayer = {
           'id': `epcis_fill`,
@@ -218,24 +244,38 @@ export default {
             'fill-color': matchExpression,
             'fill-opacity': 0.8,
           },
-          maxzoom:7,
         }
-
-        const departementsLineLayer = {
-          'id': `departements_line`,
+        const epcisLineLayer = {
+          'id': `epcis_line`,
           'type': 'line',
-          'source': 'decoupage-administratif-dep',
-          'source-layer': 'departements',
+          'source': 'decoupage-administratif',
+          'source-layer': 'epcis',
           'layout': {
             'line-cap': 'round',
             'line-join': 'round'
           },
           'paint': {
-            'line-opacity': 0.9,
+            'line-opacity': 0.5,
             'line-color': 'rgb(0,0,0)',
-            'line-width': 0.1
-          }
+            'line-width': 0.5
+          },
         }
+
+        // const departementsLineLayer = {
+        //   'id': `departements_line`,
+        //   'type': 'line',
+        //   'source': 'decoupage-administratif-dep',
+        //   'source-layer': 'departements',
+        //   'layout': {
+        //     'line-cap': 'round',
+        //     'line-join': 'round'
+        //   },
+        //   'paint': {
+        //     'line-opacity': 0.3,
+        //     'line-color': 'rgb(0,0,0)',
+        //     'line-width': 0.3
+        //   }
+        // }
 
         const departementsFillLayer = {
           'id': `departements_fill`,
@@ -245,13 +285,14 @@ export default {
           'paint': {
             'fill-opacity': 0,
           },
-          maxzoom: 9,
         }
+
         this.map.addLayer(epcisFillLayer);
         // this.map.addLayer(communesFillLayer);
         // this.map.addLayer(sectionsFillLayer);
-        this.map.addLayer(departementsLineLayer);
         this.map.addLayer(departementsFillLayer);
+        this.map.addLayer(epcisLineLayer);
+        // this.map.addLayer(departementsLineLayer);
 
         this.map.on('click', 'parcelles_fill', (e) => {
           let parcelleId = e.features[0]["properties"]["id"]
@@ -272,22 +313,51 @@ export default {
 
         this.map.on('click', 'communes_fill', (e) => {
           let comId = e.features[0]["properties"]["code"]
-          let comLabel = e.features[0]["properties"]["nom"]
+          // if (comId.startsWith("750")) {
+          //   comId = comId.replace("750", "751")
+          // }
           if(comId.substring(0,2) == this.dep){
             if (this.map.getZoom() <= 12 && comId) {
-              fetch('https://geo.api.gouv.fr/communes?code=' + comId + '&fields=centre')
-                .then((response) => {
-                    return response.json()
-                })
-                .then((data) => {
-                  appStore.commit("changeLocationLevel", "commune")
-                  appStore.commit("changeLocationLabelCom",comLabel)
-                  this.map.flyTo({
-                    center: data[0].centre.coordinates,
-                    zoom: 12,
-                  });
-                  this.displaySections(comId)
+              if (comId.substring(0,2) === "75") {
+                appStore.commit("changeLocationLevel", "commune")
+                appStore.commit("changeLocationLabelCom", "Paris")
+                this.map.flyTo({
+                  center: [e.lngLat.lng, e.lngLat.lat],
+                  zoom: 12,
                 });
+                this.displaySections("75056")
+              } else if ((comId.substring(0,4) === "6938") || (comId == "69123")) {
+                appStore.commit("changeLocationLevel", "commune")
+                appStore.commit("changeLocationLabelCom", "Lyon")
+                this.map.flyTo({
+                  center: [e.lngLat.lng, e.lngLat.lat],
+                  zoom: 12,
+                });
+                this.displaySections("69123")
+
+              } else if ((comId.substring(0,4) === "1320") || (comId.substring(0,4) === "1321") || (comId == "13055")) {
+                appStore.commit("changeLocationLevel", "commune")
+                appStore.commit("changeLocationLabelCom", "Marseille")
+                this.map.flyTo({
+                  center: [e.lngLat.lng, e.lngLat.lat],
+                  zoom: 12,
+                });
+                this.displaySections("13055")
+
+              } else {
+                fetch('https://geo.api.gouv.fr/communes?code=' + comId + '&fields=centre')
+                  .then((response) => {
+                      return response.json()
+                  })
+                  .then((data) => {
+                    appStore.commit("changeLocationLevel", "commune")
+                    this.map.flyTo({
+                      center: data[0].centre.coordinates,
+                      zoom: 12,
+                    });
+                    this.displaySections(comId)
+                  });
+              }
             }
           }
         });
@@ -295,14 +365,14 @@ export default {
         this.map.on('click', 'departements_fill', (e) => {
           let depId = e.features[0]["properties"]["code"]
           if (this.dep != depId) {
-            if (this.map.getZoom() <= 8) {
+            if ((this.map.getZoom() <= 9) | (this.level === "departement")) {
+              this.map.flyTo({
+                center: CenterDeps[e.features[0].properties.code].coordinates,
+                zoom: 9,
+              });
               appStore.commit("changeLocationDep",e.features[0].properties.code)
               appStore.commit("changeLocationLabelDep",e.features[0].properties.nom)
               appStore.commit("changeLocationLevel", "departement")
-              this.map.flyTo({
-                center: CenterDeps[e.features[0].properties.code].coordinates,
-                zoom: 8,
-              });
               this.displayCommunes(this.dep)
             }
           }
@@ -312,11 +382,16 @@ export default {
           let depId = e.features[0]["properties"]["code"]
           let matchExpression = 0
           if(this.dep != depId) { 
+            if (this.level == "fra"){
+              this.tooltip.place = e.features[0]["properties"]["nom"]
+            }
             matchExpression = ['match', ['get', 'code']]
             matchExpression.push(depId, 0.4); 
             matchExpression.push(0);
           }
           this.map.setPaintProperty("departements_fill", "fill-opacity", matchExpression)
+          this.displayTooltip(e)
+
         });
 
         this.map.on('mousemove', 'communes_fill2', (e) => {
@@ -351,21 +426,36 @@ export default {
           }
         });
 
-        
         this.map.on('mousemove', 'communes_fill', (e) => {
-          let comId = e.features[0]["properties"]["code"]
+          let comId = e.features[0]["properties"]["code"]          
           if(comId != this.com && comId.substring(0,2) == this.dep){
+            if (this.level == "departement"){
+              this.tooltip.place = e.features[0]["properties"]["nom"]
+            }    
             appStore.commit("changeLocationCom", comId)
           }
         });
-        
-
       });
 
     })
 
   },
   methods: {
+    getMatchExpressionLine(data, propertyCodeData, propertyTile){
+      let matchExpressionOpacity = ['match', ['get', propertyTile]]
+      let matchExpressionColor = ['match', ['get', propertyTile]]
+      let matchExpressionLineWidth = ['match', ['get', propertyTile]]
+      data.forEach((d) => {
+        matchExpressionOpacity.push(d[propertyCodeData], 1);
+        matchExpressionColor.push(d[propertyCodeData], 'rgb(255,255,255)');
+        matchExpressionLineWidth.push(d[propertyCodeData], 2);
+      })
+      matchExpressionOpacity.push(0.3);
+      matchExpressionColor.push('rgb(0,0,0)');
+      matchExpressionLineWidth.push(0.1);
+      return { matchExpressionOpacity, matchExpressionColor, matchExpressionLineWidth }
+
+    },
     getMatchExpressionStart(data, x, propertyValueData, propertyCodeData, propertyTile){
       let matchExpression = ['match', ['get', propertyTile]]
       data.forEach((d) => {
@@ -431,6 +521,10 @@ export default {
         let matchExpression = this.getMatchExpressionStart(data["data"], x, 'moy_prix_m2_rolling_year', 'code_geo', 'code')
         this.map.setPaintProperty("departements_fill", "fill-opacity", 0)
         this.map.setPaintProperty("communes_fill", "fill-color", matchExpression)
+        let { matchExpressionOpacity, matchExpressionColor, matchExpressionLineWidth } = this.getMatchExpressionLine(data["data"], 'code_geo', 'code')
+        this.map.setPaintProperty("communes_line", "line-opacity", matchExpressionOpacity)
+        this.map.setPaintProperty("communes_line", "line-color", matchExpressionColor)
+        this.map.setPaintProperty("communes_line", "line-width", matchExpressionLineWidth)
       });
 
     },
@@ -446,19 +540,55 @@ export default {
         let matchExpression = this.getMatchExpressionStart(data["data"], x, 'moy_prix_m2_rolling_year', 'code_geo', 'id')
         this.map.setPaintProperty("communes_fill2", "fill-opacity", 0)
         this.map.setPaintProperty("sections_fill", "fill-color", matchExpression)
+        let { matchExpressionOpacity, matchExpressionColor, matchExpressionLineWidth } = this.getMatchExpressionLine(data["data"], 'code_geo', 'id')
+        this.map.setPaintProperty("sections_line", "line-opacity", matchExpressionOpacity)
+        this.map.setPaintProperty("sections_line", "line-color", matchExpressionColor)
+        this.map.setPaintProperty("sections_line", "line-width", matchExpressionLineWidth)
       });
     },
-    displayParcelles(code){
-
+    displayTooltip (e) {
+      if ((this.level == "commune") || (this.level == "section") || (this.commune == "parcelle")){
+        this.tooltip.display = 'none'
+      } else {
+        this.tooltip.display = 'block'
+      }
+      //const containerRect = e.target.getBoundingClientRect()
+      let tooltipX = e.point.x + 350
+      let tooltipY = e.point.y + 150
+      this.tooltip.top = tooltipY + 'px'
+      this.tooltip.left = tooltipX + 'px'
+      this.tooltip.visibility = 'visible'
+    },
+    hideTooltip () {
+      this.tooltip.visibility = 'hidden'
+      this.tooltip.display = 'none'
     },
   },
   watch: {
+    zoomLevel(){
+      if (this.zoomLevel < 8){
+        this.map.setLayoutProperty("epcis_fill", "visibility", "visible")
+        if (this.level == "commune") {
+          appStore.commit("changeLocationLevel", "fra")
+        }
+      } else {
+        if (this.level != "fra") {
+          this.map.setLayoutProperty("epcis_fill", "visibility", "none")
+        }
+      }
+      if (this.zoomLevel < 11){
+        this.map.setLayoutProperty("communes_fill", "visibility", "visible")
+      } else {
+        this.map.setLayoutProperty("communes_fill", "visibility", "none")
+
+      }
+    }
   }
 }
 
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 
   @import '~maplibre-gl/dist/maplibre-gl.css';
 
@@ -520,4 +650,26 @@ export default {
     right:0;
   }
 
+
+.map_tooltip{
+  width: 165px;
+  height: auto;
+  background-color: white;
+  position: fixed;
+  z-index: 999;
+  border-radius: 4px;
+  box-shadow: 0 8px 16px 0 rgba(22, 22, 22, 0.12), 0 8px 16px -16px rgba(22, 22, 22, 0.32);
+  text-align: left;
+  pointer-events: none;
+  font-size: 0.75rem;
+  .tooltip_body{
+    padding-left: 0.75rem;
+    padding-top:0.25rem;
+    padding-right: 0.75rem;
+    line-height: 1.67;
+    .tooltip_place{
+      color:#242424;
+    }
+  }
+}
 </style>
