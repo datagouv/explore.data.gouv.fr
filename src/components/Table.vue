@@ -745,6 +745,12 @@ th, td {
   font-size: 0.8rem;
 }
 
+.header.sticky-bar div{
+  max-height: 80px;
+  overflow: scroll;
+  line-height: 16px;
+}
+
 .filter {
   border-width: 1px;
 }
