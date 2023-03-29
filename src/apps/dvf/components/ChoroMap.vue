@@ -4,8 +4,8 @@
     <filters-box></filters-box>
     <div ref="mapTooltip" class="map_tooltip" :style="{top:tooltip.top,left:tooltip.left,display:tooltip.display,visibility:tooltip.visibility}">
       <div class="tooltip_body">
-        {{ level }}
-        <div class="tooltip_place">{{tooltip.place}}</div>
+        {{ tooltip.place }}
+        <div class="tooltip_place">{{tooltip.value}} €/m²</div>
       </div>
     </div>
     <div class="map_container" ref="mapContainer"></div>
@@ -381,8 +381,10 @@ export default {
         this.map.on('mousemove', 'departements_fill', (e) => {
           let depId = e.features[0]["properties"]["code"]
           let matchExpression = 0
+          
           if(this.dep != depId) { 
             if (this.level == "fra"){
+              this.fetchTooltipData("departement",depId)
               this.tooltip.place = e.features[0]["properties"]["nom"]
             }
             matchExpression = ['match', ['get', 'code']]
@@ -397,6 +399,7 @@ export default {
         this.map.on('mousemove', 'communes_fill2', (e) => {
           let comId = e.features[0]["properties"]["code"]
           let matchExpression = 0
+          this.fetchTooltipData("communes",comId)
           if(this.com != comId) { 
             matchExpression = ['match', ['get', 'code']]
             matchExpression.push(comId, 0.4); 
@@ -427,7 +430,10 @@ export default {
         });
 
         this.map.on('mousemove', 'communes_fill', (e) => {
-          let comId = e.features[0]["properties"]["code"]          
+          let comId = e.features[0]["properties"]["code"] 
+          if (this.level == "departement"){         
+            this.fetchTooltipData("commune",comId)
+          }
           if(comId != this.com && comId.substring(0,2) == this.dep){
             if (this.level == "departement"){
               this.tooltip.place = e.features[0]["properties"]["nom"]
@@ -563,6 +569,21 @@ export default {
       this.tooltip.visibility = 'hidden'
       this.tooltip.display = 'none'
     },
+    fetchTooltipData(level,code){
+      var self = this
+      console.log(level,code)
+      fetch("http://dvf.dataeng.etalab.studio/" + level + "/" + code)
+      .then((response) => {
+          return response.json()
+      })
+      .then((data) => {
+        console.log(data["data"])
+        self.tooltip.value = data["data"][0]["moy_prix_m2_maison"]
+        /* data["data"].forEach(function(d){
+          self.tooltip.value = d["moy_prix_m2_maison"]
+        }) */
+      });
+    } 
   },
   watch: {
     zoomLevel(){
