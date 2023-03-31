@@ -747,7 +747,7 @@ th, td {
 
 .header.sticky-bar div{
   max-height: 80px;
-  overflow: scroll;
+  overflow: auto;
   line-height: 16px;
 }
 
