@@ -56,7 +56,7 @@
         <table>
           <tr>
             <th></th>
-            <th :class="activeFilter=='maison'||activeFilter=='local'?'hide':''">Appartements</th>
+            <th :class="activeFilter=='maison'||activeFilter=='local'?'hide':''">Appt.</th>
             <th :class="activeFilter=='appartement'||activeFilter=='local'?'hide':''">Maisons</th>
             <th :class="activeFilter!='local'?'hide':''">Locaux</th>
           </tr>
