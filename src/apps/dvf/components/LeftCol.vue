@@ -100,6 +100,7 @@ export default {
     return {
       apiLevel: null,
       apiResult: null,
+      apiCode: null,
       clientData:{
         totalVentes:0,
         totalAverage:0,
@@ -178,12 +179,45 @@ export default {
       .then((data) => {
        this.apiResult = data
        this.apiLevel = level
+       this.apiCode = code
       });
     },
     storeApiData(){
       appStore.commit("updateApiData",this.apiResult)
     },
     buildClientData(){
+      fetch("http://dvf.dataeng.etalab.studio/" + this.apiLevel)
+      .then((response) => {
+          return response.json()
+      })
+      .then((data) => {
+        var levelData = data["data"].find(obj => {
+          return obj.code_geo === this.apiCode
+        })
+
+        if(this.activeFilter === 'tous'){
+          this.clientData.totalVentes=(levelData["nb_mutations_appartement_5ans"]+levelData["nb_mutations_maison_5ans"]).toLocaleString()
+          this.clientData.totalAverage=Math.round(levelData["moy_prix_m2_appart_maison_5ans"]).toLocaleString()+"€"
+        }else if(this.activeFilter === 'maison'){
+          this.clientData.totalVentes=levelData["nb_mutations_maison_5ans"].toLocaleString()
+          this.clientData.totalAverage=Math.round(levelData["moy_prix_m2_maison_5ans"]).toLocaleString()+"€"
+        }else if(this.activeFilter === 'appartement'){
+          this.clientData.totalVentes=levelData["nb_mutations_appartement_5ans"].toLocaleString()
+          this.clientData.totalAverage=Math.round(levelData["moy_prix_m2_appart_5ans"]).toLocaleString()+"€"
+        }else if(this.activeFilter === 'local'){
+          this.clientData.totalVentes=levelData["nb_mutations_local_5ans"].toLocaleString()
+          this.clientData.totalAverage=Math.round(levelData["moy_prix_m2_local_5ans"]).toLocaleString()+"€"
+        }
+        this.clientData.appVentes=levelData["nb_mutations_appartement_5ans"].toLocaleString()
+        this.clientData.appPrice=Math.round(levelData["moy_prix_m2_appart_5ans"]).toLocaleString()+"€"
+        this.clientData.houseVentes=levelData["nb_mutations_maison_5ans"].toLocaleString()
+        this.clientData.housePrice=Math.round(levelData["moy_prix_m2_maison_5ans"]).toLocaleString()+"€"
+        this.clientData.localVentes=levelData["nb_mutations_local_5ans"].toLocaleString()
+        this.clientData.localPrice=Math.round(levelData["moy_prix_m2_local_5ans"]).toLocaleString()+"€" 
+        });
+      
+    }
+    /* buildClientData(){
       var self = this
       var data = this.apiResult["data"]
 
@@ -194,7 +228,6 @@ export default {
       this.rollingData.moy_prix_m2_local = 0
       this.rollingData.moy_prix_m2_maison = 0
 
-      /* Build rolling year data */
       data.forEach(function(d){
         self.rollingData["nb_ventes_appartement"] = self.rollingData["nb_ventes_appartement"] + d["nb_ventes_appartement"]
         self.rollingData["nb_ventes_maison"] = self.rollingData["nb_ventes_maison"] + d["nb_ventes_maison"]
@@ -206,7 +239,6 @@ export default {
       this.updateTabs()
     },
     updateTabs(){
-      /* Total ventes in database */
       if(this.activeFilter === 'tous'){
         this.clientData.totalVentes =  (this.rollingData["nb_ventes_appartement"]+this.rollingData["nb_ventes_maison"]).toLocaleString()
       }else if(this.activeFilter === 'maison'){
@@ -216,8 +248,6 @@ export default {
       }else if(this.activeFilter === 'local'){
         this.clientData.totalVentes =  this.rollingData["nb_ventes_local"].toLocaleString()
       }
-
-      /* Average of all data */
       
       if(this.activeFilter === 'tous'){
         this.clientData.totalAverage = Math.round(((this.rollingData["moy_prix_m2_appartement"] + this.rollingData["moy_prix_m2_maison"]) / (this.rollingData["nb_ventes_appartement"] + this.rollingData["nb_ventes_maison"]))).toLocaleString()+" €"
@@ -228,9 +258,6 @@ export default {
       }else if(this.activeFilter === 'local'){
         this.clientData.totalAverage = Math.round(this.rollingData["moy_prix_m2_local"]/this.rollingData["nb_ventes_local"]).toLocaleString()+" €"
       }
-
-      /* Tab by type of vente */
-
       if(this.rollingData["nb_ventes_appartement"] == null){
         this.clientData.appVentes = 0
         this.clientData.appPrice = "N/A"
@@ -254,7 +281,7 @@ export default {
         this.clientData.houseVentes = this.rollingData["nb_ventes_maison"].toLocaleString()
         this.clientData.housePrice = Math.round(this.rollingData["moy_prix_m2_maison"]/this.rollingData["nb_ventes_maison"]).toLocaleString()+" €"
       }
-    }
+    }*/
   },
   watch: {
     level: {
@@ -267,7 +294,7 @@ export default {
       this.storeApiData()
     },
     activeFilter(){
-      this.updateTabs()
+      this.buildClientData()
     }
   }
 }

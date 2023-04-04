@@ -101,9 +101,8 @@ export default {
         }
       });
 
-
-      let { x, scaleMin, scaleMax } = this.calculateColor(this.dataEpci, 'moy_prix_m2_rolling_year')
-      let matchExpression = this.getMatchExpressionStart(this.dataEpci, x, 'moy_prix_m2_rolling_year', 'code_geo', 'code')
+      let { x, scaleMin, scaleMax } = this.calculateColor(this.dataEpci, 'moy_prix_m2_appart_maison_5ans')
+      let matchExpression = this.getMatchExpressionStart(this.dataEpci, x, 'moy_prix_m2_appart_maison_5ans', 'code_geo', 'code')
 
       // Create map
       this.map = markRaw(new Map({
@@ -522,8 +521,8 @@ export default {
       })
       .then((data) => {
 
-        let { x, scaleMin, scaleMax } = this.calculateColor(data["data"], 'moy_prix_m2_rolling_year')
-        let matchExpression = this.getMatchExpressionStart(data["data"], x, 'moy_prix_m2_rolling_year', 'code_geo', 'code')
+        let { x, scaleMin, scaleMax } = this.calculateColor(data["data"], 'moy_prix_m2_appart_maison_5ans')
+        let matchExpression = this.getMatchExpressionStart(data["data"], x, 'moy_prix_m2_appart_maison_5ans', 'code_geo', 'code')
         this.map.setPaintProperty("departements_fill", "fill-opacity", 0)
         this.map.setPaintProperty("communes_fill", "fill-color", matchExpression)
         let { matchExpressionOpacity, matchExpressionColor, matchExpressionLineWidth } = this.getMatchExpressionLine(data["data"], 'code_geo', 'code')
@@ -541,8 +540,8 @@ export default {
       })
       .then((data) => {
 
-        let { x, scaleMin, scaleMax } = this.calculateColor(data["data"], 'moy_prix_m2_rolling_year')
-        let matchExpression = this.getMatchExpressionStart(data["data"], x, 'moy_prix_m2_rolling_year', 'code_geo', 'id')
+        let { x, scaleMin, scaleMax } = this.calculateColor(data["data"], 'moy_prix_m2_appart_maison_5ans')
+        let matchExpression = this.getMatchExpressionStart(data["data"], x, 'moy_prix_m2_appart_maison_5ans', 'code_geo', 'id')
         this.map.setPaintProperty("communes_fill2", "fill-opacity", 0)
         this.map.setPaintProperty("sections_fill", "fill-color", matchExpression)
         let { matchExpressionOpacity, matchExpressionColor, matchExpressionLineWidth } = this.getMatchExpressionLine(data["data"], 'code_geo', 'id')
@@ -570,23 +569,16 @@ export default {
     },
     fetchTooltipData(level,code){
       var self = this
-      console.log(code)
-      fetch("http://dvf.dataeng.etalab.studio/" + level + "/" + code)
+      console.log("http://dvf.dataeng.etalab.studio/" + level)
+      fetch("http://dvf.dataeng.etalab.studio/" + level)
       .then((response) => {
           return response.json()
       })
       .then((data) => {
-        var nb_ventes_appartement = 0
-        var nb_ventes_maison = 0
-        var moy_prix_m2_appartement = 0
-        var moy_prix_m2_maison = 0
-        data["data"].forEach(function(d){
-          nb_ventes_appartement = nb_ventes_appartement + d["nb_ventes_appartement"]
-          nb_ventes_maison = nb_ventes_maison + d["nb_ventes_maison"]
-          moy_prix_m2_appartement = moy_prix_m2_appartement + d["nb_ventes_appartement"] * d["moy_prix_m2_appartement"]
-          moy_prix_m2_maison = moy_prix_m2_maison + d["nb_ventes_maison"] * d["moy_prix_m2_maison"]
+        var result = data["data"].find(obj => {
+          return obj.code_geo === code
         })
-        self.tooltip.value = Math.round(((moy_prix_m2_appartement + moy_prix_m2_maison) / (nb_ventes_appartement + nb_ventes_maison))).toLocaleString()
+        self.tooltip.value = Math.round(result["moy_prix_m2_appart_maison_5ans"]).toLocaleString()
       });
     } 
   },
