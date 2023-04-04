@@ -381,7 +381,6 @@ export default {
         this.map.on('mousemove', 'departements_fill', (e) => {
           let depId = e.features[0]["properties"]["code"]
           let matchExpression = 0
-          
           if(this.dep != depId) { 
             if (this.level == "fra"){
               this.fetchTooltipData("departement",depId)
@@ -571,17 +570,23 @@ export default {
     },
     fetchTooltipData(level,code){
       var self = this
-      console.log(level,code)
+      console.log(code)
       fetch("http://dvf.dataeng.etalab.studio/" + level + "/" + code)
       .then((response) => {
           return response.json()
       })
       .then((data) => {
-        console.log(data["data"])
-        self.tooltip.value = data["data"][0]["moy_prix_m2_maison"]
-        /* data["data"].forEach(function(d){
-          self.tooltip.value = d["moy_prix_m2_maison"]
-        }) */
+        var nb_ventes_appartement = 0
+        var nb_ventes_maison = 0
+        var moy_prix_m2_appartement = 0
+        var moy_prix_m2_maison = 0
+        data["data"].forEach(function(d){
+          nb_ventes_appartement = nb_ventes_appartement + d["nb_ventes_appartement"]
+          nb_ventes_maison = nb_ventes_maison + d["nb_ventes_maison"]
+          moy_prix_m2_appartement = moy_prix_m2_appartement + d["nb_ventes_appartement"] * d["moy_prix_m2_appartement"]
+          moy_prix_m2_maison = moy_prix_m2_maison + d["nb_ventes_maison"] * d["moy_prix_m2_maison"]
+        })
+        self.tooltip.value = Math.round(((moy_prix_m2_appartement + moy_prix_m2_maison) / (nb_ventes_appartement + nb_ventes_maison))).toLocaleString()
       });
     } 
   },
