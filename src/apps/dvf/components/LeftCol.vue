@@ -184,6 +184,8 @@ export default {
     },
     storeApiData(){
       appStore.commit("updateApiData",this.apiResult)
+      appStore.commit("updateApiLevel",this.apiLevel)
+      appStore.commit("updateApiCode",this.apiCode)
     },
     buildClientData(){
       fetch("http://dvf.dataeng.etalab.studio/" + this.apiLevel)
