@@ -13,6 +13,8 @@ export default new Vuex.Store({
       zoomLevel:4.8
     },
     apiData:null,
+    apiLevel:null,
+    apiCode:null,
     location:{
       level: 'fra',
       dep: null,
@@ -62,6 +64,12 @@ export default new Vuex.Store({
     },
     updateApiData (state, data){
       state.apiData = data
+    },
+    updateApiLevel (state, data){
+      state.apiLevel = data
+    },
+    updateApiCode(state, data){
+      state.apiCode = data
     },
     updateActiveFilter(state,filter){
       state.activeFilter = filter
