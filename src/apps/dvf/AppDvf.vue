@@ -1,6 +1,6 @@
 <template>
   <div class="fr-container--fluid">
-    <header-apps></header-apps>
+    <header-apps :formHref="formHref"></header-apps>
     <div class="dvf_header">
       <h2>Explorateur de données de valeurs foncière</h2>
       <h3>Suivez l'évolution des prix de l'immobilier et trouvez le prix des ventes immobilières</h3>
@@ -53,7 +53,8 @@ export default {
         {"id":"tableau","label":"Tableau"},
         {"id":"faq","label":"Questions fréquentes"},
         {"id":"sources","label":"Sources"},
-      ]
+      ],
+      formHref:"https://data.gouv.fr"
     }
   },
   computed: {

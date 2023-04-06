@@ -34,12 +34,12 @@ export default {
         aproposHref() {
             return 'https://data.gouv.fr'
         },
-        formHref() {
-            return 'https://app.evalandgo.com/form/372035/s/?id=JTk5cSU5NWwlOUMlQjE%3D&a=JTk3cCU5M2glOTklQUU%3D'
-        },
         home() {
             return window.location.origin
         }
+    },
+    props:{
+        formHref:String
     }
 }
 </script>
