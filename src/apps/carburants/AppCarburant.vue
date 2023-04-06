@@ -1,6 +1,6 @@
 <template>
   <div class="fr-container--fluid">
-    <header-apps></header-apps>
+    <header-apps :formHref="formHref"></header-apps>
     <div>
       <div v-if="tooltip.properties" class="tooltip" :style="{top:tooltip.top,left:tooltip.left, display:tooltip.display}">
           <div v-if="tooltip.properties.adr" class="tooltip-title">{{ tooltip.properties.adr }}</div>
@@ -296,6 +296,7 @@ export default {
   components: {Map, markRaw, BarOrGraph, HeaderApps},
   data() {
     return {
+      formHref:"https://tally.so/r/3jZbA9",
       map: Object,
       fuelFr: {
         SP95: 'SP 95',
