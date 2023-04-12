@@ -569,7 +569,7 @@ export default {
     },
     fetchTooltipData(level,code){
       var self = this
-      console.log("http://dvf.dataeng.etalab.studio/" + level)
+      console.log(level,code)
       fetch("http://dvf.dataeng.etalab.studio/" + level)
       .then((response) => {
           return response.json()

@@ -151,7 +151,7 @@ export default {
     }
   },
   mounted() {
-      fetch("http://dvf.dataeng.etalab.studio/nation")
+      fetch("http://dvf.dataeng.etalab.studio/nation/mois")
       .then((response) => {
           return response.json()
       })
@@ -193,9 +193,14 @@ export default {
           return response.json()
       })
       .then((data) => {
-        var levelData = data["data"].find(obj => {
-          return obj.code_geo === this.apiCode
-        })
+        var levelData
+        if(this.apiLevel == 'nation'){
+          levelData = data["data"][0]
+        }else{
+          levelData = data["data"].find(obj => {
+            return obj.code_geo === this.apiCode
+          })
+        }
 
         if(this.activeFilter === 'tous'){
           this.clientData.totalVentes=(levelData["nb_mutations_appartement_5ans"]+levelData["nb_mutations_maison_5ans"]).toLocaleString()
