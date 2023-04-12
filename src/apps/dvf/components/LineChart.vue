@@ -1,6 +1,7 @@
 <template>
     <div class="lineChart">
-      <canvas id="linechart"></canvas>
+      <canvas v-show="values.length==60" id="linechart"></canvas>
+      <div v-show="values.length!=60"><span>Il n'y a pas suffisamment de ventes sur cette sélection pour que nous puissions faire un graphique.</span></div>
     </div>
 </template>
 
@@ -36,15 +37,15 @@ export default {
       this.values = []
       this.labels = []
       this.apiData["data"].forEach(function(d,i){
-        self.labels.push(d["annee_mois"])
+        self.labels.push(self.rewriteAnneeMois(d["annee_mois"]))
         if(self.activeFilter == 'tous'){
-          var moyAllVentes = (d["nb_ventes_appartement"] * d["moy_prix_m2_appartement"] + d["nb_ventes_maison"] * d["moy_prix_m2_maison"]) / (d["nb_ventes_appartement"] + d["nb_ventes_maison"])
+          var moyAllVentes = Math.round((d["nb_ventes_appartement"] * d["moy_prix_m2_appartement"] + d["nb_ventes_maison"] * d["moy_prix_m2_maison"]) / (d["nb_ventes_appartement"] + d["nb_ventes_maison"]))
         }else if(self.activeFilter=='appartement'){
-          var moyAllVentes = d["moy_prix_m2_appartement"]
+          var moyAllVentes = Math.round(d["moy_prix_m2_appartement"])
         }else if(self.activeFilter=='maison'){
-          var moyAllVentes = d["moy_prix_m2_maison"]
+          var moyAllVentes = Math.round(d["moy_prix_m2_maison"])
         }else if(self.activeFilter == 'local'){
-          var moyAllVentes = d["moy_prix_m2_local"]
+          var moyAllVentes = Math.round(d["moy_prix_m2_local"])
         }
         self.values.push(moyAllVentes)
       })
@@ -59,7 +60,11 @@ export default {
           datasets: [{
             data: this.values,
             borderWidth: 1,
-            pointRadius:0,
+            pointRadius:10,
+            pointBackgroundColor:"rgba(22, 22, 22, 0)",
+            pointBorderColor:"rgba(22, 22, 22, 0)",
+            pointHoverBorderColor:"rgba(74, 157, 247, 1)",
+            pointHoverBackgroundColor:"rgba(74, 157, 247, 1)",
             borderColor:"rgba(22, 22, 22, 1)"
           }],
 
@@ -68,6 +73,20 @@ export default {
           plugins: {
             legend: {
               display: false
+            },
+            tooltip: {
+              backgroundColor: 'rgba(74, 157, 247, 1)',
+              bodyColor: 'rgba(255, 255, 255, 1)',
+              displayColors:false,
+              callbacks: {
+                label: function (tooltipItems) {
+                  console.log(tooltipItems.formattedValue)
+                  return tooltipItems.formattedValue+"€"
+                },
+                title: function (tooltipItems) {
+                  return false
+                },
+              }
             }
           },
           scales: {
@@ -101,6 +120,50 @@ export default {
           }
         },
       });
+    },
+    rewriteAnneeMois(anneemois){
+      var annee =  anneemois.slice(0,4)
+      var mois = anneemois.slice(5,8)
+      var writeMois = ""
+      switch(mois){
+        case "01":
+          writeMois="jan"
+          break
+        case "02":
+          writeMois="fev"
+          break
+        case "03":
+          writeMois="mar"
+          break
+        case "04":
+          writeMois="avr"
+          break
+        case "05":
+          writeMois="mai"
+          break
+        case "06":
+          writeMois="jun"
+          break
+        case "07":
+          writeMois="jul"
+          break
+        case "08":
+          writeMois="aou"
+          break
+        case "09":
+          writeMois="sep"
+          break
+        case "10":
+          writeMois="oct"
+          break
+        case "11":
+          writeMois="nov"
+          break
+        case "12":
+          writeMois="dec"
+          break
+      }     
+      return writeMois+" "+annee
     }
   },
   watch: {
@@ -128,12 +191,22 @@ export default {
   
   .lineChart{
     width: 100%;
-    height: 120px;
+    height: auto;
+    max-height: 120px;
   }
 
   .lineChart canvas{
     width: 100%;
     max-height: 120px;
+  }
+
+  .lineChart div{
+    font-size:12px;
+    font-weight: 400;
+    background-color: #F6F6F6;
+    padding: 5px;
+    line-height: 20px !important;
+
   }
 
 </style>
