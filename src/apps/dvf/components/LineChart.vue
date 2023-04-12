@@ -80,7 +80,6 @@ export default {
               displayColors:false,
               callbacks: {
                 label: function (tooltipItems) {
-                  console.log(tooltipItems.formattedValue)
                   return tooltipItems.formattedValue+"€"
                 },
                 title: function (tooltipItems) {
