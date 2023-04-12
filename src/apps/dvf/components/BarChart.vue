@@ -16,6 +16,7 @@ export default {
     return {
       values:[],
       labels:[],
+      fullLabels:{},
       chart: undefined,
     }
   },
@@ -46,8 +47,10 @@ export default {
       var self = this
       this.labels = []
       this.values = []
+      this.fullLabels = {}
       this.barData[0]["xaxis"].forEach(function(d){
         self.labels.push(d[0])
+        self.fullLabels[d[0]] = [d[0],d[1]]
       })
       this.barData[0]["yaxis"].forEach(function(d){
         self.values.push(d)
@@ -59,6 +62,7 @@ export default {
       }else{
         this.buildChart()
       }
+      console.log(self.fullLabels)
     },
     buildChart(){
       var self = this
@@ -78,6 +82,19 @@ export default {
           plugins: {
               legend: {
                 display: false
+              },
+              tooltip: {
+                backgroundColor: 'rgba(74, 157, 247, 1)',
+                bodyColor: 'rgba(255, 255, 255, 1)',
+                displayColors:false,
+                callbacks: {
+                  label: function (tooltipItems) {
+                    return tooltipItems.formattedValue+" ventes"
+                  },
+                  title: function (tooltipItems) {
+                    return "entre "+self.fullLabels[tooltipItems[0]["label"]][0]+"€ et "+self.fullLabels[tooltipItems[0]["label"]][1]+"€"
+                  },
+                }
               }
             },
           animation: {
