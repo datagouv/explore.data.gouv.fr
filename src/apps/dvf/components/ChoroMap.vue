@@ -568,8 +568,7 @@ export default {
       this.tooltip.display = 'none'
     },
     fetchTooltipData(level,code){
-      var self = this
-      console.log(level,code)
+      /*var self = this
       fetch("http://dvf.dataeng.etalab.studio/" + level)
       .then((response) => {
           return response.json()
@@ -579,7 +578,7 @@ export default {
           return obj.code_geo === code
         })
         self.tooltip.value = Math.round(result["moy_prix_m2_appart_maison_5ans"]).toLocaleString()
-      });
+      });*/
     } 
   },
   watch: {
