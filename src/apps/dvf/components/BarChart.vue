@@ -27,7 +27,9 @@ export default {
     apiCode:function(){
       return appStore.state.apiCode
     },
-
+    activeFilter:function(){
+      return appStore.state.activeFilter
+    }
   },
   mounted() {
     this.updateData("nation")
@@ -39,7 +41,7 @@ export default {
           return response.json()
       })
       .then((data) => {
-        this.barData = data["data"]
+        this.barData = data
         this.updateValues()
       });
     },
@@ -48,21 +50,43 @@ export default {
       this.labels = []
       this.values = []
       this.fullLabels = {}
-      this.barData[0]["xaxis"].forEach(function(d){
+
+      var filter=""
+
+      switch(this.activeFilter){
+        case "tous":
+          filter="apt+maison"
+          break
+        case "maison":
+          filter="maison"
+          break
+        case "appartement":
+          filter="appartement"
+          break
+        case "local":
+          filter="local"
+          break
+      }
+      var filteredData = this.barData[filter]
+      
+      filteredData["xaxis"].forEach(function(d){
         self.labels.push(d[0])
         self.fullLabels[d[0]] = [d[0],d[1]]
       })
-      this.barData[0]["yaxis"].forEach(function(d){
+      filteredData["yaxis"].forEach(function(d){
         self.values.push(d)
       })
+
       if(this.chart){
-        this.chart.data.datasets[0].data = this.values
+        /*this.chart.data.datasets[0].data = this.values
         this.chart.labels = this.labels
-        this.chart.update()
+        this.chart.update()*/
+        this.chart.destroy()
+        this.buildChart()
       }else{
         this.buildChart()
       }
-      console.log(self.fullLabels)
+      
     },
     buildChart(){
       var self = this
@@ -92,7 +116,18 @@ export default {
                     return tooltipItems.formattedValue+" ventes"
                   },
                   title: function (tooltipItems) {
-                    return "entre "+self.fullLabels[tooltipItems[0]["label"]][0]+"€ et "+self.fullLabels[tooltipItems[0]["label"]][1]+"€"
+                    var tab = []
+                    for (var label in self.fullLabels){
+                      tab.push(label)
+                    }
+                    var pos = tab.indexOf(self.fullLabels[tooltipItems[0]["label"]][0].toString())
+                    var bornesLabel
+                    if(pos === tab.length-1){
+                      bornesLabel =  "plus de "+self.fullLabels[tooltipItems[0]["label"]][0]+"€"
+                    }else{
+                      bornesLabel =  "entre "+self.fullLabels[tooltipItems[0]["label"]][0]+"€ et "+self.fullLabels[tooltipItems[0]["label"]][1]+"€"
+                    }
+                    return bornesLabel
                   },
                 }
               }
@@ -135,6 +170,9 @@ export default {
     apiCode(){
       this.updateData(this.apiCode)
     },
+    activeFilter(){
+      this.updateValues()
+    }
   }
 }
 

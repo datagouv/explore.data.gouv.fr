@@ -188,13 +188,20 @@ export default {
       appStore.commit("updateApiCode",this.apiCode)
     },
     buildClientData(){
-      fetch("http://dvf.dataeng.etalab.studio/" + this.apiLevel)
+      console.log(this.apiLevel,this.apiCode)
+      var url
+      if(this.apiLevel=="commune"){
+        url = "http://dvf.dataeng.etalab.studio/commune/" + this.apiCode
+      }else{
+        url = "http://dvf.dataeng.etalab.studio/" + this.apiLevel
+      }
+      fetch(url)
       .then((response) => {
           return response.json()
       })
       .then((data) => {
         var levelData
-        if(this.apiLevel == 'nation'){
+        if(this.apiLevel == 'nation'||this.apiLevel == 'commune'){
           levelData = data["data"][0]
         }else{
           levelData = data["data"].find(obj => {
