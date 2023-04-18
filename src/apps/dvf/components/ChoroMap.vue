@@ -53,7 +53,8 @@ export default {
         value: 0,
         date: '',
         place: 'tttt'
-      }
+      },
+      fetching:false
     }
   },
   computed: {
@@ -350,6 +351,7 @@ export default {
                   })
                   .then((data) => {
                     appStore.commit("changeLocationLevel", "commune")
+                    appStore.commit("changeLocationLabelCom", data[0]["nom"])
                     this.map.flyTo({
                       center: data[0].centre.coordinates,
                       zoom: 12,
@@ -568,17 +570,28 @@ export default {
       this.tooltip.display = 'none'
     },
     fetchTooltipData(level,code){
-      /*var self = this
-      fetch("http://dvf.dataeng.etalab.studio/" + level)
-      .then((response) => {
-          return response.json()
-      })
-      .then((data) => {
-        var result = data["data"].find(obj => {
-          return obj.code_geo === code
+      var self = this
+      if(this.fetching === false){
+        this.fetching = true
+        var url
+        if(level=="commune"){
+          url = "http://dvf.dataeng.etalab.studio/departement/"+code.substring(0,2)+"/communes"
+        }else{
+          url = "http://dvf.dataeng.etalab.studio/" + level
+        }
+        fetch(url)
+        .then((response) => {
+            return response.json()
         })
-        self.tooltip.value = Math.round(result["moy_prix_m2_appart_maison_5ans"]).toLocaleString()
-      });*/
+        .then((data) => {
+          var result = data["data"].find(obj => {
+            return obj.code_geo === code
+          })
+          self.tooltip.value = Math.round(result["moy_prix_m2_appart_maison_5ans"]).toLocaleString()
+          self.fetching = false
+        });
+
+      }
     } 
   },
   watch: {

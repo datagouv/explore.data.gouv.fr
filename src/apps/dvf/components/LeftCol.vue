@@ -188,10 +188,9 @@ export default {
       appStore.commit("updateApiCode",this.apiCode)
     },
     buildClientData(){
-      console.log(this.apiLevel,this.apiCode)
       var url
       if(this.apiLevel=="commune"){
-        url = "http://dvf.dataeng.etalab.studio/commune/" + this.apiCode
+        url = "http://dvf.dataeng.etalab.studio/departement/"+this.dep+"/communes"
       }else{
         url = "http://dvf.dataeng.etalab.studio/" + this.apiLevel
       }
@@ -201,14 +200,13 @@ export default {
       })
       .then((data) => {
         var levelData
-        if(this.apiLevel == 'nation'||this.apiLevel == 'commune'){
+        if(this.apiLevel == 'nation'){
           levelData = data["data"][0]
         }else{
           levelData = data["data"].find(obj => {
             return obj.code_geo === this.apiCode
           })
         }
-
         if(this.activeFilter === 'tous'){
           this.clientData.totalVentes=(levelData["nb_mutations_appartement_5ans"]+levelData["nb_mutations_maison_5ans"]).toLocaleString()
           this.clientData.totalAverage=Math.round(levelData["moy_prix_m2_appart_maison_5ans"]).toLocaleString()+"€"
@@ -231,71 +229,6 @@ export default {
         });
       
     }
-    /* buildClientData(){
-      var self = this
-      var data = this.apiResult["data"]
-
-      this.rollingData.nb_ventes_appartement = 0
-      this.rollingData.nb_ventes_local = 0
-      this.rollingData.nb_ventes_maison = 0
-      this.rollingData.moy_prix_m2_appartement = 0
-      this.rollingData.moy_prix_m2_local = 0
-      this.rollingData.moy_prix_m2_maison = 0
-
-      data.forEach(function(d){
-        self.rollingData["nb_ventes_appartement"] = self.rollingData["nb_ventes_appartement"] + d["nb_ventes_appartement"]
-        self.rollingData["nb_ventes_maison"] = self.rollingData["nb_ventes_maison"] + d["nb_ventes_maison"]
-        self.rollingData["nb_ventes_local"] = self.rollingData["nb_ventes_local"] + d["nb_ventes_local"]
-        self.rollingData["moy_prix_m2_appartement"] = self.rollingData["moy_prix_m2_appartement"] + d["nb_ventes_appartement"] * d["moy_prix_m2_appartement"]
-        self.rollingData["moy_prix_m2_maison"] = self.rollingData["moy_prix_m2_maison"] + d["nb_ventes_maison"] * d["moy_prix_m2_maison"]
-        self.rollingData["moy_prix_m2_local"] = self.rollingData["moy_prix_m2_local"] + d["nb_ventes_local"] * d["moy_prix_m2_local"]
-      })
-      this.updateTabs()
-    },
-    updateTabs(){
-      if(this.activeFilter === 'tous'){
-        this.clientData.totalVentes =  (this.rollingData["nb_ventes_appartement"]+this.rollingData["nb_ventes_maison"]).toLocaleString()
-      }else if(this.activeFilter === 'maison'){
-        this.clientData.totalVentes =  this.rollingData["nb_ventes_maison"].toLocaleString()
-      }else if(this.activeFilter === 'appartement'){
-        this.clientData.totalVentes =  this.rollingData["nb_ventes_appartement"].toLocaleString()
-      }else if(this.activeFilter === 'local'){
-        this.clientData.totalVentes =  this.rollingData["nb_ventes_local"].toLocaleString()
-      }
-      
-      if(this.activeFilter === 'tous'){
-        this.clientData.totalAverage = Math.round(((this.rollingData["moy_prix_m2_appartement"] + this.rollingData["moy_prix_m2_maison"]) / (this.rollingData["nb_ventes_appartement"] + this.rollingData["nb_ventes_maison"]))).toLocaleString()+" €"
-      }else if(this.activeFilter === 'maison'){
-        this.clientData.totalAverage = Math.round(this.rollingData["moy_prix_m2_maison"]/this.rollingData["nb_ventes_maison"]).toLocaleString()+" €"
-      }else if(this.activeFilter === 'appartement'){
-        this.clientData.totalAverage = Math.round(this.rollingData["moy_prix_m2_appartement"]/this.rollingData["nb_ventes_appartement"]).toLocaleString()+" €"
-      }else if(this.activeFilter === 'local'){
-        this.clientData.totalAverage = Math.round(this.rollingData["moy_prix_m2_local"]/this.rollingData["nb_ventes_local"]).toLocaleString()+" €"
-      }
-      if(this.rollingData["nb_ventes_appartement"] == null){
-        this.clientData.appVentes = 0
-        this.clientData.appPrice = "N/A"
-      }else{
-        this.clientData.appVentes = this.rollingData["nb_ventes_appartement"].toLocaleString()
-        this.clientData.appPrice = Math.round(this.rollingData["moy_prix_m2_appartement"]/this.rollingData["nb_ventes_appartement"]).toLocaleString()+" €"
-      }
-
-      if(this.rollingData["nb_ventes_local"] == null){
-        this.clientData.localVentes = 0
-        this.clientData.localPrice = "N/A"
-      }else{
-        this.clientData.localVentes = this.rollingData["nb_ventes_local"].toLocaleString()
-        this.clientData.localPrice = Math.round(this.rollingData["moy_prix_m2_local"]/this.rollingData["nb_ventes_local"]).toLocaleString()+" €"
-      }
-
-      if(this.rollingData["nb_ventes_maison"] == null){
-        this.clientData.houseVentes = 0
-        this.clientData.housePrice = "N/A"
-      }else{
-        this.clientData.houseVentes = this.rollingData["nb_ventes_maison"].toLocaleString()
-        this.clientData.housePrice = Math.round(this.rollingData["moy_prix_m2_maison"]/this.rollingData["nb_ventes_maison"]).toLocaleString()+" €"
-      }
-    }*/
   },
   watch: {
     level: {
