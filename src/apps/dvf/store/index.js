@@ -26,9 +26,13 @@ export default new Vuex.Store({
       dep:null,
       com: null
     },
-    activeFilter:"tous"
+    activeFilter:"tous",
+    searchBarCoordinates: null,
   },
   mutations: {
+    changeSearchBarCoordinates( state, data) {
+      state.searchBarCoordinates = data
+    },
     changeActivePanel (state,data) {
       state.activePanel = data
     },
