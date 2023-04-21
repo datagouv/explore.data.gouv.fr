@@ -41,6 +41,7 @@ export default {
   data() {
     return {
       map: Object,
+      dataChloropleth: null,
       dataEpci: null,
       legMin:0,
       legMax:0,
@@ -54,7 +55,19 @@ export default {
         date: '',
         place: 'tttt'
       },
-      fetching:false
+      fetching:false,
+      mappingPropertiesPrix: {
+        "tous": "moy_prix_m2_appart_maison_5ans",
+        "maison": "moy_prix_m2_maison_5ans",
+        "appartement": "moy_prix_m2_appart_5ans",
+        "local": "moy_prix_m2_local_5ans",
+      },
+      mappingPropertiesFillLayer: {
+        "fra": "epcis_fill",
+        "departement": "communes_fill",
+        "commune": "sections_fill"
+      },
+      actualPropertyPrix: "moy_prix_m2_appart_maison_5ans"
     }
   },
   computed: {
@@ -84,7 +97,10 @@ export default {
     },
     level:function(){
       return appStore.state.location.level
-    }
+    },
+    activeFilter:function(){
+      return appStore.state.activeFilter
+    },
   },
   mounted() {
         
@@ -93,18 +109,9 @@ export default {
         return response.json()
     })
     .then((data) => {
-      let list_epcis = []
-      this.dataEpci = []
-      data["data"].forEach((d) =>{
-        if(!list_epcis.includes(d["code_geo"])){
-          list_epcis.push(d["code_geo"])
-          this.dataEpci.push(d)
-        }
-      });
+      this.dataChloropleth = data["data"]
 
-      let { x, scaleMin, scaleMax } = this.calculateColor(this.dataEpci, 'moy_prix_m2_appart_maison_5ans')
-      let matchExpression = this.getMatchExpressionStart(this.dataEpci, x, 'moy_prix_m2_appart_maison_5ans', 'code_geo', 'code')
-
+      let matchExpression = this.changeChloroplethColors('code_geo', this.actualPropertyPrix, 'code')
       // Create map
       this.map = markRaw(new Map({
         container: this.$refs.mapContainer,
@@ -447,6 +454,20 @@ export default {
 
   },
   methods: {
+    changeChloroplethColors(property_code_geo, property_value, property_tile_code_geo){      
+      let list_obj = []
+      let dataObj = []
+      this.dataChloropleth.forEach((d) =>{
+        if(!list_obj.includes(d[property_code_geo])){
+          list_obj.push(d[property_code_geo])
+          dataObj.push(d)
+        }
+      });
+
+      let { x, scaleMin, scaleMax } = this.calculateColor(dataObj, property_value)
+      let matchExpression = this.getMatchExpressionStart(dataObj, x, property_value, property_code_geo, property_tile_code_geo)
+      return matchExpression
+    },
     getMatchExpressionLine(data, propertyCodeData, propertyTile){
       let matchExpressionOpacity = ['match', ['get', propertyTile]]
       let matchExpressionColor = ['match', ['get', propertyTile]]
@@ -522,9 +543,9 @@ export default {
           return response.json()
       })
       .then((data) => {
-
-        let { x, scaleMin, scaleMax } = this.calculateColor(data["data"], 'moy_prix_m2_appart_maison_5ans')
-        let matchExpression = this.getMatchExpressionStart(data["data"], x, 'moy_prix_m2_appart_maison_5ans', 'code_geo', 'code')
+        this.dataChloropleth = data["data"]
+        let { x, scaleMin, scaleMax } = this.calculateColor(data["data"], this.actualPropertyPrix)
+        let matchExpression = this.getMatchExpressionStart(data["data"], x, this.actualPropertyPrix, 'code_geo', 'code')
         this.map.setPaintProperty("departements_fill", "fill-opacity", 0)
         this.map.setPaintProperty("communes_fill", "fill-color", matchExpression)
         let { matchExpressionOpacity, matchExpressionColor, matchExpressionLineWidth } = this.getMatchExpressionLine(data["data"], 'code_geo', 'code')
@@ -541,9 +562,9 @@ export default {
           return response.json()
       })
       .then((data) => {
-
-        let { x, scaleMin, scaleMax } = this.calculateColor(data["data"], 'moy_prix_m2_appart_maison_5ans')
-        let matchExpression = this.getMatchExpressionStart(data["data"], x, 'moy_prix_m2_appart_maison_5ans', 'code_geo', 'id')
+        this.dataChloropleth = data["data"]
+        let { x, scaleMin, scaleMax } = this.calculateColor(data["data"], this.actualPropertyPrix)
+        let matchExpression = this.getMatchExpressionStart(data["data"], x, this.actualPropertyPrix, 'code_geo', 'id')
         this.map.setPaintProperty("communes_fill2", "fill-opacity", 0)
         this.map.setPaintProperty("sections_fill", "fill-color", matchExpression)
         let { matchExpressionOpacity, matchExpressionColor, matchExpressionLineWidth } = this.getMatchExpressionLine(data["data"], 'code_geo', 'id')
@@ -587,7 +608,7 @@ export default {
           var result = data["data"].find(obj => {
             return obj.code_geo === code
           })
-          self.tooltip.value = Math.round(result["moy_prix_m2_appart_maison_5ans"]).toLocaleString()
+          self.tooltip.value = Math.round(result[this.actualPropertyPrix]).toLocaleString()
           self.fetching = false
         });
 
@@ -595,6 +616,15 @@ export default {
     } 
   },
   watch: {
+    activeFilter(){
+      let property_tile_code_geo = "code"
+      if (this.level === "commune"){
+        property_tile_code_geo = "id"
+      }
+      this.actualPropertyPrix = this.mappingPropertiesPrix[this.activeFilter]
+      let matchExpression = this.changeChloroplethColors('code_geo', this.actualPropertyPrix, property_tile_code_geo)
+      this.map.setPaintProperty(this.mappingPropertiesFillLayer[this.level], "fill-color", matchExpression)
+    },
     zoomLevel(){
       if (this.zoomLevel < 8){
         this.map.setLayoutProperty("epcis_fill", "visibility", "visible")
