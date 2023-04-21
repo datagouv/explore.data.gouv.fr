@@ -8,6 +8,7 @@
         <div class="tooltip_place">{{tooltip.value}} €/m²</div>
       </div>
     </div>
+    {{ zoomLevel }}
     <div class="map_container" ref="mapContainer"></div>
     <div class="leg_container">
       <div class="color_blocks">
@@ -67,7 +68,9 @@ export default {
         "departement": "communes_fill",
         "commune": "sections_fill"
       },
-      actualPropertyPrix: "moy_prix_m2_appart_maison_5ans"
+      actualPropertyPrix: "moy_prix_m2_appart_maison_5ans",
+      mapLng: null,
+      mapLat: null,
     }
   },
   computed: {
@@ -101,6 +104,10 @@ export default {
     activeFilter:function(){
       return appStore.state.activeFilter
     },
+    searchBarCoordinates:function(){
+      return appStore.state.searchBarCoordinates
+    },
+
   },
   mounted() {
         
@@ -169,7 +176,7 @@ export default {
           'source': 'cadastre',
           'source-layer': 'sections',
           'paint': {
-            'fill-color': "rgba(0,0,255,1)",
+            'fill-color': "rgba(0,0,0,0)",
             'fill-opacity': 0.8,
           },
           minzoom: 11,
@@ -400,7 +407,8 @@ export default {
           }
           this.map.setPaintProperty("departements_fill", "fill-opacity", matchExpression)
           this.displayTooltip(e)
-
+          this.mapLat = e.lngLat.wrap().lat
+          this.mapLng = e.lngLat.wrap().lng
         });
 
         this.map.on('mousemove', 'communes_fill2', (e) => {
@@ -537,7 +545,6 @@ export default {
       return { x, scaleMin, scaleMax }
     },
     displayCommunes(code){
-
       fetch('http://dvf.dataeng.etalab.studio/departement/' + code + '/communes')
       .then((response) => {
           return response.json()
@@ -553,10 +560,8 @@ export default {
         this.map.setPaintProperty("communes_line", "line-color", matchExpressionColor)
         this.map.setPaintProperty("communes_line", "line-width", matchExpressionLineWidth)
       });
-
     },
     displaySections(code){
-
       fetch('http://dvf.dataeng.etalab.studio/commune/' + code + '/sections')
       .then((response) => {
           return response.json()
@@ -625,23 +630,80 @@ export default {
       let matchExpression = this.changeChloroplethColors('code_geo', this.actualPropertyPrix, property_tile_code_geo)
       this.map.setPaintProperty(this.mappingPropertiesFillLayer[this.level], "fill-color", matchExpression)
     },
+    searchBarCoordinates(){
+      appStore.commit("changeZoomLevel",17)
+      appStore.commit("changeLocationLevel", "parcelle")
+      this.map.flyTo({
+        center: this.searchBarCoordinates,
+        zoom: 17,
+      });
+    },
     zoomLevel(){
-      if (this.zoomLevel < 8){
-        this.map.setLayoutProperty("epcis_fill", "visibility", "visible")
-        if (this.level == "commune") {
-          appStore.commit("changeLocationLevel", "fra")
-        }
-      } else {
+      if (this.zoomLevel < 8) {
+        // check if actual level is fra. 
+        // If not : changelocationlevel to fra + fill epcis
         if (this.level != "fra") {
-          this.map.setLayoutProperty("epcis_fill", "visibility", "none")
+          appStore.commit("changeLocationLevel", "fra")
+          this.map.setLayoutProperty("epcis_fill", "visibility", "visible")
         }
-      }
-      if (this.zoomLevel < 11){
-        this.map.setLayoutProperty("communes_fill", "visibility", "visible")
-      } else {
-        this.map.setLayoutProperty("communes_fill", "visibility", "none")
+      } 
+      if (this.zoomLevel >= 8 & this.zoomLevel < 11) {
+        if (this.level != "departement") {
+          appStore.commit("changeLocationLevel", "departement")
+          this.map.setLayoutProperty("epcis_fill", "visibility", "none")
+          this.map.setLayoutProperty("communes_fill", "visibility", "visible")
+          
+          fetch('https://geo.api.gouv.fr/communes?lon=' + this.mapLng + '&lat=' + this.mapLat)
+            .then((response) => {
+                return response.json()
+            })
+            .then((data) => {              
+              if (this.dep != data[0]["codeDepartement"]) {
+                  appStore.commit("changeLocationDep", data[0]["codeDepartement"])
+                  appStore.commit("changeLocationLabelDep", CenterDeps[data[0]["codeDepartement"]].nom)
+                  appStore.commit("changeLocationLevel", "departement")
+                  this.displayCommunes(this.dep)
+              }
+          })
+        }
+        // check if actual level is departement.
+        // if not : changelocationlevel to departement + fill commune
+      } 
+      if (this.zoomLevel >= 11 & this.zoomLevel < 15) {
+        if (this.level != "commune") {
+          appStore.commit("changeLocationLevel", "commune")
+          this.map.setLayoutProperty("departements_fill", "visibility", "none")
+          this.map.setLayoutProperty("epcis_fill", "visibility", "none")
+          this.map.setLayoutProperty("communes_fill", "visibility", "none")
+          this.map.setLayoutProperty("sections_fill", "visibility", "visible")
 
-      }
+          fetch('https://geo.api.gouv.fr/communes?lon=' + this.mapLng + '&lat=' + this.mapLat)
+            .then((response) => {
+                return response.json()
+            })
+            .then((data) => {              
+              if (this.dep != data[0]["code"]) {
+                  appStore.commit("changeLocationCom", data[0]["code"])
+                  appStore.commit("changeLocationLabelCom", data[0]["nom"])
+                  appStore.commit("changeLocationLevel", "commune")
+                  this.displaySections(data[0]["code"])
+              }
+          })
+        }
+        // check if actual level is commune.
+        // if not : changelocationlevel to commune + fill section
+      } 
+      if (this.zoomLevel >= 15) {
+        if (this.level != "section") {
+          appStore.commit("changeLocationLevel", "section")
+          this.map.setLayoutProperty("departements_fill", "visibility", "none")
+          this.map.setLayoutProperty("epcis_fill", "visibility", "none")
+          this.map.setLayoutProperty("communes_fill", "visibility", "none")
+          this.map.setLayoutProperty("sections_fill", "visibility", "none")
+        }
+        // check if actual level is parcelle.
+        // if not : changelocationlevel to parcelle
+      } 
     }
   }
 }
