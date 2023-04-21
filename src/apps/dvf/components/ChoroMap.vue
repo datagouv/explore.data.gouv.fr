@@ -8,7 +8,7 @@
         <div class="tooltip_place">{{tooltip.value}} €/m²</div>
       </div>
     </div>
-    {{ zoomLevel }}
+    {{ zoomLevel }} {{ level }}
     <div class="map_container" ref="mapContainer"></div>
     <div class="leg_container">
       <div class="color_blocks">
@@ -311,12 +311,13 @@ export default {
         this.map.on('click', 'parcelles_fill', (e) => {
           let parcelleId = e.features[0]["properties"]["id"]
           appStore.commit("changeLocationParcelle", parcelleId)
+          console.log(parcelleId)
         });
 
         this.map.on('click', 'sections_fill', (e) => {
           let sectionId = e.features[0]["properties"]["id"]
           appStore.commit("changeLocationSection", sectionId)
-          appStore.commit("changeLocationLevel", "section")
+          //appStore.commit("changeLocationLevel", "section")
           if (this.map.getZoom() <= 12) {
             this.map.flyTo({
               center: [e.lngLat.lng, e.lngLat.lat],
@@ -652,7 +653,7 @@ export default {
           appStore.commit("changeLocationLevel", "departement")
           this.map.setLayoutProperty("epcis_fill", "visibility", "none")
           this.map.setLayoutProperty("communes_fill", "visibility", "visible")
-          
+
           fetch('https://geo.api.gouv.fr/communes?lon=' + this.mapLng + '&lat=' + this.mapLat)
             .then((response) => {
                 return response.json()
@@ -672,7 +673,7 @@ export default {
       if (this.zoomLevel >= 11 & this.zoomLevel < 15) {
         if (this.level != "commune") {
           appStore.commit("changeLocationLevel", "commune")
-          this.map.setLayoutProperty("departements_fill", "visibility", "none")
+          this.map.setPaintProperty("departements_fill", "fill-opacity", 0)
           this.map.setLayoutProperty("epcis_fill", "visibility", "none")
           this.map.setLayoutProperty("communes_fill", "visibility", "none")
           this.map.setLayoutProperty("sections_fill", "visibility", "visible")
@@ -697,6 +698,7 @@ export default {
         if (this.level != "section") {
           appStore.commit("changeLocationLevel", "section")
           this.map.setLayoutProperty("departements_fill", "visibility", "none")
+          this.map.setPaintProperty("departements_fill", "fill-opacity", 0)
           this.map.setLayoutProperty("epcis_fill", "visibility", "none")
           this.map.setLayoutProperty("communes_fill", "visibility", "none")
           this.map.setLayoutProperty("sections_fill", "visibility", "none")
