@@ -2,7 +2,7 @@
   <div class="fr-container--fluid">
     <header-apps :formHref="formHref"></header-apps>
     <div class="dvf_header">
-      <h2>Explorateur de données de valeurs foncière</h2>
+      <h2>Explorateur de données de valeurs foncières</h2>
       <h3>Suivez l'évolution des prix de l'immobilier et trouvez le prix des ventes immobilières</h3>
       <div class="maj_date_container">Dernière mise à jour des données : 26 octobre 2022</div>
     </div>

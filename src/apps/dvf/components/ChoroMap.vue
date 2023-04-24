@@ -69,8 +69,24 @@ export default {
         "commune": "sections_fill"
       },
       actualPropertyPrix: "moy_prix_m2_appart_maison_5ans",
-      mapLng: null,
-      mapLat: null,
+      mousePosition: {
+        dep: {
+          code: null,
+          nom: null,
+        },
+        com: {
+          code: null,
+          nom: null,
+        },
+        section: {
+          code: null,
+          nom: null,
+        },
+        parcelle: {
+          code: null,
+          nom: null,
+        },
+      }
     }
   },
   computed: {
@@ -110,14 +126,13 @@ export default {
 
   },
   mounted() {
-        
+    // Au load de la page, on récupère les stats au niveau EPCI pour l'affichage carte
     fetch('http://dvf.dataeng.etalab.studio/epci')
     .then((response) => {
         return response.json()
     })
     .then((data) => {
       this.dataChloropleth = data["data"]
-
       let matchExpression = this.changeChloroplethColors('code_geo', this.actualPropertyPrix, 'code')
       // Create map
       this.map = markRaw(new Map({
@@ -127,13 +142,9 @@ export default {
         zoom: this.zoomLevel
       }));
 
-      this.map.on('zoom', (m) => {
-        appStore.commit("changeZoomLevel",this.map.getZoom())
-      });
 
       // On map load, add its layers
       this.map.on('load', (m) => {
-        
         //parcelle fill
         const parcellesFillLayer = {
           id: `parcelles_fill`,
@@ -302,11 +313,8 @@ export default {
         }
 
         this.map.addLayer(epcisFillLayer);
-        // this.map.addLayer(communesFillLayer);
-        // this.map.addLayer(sectionsFillLayer);
         this.map.addLayer(departementsFillLayer);
         this.map.addLayer(epcisLineLayer);
-        // this.map.addLayer(departementsLineLayer);
 
         this.map.on('click', 'parcelles_fill', (e) => {
           let parcelleId = e.features[0]["properties"]["id"]
@@ -323,6 +331,7 @@ export default {
               center: [e.lngLat.lng, e.lngLat.lat],
               zoom: 15,
             });
+            this.getDvfCurrentSection(e.features[0]["properties"]["id"])
           }
         });
 
@@ -408,14 +417,14 @@ export default {
           }
           this.map.setPaintProperty("departements_fill", "fill-opacity", matchExpression)
           this.displayTooltip(e)
-          this.mapLat = e.lngLat.wrap().lat
-          this.mapLng = e.lngLat.wrap().lng
+          this.mousePosition.dep.code = depId
+          this.mousePosition.dep.nom = e.features[0]["properties"]["nom"]
         });
 
         this.map.on('mousemove', 'communes_fill2', (e) => {
           let comId = e.features[0]["properties"]["code"]
           let matchExpression = 0
-          this.fetchTooltipData("communes",comId)
+          this.fetchTooltipData("commune",comId)
           if(this.com != comId) { 
             matchExpression = ['match', ['get', 'code']]
             matchExpression.push(comId, 0.4); 
@@ -455,14 +464,42 @@ export default {
               this.tooltip.place = e.features[0]["properties"]["nom"]
             }    
             appStore.commit("changeLocationCom", comId)
+            this.mousePosition.com.code = comId
+            this.mousePosition.com.nom = e.features[0]["properties"]["nom"]
           }
         });
       });
 
-    })
+      this.map.on('zoom', (m) => {
+        appStore.commit("changeZoomLevel",this.map.getZoom())
+      });
 
+      // this.map.on('click', (e) => {
+      //   // Set `bbox` as 5px reactangle area around clicked point.
+      //   const bbox = [
+      //   [e.point.x - 5, e.point.y - 5],
+      //   [e.point.x + 5, e.point.y + 5]
+      //   ];
+      //   console.log(bbox)
+      //   console.log(this.map.queryRenderedFeatures(bbox))
+      //   // Find features intersecting the bounding box.
+      //   const selectedFeatures = this.map.queryRenderedFeatures(bbox, {
+      //     layers: ['departements_fill']
+      //   });
+      //   console.log(selectedFeatures)
+      //   const fips = selectedFeatures.map(
+      //     (feature) => feature.properties.FIPS
+      //   );
+      //   console.log(fips)
+      // });
+
+    })
   },
   methods: {
+    getDvfCurrentSection(id){
+      console.log(id)
+      // call api mutations
+    },
     changeChloroplethColors(property_code_geo, property_value, property_tile_code_geo){      
       let list_obj = []
       let dataObj = []
@@ -598,26 +635,28 @@ export default {
     },
     fetchTooltipData(level,code){
       var self = this
-      if(this.fetching === false){
-        this.fetching = true
-        var url
-        if(level=="commune"){
-          url = "http://dvf.dataeng.etalab.studio/departement/"+code.substring(0,2)+"/communes"
-        }else{
-          url = "http://dvf.dataeng.etalab.studio/" + level
-        }
-        fetch(url)
-        .then((response) => {
-            return response.json()
-        })
-        .then((data) => {
-          var result = data["data"].find(obj => {
-            return obj.code_geo === code
+      if (level != "commune" && level != "section") {
+        if(this.fetching === false){
+          this.fetching = true
+          var url
+          if(level=="commune"){
+            url = "http://dvf.dataeng.etalab.studio/departement/"+code.substring(0,2)+"/communes"
+          }else{
+            url = "http://dvf.dataeng.etalab.studio/" + level
+          }
+          fetch(url)
+          .then((response) => {
+              return response.json()
           })
-          self.tooltip.value = Math.round(result[this.actualPropertyPrix]).toLocaleString()
-          self.fetching = false
-        });
+          .then((data) => {
+            var result = data["data"].find(obj => {
+              return obj.code_geo === code
+            })
+            self.tooltip.value = Math.round(result[this.actualPropertyPrix]).toLocaleString()
+            self.fetching = false
+          });
 
+        }
       }
     } 
   },
@@ -648,48 +687,31 @@ export default {
           this.map.setLayoutProperty("epcis_fill", "visibility", "visible")
         }
       } 
-      if (this.zoomLevel >= 8 & this.zoomLevel < 11) {
+      if (this.zoomLevel >= 8 && this.zoomLevel < 11) {
         if (this.level != "departement") {
           appStore.commit("changeLocationLevel", "departement")
           this.map.setLayoutProperty("epcis_fill", "visibility", "none")
           this.map.setLayoutProperty("communes_fill", "visibility", "visible")
 
-          fetch('https://geo.api.gouv.fr/communes?lon=' + this.mapLng + '&lat=' + this.mapLat)
-            .then((response) => {
-                return response.json()
-            })
-            .then((data) => {              
-              if (this.dep != data[0]["codeDepartement"]) {
-                  appStore.commit("changeLocationDep", data[0]["codeDepartement"])
-                  appStore.commit("changeLocationLabelDep", CenterDeps[data[0]["codeDepartement"]].nom)
-                  appStore.commit("changeLocationLevel", "departement")
-                  this.displayCommunes(this.dep)
-              }
-          })
+          appStore.commit("changeLocationDep", this.mousePosition.dep.code)
+          appStore.commit("changeLocationLabelDep", this.mousePosition.dep.nom)
+          appStore.commit("changeLocationLevel", "departement")
+          this.displayCommunes(this.mousePosition.dep.code)
         }
         // check if actual level is departement.
         // if not : changelocationlevel to departement + fill commune
       } 
-      if (this.zoomLevel >= 11 & this.zoomLevel < 15) {
+      if (this.zoomLevel >= 11 && this.zoomLevel < 15) {
         if (this.level != "commune") {
           appStore.commit("changeLocationLevel", "commune")
           this.map.setPaintProperty("departements_fill", "fill-opacity", 0)
           this.map.setLayoutProperty("epcis_fill", "visibility", "none")
           this.map.setLayoutProperty("communes_fill", "visibility", "none")
           this.map.setLayoutProperty("sections_fill", "visibility", "visible")
-
-          fetch('https://geo.api.gouv.fr/communes?lon=' + this.mapLng + '&lat=' + this.mapLat)
-            .then((response) => {
-                return response.json()
-            })
-            .then((data) => {              
-              if (this.dep != data[0]["code"]) {
-                  appStore.commit("changeLocationCom", data[0]["code"])
-                  appStore.commit("changeLocationLabelCom", data[0]["nom"])
-                  appStore.commit("changeLocationLevel", "commune")
-                  this.displaySections(data[0]["code"])
-              }
-          })
+          appStore.commit("changeLocationCom", this.mousePosition.com.code)
+          appStore.commit("changeLocationLabelCom", this.mousePosition.com.nom)
+          appStore.commit("changeLocationLevel", "commune")
+          this.displaySections(this.mousePosition.com.code)
         }
         // check if actual level is commune.
         // if not : changelocationlevel to commune + fill section
@@ -702,10 +724,11 @@ export default {
           this.map.setLayoutProperty("epcis_fill", "visibility", "none")
           this.map.setLayoutProperty("communes_fill", "visibility", "none")
           this.map.setLayoutProperty("sections_fill", "visibility", "none")
+          appStore.commit("changeLocationLevel", "section")
         }
         // check if actual level is parcelle.
         // if not : changelocationlevel to parcelle
-      } 
+      }
     }
   }
 }

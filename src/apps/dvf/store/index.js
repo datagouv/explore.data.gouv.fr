@@ -28,8 +28,12 @@ export default new Vuex.Store({
     },
     activeFilter:"tous",
     searchBarCoordinates: null,
+    dvfCurrentSection: null,
   },
   mutations: {
+    changeDvfCurrentSection( state, data) {
+      state.dvfCurrentSection = data
+    },
     changeSearchBarCoordinates( state, data) {
       state.searchBarCoordinates = data
     },
