@@ -8,7 +8,6 @@
         <div class="tooltip_place">{{tooltip.value}} €/m²</div>
       </div>
     </div>
-    {{ zoomLevel }} {{ level }}
     <div class="map_container" ref="mapContainer"></div>
     <div class="leg_container">
       <div class="color_blocks">
