@@ -61,13 +61,36 @@ export default {
     activePanel () {
       return appStore.state.activePanel
     },
+    activeFilter:function(){
+      return appStore.state.activeFilter
+    },
   },
   mounted() {
 
+    if(this.$route.query.onglet){
+      if(this.$route.query.onglet != this.activePanel){
+        this.changeActivePanel(this.$route.query.onglet) 
+      }
+    }else{
+      this.changeActivePanel("carte")
+    }
+
+    if(this.$route.query.filtre){
+      if(this.$route.query.filtre != this.activeFilter){
+        this.updateActiveFilter(this.$route.query.filtre) 
+      }
+    }else{
+      this.updateActiveFilter("tous")
+    }
+    
   },
   methods: {
     changeActivePanel(id){
       appStore.commit("changeActivePanel",id)
+      this.$router.push({path: this.$route.path, query: { ...this.$route.query, onglet: id }})
+    },
+    updateActiveFilter(f){
+      appStore.commit("updateActiveFilter",f)
     }
   },
   watch: {

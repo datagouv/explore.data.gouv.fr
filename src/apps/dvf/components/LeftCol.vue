@@ -196,8 +196,9 @@ export default {
       }else{
         url = "http://dvf.dataeng.etalab.studio/" + this.apiLevel
       }
-      console.log(url)
+      
       fetch(url)
+
       .then((response) => {
           return response.json()
       })

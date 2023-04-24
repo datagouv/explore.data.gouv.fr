@@ -1,6 +1,7 @@
 <template>
     <div class="barChart">
-      <canvas id="barchart"></canvas>
+      <canvas v-show="displayChart==true" id="barchart"></canvas>
+      <div v-show="displayChart==false"><span>Il n'y a pas suffisamment de ventes sur cette sélection pour que nous puissions faire un graphique.</span></div>
     </div>
 </template>
 
@@ -18,6 +19,7 @@ export default {
       labels:[],
       fullLabels:{},
       chart: undefined,
+      displayChart: true
     }
   },
   computed: {
@@ -68,19 +70,21 @@ export default {
           break
       }
       var filteredData = this.barData[filter]
-      
-      filteredData["xaxis"].forEach(function(d){
-        self.labels.push(d[0])
-        self.fullLabels[d[0]] = [d[0],d[1]]
-      })
-      filteredData["yaxis"].forEach(function(d){
-        self.values.push(d)
-      })
 
+      if(filteredData["xaxis"]){
+        filteredData["xaxis"].forEach(function(d){
+          self.labels.push(d[0])
+          self.fullLabels[d[0]] = [d[0],d[1]]
+        })
+        filteredData["yaxis"].forEach(function(d){
+          self.values.push(d)
+        })
+        this.displayChart=true
+      }else{
+        this.displayChart=false
+      }
+      
       if(this.chart){
-        /*this.chart.data.datasets[0].data = this.values
-        this.chart.labels = this.labels
-        this.chart.update()*/
         this.chart.destroy()
         this.buildChart()
       }else{
@@ -171,7 +175,7 @@ export default {
       this.updateData(this.apiCode)
     },
     activeFilter(){
-      this.updateValues()
+     this.updateValues()
     }
   }
 }
@@ -188,6 +192,15 @@ export default {
   .barChart canvas{
     width: 100%;
     max-height: 120px;
+  }
+
+  .barChart div{
+    font-size:12px;
+    font-weight: 400;
+    background-color: #F6F6F6;
+    padding: 5px;
+    line-height: 20px !important;
+
   }
 
 </style>

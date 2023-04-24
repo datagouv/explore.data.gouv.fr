@@ -44,6 +44,7 @@ export default {
   methods: {
     updateActiveFilter(f){
       appStore.commit("updateActiveFilter",f)
+      this.$router.push({path: this.$route.path, query: { ...this.$route.query, filtre: f }})
     }
   },
   watch: {
