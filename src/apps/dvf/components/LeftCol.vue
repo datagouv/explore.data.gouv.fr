@@ -172,15 +172,17 @@ export default {
       if (level === "section"){
         code = this.section
       }
-      fetch("http://dvf.dataeng.etalab.studio/" + level + "/" + code)
-      .then((response) => {
-          return response.json()
-      })
-      .then((data) => {
-       this.apiResult = data
-       this.apiLevel = level
-       this.apiCode = code
-      });
+      if (level != "fra") {
+        fetch("http://dvf.dataeng.etalab.studio/" + level + "/" + code)
+        .then((response) => {
+            return response.json()
+        })
+        .then((data) => {
+        this.apiResult = data
+        this.apiLevel = level
+        this.apiCode = code
+        });
+      }
     },
     storeApiData(){
       appStore.commit("updateApiData",this.apiResult)
@@ -194,6 +196,7 @@ export default {
       }else{
         url = "http://dvf.dataeng.etalab.studio/" + this.apiLevel
       }
+      console.log(url)
       fetch(url)
       .then((response) => {
           return response.json()

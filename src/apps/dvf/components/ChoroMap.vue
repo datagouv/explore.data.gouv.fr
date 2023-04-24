@@ -41,6 +41,7 @@ export default {
   data() {
     return {
       map: Object,
+      dataChloropleth: null,
       dataEpci: null,
       legMin:0,
       legMax:0,
@@ -54,7 +55,37 @@ export default {
         date: '',
         place: 'tttt'
       },
-      fetching:false
+      fetching:false,
+      mappingPropertiesPrix: {
+        "tous": "moy_prix_m2_appart_maison_5ans",
+        "maison": "moy_prix_m2_maison_5ans",
+        "appartement": "moy_prix_m2_appart_5ans",
+        "local": "moy_prix_m2_local_5ans",
+      },
+      mappingPropertiesFillLayer: {
+        "fra": "epcis_fill",
+        "departement": "communes_fill",
+        "commune": "sections_fill"
+      },
+      actualPropertyPrix: "moy_prix_m2_appart_maison_5ans",
+      mousePosition: {
+        dep: {
+          code: null,
+          nom: null,
+        },
+        com: {
+          code: null,
+          nom: null,
+        },
+        section: {
+          code: null,
+          nom: null,
+        },
+        parcelle: {
+          code: null,
+          nom: null,
+        },
+      }
     }
   },
   computed: {
@@ -84,27 +115,24 @@ export default {
     },
     level:function(){
       return appStore.state.location.level
-    }
+    },
+    activeFilter:function(){
+      return appStore.state.activeFilter
+    },
+    searchBarCoordinates:function(){
+      return appStore.state.searchBarCoordinates
+    },
+
   },
   mounted() {
-        
+    // Au load de la page, on récupère les stats au niveau EPCI pour l'affichage carte
     fetch('http://dvf.dataeng.etalab.studio/epci')
     .then((response) => {
         return response.json()
     })
     .then((data) => {
-      let list_epcis = []
-      this.dataEpci = []
-      data["data"].forEach((d) =>{
-        if(!list_epcis.includes(d["code_geo"])){
-          list_epcis.push(d["code_geo"])
-          this.dataEpci.push(d)
-        }
-      });
-
-      let { x, scaleMin, scaleMax } = this.calculateColor(this.dataEpci, 'moy_prix_m2_appart_maison_5ans')
-      let matchExpression = this.getMatchExpressionStart(this.dataEpci, x, 'moy_prix_m2_appart_maison_5ans', 'code_geo', 'code')
-
+      this.dataChloropleth = data["data"]
+      let matchExpression = this.changeChloroplethColors('code_geo', this.actualPropertyPrix, 'code')
       // Create map
       this.map = markRaw(new Map({
         container: this.$refs.mapContainer,
@@ -113,13 +141,9 @@ export default {
         zoom: this.zoomLevel
       }));
 
-      this.map.on('zoom', (m) => {
-        appStore.commit("changeZoomLevel",this.map.getZoom())
-      });
 
       // On map load, add its layers
       this.map.on('load', (m) => {
-        
         //parcelle fill
         const parcellesFillLayer = {
           id: `parcelles_fill`,
@@ -162,7 +186,7 @@ export default {
           'source': 'cadastre',
           'source-layer': 'sections',
           'paint': {
-            'fill-color': "rgba(0,0,255,1)",
+            'fill-color': "rgba(0,0,0,0)",
             'fill-opacity': 0.8,
           },
           minzoom: 11,
@@ -288,26 +312,25 @@ export default {
         }
 
         this.map.addLayer(epcisFillLayer);
-        // this.map.addLayer(communesFillLayer);
-        // this.map.addLayer(sectionsFillLayer);
         this.map.addLayer(departementsFillLayer);
         this.map.addLayer(epcisLineLayer);
-        // this.map.addLayer(departementsLineLayer);
 
         this.map.on('click', 'parcelles_fill', (e) => {
           let parcelleId = e.features[0]["properties"]["id"]
           appStore.commit("changeLocationParcelle", parcelleId)
+          console.log(parcelleId)
         });
 
         this.map.on('click', 'sections_fill', (e) => {
           let sectionId = e.features[0]["properties"]["id"]
           appStore.commit("changeLocationSection", sectionId)
-          appStore.commit("changeLocationLevel", "section")
+          //appStore.commit("changeLocationLevel", "section")
           if (this.map.getZoom() <= 12) {
             this.map.flyTo({
               center: [e.lngLat.lng, e.lngLat.lat],
               zoom: 15,
             });
+            this.getDvfCurrentSection(e.features[0]["properties"]["id"])
           }
         });
 
@@ -393,13 +416,14 @@ export default {
           }
           this.map.setPaintProperty("departements_fill", "fill-opacity", matchExpression)
           this.displayTooltip(e)
-
+          this.mousePosition.dep.code = depId
+          this.mousePosition.dep.nom = e.features[0]["properties"]["nom"]
         });
 
         this.map.on('mousemove', 'communes_fill2', (e) => {
           let comId = e.features[0]["properties"]["code"]
           let matchExpression = 0
-          this.fetchTooltipData("communes",comId)
+          this.fetchTooltipData("commune",comId)
           if(this.com != comId) { 
             matchExpression = ['match', ['get', 'code']]
             matchExpression.push(comId, 0.4); 
@@ -439,14 +463,56 @@ export default {
               this.tooltip.place = e.features[0]["properties"]["nom"]
             }    
             appStore.commit("changeLocationCom", comId)
+            this.mousePosition.com.code = comId
+            this.mousePosition.com.nom = e.features[0]["properties"]["nom"]
           }
         });
       });
 
-    })
+      this.map.on('zoom', (m) => {
+        appStore.commit("changeZoomLevel",this.map.getZoom())
+      });
 
+      // this.map.on('click', (e) => {
+      //   // Set `bbox` as 5px reactangle area around clicked point.
+      //   const bbox = [
+      //   [e.point.x - 5, e.point.y - 5],
+      //   [e.point.x + 5, e.point.y + 5]
+      //   ];
+      //   console.log(bbox)
+      //   console.log(this.map.queryRenderedFeatures(bbox))
+      //   // Find features intersecting the bounding box.
+      //   const selectedFeatures = this.map.queryRenderedFeatures(bbox, {
+      //     layers: ['departements_fill']
+      //   });
+      //   console.log(selectedFeatures)
+      //   const fips = selectedFeatures.map(
+      //     (feature) => feature.properties.FIPS
+      //   );
+      //   console.log(fips)
+      // });
+
+    })
   },
   methods: {
+    getDvfCurrentSection(id){
+      console.log(id)
+      // call api mutations
+    },
+    changeChloroplethColors(property_code_geo, property_value, property_tile_code_geo){      
+      let list_obj = []
+      let dataObj = []
+      this.dataChloropleth.forEach((d) =>{
+        if(!list_obj.includes(d[property_code_geo])){
+          list_obj.push(d[property_code_geo])
+          dataObj.push(d)
+        }
+      });
+
+      let { x, scaleMin, scaleMax } = this.calculateColor(dataObj, property_value)
+      let matchExpression = this.getMatchExpressionStart(dataObj, x, property_value, property_code_geo, property_tile_code_geo)
+      return matchExpression
+    },
     getMatchExpressionLine(data, propertyCodeData, propertyTile){
       let matchExpressionOpacity = ['match', ['get', propertyTile]]
       let matchExpressionColor = ['match', ['get', propertyTile]]
@@ -516,15 +582,14 @@ export default {
       return { x, scaleMin, scaleMax }
     },
     displayCommunes(code){
-
       fetch('http://dvf.dataeng.etalab.studio/departement/' + code + '/communes')
       .then((response) => {
           return response.json()
       })
       .then((data) => {
-
-        let { x, scaleMin, scaleMax } = this.calculateColor(data["data"], 'moy_prix_m2_appart_maison_5ans')
-        let matchExpression = this.getMatchExpressionStart(data["data"], x, 'moy_prix_m2_appart_maison_5ans', 'code_geo', 'code')
+        this.dataChloropleth = data["data"]
+        let { x, scaleMin, scaleMax } = this.calculateColor(data["data"], this.actualPropertyPrix)
+        let matchExpression = this.getMatchExpressionStart(data["data"], x, this.actualPropertyPrix, 'code_geo', 'code')
         this.map.setPaintProperty("departements_fill", "fill-opacity", 0)
         this.map.setPaintProperty("communes_fill", "fill-color", matchExpression)
         let { matchExpressionOpacity, matchExpressionColor, matchExpressionLineWidth } = this.getMatchExpressionLine(data["data"], 'code_geo', 'code')
@@ -532,18 +597,16 @@ export default {
         this.map.setPaintProperty("communes_line", "line-color", matchExpressionColor)
         this.map.setPaintProperty("communes_line", "line-width", matchExpressionLineWidth)
       });
-
     },
     displaySections(code){
-
       fetch('http://dvf.dataeng.etalab.studio/commune/' + code + '/sections')
       .then((response) => {
           return response.json()
       })
       .then((data) => {
-
-        let { x, scaleMin, scaleMax } = this.calculateColor(data["data"], 'moy_prix_m2_appart_maison_5ans')
-        let matchExpression = this.getMatchExpressionStart(data["data"], x, 'moy_prix_m2_appart_maison_5ans', 'code_geo', 'id')
+        this.dataChloropleth = data["data"]
+        let { x, scaleMin, scaleMax } = this.calculateColor(data["data"], this.actualPropertyPrix)
+        let matchExpression = this.getMatchExpressionStart(data["data"], x, this.actualPropertyPrix, 'code_geo', 'id')
         this.map.setPaintProperty("communes_fill2", "fill-opacity", 0)
         this.map.setPaintProperty("sections_fill", "fill-color", matchExpression)
         let { matchExpressionOpacity, matchExpressionColor, matchExpressionLineWidth } = this.getMatchExpressionLine(data["data"], 'code_geo', 'id')
@@ -571,46 +634,99 @@ export default {
     },
     fetchTooltipData(level,code){
       var self = this
-      if(this.fetching === false){
-        this.fetching = true
-        var url
-        if(level=="commune"){
-          url = "http://dvf.dataeng.etalab.studio/departement/"+code.substring(0,2)+"/communes"
-        }else{
-          url = "http://dvf.dataeng.etalab.studio/" + level
-        }
-        fetch(url)
-        .then((response) => {
-            return response.json()
-        })
-        .then((data) => {
-          var result = data["data"].find(obj => {
-            return obj.code_geo === code
+      if (level != "commune" && level != "section") {
+        if(this.fetching === false){
+          this.fetching = true
+          var url
+          if(level=="commune"){
+            url = "http://dvf.dataeng.etalab.studio/departement/"+code.substring(0,2)+"/communes"
+          }else{
+            url = "http://dvf.dataeng.etalab.studio/" + level
+          }
+          fetch(url)
+          .then((response) => {
+              return response.json()
           })
-          self.tooltip.value = Math.round(result["moy_prix_m2_appart_maison_5ans"]).toLocaleString()
-          self.fetching = false
-        });
+          .then((data) => {
+            var result = data["data"].find(obj => {
+              return obj.code_geo === code
+            })
+            self.tooltip.value = Math.round(result[this.actualPropertyPrix]).toLocaleString()
+            self.fetching = false
+          });
 
+        }
       }
     } 
   },
   watch: {
-    zoomLevel(){
-      if (this.zoomLevel < 8){
-        this.map.setLayoutProperty("epcis_fill", "visibility", "visible")
-        if (this.level == "commune") {
-          appStore.commit("changeLocationLevel", "fra")
-        }
-      } else {
-        if (this.level != "fra") {
-          this.map.setLayoutProperty("epcis_fill", "visibility", "none")
-        }
+    activeFilter(){
+      let property_tile_code_geo = "code"
+      if (this.level === "commune"){
+        property_tile_code_geo = "id"
       }
-      if (this.zoomLevel < 11){
-        this.map.setLayoutProperty("communes_fill", "visibility", "visible")
-      } else {
-        this.map.setLayoutProperty("communes_fill", "visibility", "none")
+      this.actualPropertyPrix = this.mappingPropertiesPrix[this.activeFilter]
+      let matchExpression = this.changeChloroplethColors('code_geo', this.actualPropertyPrix, property_tile_code_geo)
+      this.map.setPaintProperty(this.mappingPropertiesFillLayer[this.level], "fill-color", matchExpression)
+    },
+    searchBarCoordinates(){
+      appStore.commit("changeZoomLevel",17)
+      appStore.commit("changeLocationLevel", "parcelle")
+      this.map.flyTo({
+        center: this.searchBarCoordinates,
+        zoom: 17,
+      });
+    },
+    zoomLevel(){
+      if (this.zoomLevel < 8) {
+        // check if actual level is fra. 
+        // If not : changelocationlevel to fra + fill epcis
+        if (this.level != "fra") {
+          appStore.commit("changeLocationLevel", "fra")
+          this.map.setLayoutProperty("epcis_fill", "visibility", "visible")
+        }
+      } 
+      if (this.zoomLevel >= 8 && this.zoomLevel < 11) {
+        if (this.level != "departement") {
+          appStore.commit("changeLocationLevel", "departement")
+          this.map.setLayoutProperty("epcis_fill", "visibility", "none")
+          this.map.setLayoutProperty("communes_fill", "visibility", "visible")
 
+          appStore.commit("changeLocationDep", this.mousePosition.dep.code)
+          appStore.commit("changeLocationLabelDep", this.mousePosition.dep.nom)
+          appStore.commit("changeLocationLevel", "departement")
+          this.displayCommunes(this.mousePosition.dep.code)
+        }
+        // check if actual level is departement.
+        // if not : changelocationlevel to departement + fill commune
+      } 
+      if (this.zoomLevel >= 11 && this.zoomLevel < 15) {
+        if (this.level != "commune") {
+          appStore.commit("changeLocationLevel", "commune")
+          this.map.setPaintProperty("departements_fill", "fill-opacity", 0)
+          this.map.setLayoutProperty("epcis_fill", "visibility", "none")
+          this.map.setLayoutProperty("communes_fill", "visibility", "none")
+          this.map.setLayoutProperty("sections_fill", "visibility", "visible")
+          appStore.commit("changeLocationCom", this.mousePosition.com.code)
+          appStore.commit("changeLocationLabelCom", this.mousePosition.com.nom)
+          appStore.commit("changeLocationLevel", "commune")
+          this.displaySections(this.mousePosition.com.code)
+        }
+        // check if actual level is commune.
+        // if not : changelocationlevel to commune + fill section
+      } 
+      if (this.zoomLevel >= 15) {
+        if (this.level != "section") {
+          appStore.commit("changeLocationLevel", "section")
+          this.map.setLayoutProperty("departements_fill", "visibility", "none")
+          this.map.setPaintProperty("departements_fill", "fill-opacity", 0)
+          this.map.setLayoutProperty("epcis_fill", "visibility", "none")
+          this.map.setLayoutProperty("communes_fill", "visibility", "none")
+          this.map.setLayoutProperty("sections_fill", "visibility", "none")
+          appStore.commit("changeLocationLevel", "section")
+        }
+        // check if actual level is parcelle.
+        // if not : changelocationlevel to parcelle
       }
     }
   }
