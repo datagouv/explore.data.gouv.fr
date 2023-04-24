@@ -81,6 +81,7 @@ export default {
     },
     moveTo(coord,zoom){
       console.log("move to",coord)
+      appStore.commit("changeSearchBarCoordinates", coord)
     }
   },
   watch: {
