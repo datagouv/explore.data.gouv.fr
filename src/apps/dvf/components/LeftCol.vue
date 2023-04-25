@@ -158,6 +158,13 @@ export default {
       .then((data) => {
        this.apiResult = data
        this.apiLevel = "nation"
+       if(this.$route.query.filtre){
+          if(this.$route.query.filtre != this.activeFilter){
+            this.updateActiveFilter(this.$route.query.filtre) 
+          }
+        }else{
+          this.updateActiveFilter("tous")
+        }
       });
   },
   methods: {
@@ -232,6 +239,11 @@ export default {
         this.clientData.localPrice=Math.round(levelData["moy_prix_m2_local_5ans"]).toLocaleString()+"€" 
         });
       
+    },
+
+    updateActiveFilter(f){
+      appStore.commit("updateActiveFilter",f)
+      this.$router.push({path: this.$route.path, query: { ...this.$route.query, filtre: f }}).catch(()=>{});
     }
   },
   watch: {

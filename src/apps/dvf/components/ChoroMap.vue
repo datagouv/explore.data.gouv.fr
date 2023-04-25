@@ -132,6 +132,7 @@ export default {
     })
     .then((data) => {
       this.dataChloropleth = data["data"]
+      this.actualPropertyPrix = this.mappingPropertiesPrix[this.activeFilter]
       let matchExpression = this.changeChloroplethColors('code_geo', this.actualPropertyPrix, 'code')
       // Create map
       this.map = markRaw(new Map({
@@ -661,13 +662,15 @@ export default {
   },
   watch: {
     activeFilter(){
-      let property_tile_code_geo = "code"
-      if (this.level === "commune"){
-        property_tile_code_geo = "id"
+      if(this.dataChloropleth){
+        let property_tile_code_geo = "code"
+        if (this.level === "commune"){
+          property_tile_code_geo = "id"
+        }
+        this.actualPropertyPrix = this.mappingPropertiesPrix[this.activeFilter]
+        let matchExpression = this.changeChloroplethColors('code_geo', this.actualPropertyPrix, property_tile_code_geo)
+        this.map.setPaintProperty(this.mappingPropertiesFillLayer[this.level], "fill-color", matchExpression)
       }
-      this.actualPropertyPrix = this.mappingPropertiesPrix[this.activeFilter]
-      let matchExpression = this.changeChloroplethColors('code_geo', this.actualPropertyPrix, property_tile_code_geo)
-      this.map.setPaintProperty(this.mappingPropertiesFillLayer[this.level], "fill-color", matchExpression)
     },
     searchBarCoordinates(){
       appStore.commit("changeZoomLevel",17)

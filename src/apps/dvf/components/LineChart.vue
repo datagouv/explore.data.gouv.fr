@@ -27,9 +27,6 @@ export default {
     activeFilter:function(){
       return appStore.state.activeFilter
     },
-    initialFilterChanged:function(){
-      return appStore.state.initialFilterChanged
-    },
   },
   mounted() {
     
@@ -50,7 +47,7 @@ export default {
         }else if(self.activeFilter == 'local'){
           var moyAllVentes = Math.round(d["moy_prix_m2_local"])
         }
-        if(!isNaN(moyAllVentes)){self.values.push(moyAllVentes)}
+        if(!isNaN(moyAllVentes)&&moyAllVentes!=0){self.values.push(moyAllVentes)}
       })
     },
     buildChart(){
@@ -182,7 +179,6 @@ export default {
       }
     },
     activeFilter(){
-      console.log(this.initialFilterChanged)
       this.updateValues()
     }
   }

@@ -75,23 +75,24 @@ export default {
       this.changeActivePanel("carte")
     }
 
-    if(this.$route.query.filtre){
+    /* if(this.$route.query.filtre){
       if(this.$route.query.filtre != this.activeFilter){
         this.updateActiveFilter(this.$route.query.filtre) 
       }
     }else{
       this.updateActiveFilter("tous")
-    }
+    } */
     
   },
   methods: {
     changeActivePanel(id){
       appStore.commit("changeActivePanel",id)
-      this.$router.push({path: this.$route.path, query: { ...this.$route.query, onglet: id }})
+      this.$router.push({path: this.$route.path, query: { ...this.$route.query, onglet: id }}).catch(()=>{});
     },
-    updateActiveFilter(f){
+    /* updateActiveFilter(f){
       appStore.commit("updateActiveFilter",f)
-    }
+      this.$router.push({path: this.$route.path, query: { ...this.$route.query, filtre: f }})
+    } */
   },
   watch: {
   }
