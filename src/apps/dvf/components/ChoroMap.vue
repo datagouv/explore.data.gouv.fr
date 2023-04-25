@@ -2,7 +2,7 @@
   <div class="choroMap">
     <search-bar></search-bar>
     <filters-box></filters-box>
-    <div ref="mapTooltip" class="map_tooltip" :style="{top:tooltip.top,left:tooltip.left,display:tooltip.display,visibility:tooltip.visibility}">
+    <div ref="mapTooltip" class="map_tooltip" v-show="tooltip.visibility=='visible'" :style="{top:tooltip.top,left:tooltip.left}">
       <div class="tooltip_body">
         {{ tooltip.place }}
         <div class="tooltip_place">{{tooltip.value}} €/m²</div>
@@ -50,7 +50,7 @@ export default {
         top: '0px',
         left: '0px',
         display: 'block',
-        visibility: 'visible',
+        visibility: '',
         value: 0,
         date: '',
         place: 'tttt'
@@ -422,6 +422,10 @@ export default {
           this.mousePosition.dep.nom = e.features[0]["properties"]["nom"]
         });
 
+        this.map.on('mouseleave', 'departements_fill', (e) => {
+          this.hideTooltip()
+        });
+
         this.map.on('mousemove', 'communes_fill2', (e) => {
           let comId = e.features[0]["properties"]["code"]
           let matchExpression = 0
@@ -619,20 +623,18 @@ export default {
     },
     displayTooltip (e) {
       if ((this.level == "commune") || (this.level == "section") || (this.commune == "parcelle")){
-        this.tooltip.display = 'none'
+        this.tooltip.visibility = 'none'
       } else {
-        this.tooltip.display = 'block'
+        this.tooltip.visibility = 'visible'
       }
       //const containerRect = e.target.getBoundingClientRect()
       let tooltipX = e.point.x + 350
       let tooltipY = e.point.y + 150
       this.tooltip.top = tooltipY + 'px'
       this.tooltip.left = tooltipX + 'px'
-      this.tooltip.visibility = 'visible'
     },
     hideTooltip () {
-      this.tooltip.visibility = 'hidden'
-      this.tooltip.display = 'none'
+      this.tooltip.visibility = 'none'
     },
     fetchTooltipData(level,code){
       var self = this
