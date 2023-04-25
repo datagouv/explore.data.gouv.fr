@@ -56,6 +56,7 @@ export default {
         place: 'tttt'
       },
       fetching:false,
+      fetchedCommunes:[],
       mappingPropertiesPrix: {
         "tous": "moy_prix_m2_appart_maison_5ans",
         "maison": "moy_prix_m2_maison_5ans",
@@ -635,7 +636,12 @@ export default {
     },
     fetchTooltipData(level,code){
       var self = this
-      if (level != "commune" && level != "section") {
+      if(level == "commune" && typeof self.fetchedCommunes[code.substring(0,2)] != 'undefined'){
+        var result = self.fetchedCommunes[code.substring(0,2)].find(obj => {
+          return obj.code_geo === code
+        })
+        self.tooltip.value = Math.round(result[this.actualPropertyPrix]).toLocaleString()
+      }else if(level != "section"){
         if(this.fetching === false){
           this.fetching = true
           var url
@@ -649,16 +655,18 @@ export default {
               return response.json()
           })
           .then((data) => {
+            if(level=="commune"){
+              self.fetchedCommunes[code.substring(0,2)]=data["data"]
+            }
             var result = data["data"].find(obj => {
               return obj.code_geo === code
             })
             self.tooltip.value = Math.round(result[this.actualPropertyPrix]).toLocaleString()
             self.fetching = false
           });
-
         }
       }
-    } 
+    }
   },
   watch: {
     activeFilter(){
