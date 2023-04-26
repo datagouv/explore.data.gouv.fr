@@ -13,6 +13,7 @@
           <div v-if="dep"><span>{{depLabel}} ({{dep}})</span></div>
           <div v-if="com"><span>{{comLabel}}</span></div>
           <div v-if="section"><span>section {{section}}</span></div>
+          <div v-if="parcelle"><span>parcelle {{parcelle}}</span></div>
         </div>
 
         <div class="location_container">
@@ -37,53 +38,97 @@
            <div><span class="location_label">{{section}}</span></div>
           </div>
 
+          <div v-if="level === 'parcelle'">
+           <div><span class="location_title">PARCELLE</span></div>
+           <div><span class="location_label">{{parcelle}}</span></div>
+          </div>
+
         </div>
 
       </div>
 
-      <div class="global_numbers_container">
-        <div class="global_number_wrapper">
-          <div class="global_number_title">Nombre total de ventes</div>
-          <div class="global_number_value">{{clientData["totalVentes"]}}</div>
+      <div class="stats_container" v-if="level != 'parcelle'">
+
+        <div class="global_numbers_container">
+          <div class="global_number_wrapper">
+            <div class="global_number_title">Nombre total de ventes</div>
+            <div class="global_number_value">{{clientData["totalVentes"]}}</div>
+          </div>
+          <div class="global_number_wrapper">
+            <div class="global_number_title">Prix de vente moyen au m²</div>
+            <div class="global_number_value">{{clientData["totalAverage"]}}</div>
+          </div>
         </div>
-        <div class="global_number_wrapper">
-          <div class="global_number_title">Prix de vente moyen au m²</div>
-          <div class="global_number_value">{{clientData["totalAverage"]}}</div>
+
+        <div class="tab_container">
+          <table>
+            <tr>
+              <th></th>
+              <th :class="activeFilter=='maison'||activeFilter=='local'?'hide':''">Appt.</th>
+              <th :class="activeFilter=='appartement'||activeFilter=='local'?'hide':''">Maisons</th>
+              <th :class="activeFilter!='local'?'hide':''">Locaux</th>
+            </tr>
+            <tr>
+              <th class='left'>Ventes :</th>
+              <td :class="activeFilter=='maison'||activeFilter=='local'?'hide':''">{{clientData["appVentes"]}}</td>
+              <td :class="activeFilter=='appartement'||activeFilter=='local'?'hide':''">{{clientData["houseVentes"]}}</td>
+              <td :class="activeFilter!='local'?'hide':''">{{clientData["localVentes"]}}</td>
+            </tr>
+            <tr>
+              <th class='left'>Prix moyen m² :</th>
+              <td :class="activeFilter=='maison'||activeFilter=='local'?'hide':''">{{clientData["appPrice"]}}</td>
+              <td :class="activeFilter=='appartement'||activeFilter=='local'?'hide':''">{{clientData["housePrice"]}}</td>
+              <td :class="activeFilter!='local'?'hide':''">{{clientData["localPrice"]}}</td>
+            </tr>
+          </table>
         </div>
+
+        <div class="chart_container">
+          <span class="chart_title">Evolution du prix de vente moyen au m²</span>
+          <line-chart></line-chart>
+        </div>
+
+        <div class="chart_container">
+          <span class="chart_title">Distribution du prix de vente au m²</span>
+          <bar-chart></bar-chart>
+        </div>
+
       </div>
 
-      <div class="tab_container">
-        <table>
-          <tr>
-            <th></th>
-            <th :class="activeFilter=='maison'||activeFilter=='local'?'hide':''">Appt.</th>
-            <th :class="activeFilter=='appartement'||activeFilter=='local'?'hide':''">Maisons</th>
-            <th :class="activeFilter!='local'?'hide':''">Locaux</th>
-          </tr>
-          <tr>
-            <th class='left'>Ventes :</th>
-            <td :class="activeFilter=='maison'||activeFilter=='local'?'hide':''">{{clientData["appVentes"]}}</td>
-            <td :class="activeFilter=='appartement'||activeFilter=='local'?'hide':''">{{clientData["houseVentes"]}}</td>
-            <td :class="activeFilter!='local'?'hide':''">{{clientData["localVentes"]}}</td>
-          </tr>
-          <tr>
-            <th class='left'>Prix moyen m² :</th>
-            <td :class="activeFilter=='maison'||activeFilter=='local'?'hide':''">{{clientData["appPrice"]}}</td>
-            <td :class="activeFilter=='appartement'||activeFilter=='local'?'hide':''">{{clientData["housePrice"]}}</td>
-            <td :class="activeFilter!='local'?'hide':''">{{clientData["localPrice"]}}</td>
-          </tr>
-        </table>
+      <div class="mutations_container" v-if="level === 'parcelle'">
+
+        <div class="mutation_box" v-for="p in parcellesMutations">
+          <div class="date">{{formatDate((p["date_mutation"]))}}</div>
+          <div class="content">
+
+            <span class="price">{{formatPrice(p["valeur_fonciere"])}}</span>
+
+            <div class="infos">
+              <span class="adresse">{{p["adresse_code_voie"]}} {{p["adresse_nom_voie"].toLowerCase()}}</span>
+
+              <span class="infos_item">
+                <span class="title">Surface</span>
+                <span class="value">{{formatSurface(p["surface_terrain"])}}</span>
+              </span>
+
+              <span class="infos_item">
+                <span class="title">Type</span>
+                <span class="value">{{p["nature_culture"]}}</span>
+              </span>
+
+              <span class="infos_item" v-if="typeof p['type_local'] == 'string'">
+                <span class="title">{{p["type_local"]}}</span>
+                <span class="value" v-if="typeof p['surface_reelle_bati'] == 'string'">{{formatSurface(p["surface_reelle_bati"])}}</span>
+              </span>              
+            
+              
+            </div>
+          </div>
+        </div>
+        
+
       </div>
 
-      <div class="chart_container">
-        <span class="chart_title">Evolution du prix de vente moyen au m²</span>
-        <line-chart></line-chart>
-      </div>
-
-      <div class="chart_container">
-        <span class="chart_title">Distribution du prix de vente au m²</span>
-        <bar-chart></bar-chart>
-      </div>
     </div>
 </template>
 
@@ -118,7 +163,8 @@ export default {
         moy_prix_m2_appartement:0,
         moy_prix_m2_local:0,
         moy_prix_m2_maison:0
-      }
+      },
+      parcellesMutations:null
     }
   },
   computed: {
@@ -200,12 +246,13 @@ export default {
       var url
       if(this.apiLevel=="commune"){
         url = "http://dvf.dataeng.etalab.studio/departement/"+this.dep+"/communes"
-      }else{
-        url = "http://dvf.dataeng.etalab.studio/" + this.apiLevel
+      }else if(this.apiLevel=="section"){
+        url= "http://dvf.dataeng.etalab.studio/commune/"+this.com+"/sections"
       }
-      
+      else{
+        url = "http://dvf.dataeng.etalab.studio/" + this.apiLevel
+      }      
       fetch(url)
-
       .then((response) => {
           return response.json()
       })
@@ -241,9 +288,39 @@ export default {
       
     },
 
+    fectchMutationsData(){
+      var self = this
+      var url="http://dvf.dataeng.etalab.studio/mutations/36044/000CO"
+      console.log("fetch mutation")
+      fetch(url)
+      .then((response) => {
+          return response.json()
+      })
+      .then((data) => {
+        console.log(data["data"])
+        self.parcellesMutations = data["data"]
+      })
+    },
+
     updateActiveFilter(f){
       appStore.commit("updateActiveFilter",f)
       this.$router.push({path: this.$route.path, query: { ...this.$route.query, filtre: f }}).catch(()=>{});
+    },
+
+    formatDate(date){
+      var d = new Date(date)
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      return d.toLocaleDateString("fr-Fr",options)
+    },
+
+    formatPrice(price){
+      var p = parseInt(price).toLocaleString()+" €"
+      return p
+    },
+
+    formatSurface(surface){
+      var s = parseInt(surface).toLocaleString()+" m²"
+      return s
     }
   },
   watch: {
@@ -251,6 +328,18 @@ export default {
       handler(value) {
         this.fetchHistoricalData(value)
       }
+    },
+    dep(){
+      this.fetchHistoricalData(this.level)
+    },
+    com(){
+      this.fetchHistoricalData(this.level)
+    },
+    section(){
+      this.fetchHistoricalData(this.level)
+    },
+    parcelle(){
+      this.fectchMutationsData(this.parcelle)
     },
     apiResult(){
       this.buildClientData()
@@ -406,7 +495,56 @@ export default {
   font-weight: 700;
 }
 
+.mutation_box{
+  width: 300px;
+  min-height:50px;
+  margin-bottom: 15px;
+}
 
+.mutation_box .date{
+  text-align: center;
+  font-size: 12px;
+}
+
+.mutation_box .content{
+  border:1px solid #eeeeee;
+  padding:20px;
+}
+
+.mutation_box .content .price{
+  font-size: 18px;
+  font-weight: 800;
+  display: block;
+  color: #161616;
+}
+
+.mutation_box .content .infos{
+  padding: 0 10px 0;
+}
+
+.mutation_box .content .adresse{
+  font-size: 12px;
+  color:#666666;
+  font-weight: 400;
+}
+
+.infos_item{
+  display: block;
+  padding-left: 20px;
+}
+
+.infos_item .title{
+  font-size: 12px;
+  font-weight: 400;
+  color:#161616;
+}
+
+.infos_item .value{
+  float:right;
+  font-size: 12px;
+  font-weight: 700;
+  color:#161616;
+}
 
 
 </style>
