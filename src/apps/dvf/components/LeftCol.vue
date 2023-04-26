@@ -498,7 +498,7 @@ export default {
 .mutation_box{
   width: 300px;
   min-height:50px;
-  margin-bottom: 15px;
+  margin:0 auto 15px;
 }
 
 .mutation_box .date{
