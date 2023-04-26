@@ -320,13 +320,13 @@ export default {
         this.map.on('click', 'parcelles_fill', (e) => {
           let parcelleId = e.features[0]["properties"]["id"]
           appStore.commit("changeLocationParcelle", parcelleId)
-          console.log(parcelleId)
+          appStore.commit("changeLocationLevel", "parcelle")
         });
 
         this.map.on('click', 'sections_fill', (e) => {
           let sectionId = e.features[0]["properties"]["id"]
           appStore.commit("changeLocationSection", sectionId)
-          //appStore.commit("changeLocationLevel", "section")
+          appStore.commit("changeLocationLevel", "section")
           if (this.map.getZoom() <= 12) {
             this.map.flyTo({
               center: [e.lngLat.lng, e.lngLat.lat],

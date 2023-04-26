@@ -1,7 +1,20 @@
 <template>
   <div id="filtersBox" :class="openFilters?'open':''">
     <div class="filtersHeader" @click="openFilters?openFilters=false:openFilters=true">
-      <span>Filtres</span>
+      <div>Type de bien
+        <span v-if="activeFilter=='tous'">
+          Appartements et maisons
+        </span>
+        <span v-if="activeFilter=='appartement'">
+          Appartements
+        </span>
+        <span v-if="activeFilter=='maison'">
+          Maisons
+        </span>
+        <span v-if="activeFilter=='local'">
+          Locaux
+        </span>
+    </div>
       <div class="filtersIcon">
         <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path fill-rule="evenodd" clip-rule="evenodd" d="M4.99999 3.78132L8.29999 0.481323L9.24266 1.42399L4.99999 5.66666L0.757324 1.42399L1.69999 0.481323L4.99999 3.78132Z" fill="#161616"/>
@@ -9,12 +22,11 @@
       </div>
     </div>
     <div class="filtersBody">
-      <span class="filtersTitle">TYPE DE BIEN</span>
       <div class="filter"
-        :class="activeFilter=='tous'?'selected':''" @click="updateActiveFilter('tous')"><div></div>Tous (appt. + maison)</div>
-      <div class="filter" :class="activeFilter=='appartement'?'selected':''"  @click="updateActiveFilter('appartement')"><div></div>Appartement</div>
-      <div class="filter" :class="activeFilter=='maison'?'selected':''"  @click="updateActiveFilter('maison')"><div></div>Maison</div>
-      <div class="filter" :class="activeFilter=='local'?'selected':''"  @click="updateActiveFilter('local')"><div></div>Local commercial</div>
+        :class="activeFilter=='tous'?'selected':''" @click="updateActiveFilter('tous')"><div></div>Appartements et maisons</div>
+      <div class="filter" :class="activeFilter=='appartement'?'selected':''"  @click="updateActiveFilter('appartement')"><div></div>Appartements</div>
+      <div class="filter" :class="activeFilter=='maison'?'selected':''"  @click="updateActiveFilter('maison')"><div></div>Maisons</div>
+      <div class="filter" :class="activeFilter=='local'?'selected':''"  @click="updateActiveFilter('local')"><div></div>Locaux commerciaux</div>
 
     </div>
   </div>
@@ -67,7 +79,7 @@ export default {
   }
 
   #filtersBox.open{
-    height: 208px;
+    height: 170px;
   }
 
   .filtersHeader{
@@ -79,13 +91,21 @@ export default {
     border-bottom: 1px solid #E5E5E5;
   }
 
-  .filtersHeader span{
+  .filtersHeader div{
     display: block;
     position: absolute;
     font-size: 14px;
     font-weight: 700;
     top:50%;
     transform:translate(0,-50%);
+  }
+
+  .filtersHeader div span{
+    color:#355BA2;
+    font-size: 12px;
+    display: inline-block;
+    transform:translate(3px,-1px);
+    
   }
 
   .filtersIcon{
