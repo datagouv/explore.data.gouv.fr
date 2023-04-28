@@ -55,6 +55,7 @@ export default {
         date: '',
         place: 'tttt'
       },
+      lastCodeHovered:'',
       fetching:false,
       fetchedCommunes:[],
       mappingPropertiesPrix: {
@@ -643,12 +644,15 @@ export default {
           return obj.code_geo === code
         })
         self.tooltip.value = Math.round(result[this.actualPropertyPrix]).toLocaleString()
-      }else if(level != "section"){
+      }else if(code != self.lastCodeHovered){
+        this.lastCodeHovered = code
         if(this.fetching === false){
           this.fetching = true
           var url
           if(level=="commune"){
             url = "http://dvf.dataeng.etalab.studio/departement/"+code.substring(0,2)+"/communes"
+          }else if(level=="section"){
+            console.log("tooltip section") // Ne passe jamais
           }else{
             url = "http://dvf.dataeng.etalab.studio/" + level
           }
