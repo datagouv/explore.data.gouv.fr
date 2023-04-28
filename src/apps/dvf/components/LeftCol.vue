@@ -330,16 +330,16 @@ export default {
       }
     },
     dep(){
-      this.fetchHistoricalData(this.level)
+      //this.fetchHistoricalData(this.level)
     },
     com(){
-      this.fetchHistoricalData(this.level)
+      //this.fetchHistoricalData(this.level)
     },
     section(){
-      this.fetchHistoricalData(this.level)
+      //this.fetchHistoricalData(this.level)
     },
     parcelle(){
-      this.fectchMutationsData(this.parcelle)
+      //this.fectchMutationsData(this.parcelle)
     },
     apiResult(){
       this.buildClientData()
