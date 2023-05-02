@@ -15,13 +15,22 @@ export default new Vuex.Store({
     apiData:null,
     apiLevel:null,
     apiCode:null,
-    location:{
+    userLocation:{
       level: 'fra',
       dep: null,
       com: null,
       section: null,
       parcelle: null
     },
+    mouseLocation:{
+      level: 'dep',
+      dep: null,
+      com: null,
+      section: null,
+      parcelle: null,
+    },
+    saveApiUrl: [],
+    saveApiResponse: {},
     locationLabels:{
       dep:null,
       com: null
@@ -31,6 +40,10 @@ export default new Vuex.Store({
     dvfCurrentSection: null,
   },
   mutations: {
+    addApiResult( state, data) {
+      state.saveApiUrl.push(data.url)
+      state.saveApiResponse[data.url] = data.data
+    },
     changeDvfCurrentSection( state, data) {
       state.dvfCurrentSection = data
     },
@@ -43,32 +56,11 @@ export default new Vuex.Store({
     changeZoomLevel (state, data){
       state.map.zoomLevel = data
     },
-    changeLocationLevel (state, data){
-      state.location.level = data
+    changeUserLocation (state, data) {
+      state.userLocation = data 
     },
-    changeLocationDep (state, data){
-      state.location.dep = data
-      state.location.com = null
-      state.location.section = null
-      state.location.parcelle = null
-    },
-    changeLocationCom (state, data){
-      state.location.com = data
-      state.location.section = null
-      state.location.parcelle = null
-    },
-    changeLocationSection (state, data){
-      state.location.section = data
-      state.location.parcelle = null
-    },
-    changeLocationParcelle (state, data){
-      state.location.parcelle = data
-    },
-    changeLocationLabelDep (state, data){
-      state.locationLabels.dep = data
-    },
-    changeLocationLabelCom (state, data){
-      state.locationLabels.com = data
+    changeMouseLocation (state, data) {
+      state.mouseLocation = data 
     },
     updateApiData (state, data){
       state.apiData = data
@@ -82,5 +74,5 @@ export default new Vuex.Store({
     updateActiveFilter(state,filter){
       state.activeFilter = filter
     }
-  }
+  },
 })
