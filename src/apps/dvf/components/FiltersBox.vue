@@ -1,5 +1,5 @@
 <template>
-  <div id="filtersBox" :class="openFilters?'open':''">
+  <div v-if="userLocation.level != 'section'" id="filtersBox" :class="openFilters?'open':''">
     <div class="filtersHeader" @click="openFilters?openFilters=false:openFilters=true">
       <div>Type de bien
         <span v-if="activeFilter=='tous'">
@@ -48,6 +48,9 @@ export default {
     activeFilter:function(){
       return appStore.state.activeFilter
     },
+    userLocation:function(){
+      return appStore.state.userLocation
+    }
   },
   mounted() {
     

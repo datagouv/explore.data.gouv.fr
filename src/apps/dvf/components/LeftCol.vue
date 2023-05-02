@@ -97,14 +97,23 @@
 
       <div class="mutations_container" v-if="level === 'parcelle'">
 
-        <div class="mutation_box" v-for="p in parcellesMutations">
-          <div class="date">{{formatDate((p["date_mutation"]))}}</div>
+        <div class="mutation_box" v-bind:key="p['id']" v-for="p in parcellesMutations">
+          <div class="date">{{ p["date"] }} - {{ p["nature_mutation"] }}</div>
           <div class="content">
-
+            <span class="price">{{ p["price"] }}</span>
+            <div class="infos">
+              <span class="adresse">{{p["adresse_numero"]}} {{p["adresse_nom_voie"].toLowerCase()}}</span>
+              <span v-for="item in p['assets']" class="infos_item">
+                <span class="title">{{ item["type"] }}</span>
+                <span class="value">{{ item["surface"] }}</span>
+              </span>
+            </div>
+            
+            <!-- 
             <span class="price">{{formatPrice(p["valeur_fonciere"])}}</span>
 
             <div class="infos">
-              <span class="adresse">{{p["adresse_code_voie"]}} {{p["adresse_nom_voie"].toLowerCase()}}</span>
+              <span class="adresse">{{p["adresse_numero"]}} {{p["adresse_nom_voie"].toLowerCase()}}</span>
 
               <span class="infos_item">
                 <span class="title">Surface</span>
@@ -120,7 +129,7 @@
                 <span class="title">{{p["type_local"]}}</span>
                 <span class="value" v-if="typeof p['surface_reelle_bati'] == 'string'">{{formatSurface(p["surface_reelle_bati"])}}</span>
               </span>              
-            
+             -->
               
             </div>
           </div>
@@ -168,23 +177,29 @@ export default {
     }
   },
   computed: {
+    saveApiUrl:function(){
+      return appStore.state.saveApiUrl
+    },
+    saveApiResponse:function(){
+      return appStore.state.saveApiResponse
+    },
     zoomLevel:function(){
       return appStore.state.map.zoomLevel
     },
     dep:function(){
-      return appStore.state.location.dep
+      return appStore.state.userLocation.dep
     },
     com:function(){
-      return appStore.state.location.com
+      return appStore.state.userLocation.com
     },
     section:function(){
-      return appStore.state.location.section
+      return appStore.state.userLocation.section
     },
     parcelle:function(){
-      return appStore.state.location.parcelle
+      return appStore.state.userLocation.parcelle
     },
     level:function(){
-      return appStore.state.location.level
+      return appStore.state.userLocation.level
     },
     depLabel:function(){
       return appStore.state.locationLabels.dep
@@ -194,14 +209,19 @@ export default {
     },
     activeFilter:function(){
       return appStore.state.activeFilter
+    },
+    userLocation:function(){
+      return appStore.state.userLocation
     }
   },
   mounted() {
-      fetch("http://dvf.dataeng.etalab.studio/nation/mois")
+      let url = "http://dvf.dataeng.etalab.studio/nation/mois"
+      fetch(url)
       .then((response) => {
           return response.json()
       })
       .then((data) => {
+       this.sendApiResultToStore(url, data)
        this.apiResult = data
        this.apiLevel = "nation"
        if(this.$route.query.filtre){
@@ -225,12 +245,14 @@ export default {
       if (level === "section"){
         code = this.section
       }
-      if (level != "fra") {
-        fetch("http://dvf.dataeng.etalab.studio/" + level + "/" + code)
+      if (level != "fra" && level != "parcelle") {
+        let url = "http://dvf.dataeng.etalab.studio/" + level + "/" + code
+        fetch(url)
         .then((response) => {
             return response.json()
         })
         .then((data) => {
+        this.sendApiResultToStore(url, data)
         this.apiResult = data
         this.apiLevel = level
         this.apiCode = code
@@ -251,12 +273,22 @@ export default {
       }
       else{
         url = "http://dvf.dataeng.etalab.studio/" + this.apiLevel
-      }      
-      fetch(url)
-      .then((response) => {
-          return response.json()
-      })
-      .then((data) => {
+      }
+      if (this.saveApiUrl.includes(url)) {
+          this.manageClientData(this.saveApiResponse[url])
+      } else {
+        fetch(url)
+        .then((response) => {
+            return response.json()
+        })
+        .then((data) => {
+          this.sendApiResultToStore(url, data)
+          this.manageClientData(data)
+          });
+      }
+    },
+
+    manageClientData(data){
         var levelData
         if(this.apiLevel == 'nation'){
           levelData = data["data"][0]
@@ -284,21 +316,79 @@ export default {
         this.clientData.housePrice=Math.round(levelData["moy_prix_m2_maison_5ans"]).toLocaleString()+"€"
         this.clientData.localVentes=levelData["nb_mutations_local_5ans"].toLocaleString()
         this.clientData.localPrice=Math.round(levelData["moy_prix_m2_local_5ans"]).toLocaleString()+"€" 
-        });
-      
     },
 
-    fectchMutationsData(){
+    fetchMutationsData(){
       var self = this
-      var url="http://dvf.dataeng.etalab.studio/mutations/36044/000CO"
-      console.log("fetch mutation")
+      var url="http://dvf.dataeng.etalab.studio/mutations/" + this.userLocation.parcelle.substring(0,5) + "/" + this.userLocation.parcelle.substring(5,10)
       fetch(url)
       .then((response) => {
           return response.json()
       })
       .then((data) => {
-        console.log(data["data"])
-        self.parcellesMutations = data["data"]
+        let mutationsId = []
+        let mutationsObj = {}
+        self.parcellesMutations = []
+        data["data"].forEach(obj => {
+          if (obj.id_parcelle == this.userLocation.parcelle) {
+            if (!mutationsId.includes(obj.id_mutation)){ 
+              mutationsId.push(obj.id_mutation)
+              mutationsObj[obj.id_mutation] = {}
+              mutationsObj[obj.id_mutation]["id"] = obj.id_mutation
+              mutationsObj[obj.id_mutation]["nature_mutation"] = obj.nature_mutation
+              mutationsObj[obj.id_mutation]["adresse_nom_voie"] = obj.adresse_nom_voie
+              mutationsObj[obj.id_mutation]["adresse_numero"] = obj.adresse_numero
+              mutationsObj[obj.id_mutation]["date"] = this.formatDate(obj.date_mutation)
+              mutationsObj[obj.id_mutation]["price"] = this.formatPrice(obj.valeur_fonciere)
+              mutationsObj[obj.id_mutation]["assets"] = []
+            }
+            if(obj.type_local) {
+              let asset = {}
+              let complement_type = ""
+              if (obj.nombre_pieces_principales){
+                complement_type = " / " + obj.nombre_pieces_principales + "p"
+              }
+              asset["type"] = obj.type_local + complement_type
+              asset["surface"] = this.formatSurface(obj.surface_reelle_bati)
+              mutationsObj[obj.id_mutation]["assets"].push(asset)
+            }
+            if(obj.nature_culture) {
+              let asset = {}
+              asset["type"] = obj.nature_culture
+              asset["surface"] = this.formatSurface(obj.surface_terrain)
+              mutationsObj[obj.id_mutation]["assets"].push(asset)
+            }
+            mutationsObj[obj.id_mutation]["assets"] = mutationsObj[obj.id_mutation]["assets"].reduce((unique, o) => {
+                if(!unique.some(subobj => subobj.type === o.type && subobj.surface === o.surface)) {
+                  unique.push(o);
+                }
+                return unique;
+            },[]);
+            let sorter = (a, b) => {
+              if(a.type.includes("Appartement")){
+                  return -1;
+              };
+              if(b.type.includes("Appartement")){
+                  return 1;
+              };
+              return a.name < b.name ? -1 : 1;
+            };
+            mutationsObj[obj.id_mutation]["assets"].sort(sorter)
+            sorter = (a, b) => {
+              if(a.type.includes("Maison")){
+                  return -1;
+              };
+              if(b.type.includes("Maison")){
+                  return 1;
+              };
+              return a.name < b.name ? -1 : 1;
+            };
+            mutationsObj[obj.id_mutation]["assets"].sort(sorter)
+            self.parcellesMutations = mutationsObj
+            //console.log(obj)
+          }
+        });
+        //console.log(mutationsObj)
       })
     },
 
@@ -314,14 +404,29 @@ export default {
     },
 
     formatPrice(price){
-      var p = parseInt(price).toLocaleString()+" €"
-      return p
+      if (price) {
+        var p = parseInt(price).toLocaleString()+" €"
+        return p
+      } else {
+        return "Non renseigné"
+      }
     },
 
     formatSurface(surface){
-      var s = parseInt(surface).toLocaleString()+" m²"
-      return s
-    }
+      if(surface) {
+        var s = parseInt(surface).toLocaleString()+" m²"
+        return s
+      } else {
+        return null
+      }
+    },
+
+    sendApiResultToStore(url, data){
+      let obj = {}
+      obj.url = url
+      obj.data = data
+      appStore.commit("addApiResult", obj)
+    },
   },
   watch: {
     level: {
@@ -339,7 +444,7 @@ export default {
       //this.fetchHistoricalData(this.level)
     },
     parcelle(){
-      //this.fectchMutationsData(this.parcelle)
+      this.fetchMutationsData(this.parcelle)
     },
     apiResult(){
       this.buildClientData()
