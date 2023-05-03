@@ -9,7 +9,7 @@
       </div>
     </div>
     <div class="map_container" ref="mapContainer"></div>
-    <div class="leg_container">
+    <div class="leg_container" v-if="userLocation.level != 'section' && userLocation.level != 'parcelle'">
       <div class="color_blocks">
         <span class="leg_title">Prix au m²</span>
         <span class="leg_borne min">< {{legMin}} €</span>
@@ -110,16 +110,16 @@ export default {
       return appStore.state.userLocation
     },
     lng:function(){
-      return appStore.state.map.lng
+      return appStore.state.mapProperties.lng
     },
     lat:function(){
-      return appStore.state.map.lat
+      return appStore.state.mapProperties.lat
     },
     zoom:function(){
-      return appStore.state.map.zoom
+      return appStore.state.mapProperties.zoom
     },
     zoomLevel:function(){
-      return appStore.state.map.zoomLevel
+      return appStore.state.mapProperties.zoomLevel
     },
     dep:function(){
       return appStore.state.userLocation.dep
@@ -145,6 +145,21 @@ export default {
 
   },
   mounted() {
+
+
+    appStore.commit("changeZoomLevel", 4.8)
+    appStore.commit("changeMapLng", 2)
+    appStore.commit("changeMapLat", 46.3)
+    this.changeLocation("changeUserLocation", "fra", null, null)
+    
+    console.log("ijijjjnnnnn,,,,,,")
+    let obj = {}
+    for (const [key, value] of Object.entries(this.$route.query)) {
+      if (!key.includes("__")){
+        obj[key] = value
+      }
+    }
+    this.$router.push({path: this.$route.path, query: obj})
     // Au load de la page, on récupère les stats au niveau EPCI pour l'affichage carte
     let url = 'http://dvf.dataeng.etalab.studio/epci'
     fetch(url)
@@ -155,6 +170,7 @@ export default {
       this.sendApiResultToStore(url, data)
       this.dataChloropleth["fra"] = data["data"]
       this.actualPropertyPrix = this.mappingPropertiesPrix[this.activeFilter]
+      console.log("jiniin")
       let matchExpression = this.changeChloroplethColors('code_geo', this.actualPropertyPrix, 'code')
       // Create map
       this.map = markRaw(new Map({
@@ -322,7 +338,7 @@ export default {
 
         this.map.on('click', 'parcelles_fill', (e) => {
           let parcelleId = e.features[0]["properties"]["id"]
-          this.changeLocation("changeUserLocation", "parcelle", parcelleId)
+          this.changeLocation("changeUserLocation", "parcelle", parcelleId, parcelleId)
 
 
           let matchExpression = ['match', ['get', 'id']]
@@ -444,6 +460,7 @@ export default {
         // when user move on layer departement
         this.map.on('mousemove', 'departements_fill', (e) => {
           let depId = e.features[0]["properties"]["code"]
+          let depName = e.features[0]["properties"]["nom"]
           // if it is not the actual displaying departement or 
           // the actual mouseover departement (if there is a change)
           if(this.userLocation.dep != depId && this.mouseLocation.dep != depId) {
@@ -461,7 +478,7 @@ export default {
             this.displayTooltip(e)
             this.mousePosition.dep.code = depId
             this.mousePosition.dep.nom = e.features[0]["properties"]["nom"]
-            this.changeLocation("changeMouseLocation", "departement", depId)
+            this.changeLocation("changeMouseLocation", "departement", depId, depName)
           } 
         });
 
@@ -497,6 +514,7 @@ export default {
         // when user in commune layer
         this.map.on('mousemove', 'communes_fill', (e) => {
           let comId = e.features[0]["properties"]["code"]
+          let comName = e.features[0]["properties"]["nom"]
           // if we are on level departement, we display
           // tooltips commune
           if (this.userLocation.level == "departement"){         
@@ -512,7 +530,7 @@ export default {
               this.mousePosition.com.code = comId
               this.mousePosition.com.nom = e.features[0]["properties"]["nom"]
               this.displayTooltip(e)
-              this.changeLocation("changeMouseLocation", "commune", comId)
+              this.changeLocation("changeMouseLocation", "commune", comId, comName)
               // we are on the actual displaying departement, so no need to light grey dep
               this.map.setPaintProperty("departements_fill", "fill-opacity", 0)
             } else {
@@ -534,12 +552,17 @@ export default {
               this.tooltip.value = null
               this.tooltip.place = "Changer de commune"
           }
-          this.changeLocation("changeMouseLocation", "section", sectionId)
+          this.changeLocation("changeMouseLocation", "section", sectionId, sectionId)
         });
       });
 
       this.map.on('zoom', (m) => {
         appStore.commit("changeZoomLevel",this.map.getZoom())
+      });
+
+      this.map.on('mousemove', (e) => {
+        appStore.commit("changeMapLat", e.lngLat.wrap().lat)
+        appStore.commit("changeMapLng", e.lngLat.wrap().lng)
       });
 
       this.map.on('click', 'sections_fill', (e) => {
@@ -555,12 +578,54 @@ export default {
           if (this.map.getZoom() <= 15) {
             this.map.flyTo({
               center: [e.lngLat.lng, e.lngLat.lat],
-              zoom: 15,
+              zoom: 17,
             });           
             //this.changeLocation("changeUserLocation", "section", sectionId)
           }
         }
       });
+
+      this.map.on('load', (e) => {
+        
+
+        if(this.$route.query.level && this.$route.query.code){
+          setTimeout((e) => {
+            // console.log("loaded")
+            // console.log(this.$route.query.code)
+            // console.log(CenterDeps["29"])
+            // this.userLocation.dep = this.$route.query.code
+            // //this.userLocation.depName = CenterDeps[this.$route.query.code]["nom"]
+            // this.changeLocation("changeUserLocation", "departement", this.userLocation.dep, this.userLocation.depName)    
+            // this.map.flyTo({
+            //   center: CenterDeps[this.$route.query.code]["coordinates"],
+            //   zoom: 8,
+            // });
+            if (this.$route.query.level == "departement") {
+              this.mousePosition.dep.code = this.$route.query.code
+              this.mousePosition.dep.nom = CenterDeps[this.$route.query.code]["nom"]
+              this.changeDep = true
+              this.map.flyTo({
+                center: CenterDeps[this.$route.query.code]["coordinates"],
+                zoom: 9,
+              });
+            } else {
+              console.log("toto")
+              fetch('https://geo.api.gouv.fr/communes?code=' + this.$route.query.code.substring(0,5) + '&fields=centre')
+              .then((response) => {
+                  return response.json()
+              })
+              .then((data) => {
+                this.mousePosition.com.code = this.$route.query.code.substring(0,5)
+                this.mousePosition.com.nom = data[0]["nom"]
+                this.map.flyTo({
+                  center: data[0]["centre"]["coordinates"],
+                  zoom: 12,
+                });
+              });
+                    }
+          }, 500);
+        }
+      })
 
       // this.map.on('click', (e) => {
       //   // Set `bbox` as 5px reactangle area around clicked point.
@@ -580,46 +645,77 @@ export default {
       //   );
       //   console.log(fips)
       // });
-
     })
   },
   methods: {
-    changeLocation(commitFunction, level, code){
+    changeLocation(commitFunction, level, code, name){
       let obj = {}
       if (level == "fra") {
         obj.level = "fra"
         obj.dep = null
+        obj.depName = null
         obj.com = null
+        obj.comName = null
         obj.section = null
+        obj.sectionName = null
         obj.parcelle = null
+        obj.parcelleName = null
       }
       if (level == "departement") {
         obj.level = "departement"
         obj.dep = code
+        obj.depName = name
         obj.com = null
+        obj.comName = null
         obj.section = null
+        obj.sectionName = null
         obj.parcelle = null
+        obj.parcelleName = null
       }
       if (level == "commune") {
         obj.level = "commune"
         obj.dep = code.substring(0,2)
+        obj.depName = CenterDeps[code.substring(0,2)]["nom"]
         obj.com = code
+        obj.comName = name
         obj.section = null
+        obj.sectionName = null
         obj.parcelle = null
+        obj.parcelleName = null
       }
       if (level == "section") {
         obj.level = "section"
         obj.dep = code.substring(0,2)
+        obj.depName = CenterDeps[code.substring(0,2)]["nom"]
         obj.com = code.substring(0,5)
+        obj.comName = this.userLocation.comName
         obj.section = code
+        obj.sectionName = name.slice(5)
+        while(obj.sectionName.charAt(0) === '0')
+        {
+          obj.sectionName = obj.sectionName.substring(1);
+        }
         obj.parcelle = null
+        obj.parcelleName = null
       }
       if (level == "parcelle") {
         obj.level = "parcelle"
         obj.dep = code.substring(0,2)
+        obj.depName = CenterDeps[code.substring(0,2)]["nom"]
         obj.com = code.substring(0,5)
+        obj.comName = this.userLocation.comName
         obj.section = code.substring(0,10)
+        obj.sectionName = code.substring(5,10)
+        while(obj.sectionName.charAt(0) === '0')
+        {
+          obj.sectionName = obj.sectionName.substring(1);
+        }
         obj.parcelle = code
+        obj.parcelleName = name.slice(10)
+        while(obj.parcelleName.charAt(0) === '0')
+        {
+          obj.parcelleName = obj.parcelleName.substring(1);
+        }
       }
       appStore.commit(commitFunction, obj)
     },
@@ -629,7 +725,9 @@ export default {
       obj.data = data
       appStore.commit("addApiResult", obj)
     },
-    changeChloroplethColors(property_code_geo, property_value, property_tile_code_geo){      
+    changeChloroplethColors(property_code_geo, property_value, property_tile_code_geo){    
+      console.log(property_code_geo, property_value, property_tile_code_geo)
+      console.log(this.userLocation) 
       let list_obj = []
       let dataObj = []
       this.dataChloropleth[this.userLocation.level].forEach((d) =>{
@@ -813,9 +911,16 @@ export default {
         }
         this.actualPropertyPrix = this.mappingPropertiesPrix[this.activeFilter]
         let matchExpression = this.changeChloroplethColors('code_geo', this.actualPropertyPrix, property_tile_code_geo)
-        this.map.setPaintProperty(this.mappingPropertiesFillLayer[this.level], "fill-color", matchExpression)
+        let exp = null
+        if (matchExpression.length == 3) {
+          exp = matchExpression[2]
+        } else {
+          exp = matchExpression
+        }
+        console.log(this.actualPropertyPrix)
+        this.map.setPaintProperty(this.mappingPropertiesFillLayer[this.userLocation.level], "fill-color", exp)
       }
-    }
+    },
   },
   watch: {
     activeFilter(){
@@ -833,16 +938,19 @@ export default {
         if (this.level != "fra") {
           this.map.setLayoutProperty("epcis_fill", "visibility", "visible")
           this.map.setLayoutProperty("departements_fill", "visibility", "visible")
-          this.changeLocation("changeUserLocation", "fra", null)    
-          this.changeLocation("changeMouseLocation", "fra", null) 
+          this.changeLocation("changeUserLocation", "fra", null, "France")    
+          this.changeLocation("changeMouseLocation", "fra", null, "France") 
           this.manageChloroplethColors()
         }
       } 
       if (this.zoomLevel >= 8 && this.zoomLevel < 11) {
         if (this.level != "departement" || this.changeDep) {
+          console.log("toto")
+          console.log("youhou")
           this.map.setLayoutProperty("epcis_fill", "visibility", "none")
           this.map.setLayoutProperty("communes_fill", "visibility", "visible")
-          this.changeLocation("changeUserLocation", "departement", this.mousePosition.dep.code)
+          console.log(this.mousePosition.dep)
+          this.changeLocation("changeUserLocation", "departement", this.mousePosition.dep.code, this.mousePosition.dep.nom)
           this.displayCommunes(this.mousePosition.dep.code)
           this.changeDep = false
           this.manageChloroplethColors()
@@ -855,7 +963,7 @@ export default {
           this.map.setLayoutProperty("epcis_fill", "visibility", "none")
           this.map.setLayoutProperty("sections_fill", "visibility", "visible")
           this.displaySections(this.mousePosition.com.code)
-          this.changeLocation("changeUserLocation", "commune", this.mousePosition.com.code)
+          this.changeLocation("changeUserLocation", "commune", this.mousePosition.com.code, this.mousePosition.com.nom)
           this.manageChloroplethColors()
           this.changeCom = false
         }
@@ -864,7 +972,7 @@ export default {
         if (this.level != "section") {          
           this.map.setLayoutProperty("departements_fill", "visibility", "none")
           this.map.setLayoutProperty("epcis_fill", "visibility", "none")
-          this.changeLocation("changeUserLocation", "section", this.mousePosition.section.code)
+          this.changeLocation("changeUserLocation", "section", this.mousePosition.section.code, this.mousePosition.section.nom)
         }
       }
     }

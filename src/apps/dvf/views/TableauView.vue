@@ -23,6 +23,7 @@
 <script>
 
 import appStore from '@/apps/dvf/store'
+import exploreStore from '@/store.js'
 import Table from '../../../components/Table.vue'
 
 export default {
@@ -51,6 +52,34 @@ export default {
     })
     .then((data) => {
       this.resources = data["resources"]
+      if (this.$route.query.code) {
+        this.resources.forEach((item) =>{
+          if (item["title"].includes(this.$route.query.code.substring(0,2))){
+            this.selectedResource = item["id"]
+            if (this.$route.query.level == "commune"){
+              let code = this.$route.query.code
+              while(code.charAt(0) === '0')
+              {
+                code = code.substring(1);
+              }
+              this.$router.push({path: this.$route.path, query: { ...this.$route.query, code_commune__exact: code }})
+            }
+            if (this.$route.query.level == "section" || this.$route.query.level == "parcelle"){
+              let code = this.$route.query.code
+              this.$router.push({path: this.$route.path, query: { ...this.$route.query, id_parcelle__contains: code }})
+            }
+            if (this.$route.query.filtre && this.$route.query.filtre != "tous"){
+              this.$router.push({path: this.$route.path, query: { ...this.$route.query, type_local__contains: this.$route.query.filtre }})
+            }
+            this.redirectToResource()
+          }
+        })
+      } else {
+        if (this.$route.query.filtre && this.$route.query.filtre != "tous"){
+          this.$router.push({path: this.$route.path, query: { ...this.$route.query, type_local__contains: this.$route.query.filtre }})
+        }
+        this.redirectToResource()
+      }
     })
   },
   methods: {
@@ -59,17 +88,23 @@ export default {
       this.$store.dispatch('apify', this.csvUrl).finally(() => {
       })
       this.resource.id = this.selectedResource
+      console.log(this.$route.query)
+      this.coucou(this.$route.query)
+      this.setFiltersFromQueryString(this.$route.query)
+    },
+    coucou(params){
+      console.log(params)
     },
     setFiltersFromQueryString (params) {
-      [...params.entries()].filter(([k, v]) => {
-        return k.indexOf('__') !== -1 && k.indexOf('_') !== 0
-      }).forEach(([k, v]) => {
-        this.$store.commit('addFilter', {
-          field: k.split('__')[0],
-          value: v,
-          comp: k.split('__')[1],
-        })
-      })
+      for (const [key, value] of Object.entries(params)) {
+        if (key.includes("__")){
+          this.$store.commit('addFilter', {
+            field: key.split('__')[0],
+            value: value,
+            comp: key.split('__')[1],
+          })
+        }
+      }
     },
     changePage (page) {
       this.$store.dispatch('changePage')

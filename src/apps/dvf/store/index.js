@@ -6,7 +6,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     activePanel:"carte",
-    map:{
+    mapProperties:{
       lng:2,
       lat:46.3,
       zoom:null,
@@ -18,16 +18,24 @@ export default new Vuex.Store({
     userLocation:{
       level: 'fra',
       dep: null,
+      depName: null,
       com: null,
+      comName: null,
       section: null,
-      parcelle: null
+      sectionName: null,
+      parcelle: null,
+      parcelleName: null,
     },
     mouseLocation:{
       level: 'dep',
       dep: null,
+      depName: null,
       com: null,
+      comName: null,
       section: null,
+      sectionName: null,
       parcelle: null,
+      parcelleName: null,
     },
     saveApiUrl: [],
     saveApiResponse: {},
@@ -54,7 +62,13 @@ export default new Vuex.Store({
       state.activePanel = data
     },
     changeZoomLevel (state, data){
-      state.map.zoomLevel = data
+      state.mapProperties.zoomLevel = data
+    },
+    changeMapLat (state, data){
+      state.mapProperties.lat = data
+    },
+    changeMapLng (state, data){
+      state.mapProperties.lng = data
     },
     changeUserLocation (state, data) {
       state.userLocation = data 
