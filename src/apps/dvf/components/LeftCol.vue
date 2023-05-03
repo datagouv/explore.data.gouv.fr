@@ -10,10 +10,10 @@
 
         <div class="ariane_container">
           <div><span>France</span></div>
-          <div v-if="dep"><span>{{depLabel}} ({{dep}})</span></div>
-          <div v-if="com"><span>{{comLabel}}</span></div>
-          <div v-if="section"><span>section {{section}}</span></div>
-          <div v-if="parcelle"><span>parcelle {{parcelle}}</span></div>
+          <div v-if="userLocation.depName"><span>{{ userLocation.depName}} ({{ userLocation.dep }})</span></div>
+          <div v-if="userLocation.comName"><span>{{ userLocation.comName }} ({{ userLocation.com }})</span></div>
+          <div v-if="userLocation.sectionName"><span>Section {{ userLocation.sectionName }}</span></div>
+          <div v-if="userLocation.parcelleName"><span>Parcelle {{ userLocation.parcelleName }}</span></div>
         </div>
 
         <div class="location_container">
@@ -25,22 +25,22 @@
 
           <div v-if="level === 'departement'">
            <div><span class="location_title">DÉPARTEMENT</span></div>
-           <div><span class="location_label">{{depLabel}} ({{dep}})</span></div>
+           <div><span class="location_label">{{ userLocation.depName }} ({{ userLocation.dep }})</span></div>
           </div>
 
           <div v-if="level === 'commune'">
            <div><span class="location_title">COMMUNE</span></div>
-           <div><span class="location_label">{{comLabel}}</span></div>
+           <div><span class="location_label">{{ userLocation.comName }} ({{ userLocation.com }})</span></div>
           </div>
 
           <div v-if="level === 'section'">
-           <div><span class="location_title">SECTION</span></div>
-           <div><span class="location_label">{{section}}</span></div>
+           <div><span class="location_title">SECTION CADASTRALE</span></div>
+           <div><span class="location_label">{{ userLocation.section }}</span></div>
           </div>
 
           <div v-if="level === 'parcelle'">
-           <div><span class="location_title">PARCELLE</span></div>
-           <div><span class="location_label">{{parcelle}}</span></div>
+           <div><span class="location_title">PARCELLE CADASTRALE</span></div>
+           <div><span class="location_label">{{ userLocation.parcelle }}</span></div>
           </div>
 
         </div>
@@ -235,28 +235,44 @@ export default {
   },
   methods: {
     fetchHistoricalData(level){
-      let code = null
-      if (level === "departement"){
-        code = this.dep
-      }
-      if (level === "commune"){
-        code = this.com
-      }
-      if (level === "section"){
-        code = this.section
-      }
-      if (level != "fra" && level != "parcelle") {
-        let url = "http://dvf.dataeng.etalab.studio/" + level + "/" + code
-        fetch(url)
-        .then((response) => {
-            return response.json()
-        })
-        .then((data) => {
-        this.sendApiResultToStore(url, data)
-        this.apiResult = data
-        this.apiLevel = level
-        this.apiCode = code
-        });
+      if (level != "parcelle"){
+        let url = null
+        let code = null
+        let data = null
+        if (level == "fra"){
+          code = "nation"
+          url = "http://dvf.dataeng.etalab.studio/nation/mois"
+        }
+        if (level === "departement"){
+          code = this.dep
+          url = "http://dvf.dataeng.etalab.studio/departement/" + code
+        }
+        if (level === "commune"){
+          code = this.com
+          url = "http://dvf.dataeng.etalab.studio/commune/" + code
+        }
+        if (level === "section"){
+          code = this.section
+          url = "http://dvf.dataeng.etalab.studio/section/" + code
+        }
+        if (this.saveApiUrl.includes(url)){
+          data = this.saveApiResponse[url] 
+          this.sendApiResultToStore(url, data["data"])
+          this.apiResult = data
+          this.apiLevel = level
+          this.apiCode = code
+        } else {
+          fetch(url)
+          .then((response) => {
+              return response.json()
+          })
+          .then((data) => {
+            this.sendApiResultToStore(url, data)
+            this.apiResult = data
+            this.apiLevel = level
+            this.apiCode = code
+          });
+        }
       }
     },
     storeApiData(){
@@ -268,8 +284,10 @@ export default {
       var url
       if(this.apiLevel=="commune"){
         url = "http://dvf.dataeng.etalab.studio/departement/"+this.dep+"/communes"
-      }else if(this.apiLevel=="section"){
+      } else if(this.apiLevel=="section"){
         url= "http://dvf.dataeng.etalab.studio/commune/"+this.com+"/sections"
+      } else if(this.apiLevel=="fra"){
+         url = "http://dvf.dataeng.etalab.studio/nation"
       }
       else{
         url = "http://dvf.dataeng.etalab.studio/" + this.apiLevel
@@ -297,6 +315,7 @@ export default {
             return obj.code_geo === this.apiCode
           })
         }
+        console.log(levelData)
         if(this.activeFilter === 'tous'){
           this.clientData.totalVentes=(levelData["nb_mutations_appartement_5ans"]+levelData["nb_mutations_maison_5ans"]).toLocaleString()
           this.clientData.totalAverage=Math.round(levelData["moy_prix_m2_appart_maison_5ans"]).toLocaleString()+"€"
@@ -317,79 +336,89 @@ export default {
         this.clientData.localVentes=levelData["nb_mutations_local_5ans"].toLocaleString()
         this.clientData.localPrice=Math.round(levelData["moy_prix_m2_local_5ans"]).toLocaleString()+"€" 
     },
-
-    fetchMutationsData(){
-      var self = this
-      var url="http://dvf.dataeng.etalab.studio/mutations/" + this.userLocation.parcelle.substring(0,5) + "/" + this.userLocation.parcelle.substring(5,10)
-      fetch(url)
-      .then((response) => {
-          return response.json()
-      })
-      .then((data) => {
-        let mutationsId = []
-        let mutationsObj = {}
-        self.parcellesMutations = []
-        data["data"].forEach(obj => {
-          if (obj.id_parcelle == this.userLocation.parcelle) {
-            if (!mutationsId.includes(obj.id_mutation)){ 
-              mutationsId.push(obj.id_mutation)
-              mutationsObj[obj.id_mutation] = {}
-              mutationsObj[obj.id_mutation]["id"] = obj.id_mutation
-              mutationsObj[obj.id_mutation]["nature_mutation"] = obj.nature_mutation
-              mutationsObj[obj.id_mutation]["adresse_nom_voie"] = obj.adresse_nom_voie
-              mutationsObj[obj.id_mutation]["adresse_numero"] = obj.adresse_numero
-              mutationsObj[obj.id_mutation]["date"] = this.formatDate(obj.date_mutation)
-              mutationsObj[obj.id_mutation]["price"] = this.formatPrice(obj.valeur_fonciere)
-              mutationsObj[obj.id_mutation]["assets"] = []
+    manageMutationsData(data){
+      let mutationsId = []
+      let mutationsObj = {}
+      this.parcellesMutations = []
+      data["data"].forEach(obj => {
+        if (obj.id_parcelle == this.userLocation.parcelle) {
+          if (!mutationsId.includes(obj.id_mutation)){ 
+            mutationsId.push(obj.id_mutation)
+            mutationsObj[obj.id_mutation] = {}
+            mutationsObj[obj.id_mutation]["id"] = obj.id_mutation
+            mutationsObj[obj.id_mutation]["nature_mutation"] = obj.nature_mutation
+            mutationsObj[obj.id_mutation]["adresse_nom_voie"] = obj.adresse_nom_voie
+            mutationsObj[obj.id_mutation]["adresse_numero"] = obj.adresse_numero
+            mutationsObj[obj.id_mutation]["date"] = this.formatDate(obj.date_mutation)
+            mutationsObj[obj.id_mutation]["price"] = this.formatPrice(obj.valeur_fonciere)
+            mutationsObj[obj.id_mutation]["assets"] = []
+          }
+          if(obj.type_local) {
+            let asset = {}
+            let complement_type = ""
+            if (obj.nombre_pieces_principales){
+              complement_type = " / " + obj.nombre_pieces_principales + "p"
             }
-            if(obj.type_local) {
-              let asset = {}
-              let complement_type = ""
-              if (obj.nombre_pieces_principales){
-                complement_type = " / " + obj.nombre_pieces_principales + "p"
+            asset["type"] = obj.type_local + complement_type
+            asset["surface"] = this.formatSurface(obj.surface_reelle_bati)
+            mutationsObj[obj.id_mutation]["assets"].push(asset)
+          }
+          if(obj.nature_culture) {
+            let asset = {}
+            asset["type"] = obj.nature_culture
+            asset["surface"] = this.formatSurface(obj.surface_terrain)
+            mutationsObj[obj.id_mutation]["assets"].push(asset)
+          }
+          mutationsObj[obj.id_mutation]["assets"] = mutationsObj[obj.id_mutation]["assets"].reduce((unique, o) => {
+              if(!unique.some(subobj => subobj.type === o.type && subobj.surface === o.surface)) {
+                unique.push(o);
               }
-              asset["type"] = obj.type_local + complement_type
-              asset["surface"] = this.formatSurface(obj.surface_reelle_bati)
-              mutationsObj[obj.id_mutation]["assets"].push(asset)
-            }
-            if(obj.nature_culture) {
-              let asset = {}
-              asset["type"] = obj.nature_culture
-              asset["surface"] = this.formatSurface(obj.surface_terrain)
-              mutationsObj[obj.id_mutation]["assets"].push(asset)
-            }
-            mutationsObj[obj.id_mutation]["assets"] = mutationsObj[obj.id_mutation]["assets"].reduce((unique, o) => {
-                if(!unique.some(subobj => subobj.type === o.type && subobj.surface === o.surface)) {
-                  unique.push(o);
-                }
-                return unique;
-            },[]);
-            let sorter = (a, b) => {
-              if(a.type.includes("Appartement")){
-                  return -1;
-              };
-              if(b.type.includes("Appartement")){
-                  return 1;
-              };
-              return a.name < b.name ? -1 : 1;
+              return unique;
+          },[]);
+          let sorter = (a, b) => {
+            if(a.type.includes("Appartement")){
+                return -1;
             };
-            mutationsObj[obj.id_mutation]["assets"].sort(sorter)
-            sorter = (a, b) => {
-              if(a.type.includes("Maison")){
-                  return -1;
-              };
-              if(b.type.includes("Maison")){
-                  return 1;
-              };
-              return a.name < b.name ? -1 : 1;
+            if(b.type.includes("Appartement")){
+                return 1;
             };
-            mutationsObj[obj.id_mutation]["assets"].sort(sorter)
-            self.parcellesMutations = mutationsObj
-            //console.log(obj)
+            return a.name < b.name ? -1 : 1;
+          };
+          mutationsObj[obj.id_mutation]["assets"].sort(sorter)
+          sorter = (a, b) => {
+            if(a.type.includes("Maison")){
+                return -1;
+            };
+            if(b.type.includes("Maison")){
+                return 1;
+            };
+            return a.name < b.name ? -1 : 1;
+          };
+          mutationsObj[obj.id_mutation]["assets"].sort(sorter)
+          this.parcellesMutations = mutationsObj
+          //console.log(obj)
           }
         });
         //console.log(mutationsObj)
-      })
+    },
+    fetchMutationsData(){
+      var self = this
+      let data = null
+      var url="http://dvf.dataeng.etalab.studio/mutations/" + this.userLocation.parcelle.substring(0,5) + "/" + this.userLocation.parcelle.substring(5,10)
+      if (this.saveApiUrl.includes(url)){
+          data = this.saveApiResponse[url] 
+          this.manageMutationsData(data)
+        } else {
+        fetch(url)
+        .then((response) => {
+            return response.json()
+        })
+        .then((data) => {
+          this.sendApiResultToStore(url, data)
+          this.manageMutationsData(data)
+
+        })
+      }
     },
 
     updateActiveFilter(f){
@@ -429,10 +458,16 @@ export default {
     },
   },
   watch: {
-    level: {
-      handler(value) {
-        this.fetchHistoricalData(value)
-      }
+    
+    // level: {
+    //   handler(value) {
+    //     this.fetchHistoricalData(value)
+    //   }
+    // },
+    level(){
+      console.log("level", this.level)
+      this.fetchHistoricalData(this.level)
+      //this.buildClientData()
     },
     dep(){
       //this.fetchHistoricalData(this.level)

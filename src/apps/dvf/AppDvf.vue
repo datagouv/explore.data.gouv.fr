@@ -64,6 +64,21 @@ export default {
     activeFilter:function(){
       return appStore.state.activeFilter
     },
+    zoomLevel:function(){
+      return appStore.state.mapProperties.zoomLevel
+    },
+    lat:function(){
+      return appStore.state.mapProperties.lat
+    },
+    lng:function(){
+      return appStore.state.mapProperties.lng
+    },
+    level:function(){
+      return appStore.state.userLocation.level
+    },
+    userLocation:function(){
+      return appStore.state.userLocation
+    }
   },
   mounted() {
 
@@ -89,12 +104,69 @@ export default {
       appStore.commit("changeActivePanel",id)
       this.$router.push({path: this.$route.path, query: { ...this.$route.query, onglet: id }}).catch(()=>{});
     },
-    /* updateActiveFilter(f){
+    updateActiveFilter(f){
       appStore.commit("updateActiveFilter",f)
       this.$router.push({path: this.$route.path, query: { ...this.$route.query, filtre: f }})
-    } */
+    },
+    // updateActiveLatLng(){
+    //   let lat = parseFloat(this.lat).toFixed(2)
+    //   let lng = parseFloat(this.lng).toFixed(2)
+    //   let zoomLevel = parseFloat(this.zoomLevel).toFixed(2)
+    //   if (lat != this.$route.query.lat) {
+    //     this.$router.push({path: this.$route.path, query: { ...this.$route.query, lat: lat }})
+    //   }
+    //   if (lng != this.$route.query.lng) {
+    //     this.$router.push({path: this.$route.path, query: { ...this.$route.query, lng: lng }})
+    //   }
+    //   if (zoomLevel != this.$route.query.zoom) {
+    //     this.$router.push({path: this.$route.path, query: { ...this.$route.query, zoom: zoomLevel }})
+    //   }
+    // },
+    updateActivePosition(){
+        let level = this.level
+        if (level != "fra") {
+          if (level != this.$route.query.level) {
+            this.$router.push({path: this.$route.path, query: { ...this.$route.query, level: level }})
+          }
+        }
+        if (level == "departement"){
+          if (this.userLocation.dep != this.$route.query.code) {
+            this.$router.push({path: this.$route.path, query: { ...this.$route.query, code: this.userLocation.dep }})
+          }
+        }
+        if (level == "commune"){
+          if (this.userLocation.com != this.$route.query.code) {
+            this.$router.push({path: this.$route.path, query: { ...this.$route.query, code: this.userLocation.com }})
+          }
+        }
+        if (level == "section"){
+          if (this.userLocation.section != this.$route.query.code) {
+            this.$router.push({path: this.$route.path, query: { ...this.$route.query, code: this.userLocation.section }})
+          }
+        }
+        if (level == "parcelle"){
+          if (this.userLocation.parcelle != this.$route.query.code) {
+            this.$router.push({path: this.$route.path, query: { ...this.$route.query, code: this.userLocation.parcelle }})
+          }
+        }
+     }
   },
   watch: {
+    // zoomLevel(){
+    //   this.updateActiveLatLng()
+    // },
+    // lat(){
+    //   this.updateActiveLatLng()
+    // },
+    // lng(){
+    //   this.updateActiveLatLng()
+    // },
+    level(){
+      this.updateActivePosition()
+    },
+    userLocation(){
+      this.updateActivePosition()
+    }
   }
 }
 </script>

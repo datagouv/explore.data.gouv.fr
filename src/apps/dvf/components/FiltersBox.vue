@@ -1,5 +1,5 @@
 <template>
-  <div v-if="userLocation.level != 'section'" id="filtersBox" :class="openFilters?'open':''">
+  <div v-if="userLocation.level != 'section' && userLocation.level != 'parcelle'" id="filtersBox" :class="openFilters?'open':''">
     <div class="filtersHeader" @click="openFilters?openFilters=false:openFilters=true">
       <div>Type de bien
         <span v-if="activeFilter=='tous'">
@@ -59,7 +59,7 @@ export default {
     updateActiveFilter(f){
       appStore.commit("updateActiveFilter",f)
       this.$router.push({path: this.$route.path, query: { ...this.$route.query, filtre: f }})
-    }
+    },
   },
   watch: {
   }
