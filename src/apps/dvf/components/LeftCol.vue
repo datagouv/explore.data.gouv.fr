@@ -93,10 +93,46 @@
           <bar-chart></bar-chart>
         </div>
 
+        <div class="chart_container" v-if="this.userLocation != 'fra'">
+          Pour aller plus loin dans l'exploration, nous vous invitons à vous rendre sur ces sites institutionnels :
+          <br />
+          <div class="cardPartner" @click="goToPartner('arcep')">
+            <div class="logoPartner">
+              <img src="../assets/logos/arcep.png" width="100" />
+            </div>
+            <div class="textPartner">
+              Connaître les technologies et les débits disponibles dans votre lieu de vie et dans votre territoire
+            </div>
+          </div>
+          <div class="cardPartner" @click="goToPartner('brgm')" v-if="this.userLocation.level != 'departement'">
+            <div class="logoPartner">
+              <img src="../assets/logos/logo_GR.png" width="100" />
+            </div>
+            <div class="textPartner">
+              Mieux connaître les risques sur le territoire
+            </div>
+          </div>
+          <div class="cardPartner" @click="goToPartner('acceslibre')">
+            <div class="logoPartner">
+              <img src="../assets/logos/acceslibre.svg" width="100" />
+            </div>
+            <div class="textPartner">
+              Accéder aux informations indispensables aux déplacements des personnes en situation de handicap sur le territoire
+            </div>
+          </div>
+          <div class="cardPartner" @click="goToPartner('ign')">
+            <div class="logoPartner">
+              <img src="../assets/logos/logo-geoportail.svg" width="100" />
+            </div>
+            <div class="textPartner">
+              Consulter et télécharger l’information urbanistique sur votre territoire
+            </div>
+          </div>
+        </div>
+
       </div>
 
       <div class="mutations_container" v-if="level === 'parcelle'">
-
         <div class="mutation_box" v-bind:key="p['id']" v-for="p in parcellesMutations">
           <div class="date">{{ p["date"] }} - {{ p["nature_mutation"] }}</div>
           <div class="content">
@@ -107,30 +143,7 @@
                 <span class="title">{{ item["type"] }}</span>
                 <span class="value">{{ item["surface"] }}</span>
               </span>
-            </div>
-            
-            <!-- 
-            <span class="price">{{formatPrice(p["valeur_fonciere"])}}</span>
-
-            <div class="infos">
-              <span class="adresse">{{p["adresse_numero"]}} {{p["adresse_nom_voie"].toLowerCase()}}</span>
-
-              <span class="infos_item">
-                <span class="title">Surface</span>
-                <span class="value">{{formatSurface(p["surface_terrain"])}}</span>
-              </span>
-
-              <span class="infos_item">
-                <span class="title">Type</span>
-                <span class="value">{{p["nature_culture"]}}</span>
-              </span>
-
-              <span class="infos_item" v-if="typeof p['type_local'] == 'string'">
-                <span class="title">{{p["type_local"]}}</span>
-                <span class="value" v-if="typeof p['surface_reelle_bati'] == 'string'">{{formatSurface(p["surface_reelle_bati"])}}</span>
-              </span>              
-             -->
-              
+            </div>  
             </div>
           </div>
         </div>
@@ -146,6 +159,7 @@
 import appStore from '@/apps/dvf/store'
 import LineChart from '@/apps/dvf/components/LineChart'
 import BarChart from '@/apps/dvf/components/BarChart'
+import CenterDeps from '@/apps/dvf/assets/json/centers_deps.json'
 
 export default {
   name: 'LeftCol',
@@ -212,6 +226,9 @@ export default {
     },
     userLocation:function(){
       return appStore.state.userLocation
+    },
+    mapProperties:function(){
+      return appStore.state.mapProperties
     }
   },
   mounted() {
@@ -461,6 +478,39 @@ export default {
       obj.data = data
       appStore.commit("addApiResult", obj)
     },
+    goToPartner(partner){
+      if (this.userLocation.level == "departement"){
+        if (partner == 'arcep') { 
+          window.open("https://maconnexioninternet.arcep.fr/?lat=" + CenterDeps[this.userLocation.dep]["coordinates"][1] + '&lng=' + CenterDeps[this.userLocation.dep]["coordinates"][0] + '&zoom=' + this.mapProperties.zoomLevel + '&mode=normal')
+        }
+        if (partner == 'acceslibre') { 
+          window.open("https://acceslibre.beta.gouv.fr/recherche/?what=&where=" + this.userLocation.depName + "&lat=" + CenterDeps[this.userLocation.dep]["coordinates"][1] + "&lon=" + CenterDeps[this.userLocation.dep]["coordinates"][0] + "&code=" + this.userLocation.dep)
+        }
+        if (partner == 'ign') { 
+          window.open("https://www.geoportail-urbanisme.gouv.fr/map/#tile=1&zoom=" + this.mapProperties.zoomLevel + "&lon=" + CenterDeps[this.userLocation.dep]["coordinates"][0] + "&lat=" + CenterDeps[this.userLocation.dep]["coordinates"][1])
+        }
+      } else {
+        let url = "https://geo.api.gouv.fr/communes?code=" + this.userLocation.com + "&fields=centre"
+        fetch(url)
+        .then((response) => {
+            return response.json()
+        })
+        .then((data) => {
+          if (partner == 'arcep') { 
+            window.open("https://maconnexioninternet.arcep.fr/?lat=" + data[0]["centre"]["coordinates"][1] + '&lng=' + data[0]["centre"]["coordinates"][0] + '&zoom=' + this.mapProperties.zoomLevel + '&mode=normal')
+          }
+          if (partner == 'brgm') { 
+            window.open("https://www.georisques.gouv.fr/mes-risques/connaitre-les-risques-pres-de-chez-moi/rapport2?form-adresse=true&isCadastre=false&city=" + this.userLocation.comName + "&type=housenumber&typeForm=commune&codeInsee=" + this.userLocation.com + "&lon=" + data[0]["centre"]["coordinates"][0] + "&lat=" +  data[0]["centre"]["coordinates"][1] + "&go_back=%2F")
+          }
+          if (partner == 'acceslibre') { 
+            window.open("https://acceslibre.beta.gouv.fr/recherche/?what=&where=" + this.userLocation.comName + "&lat=" + data[0]["centre"]["coordinates"][1] + "&lon=" + data[0]["centre"]["coordinates"][0] + "&code=" + this.userLocation.com)
+          }
+          if (partner == 'ign') { 
+            window.open("https://www.geoportail-urbanisme.gouv.fr/map/#tile=1&zoom=" + this.mapProperties.zoomLevel + "&lon=" + data[0]["centre"]["coordinates"][0] + "&lat=" + data[0]["centre"]["coordinates"][1] + "&mlon=" + data[0]["centre"]["coordinates"][0] + "&mlat=" + data[0]["centre"]["coordinates"][1])
+          }
+        })
+      }
+    },
   },
   watch: {
     
@@ -688,6 +738,19 @@ export default {
   font-size: 12px;
   font-weight: 700;
   color:#161616;
+}
+
+.cardPartner{
+  border: 1px solid grey;
+  margin: 10px;
+  padding: 10px;
+  display: flex;
+  cursor: pointer;
+}
+
+.logoPartner{
+  width: 200px;
+  height: 100%;
 }
 
 
