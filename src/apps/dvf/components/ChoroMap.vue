@@ -1,5 +1,6 @@
 <template>
   <div class="choroMap">
+    {{ this.userLocation }}
     <search-bar></search-bar>
     <filters-box></filters-box>
     <div ref="mapTooltip" class="map_tooltip" v-show="tooltip.visibility=='visible'" :style="{top:tooltip.top,left:tooltip.left}">
@@ -617,6 +618,8 @@ export default {
               .then((data) => {
                 this.mousePosition.com.code = this.$route.query.code.substring(0,5)
                 this.mousePosition.com.nom = data[0]["nom"]
+                this.mousePosition.dep.code = this.$route.query.code.substring(0,2)
+                this.mousePosition.dep.nom = CenterDeps[this.$route.query.code.substring(0,2)]["nom"]
                 this.map.flyTo({
                   center: data[0]["centre"]["coordinates"],
                   zoom: 12,
@@ -949,7 +952,7 @@ export default {
           console.log("youhou")
           this.map.setLayoutProperty("epcis_fill", "visibility", "none")
           this.map.setLayoutProperty("communes_fill", "visibility", "visible")
-          console.log(this.mousePosition.dep)
+          console.log("!!!!!!!", this.mousePosition.dep)
           this.changeLocation("changeUserLocation", "departement", this.mousePosition.dep.code, this.mousePosition.dep.nom)
           this.displayCommunes(this.mousePosition.dep.code)
           this.changeDep = false
