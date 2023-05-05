@@ -109,6 +109,9 @@ export default {
     userLocation:function(){
       return appStore.state.userLocation
     },
+    mapProperties:function(){
+      return appStore.state.mapProperties
+    },
     lng:function(){
       return appStore.state.mapProperties.lng
     },
