@@ -172,7 +172,6 @@ export default new Vuex.Store({
       state.dgv_infos.other_resources = data.other_resources.filter(res => (res.format.includes('csv') | res.format.includes('xls')))
     },
     addFilter (state, filter) {
-      console.log("coucou")
       state.filters.push(filter)
       configure({filters: state.filters})
     },
