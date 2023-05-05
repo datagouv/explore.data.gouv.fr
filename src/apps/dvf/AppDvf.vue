@@ -78,6 +78,9 @@ export default {
     },
     userLocation:function(){
       return appStore.state.userLocation
+    },
+    init:function(){
+      return appStore.state.mapProperties.init
     }
   },
   mounted() {
@@ -106,7 +109,7 @@ export default {
     },
     updateActiveFilter(f){
       appStore.commit("updateActiveFilter",f)
-      this.$router.push({path: this.$route.path, query: { ...this.$route.query, filtre: f }})
+      this.$router.push({path: this.$route.path, query: { ...this.$route.query, filtre: f }}).catch(()=>{})
     },
     // updateActiveLatLng(){
     //   let lat = parseFloat(this.lat).toFixed(2)
@@ -124,29 +127,41 @@ export default {
     // },
     updateActivePosition(){
         let level = this.level
-        if (level != "fra") {
-          if (level != this.$route.query.level) {
-            this.$router.push({path: this.$route.path, query: { ...this.$route.query, level: level }})
-          }
-        }
         if (level == "departement"){
           if (this.userLocation.dep != this.$route.query.code) {
-            this.$router.push({path: this.$route.path, query: { ...this.$route.query, code: this.userLocation.dep }})
+            this.$router.push({path: this.$route.path, query: { ...this.$route.query, code: this.userLocation.dep }}).catch(()=>{})
           }
         }
         if (level == "commune"){
           if (this.userLocation.com != this.$route.query.code) {
-            this.$router.push({path: this.$route.path, query: { ...this.$route.query, code: this.userLocation.com }})
+            this.$router.push({path: this.$route.path, query: { ...this.$route.query, code: this.userLocation.com }}).catch(()=>{})
           }
         }
         if (level == "section"){
           if (this.userLocation.section != this.$route.query.code) {
-            this.$router.push({path: this.$route.path, query: { ...this.$route.query, code: this.userLocation.section }})
+            this.$router.push({path: this.$route.path, query: { ...this.$route.query, code: this.userLocation.section }}).catch(()=>{})
           }
         }
         if (level == "parcelle"){
           if (this.userLocation.parcelle != this.$route.query.code) {
-            this.$router.push({path: this.$route.path, query: { ...this.$route.query, code: this.userLocation.parcelle }})
+            this.$router.push({path: this.$route.path, query: { ...this.$route.query, code: this.userLocation.parcelle }}).catch(()=>{})
+          }
+        }
+        if (level != "fra") {
+          if (level != this.$route.query.level) {
+            this.$router.push({path: this.$route.path, query: { ...this.$route.query, level: level }}).catch(()=>{})
+          }
+        } else {
+          console.log(this.init)
+          if (!this.init) {
+            let query = {}
+            for (const [key, value] of Object.entries(this.$route.query)) {
+              console.log(key)
+              if (key != "level" && key != "code"){
+                query[key] = value
+              }
+            }
+            this.$router.push({path: this.$route.path, query: query}).catch(()=>{})
           }
         }
      }

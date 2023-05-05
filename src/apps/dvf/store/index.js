@@ -10,7 +10,8 @@ export default new Vuex.Store({
       lng:2,
       lat:46.3,
       zoom:null,
-      zoomLevel:4.8
+      zoomLevel:4.8,
+      init: true,
     },
     apiData:null,
     apiLevel:null,
@@ -69,6 +70,9 @@ export default new Vuex.Store({
     },
     changeMapLng (state, data){
       state.mapProperties.lng = data
+    },
+    changeMapInit (state, data){
+      state.mapProperties.init = data
     },
     changeUserLocation (state, data) {
       state.userLocation = data 

@@ -1,6 +1,5 @@
 <template>
   <div class="choroMap">
-    {{ this.userLocation }}
     <search-bar></search-bar>
     <filters-box></filters-box>
     <div ref="mapTooltip" class="map_tooltip" v-show="tooltip.visibility=='visible'" :style="{top:tooltip.top,left:tooltip.left}">
@@ -151,16 +150,16 @@ export default {
     appStore.commit("changeZoomLevel", 4.8)
     appStore.commit("changeMapLng", 2)
     appStore.commit("changeMapLat", 46.3)
+    appStore.commit("changeMapInit", true)
     this.changeLocation("changeUserLocation", "fra", null, null)
     
-    console.log("ijijjjnnnnn,,,,,,")
     let obj = {}
     for (const [key, value] of Object.entries(this.$route.query)) {
       if (!key.includes("__")){
         obj[key] = value
       }
     }
-    this.$router.push({path: this.$route.path, query: obj})
+    this.$router.push({path: this.$route.path, query: obj}).catch(()=>{})
     // Au load de la page, on récupère les stats au niveau EPCI pour l'affichage carte
     let url = 'http://dvf.dataeng.etalab.studio/epci'
     fetch(url)
@@ -171,7 +170,6 @@ export default {
       this.sendApiResultToStore(url, data)
       this.dataChloropleth["fra"] = data["data"]
       this.actualPropertyPrix = this.mappingPropertiesPrix[this.activeFilter]
-      console.log("jiniin")
       let matchExpression = this.changeChloroplethColors('code_geo', this.actualPropertyPrix, 'code')
       // Create map
       this.map = markRaw(new Map({
@@ -358,88 +356,13 @@ export default {
           if (
             (this.userLocation.level == "departement") && (this.userLocation.dep == this.mouseLocation.dep)
           ) {
+            this.changeCom = true
             this.map.flyTo({
               center: [e.lngLat.lng, e.lngLat.lat],
               zoom: 12,
             });
           }
         });
-
-        // this.map.on('click', 'communes_fill', (e) => {
-        //   let comId = e.features[0]["properties"]["code"]
-        //   console.log(comId)
-        //   console.log(e.lngLat)
-        //   // if (this.map.getZoom() <= 12 && comId) {
-        //   //   this.map.flyTo({
-        //   //     center: [e.lngLat.lng, e.lngLat.lat],
-        //   //     zoom: 12,
-        //   //   });
-        //   //   console.log("jjj")
-        //   // }
-
-        //   fetch('https://geo.api.gouv.fr/communes?code=' + comId + '&fields=centre')
-        //   .then((response) => {
-        //       return response.json()
-        //   })
-        //   .then((data) => {
-        //     // appStore.commit("changeLocationLevel", "commune")
-        //     // appStore.commit("changeLocationLabelCom", data[0]["nom"])
-        //     this.map.flyTo({
-        //       center: [e.lngLat.lng, e.lngLat.lat],
-        //       zoom: 12,
-        //     });
-        //     //this.displaySections(comId)
-        //   });
-
-        //   // if (comId.startsWith("750")) {
-        //   //   comId = comId.replace("750", "751")
-        //   // }
-        //   // if(comId.substring(0,2) == this.userLocation.dep){
-        //   //   if (this.map.getZoom() <= 12 && comId) {
-        //   //     if (comId.substring(0,2) === "75") {
-        //   //       // appStore.commit("changeLocationLevel", "commune")
-        //   //       // appStore.commit("changeLocationLabelCom", "Paris")
-        //   //       this.map.flyTo({
-        //   //         center: [e.lngLat.lng, e.lngLat.lat],
-        //   //         zoom: 12,
-        //   //       });
-        //   //       this.displaySections("75056")
-        //   //     } else if ((comId.substring(0,4) === "6938") || (comId == "69123")) {
-        //   //       // appStore.commit("changeLocationLevel", "commune")
-        //   //       // appStore.commit("changeLocationLabelCom", "Lyon")
-        //   //       this.map.flyTo({
-        //   //         center: [e.lngLat.lng, e.lngLat.lat],
-        //   //         zoom: 12,
-        //   //       });
-        //   //       this.displaySections("69123")
-
-        //   //     } else if ((comId.substring(0,4) === "1320") || (comId.substring(0,4) === "1321") || (comId == "13055")) {
-        //   //       // appStore.commit("changeLocationLevel", "commune")
-        //   //       // appStore.commit("changeLocationLabelCom", "Marseille")
-        //   //       this.map.flyTo({
-        //   //         center: [e.lngLat.lng, e.lngLat.lat],
-        //   //         zoom: 12,
-        //   //       });
-        //   //       this.displaySections("13055")
-
-        //   //     } else {
-        //   //       fetch('https://geo.api.gouv.fr/communes?code=' + comId + '&fields=centre')
-        //   //         .then((response) => {
-        //   //             return response.json()
-        //   //         })
-        //   //         .then((data) => {
-        //   //           // appStore.commit("changeLocationLevel", "commune")
-        //   //           // appStore.commit("changeLocationLabelCom", data[0]["nom"])
-        //   //           this.map.flyTo({
-        //   //             center: data[0].centre.coordinates,
-        //   //             zoom: 12,
-        //   //           });
-        //   //           this.displaySections(comId)
-        //   //         });
-        //   //     }
-        //   //   }
-        //   // }
-        // });
 
         this.map.on('click', 'departements_fill', (e) => {
           // si on est au niveau france 
@@ -450,10 +373,15 @@ export default {
             ||
             ((this.userLocation.level == "departement") && (this.userLocation.dep != this.mouseLocation.dep))
           ) {
+            let depBonus = ["75", "92", "93", "94"]
+            let bonus = 0
+            if (depBonus.includes(e.features[0].properties.code)) {
+              bonus = 1.8
+            }  
             this.changeDep = true
             this.map.flyTo({
               center: CenterDeps[e.features[0].properties.code].coordinates,
-              zoom: 9,
+              zoom: 9 + bonus,
             });
           }
         });
@@ -476,10 +404,12 @@ export default {
             matchExpression.push(depId, 0.4); 
             matchExpression.push(0);
             this.map.setPaintProperty("departements_fill", "fill-opacity", matchExpression)
-            this.displayTooltip(e)
-            this.mousePosition.dep.code = depId
-            this.mousePosition.dep.nom = e.features[0]["properties"]["nom"]
-            this.changeLocation("changeMouseLocation", "departement", depId, depName)
+            if(!this.changeDep) {
+              this.displayTooltip(e)
+              this.mousePosition.dep.code = depId
+              this.mousePosition.dep.nom = e.features[0]["properties"]["nom"]
+              this.changeLocation("changeMouseLocation", "departement", depId, depName)
+            }
           } 
         });
 
@@ -489,6 +419,10 @@ export default {
 
         this.map.on('mousemove', 'communes_fill2', (e) => {
           let comId = e.features[0]["properties"]["code"]
+          let comToChange = ["75056", "13055", "69123"]
+          if (comToChange.includes(comId)){
+            comId = e.features[1]["properties"]["code"]
+          }
           if (this.userLocation.com != comId) {
             matchExpression = ['match', ['get', 'code']]
             matchExpression.push(comId, 0.4)
@@ -499,6 +433,10 @@ export default {
 
         this.map.on('click', 'communes_fill2', (e) => {
           let comId = e.features[0]["properties"]["code"]
+          let comToChange = ["75056", "13055", "69123"]
+          if (comToChange.includes(comId)){
+            comId = e.features[1]["properties"]["code"]
+          }
           if (this.userLocation.com != comId) {
             this.mousePosition.com.code = comId
             this.mousePosition.com.nom = e.features[0]["properties"]["nom"]
@@ -516,22 +454,26 @@ export default {
         this.map.on('mousemove', 'communes_fill', (e) => {
           let comId = e.features[0]["properties"]["code"]
           let comName = e.features[0]["properties"]["nom"]
+          let comToChange = ["75056", "13055", "69123"]
+          if (comToChange.includes(comId)){
+            comId = e.features[1]["properties"]["code"]
+            comName = e.features[1]["properties"]["nom"]
+          }
           // if we are on level departement, we display
           // tooltips commune
           if (this.userLocation.level == "departement"){         
             this.fetchTooltipData("commune",comId)
           }
           // if mouseover is on other commune than the actual one
-          if(comId != this.userLocation.com){
+          if(comId != this.userLocation.com) {
             // if we are on level departement, we display commune on tooltip
             if (comId.substring(0,2) == this.userLocation.dep) {
-              if (this.level == "departement"){
-                //this.tooltip.place = e.features[0]["properties"]["nom"]
-              }    
-              this.mousePosition.com.code = comId
-              this.mousePosition.com.nom = e.features[0]["properties"]["nom"]
-              this.displayTooltip(e)
-              this.changeLocation("changeMouseLocation", "commune", comId, comName)
+              if(!this.changeCom){
+                this.mousePosition.com.code = comId
+                this.mousePosition.com.nom = e.features[0]["properties"]["nom"]
+                this.displayTooltip(e)
+                this.changeLocation("changeMouseLocation", "commune", comId, comName)
+              }
               // we are on the actual displaying departement, so no need to light grey dep
               this.map.setPaintProperty("departements_fill", "fill-opacity", 0)
             } else {
@@ -587,30 +529,22 @@ export default {
       });
 
       this.map.on('load', (e) => {
-        
-
         if(this.$route.query.level && this.$route.query.code){
           setTimeout((e) => {
-            // console.log("loaded")
-            // console.log(this.$route.query.code)
-            // console.log(CenterDeps["29"])
-            // this.userLocation.dep = this.$route.query.code
-            // //this.userLocation.depName = CenterDeps[this.$route.query.code]["nom"]
-            // this.changeLocation("changeUserLocation", "departement", this.userLocation.dep, this.userLocation.depName)    
-            // this.map.flyTo({
-            //   center: CenterDeps[this.$route.query.code]["coordinates"],
-            //   zoom: 8,
-            // });
             if (this.$route.query.level == "departement") {
               this.mousePosition.dep.code = this.$route.query.code
               this.mousePosition.dep.nom = CenterDeps[this.$route.query.code]["nom"]
               this.changeDep = true
+              let depBonus = ["75", "92", "93", "94"]
+              let bonus = 0
+              if (depBonus.includes(this.$route.query.code)) {
+                bonus = 1.8
+              }  
               this.map.flyTo({
                 center: CenterDeps[this.$route.query.code]["coordinates"],
-                zoom: 9,
+                zoom: 9 +bonus,
               });
             } else {
-              console.log("toto")
               fetch('https://geo.api.gouv.fr/communes?code=' + this.$route.query.code.substring(0,5) + '&fields=centre')
               .then((response) => {
                   return response.json()
@@ -626,28 +560,10 @@ export default {
                 });
               });
                     }
+            appStore.commit("changeMapInit", false)
           }, 500);
         }
       })
-
-      // this.map.on('click', (e) => {
-      //   // Set `bbox` as 5px reactangle area around clicked point.
-      //   const bbox = [
-      //   [e.point.x - 5, e.point.y - 5],
-      //   [e.point.x + 5, e.point.y + 5]
-      //   ];
-      //   console.log(bbox)
-      //   console.log(this.map.queryRenderedFeatures(bbox))
-      //   // Find features intersecting the bounding box.
-      //   const selectedFeatures = this.map.queryRenderedFeatures(bbox, {
-      //     layers: ['departements_fill']
-      //   });
-      //   console.log(selectedFeatures)
-      //   const fips = selectedFeatures.map(
-      //     (feature) => feature.properties.FIPS
-      //   );
-      //   console.log(fips)
-      // });
     })
   },
   methods: {
@@ -729,8 +645,6 @@ export default {
       appStore.commit("addApiResult", obj)
     },
     changeChloroplethColors(property_code_geo, property_value, property_tile_code_geo){    
-      console.log(property_code_geo, property_value, property_tile_code_geo)
-      console.log(this.userLocation) 
       let list_obj = []
       let dataObj = []
       this.dataChloropleth[this.userLocation.level].forEach((d) =>{
@@ -920,7 +834,6 @@ export default {
         } else {
           exp = matchExpression
         }
-        console.log(this.actualPropertyPrix)
         this.map.setPaintProperty(this.mappingPropertiesFillLayer[this.userLocation.level], "fill-color", exp)
       }
     },
@@ -948,11 +861,8 @@ export default {
       } 
       if (this.zoomLevel >= 8 && this.zoomLevel < 11) {
         if (this.level != "departement" || this.changeDep) {
-          console.log("toto")
-          console.log("youhou")
           this.map.setLayoutProperty("epcis_fill", "visibility", "none")
           this.map.setLayoutProperty("communes_fill", "visibility", "visible")
-          console.log("!!!!!!!", this.mousePosition.dep)
           this.changeLocation("changeUserLocation", "departement", this.mousePosition.dep.code, this.mousePosition.dep.nom)
           this.displayCommunes(this.mousePosition.dep.code)
           this.changeDep = false

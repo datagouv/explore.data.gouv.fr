@@ -257,10 +257,12 @@ export default {
         }
         if (this.saveApiUrl.includes(url)){
           data = this.saveApiResponse[url] 
-          this.sendApiResultToStore(url, data["data"])
-          this.apiResult = data
-          this.apiLevel = level
-          this.apiCode = code
+          if (data) {
+            this.sendApiResultToStore(url, data)
+            this.apiResult = data
+            this.apiLevel = level
+            this.apiCode = code
+          }
         } else {
           fetch(url)
           .then((response) => {
@@ -315,7 +317,6 @@ export default {
             return obj.code_geo === this.apiCode
           })
         }
-        console.log(levelData)
         if(this.activeFilter === 'tous'){
           this.clientData.totalVentes=(levelData["nb_mutations_appartement_5ans"]+levelData["nb_mutations_maison_5ans"]).toLocaleString()
           this.clientData.totalAverage=Math.round(levelData["moy_prix_m2_appart_maison_5ans"]).toLocaleString()+"€"
@@ -337,87 +338,91 @@ export default {
         this.clientData.localPrice=Math.round(levelData["moy_prix_m2_local_5ans"]).toLocaleString()+"€" 
     },
     manageMutationsData(data){
-      let mutationsId = []
-      let mutationsObj = {}
-      this.parcellesMutations = []
-      data["data"].forEach(obj => {
-        if (obj.id_parcelle == this.userLocation.parcelle) {
-          if (!mutationsId.includes(obj.id_mutation)){ 
-            mutationsId.push(obj.id_mutation)
-            mutationsObj[obj.id_mutation] = {}
-            mutationsObj[obj.id_mutation]["id"] = obj.id_mutation
-            mutationsObj[obj.id_mutation]["nature_mutation"] = obj.nature_mutation
-            mutationsObj[obj.id_mutation]["adresse_nom_voie"] = obj.adresse_nom_voie
-            mutationsObj[obj.id_mutation]["adresse_numero"] = obj.adresse_numero
-            mutationsObj[obj.id_mutation]["date"] = this.formatDate(obj.date_mutation)
-            mutationsObj[obj.id_mutation]["price"] = this.formatPrice(obj.valeur_fonciere)
-            mutationsObj[obj.id_mutation]["assets"] = []
-          }
-          if(obj.type_local) {
-            let asset = {}
-            let complement_type = ""
-            if (obj.nombre_pieces_principales){
-              complement_type = " / " + obj.nombre_pieces_principales + "p"
+      if(data){
+        let mutationsId = []
+        let mutationsObj = {}
+        this.parcellesMutations = []
+        data["data"].forEach(obj => {
+          if (obj.id_parcelle == this.userLocation.parcelle) {
+            if (!mutationsId.includes(obj.id_mutation)){ 
+              mutationsId.push(obj.id_mutation)
+              mutationsObj[obj.id_mutation] = {}
+              mutationsObj[obj.id_mutation]["id"] = obj.id_mutation
+              mutationsObj[obj.id_mutation]["nature_mutation"] = obj.nature_mutation
+              mutationsObj[obj.id_mutation]["adresse_nom_voie"] = obj.adresse_nom_voie
+              mutationsObj[obj.id_mutation]["adresse_numero"] = obj.adresse_numero
+              mutationsObj[obj.id_mutation]["date"] = this.formatDate(obj.date_mutation)
+              mutationsObj[obj.id_mutation]["price"] = this.formatPrice(obj.valeur_fonciere)
+              mutationsObj[obj.id_mutation]["assets"] = []
             }
-            asset["type"] = obj.type_local + complement_type
-            asset["surface"] = this.formatSurface(obj.surface_reelle_bati)
-            mutationsObj[obj.id_mutation]["assets"].push(asset)
-          }
-          if(obj.nature_culture) {
-            let asset = {}
-            asset["type"] = obj.nature_culture
-            asset["surface"] = this.formatSurface(obj.surface_terrain)
-            mutationsObj[obj.id_mutation]["assets"].push(asset)
-          }
-          mutationsObj[obj.id_mutation]["assets"] = mutationsObj[obj.id_mutation]["assets"].reduce((unique, o) => {
-              if(!unique.some(subobj => subobj.type === o.type && subobj.surface === o.surface)) {
-                unique.push(o);
+            if(obj.type_local) {
+              let asset = {}
+              let complement_type = ""
+              if (obj.nombre_pieces_principales){
+                complement_type = " / " + obj.nombre_pieces_principales + "p"
               }
-              return unique;
-          },[]);
-          let sorter = (a, b) => {
-            if(a.type.includes("Appartement")){
-                return -1;
+              asset["type"] = obj.type_local + complement_type
+              asset["surface"] = this.formatSurface(obj.surface_reelle_bati)
+              mutationsObj[obj.id_mutation]["assets"].push(asset)
+            }
+            if(obj.nature_culture) {
+              let asset = {}
+              asset["type"] = obj.nature_culture
+              asset["surface"] = this.formatSurface(obj.surface_terrain)
+              mutationsObj[obj.id_mutation]["assets"].push(asset)
+            }
+            mutationsObj[obj.id_mutation]["assets"] = mutationsObj[obj.id_mutation]["assets"].reduce((unique, o) => {
+                if(!unique.some(subobj => subobj.type === o.type && subobj.surface === o.surface)) {
+                  unique.push(o);
+                }
+                return unique;
+            },[]);
+            let sorter = (a, b) => {
+              if(a.type.includes("Appartement")){
+                  return -1;
+              };
+              if(b.type.includes("Appartement")){
+                  return 1;
+              };
+              return a.name < b.name ? -1 : 1;
             };
-            if(b.type.includes("Appartement")){
-                return 1;
+            mutationsObj[obj.id_mutation]["assets"].sort(sorter)
+            sorter = (a, b) => {
+              if(a.type.includes("Maison")){
+                  return -1;
+              };
+              if(b.type.includes("Maison")){
+                  return 1;
+              };
+              return a.name < b.name ? -1 : 1;
             };
-            return a.name < b.name ? -1 : 1;
-          };
-          mutationsObj[obj.id_mutation]["assets"].sort(sorter)
-          sorter = (a, b) => {
-            if(a.type.includes("Maison")){
-                return -1;
-            };
-            if(b.type.includes("Maison")){
-                return 1;
-            };
-            return a.name < b.name ? -1 : 1;
-          };
-          mutationsObj[obj.id_mutation]["assets"].sort(sorter)
-          this.parcellesMutations = mutationsObj
-          //console.log(obj)
-          }
-        });
-        //console.log(mutationsObj)
+            mutationsObj[obj.id_mutation]["assets"].sort(sorter)
+            this.parcellesMutations = mutationsObj
+            //console.log(obj)
+            }
+          });
+          //console.log(mutationsObj)
+      }
     },
     fetchMutationsData(){
-      var self = this
-      let data = null
-      var url="http://dvf.dataeng.etalab.studio/mutations/" + this.userLocation.parcelle.substring(0,5) + "/" + this.userLocation.parcelle.substring(5,10)
-      if (this.saveApiUrl.includes(url)){
-          data = this.saveApiResponse[url] 
-          this.manageMutationsData(data)
-        } else {
-        fetch(url)
-        .then((response) => {
-            return response.json()
-        })
-        .then((data) => {
-          this.sendApiResultToStore(url, data)
-          this.manageMutationsData(data)
+      if(this.userLocation.parcelle){
+        var self = this
+        let data = null
+        var url="http://dvf.dataeng.etalab.studio/mutations/" + this.userLocation.parcelle.substring(0,5) + "/" + this.userLocation.parcelle.substring(5,10)
+        if (this.saveApiUrl.includes(url)){
+            data = this.saveApiResponse[url] 
+            this.manageMutationsData(data)
+          } else {
+          fetch(url)
+          .then((response) => {
+              return response.json()
+          })
+          .then((data) => {
+            this.sendApiResultToStore(url, data)
+            this.manageMutationsData(data)
 
-        })
+          })
+        }
       }
     },
 
@@ -465,18 +470,17 @@ export default {
     //   }
     // },
     level(){
-      console.log("level", this.level)
       this.fetchHistoricalData(this.level)
       //this.buildClientData()
     },
     dep(){
-      //this.fetchHistoricalData(this.level)
+      this.fetchHistoricalData(this.level)
     },
     com(){
-      //this.fetchHistoricalData(this.level)
+      this.fetchHistoricalData(this.level)
     },
     section(){
-      //this.fetchHistoricalData(this.level)
+      this.fetchHistoricalData(this.level)
     },
     parcelle(){
       this.fetchMutationsData(this.parcelle)
