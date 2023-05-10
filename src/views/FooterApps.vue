@@ -1,6 +1,5 @@
 <template>
-    <div class="footerapps fr-grid-row fr-grid-row--middle">
-        
+    <div class="footerapps fr-grid-row fr-grid-row--middle" :class="(scrollable=='scrollable')?'scrollable':''">
         <div class="fr-footer__brand fr-enlarge-link">
             <a href="/" title="Retour à l’accueil">
                 <p class="fr-logo" title="république française">
@@ -27,8 +26,10 @@
 
 export default {
     name: 'FooterApps',
+    props:{
+        scrollable:String
+    },
     computed: {
-        
     }
 }
 </script>
@@ -41,8 +42,14 @@ export default {
     position: absolute;
     bottom: -130px;
     border-top:2px solid #000091;
- 
 }
+
+.footerapps.scrollable{
+    position: relative;
+    bottom:auto;
+    margin-top: 100px;
+}
+
 
 .fr-footer__brand{
     transform:scale(0.6);

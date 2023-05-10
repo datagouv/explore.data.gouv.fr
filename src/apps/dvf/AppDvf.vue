@@ -7,7 +7,7 @@
       <div class="maj_date_container">Dernière mise à jour des données : 26 octobre 2022</div>
     </div>
 
-    <div class="dvf_content">
+    <div class="dvf_content" :class="activePanel==='faq'?'scrollable':''">
         
         <div class="panel_container">
           <div
@@ -29,7 +29,7 @@
 
     </div>
 
-    <footer-apps></footer-apps>
+    <footer-apps :scrollable="isScrollable"></footer-apps>
   </div>
 </template>
 
@@ -81,6 +81,13 @@ export default {
     },
     init:function(){
       return appStore.state.mapProperties.init
+    },
+    isScrollable:function(){
+      if(appStore.state.activePanel==='faq'){
+        return "scrollable"
+      }else{
+        return ""
+      }
     }
   },
   mounted() {
@@ -192,7 +199,6 @@ export default {
     padding-left: 20px;
     padding-top: 30px;
     position: relative;
-    
   }
 
   .dvf_header h2{
@@ -222,6 +228,36 @@ export default {
     top:158px;
     bottom:0px;
     width: 100%;
+  }
+
+  .dvf_app{
+    position: absolute;
+    width:100%;
+    top:40px;    
+    bottom:0;
+  }
+
+  .mainView{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top:0;
+    bottom:0; 
+  }
+
+  .dvf_content.scrollable{
+    position: relative;
+    top:0px;
+    height: 100%;
+  }
+
+  .dvf_content.scrollable .dvf_app{
+    position: relative;
+    height: 100%;
+  }
+
+  .dvf_content.scrollable .mainView{
+    position: relative;
   }
 
   .panel_container{
@@ -260,24 +296,5 @@ export default {
     cursor: default;
     color:#3558A2;
   }
-
-  .dvf_app{
-    position: absolute;
-    width:100%;
-    top:40px;    
-    bottom:0;
-  }
-
-</style>
-
-<style>
-
-   .mainView{
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        top:0;
-        bottom:0; 
-    }
 
 </style>
