@@ -64,9 +64,9 @@
           <table>
             <tr>
               <th></th>
-              <th :class="activeFilter=='maison'||activeFilter=='local'?'hide':''">Appt.</th>
-              <th :class="activeFilter=='appartement'||activeFilter=='local'?'hide':''">Maisons</th>
-              <th :class="activeFilter!='local'?'hide':''">Locaux</th>
+              <th :class="activeFilter=='maison'||activeFilter=='local'?'hide':''"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22 21H2V19H3V4C3 3.44772 3.44772 3 4 3H18C18.5523 3 19 3.44772 19 4V9H21V19H22V21ZM17 19H19V11H13V19H15V13H17V19ZM17 9V5H5V19H11V9H17ZM7 11H9V13H7V11ZM7 15H9V17H7V15ZM7 7H9V9H7V7Z"></path></svg> Appt.</th>
+              <th :class="activeFilter=='appartement'||activeFilter=='local'?'hide':''"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 21.0001H5C4.44772 21.0001 4 20.5524 4 20.0001V11.0001L1 11.0001L11.3273 1.61162C11.7087 1.26488 12.2913 1.26488 12.6727 1.61162L23 11.0001L20 11.0001V20.0001C20 20.5524 19.5523 21.0001 19 21.0001ZM13 19.0001H18V9.15757L12 3.70302L6 9.15757V19.0001H11V13.0001H13V19.0001Z"></path></svg> Maisons </th>
+              <th :class="activeFilter!='local'?'hide':''"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.2422V20H22V22H2V20H3V13.2422C1.79401 12.435 1 11.0602 1 9.5C1 8.67286 1.22443 7.87621 1.63322 7.19746L4.3453 2.5C4.52393 2.1906 4.85406 2 5.21132 2H18.7887C19.1459 2 19.4761 2.1906 19.6547 2.5L22.3575 7.18172C22.7756 7.87621 23 8.67286 23 9.5C23 11.0602 22.206 12.435 21 13.2422ZM19 13.9725C18.8358 13.9907 18.669 14 18.5 14C17.2409 14 16.0789 13.478 15.25 12.6132C14.4211 13.478 13.2591 14 12 14C10.7409 14 9.5789 13.478 8.75 12.6132C7.9211 13.478 6.75911 14 5.5 14C5.331 14 5.16417 13.9907 5 13.9725V20H19V13.9725ZM5.78865 4L3.35598 8.21321C3.12409 8.59843 3 9.0389 3 9.5C3 10.8807 4.11929 12 5.5 12C6.53096 12 7.44467 11.3703 7.82179 10.4295C8.1574 9.59223 9.3426 9.59223 9.67821 10.4295C10.0553 11.3703 10.969 12 12 12C13.031 12 13.9447 11.3703 14.3218 10.4295C14.6574 9.59223 15.8426 9.59223 16.1782 10.4295C16.5553 11.3703 17.469 12 18.5 12C19.8807 12 21 10.8807 21 9.5C21 9.0389 20.8759 8.59843 20.6347 8.19746L18.2113 4H5.78865Z"></path></svg> Locaux</th>
             </tr>
             <tr>
               <th class='left'>Ventes :</th>
@@ -85,11 +85,13 @@
 
         <div class="chart_container">
           <span class="chart_title">Evolution du prix de vente moyen au m²</span>
+          <span class="chart_geo">{{chartGeoLabel}}</span>
           <line-chart></line-chart>
         </div>
 
         <div class="chart_container">
           <span class="chart_title">Distribution du prix de vente au m²</span>
+          <span class="chart_geo">{{chartGeoLabel}}</span>
           <bar-chart></bar-chart>
         </div>
 
@@ -229,6 +231,10 @@ export default {
     },
     mapProperties:function(){
       return appStore.state.mapProperties
+    },
+    chartGeoLabel:function(){
+      var label = this.getGeoLabel()
+      return label
     }
   },
   mounted() {
@@ -348,11 +354,29 @@ export default {
           this.clientData.totalAverage=Math.round(levelData["moy_prix_m2_local_5ans"]).toLocaleString()+"€"
         }
         this.clientData.appVentes=levelData["nb_mutations_appartement_5ans"].toLocaleString()
-        this.clientData.appPrice=Math.round(levelData["moy_prix_m2_appart_5ans"]).toLocaleString()+"€"
+
+        if(levelData["moy_prix_m2_appart_5ans"] === null){
+          this.clientData.appPrice = "indisponible"
+        }else{
+          this.clientData.appPrice=Math.round(levelData["moy_prix_m2_appart_5ans"]).toLocaleString()+"€"  
+        }
+        
         this.clientData.houseVentes=levelData["nb_mutations_maison_5ans"].toLocaleString()
-        this.clientData.housePrice=Math.round(levelData["moy_prix_m2_maison_5ans"]).toLocaleString()+"€"
+
+        if(levelData["moy_prix_m2_maison_5ans"] === null){
+          this.clientData.housePrice = "indisponible"
+        }else{
+          this.clientData.housePrice=Math.round(levelData["moy_prix_m2_maison_5ans"]).toLocaleString()+"€"  
+        }
+
         this.clientData.localVentes=levelData["nb_mutations_local_5ans"].toLocaleString()
-        this.clientData.localPrice=Math.round(levelData["moy_prix_m2_local_5ans"]).toLocaleString()+"€" 
+
+        if(levelData["moy_prix_m2_local_5ans"] === null){
+          this.clientData.localPrice = "indisponible"
+        }else{
+          this.clientData.localPrice=Math.round(levelData["moy_prix_m2_local_5ans"]).toLocaleString()+"€"  
+        }
+
     },
     manageMutationsData(data){
       if(data){
@@ -511,6 +535,26 @@ export default {
         })
       }
     },
+    getGeoLabel(){
+
+      var label = ""
+
+      if(this.level === 'fra'){
+        label = ""
+      }else if(this.level === 'departement'){
+        label = " ("+this.userLocation.depName+")"
+      }else if(this.level === 'commune'){
+        label = " ("+this.userLocation.comName+")"
+      }else if(this.level === 'section'){
+        label = " ("+this.userLocation.section+")"
+      }else if(this.level === 'parcelle'){
+        label = " ("+this.userLocation.parcelle+")"
+      }
+
+      return label
+      
+
+    },
   },
   watch: {
     
@@ -585,7 +629,6 @@ export default {
   display: inline-block;
   font-size: 12px;
   color:#666666;
-  cursor: pointer;
 }
 
 .ariane_container div span{
@@ -650,7 +693,7 @@ export default {
 }
 
 .tab_container table{
-  width: 80%;
+  width: 100%;
   text-align: center;
   margin:0 auto;
 }
@@ -658,6 +701,12 @@ export default {
 .tab_container table th{
   font-size: 12px;
   font-weight: 400;
+}
+
+.tab_container table th svg{
+  width: 12px;
+  height: 12px;
+  transform:translate(0,1px);
 }
 
 .tab_container table th.hide{
@@ -685,6 +734,11 @@ export default {
 }
 
 .chart_title{
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.chart_geo{
   font-size: 12px;
   font-weight: 700;
 }

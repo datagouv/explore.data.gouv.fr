@@ -1,7 +1,7 @@
 <template>
     <div class="lineChart">
       <canvas v-show="values.length==60" id="linechart"></canvas>
-      <div v-show="values.length!=60"><span>Il n'y a pas suffisamment de ventes sur cette sélection pour que nous puissions faire un graphique.</span></div>
+      <div v-show="values.length!=60"><span>Il n'y a pas suffisamment de ventes sur cette sélection pour que nous puissions faire un graphique pertinent.</span></div>
     </div>
 </template>
 
@@ -53,6 +53,7 @@ export default {
     buildChart(){
       var self = this
       const ctx = document.getElementById('linechart').getContext('2d')
+      Chart.defaults.font.family = "Marianne"
       this.chart = new Chart(ctx, {
         type: 'line',
         data: {
@@ -83,7 +84,7 @@ export default {
                   return tooltipItems.formattedValue+"€"
                 },
                 title: function (tooltipItems) {
-                  return false
+                  return tooltipItems[0].label
                 },
               }
             }
@@ -105,8 +106,10 @@ export default {
             y: {
               beginAtZero: false,
               grid:{
-                display:false,
-                drawBorder: false
+                display:true,
+                drawBorder: false,
+                color: '#e5e5e5',
+                borderDash: [3]
               },
               ticks: {
                 callback: function(value, index, ticks) {

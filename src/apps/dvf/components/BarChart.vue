@@ -1,7 +1,7 @@
 <template>
     <div class="barChart">
       <canvas v-show="displayChart==true" id="barchart"></canvas>
-      <div v-show="displayChart==false"><span>Il n'y a pas suffisamment de ventes sur cette sélection pour que nous puissions faire un graphique.</span></div>
+      <div v-show="displayChart==false"><span>Il n'y a pas suffisamment de ventes sur cette sélection pour que nous puissions faire un graphique pertinent.</span></div>
     </div>
 </template>
 
@@ -15,6 +15,7 @@ export default {
   components: {},
   data() {
     return {
+      barData:{},
       values:[],
       labels:[],
       fullLabels:{},
@@ -38,13 +39,19 @@ export default {
   },
   methods: {
     updateData(code){
+      var self = this
       fetch("http://dvf.dataeng.etalab.studio/distribution/"+code)
       .then((response) => {
           return response.json()
       })
       .then((data) => {
         this.barData = data
+        console.log(data)
         this.updateValues()
+      })
+      .catch(function(error) {
+        self.barData = {}
+        self.updateValues()
       });
     },
     updateValues(){
@@ -69,6 +76,11 @@ export default {
           filter="local"
           break
       }
+
+      if(Object.keys(this.barData).length === 0){
+        this.displayChart = false
+      }
+
       var filteredData = this.barData[filter]
 
       if(filteredData["xaxis"]){
@@ -95,6 +107,7 @@ export default {
     buildChart(){
       var self = this
       const ctx = document.getElementById('barchart').getContext('2d')
+      Chart.defaults.font.family = "Marianne"
       this.chart = new Chart(ctx, {
         type: 'bar',
         data: {
@@ -172,6 +185,7 @@ export default {
   },
   watch: {
     apiCode(){
+      console.log(this.apiCode)
       this.updateData(this.apiCode)
     },
     activeFilter(){

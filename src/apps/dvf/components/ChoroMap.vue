@@ -5,7 +5,7 @@
     <div ref="mapTooltip" class="map_tooltip" v-show="tooltip.visibility=='visible'" :style="{top:tooltip.top,left:tooltip.left}">
       <div class="tooltip_body">
         {{ tooltip.place }}
-        <div v-if="tooltip.value" class="tooltip_place">{{tooltip.value}} €/m²</div>
+        <div v-if="tooltip.value" class="tooltip_place">{{tooltip.value}}</div>
       </div>
     </div>
     <div class="map_container" ref="mapContainer"></div>
@@ -821,7 +821,13 @@ export default {
       } else {
         this.tooltip.place = result.libelle_geo
       }
-      this.tooltip.value = Math.round(result[this.actualPropertyPrix]).toLocaleString()
+
+      if(result[this.actualPropertyPrix] === null){
+        this.tooltip.value = "Pas de données"
+      }else{
+        this.tooltip.value = Math.round(result[this.actualPropertyPrix]).toLocaleString()+" €/m²"
+      }
+
     },
     manageChloroplethColors(){
       if(this.dataChloropleth[this.userLocation.level]){

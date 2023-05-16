@@ -11,11 +11,11 @@
             </svg>
         </div>
         <div>
-            <div class="headerlink">
+            <!-- <div class="headerlink">
                 <a :href="aproposHref" class="fr-btn fr-btn--sm fr-btn--tertiary-no-outline fr-btn--icon-left fr-icon-information-line">
                     A propos de cette application
                 </a>
-            </div>
+            </div> -->
             <div class="headerlink">
                 <a :href="formHref" class="fr-btn fr-btn--sm fr-btn--tertiary-no-outline fr-btn--icon-left fr-icon-lightbulb-line">
                     Donnez-nous votre avis
