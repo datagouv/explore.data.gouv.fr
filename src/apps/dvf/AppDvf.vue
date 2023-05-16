@@ -3,7 +3,7 @@
     <header-apps :formHref="formHref"></header-apps>
     <div class="dvf_header">
       <h2>Explorateur de données de valeurs foncières</h2>
-      <h3>Suivez l'évolution des prix de l'immobilier et trouvez le prix des ventes immobilières</h3>
+      <h3>Suivez l'évolution des prix de l'immobilier et trouvez le prix des ventes immobilières des 5 dernières années</h3>
       <div class="maj_date_container">Dernière mise à jour des données : 26 octobre 2022</div>
     </div>
 
@@ -159,11 +159,9 @@ export default {
             this.$router.push({path: this.$route.path, query: { ...this.$route.query, level: level }}).catch(()=>{})
           }
         } else {
-          console.log(this.init)
           if (!this.init) {
             let query = {}
             for (const [key, value] of Object.entries(this.$route.query)) {
-              console.log(key)
               if (key != "level" && key != "code"){
                 query[key] = value
               }
@@ -252,6 +250,10 @@ export default {
   }
 
   .dvf_content.scrollable .dvf_app{
+    top:0;
+  }
+
+  .dvf_content.scrollable .dvf_app{
     position: relative;
     height: 100%;
   }
@@ -284,7 +286,7 @@ export default {
     border-right:1px solid transparent;
     border-bottom:1px solid #E5E5E5;
     cursor: pointer;
-    transform:translate(0,1px);
+    transform:translate(-1px,1px);
   }
 
   .panel.active{
