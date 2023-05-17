@@ -47,6 +47,45 @@
 
       </div>
 
+      <div class="links_container" v-if="level != 'fra'">
+          <div class="cardPartner" @click="goToPartner('arcep')">
+            <!-- <div class="logoPartner">
+              <img src="../assets/logos/arcep.png" width="100" />
+            </div> -->
+            <div class="textPartner">
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M4 2V3H1.5V8.5H7V6H8V9C8 9.27614 7.77614 9.5 7.5 9.5H1C0.723858 9.5 0.5 9.27614 0.5 9V2.5C0.5 2.22386 0.723858 2 1 2H4ZM9.5 0.5V5L7.603 3.1035L4.6035 6.1035L3.8965 5.3965L6.896 2.3965L5 0.5H9.5Z" fill="#3558A2"/></svg>
+              Connaître les technologies et les débits disponibles dans votre lieu de vie et dans votre territoire
+            </div>
+          </div>
+          <div class="cardPartner" @click="goToPartner('brgm')" v-if="this.userLocation.level != 'departement'">
+            <!-- <div class="logoPartner">
+              <img src="../assets/logos/logo_GR.png" width="100" />
+            </div> -->
+            <div class="textPartner">
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M4 2V3H1.5V8.5H7V6H8V9C8 9.27614 7.77614 9.5 7.5 9.5H1C0.723858 9.5 0.5 9.27614 0.5 9V2.5C0.5 2.22386 0.723858 2 1 2H4ZM9.5 0.5V5L7.603 3.1035L4.6035 6.1035L3.8965 5.3965L6.896 2.3965L5 0.5H9.5Z" fill="#3558A2"/></svg>
+              Mieux connaître les risques sur le territoire
+            </div>
+          </div>
+          <div class="cardPartner" @click="goToPartner('acceslibre')">
+            <!-- <div class="logoPartner">
+              <img src="../assets/logos/acceslibre.svg" width="100" />
+            </div> -->
+            <div class="textPartner">
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M4 2V3H1.5V8.5H7V6H8V9C8 9.27614 7.77614 9.5 7.5 9.5H1C0.723858 9.5 0.5 9.27614 0.5 9V2.5C0.5 2.22386 0.723858 2 1 2H4ZM9.5 0.5V5L7.603 3.1035L4.6035 6.1035L3.8965 5.3965L6.896 2.3965L5 0.5H9.5Z" fill="#3558A2"/></svg>
+              Accéder aux informations indispensables aux déplacements des personnes en situation de handicap sur le territoire
+            </div>
+          </div>
+          <div class="cardPartner" @click="goToPartner('ign')">
+            <!--  <div class="logoPartner">
+              <img src="../assets/logos/logo-geoportail.svg" width="100" />
+            </div> -->
+            <div class="textPartner">
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M4 2V3H1.5V8.5H7V6H8V9C8 9.27614 7.77614 9.5 7.5 9.5H1C0.723858 9.5 0.5 9.27614 0.5 9V2.5C0.5 2.22386 0.723858 2 1 2H4ZM9.5 0.5V5L7.603 3.1035L4.6035 6.1035L3.8965 5.3965L6.896 2.3965L5 0.5H9.5Z" fill="#3558A2"/></svg>
+              Consulter et télécharger l’information urbanistique sur votre territoire
+            </div>
+          </div>
+        </div>
+
       <div class="stats_container" v-if="level != 'parcelle'">
 
         <div class="global_numbers_container">
@@ -95,42 +134,6 @@
           <bar-chart></bar-chart>
         </div>
 
-        <div class="chart_container" v-if="this.userLocation != 'fra'">
-          Pour aller plus loin dans l'exploration, nous vous invitons à vous rendre sur ces sites institutionnels :
-          <br />
-          <div class="cardPartner" @click="goToPartner('arcep')">
-            <div class="logoPartner">
-              <img src="../assets/logos/arcep.png" width="100" />
-            </div>
-            <div class="textPartner">
-              Connaître les technologies et les débits disponibles dans votre lieu de vie et dans votre territoire
-            </div>
-          </div>
-          <div class="cardPartner" @click="goToPartner('brgm')" v-if="this.userLocation.level != 'departement'">
-            <div class="logoPartner">
-              <img src="../assets/logos/logo_GR.png" width="100" />
-            </div>
-            <div class="textPartner">
-              Mieux connaître les risques sur le territoire
-            </div>
-          </div>
-          <div class="cardPartner" @click="goToPartner('acceslibre')">
-            <div class="logoPartner">
-              <img src="../assets/logos/acceslibre.svg" width="100" />
-            </div>
-            <div class="textPartner">
-              Accéder aux informations indispensables aux déplacements des personnes en situation de handicap sur le territoire
-            </div>
-          </div>
-          <div class="cardPartner" @click="goToPartner('ign')">
-            <div class="logoPartner">
-              <img src="../assets/logos/logo-geoportail.svg" width="100" />
-            </div>
-            <div class="textPartner">
-              Consulter et télécharger l’information urbanistique sur votre territoire
-            </div>
-          </div>
-        </div>
 
       </div>
 
@@ -605,7 +608,7 @@ export default {
 }
 
 .header_container{
-  padding-bottom: 20px;
+  padding-bottom: 10px;
 }
 
 .intro_title{
@@ -733,6 +736,12 @@ export default {
   border-bottom: 1px solid #E5E5E5;
 }
 
+.links_container{
+  padding-top: 0px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #E5E5E5;
+}
+
 .chart_title{
   font-size: 12px;
   font-weight: 700;
@@ -795,11 +804,17 @@ export default {
 }
 
 .cardPartner{
-  border: 1px solid grey;
-  margin: 10px;
+  
   padding: 10px;
   display: flex;
   cursor: pointer;
+}
+
+.textPartner{
+  color:#3558A2;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 12px;
 }
 
 .logoPartner{

@@ -16,7 +16,11 @@
           :class="p.id===activePanel?'active':''" 
           @click="changeActivePanel(p.id)"
           >
-            {{p.label}}
+            <img v-if="p.id==='carte'" src="./assets/images/carte.svg"/>
+            <img v-if="p.id==='tableau'" src="./assets/images/tableau.svg"/>
+            <img v-if="p.id==='faq'" src="./assets/images/faq.svg"/>
+            <img v-if="p.id==='sources'" src="./assets/images/sources.svg"/>
+            <span>{{p.label}}</span>
           </div>
         </div>
 
@@ -280,13 +284,22 @@ export default {
     display: flex;
     justify-content: center;
     align-content: center;
-    flex-direction: column;
+    flex-direction: row;
     border-top:2px solid transparent;
     border-left:1px solid transparent;
     border-right:1px solid transparent;
     border-bottom:1px solid #E5E5E5;
     cursor: pointer;
     transform:translate(-1px,1px);
+  }
+
+  .panel img{
+    width: 15px;
+    margin-right: 10px;
+  }
+
+  .panel span{
+    transform:translate(0,6px);
   }
 
   .panel.active{

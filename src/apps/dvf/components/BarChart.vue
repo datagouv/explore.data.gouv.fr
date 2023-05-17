@@ -46,7 +46,6 @@ export default {
       })
       .then((data) => {
         this.barData = data
-        console.log(data)
         this.updateValues()
       })
       .catch(function(error) {
@@ -185,7 +184,6 @@ export default {
   },
   watch: {
     apiCode(){
-      console.log(this.apiCode)
       this.updateData(this.apiCode)
     },
     activeFilter(){
