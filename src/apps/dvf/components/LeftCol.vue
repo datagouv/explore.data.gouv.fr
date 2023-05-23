@@ -139,13 +139,15 @@
 
       <div class="mutations_container" v-if="level === 'parcelle'">
         <div class="mutation_box" v-bind:key="p['id']" v-for="p in parcellesMutations">
-          <div class="date">{{ p["date"] }} - {{ p["nature_mutation"] }}</div>
+          <div class="date">{{ p["date"] }}</div>
           <div class="content">
+            <div class="nature">{{ p["nature_mutation"] }}</div>
             <span class="price">{{ p["price"] }}</span>
             <div class="infos">
-              <span class="adresse">{{p["adresse_numero"]}} {{p["adresse_nom_voie"].toLowerCase()}}</span>
+              <span class="adresse"><img src="../assets/images/pin.svg"/> {{p["adresse_numero"]}} {{p["adresse_nom_voie"].toLowerCase()}}</span>
               <span v-for="item in p['assets']" class="infos_item">
-                <span class="title">{{ item["type"] }}</span>
+                <span class="title"><img src="../assets/images/appartement.svg"/> {{ item["type"] }}</span>
+                <div class="filet" v-if="item['surface']"></div>
                 <span class="value">{{ item["surface"] }}</span>
               </span>
             </div>  
@@ -442,6 +444,7 @@ export default {
             };
             mutationsObj[obj.id_mutation]["assets"].sort(sorter)
             this.parcellesMutations = mutationsObj
+            console.log(this.parcellesMutations)
             //console.log(obj)
             }
           });
@@ -752,6 +755,10 @@ export default {
   font-weight: 700;
 }
 
+.mutations_container{
+  margin-top: 20px;
+}
+
 .mutation_box{
   width: 300px;
   min-height:50px;
@@ -761,11 +768,27 @@ export default {
 .mutation_box .date{
   text-align: center;
   font-size: 12px;
+  margin-bottom: 5px;
 }
 
 .mutation_box .content{
   border:1px solid #eeeeee;
   padding:20px;
+  position: relative;
+}
+
+.mutation_box .content .nature{
+  position: absolute;
+  top:0;
+  font-size: 12px;
+  font-weight: 700;
+  color:#666666;
+  background-color: white;
+  border:1px solid #eeeeee;
+  border-radius: 4px;
+  padding: 0 6px 0 6px;
+  text-transform:uppercase;
+  transform: translate(0,-50%);
 }
 
 .mutation_box .content .price{
@@ -785,9 +808,16 @@ export default {
   font-weight: 400;
 }
 
+.mutation_box .content .adresse img{
+  vertical-align: middle;
+}
+
 .infos_item{
-  display: block;
-  padding-left: 20px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .infos_item .title{
@@ -796,15 +826,26 @@ export default {
   color:#161616;
 }
 
+.infos_item .title img{
+  vertical-align: middle;
+}
+
+.infos_item .filet{
+  width: auto;
+  height: 1px;
+  background-color: #eeeeee;
+  flex-grow: 10;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
 .infos_item .value{
-  float:right;
   font-size: 12px;
   font-weight: 700;
   color:#161616;
 }
 
 .cardPartner{
-  
   padding: 10px;
   display: flex;
   cursor: pointer;
