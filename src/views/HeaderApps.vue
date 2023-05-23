@@ -73,7 +73,7 @@ export default {
 }
 
 .logotype{
-    transform:translate(0,4.5px);
+    vertical-align: middle;
 }
 
 .fr-badge{
