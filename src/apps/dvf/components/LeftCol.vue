@@ -139,14 +139,23 @@
 
       <div class="mutations_container" v-if="level === 'parcelle'">
         <div class="mutation_box" v-bind:key="p['id']" v-for="p in parcellesMutations">
-          <div class="date">{{ p["date"] }}</div>
           <div class="content">
             <div class="nature">{{ p["nature_mutation"] }}</div>
             <span class="price">{{ p["price"] }}</span>
             <div class="infos">
-              <span class="adresse"><img src="../assets/images/pin.svg"/> {{p["adresse_numero"]}} {{p["adresse_nom_voie"].toLowerCase()}}</span>
+              <span class="topinfo adresse"><img src="../assets/images/pin.svg"/> {{p["adresse_numero"]}} {{p["adresse_nom_voie"].toLowerCase()}}</span>
+              <span class="topinfo id"><img src="../assets/images/id.svg"/> {{ p["id"] }}</span>
+              <span class="topinfo date"><img src="../assets/images/date.svg"/> {{ p["date"] }}</span>
+              
               <span v-for="item in p['assets']" class="infos_item">
-                <span class="title"><img src="../assets/images/appartement.svg"/> {{ item["type"] }}</span>
+                <span class="title">
+                  <img v-if="item['type'].substring(0,4) === 'Dépe'" src="../assets/images/dependance.svg"/>
+                  <img v-if="item['type'].substring(0,4) === 'Mais'" src="../assets/images/maison.svg"/>
+                  <img v-if="item['type'].substring(0,4) === 'Loca'" src="../assets/images/local.svg"/>
+                  <img v-if="item['type'].substring(0,4) === 'Appa'" src="../assets/images/appartement.svg"/>
+                  <img v-if="item['type'].substring(0,4) != 'Dépe' && item['type'].substring(0,4) != 'Mais' && item['type'].substring(0,4) != 'Loca' && item['type'].substring(0,4) != 'Appa' " src="../assets/images/terrain.svg"/>
+                  {{ item["type"] }}
+                </span>
                 <div class="filet" v-if="item['surface']"></div>
                 <span class="value">{{ item["surface"] }}</span>
               </span>
@@ -542,7 +551,6 @@ export default {
       }
     },
     getGeoLabel(){
-
       var label = ""
 
       if(this.level === 'fra'){
@@ -558,9 +566,11 @@ export default {
       }
 
       return label
-      
-
     },
+
+    getMutationPicto(){
+      return "../assets/images/appartement.svg"
+    }
   },
   watch: {
     
@@ -765,12 +775,6 @@ export default {
   margin:0 auto 15px;
 }
 
-.mutation_box .date{
-  text-align: center;
-  font-size: 12px;
-  margin-bottom: 5px;
-}
-
 .mutation_box .content{
   border:1px solid #eeeeee;
   padding:20px;
@@ -802,14 +806,20 @@ export default {
   padding: 0 10px 0;
 }
 
-.mutation_box .content .adresse{
+.mutation_box .content .topinfo{
   font-size: 12px;
   color:#666666;
   font-weight: 400;
+  display: block;
+  height: 20px;
 }
 
-.mutation_box .content .adresse img{
+.mutation_box .content .topinfo img{
   vertical-align: middle;
+}
+
+.mutation_box .content .date{
+  margin-bottom: 10px;
 }
 
 .infos_item{
