@@ -54,7 +54,7 @@
             </div> -->
             <div class="textPartner">
               <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M4 2V3H1.5V8.5H7V6H8V9C8 9.27614 7.77614 9.5 7.5 9.5H1C0.723858 9.5 0.5 9.27614 0.5 9V2.5C0.5 2.22386 0.723858 2 1 2H4ZM9.5 0.5V5L7.603 3.1035L4.6035 6.1035L3.8965 5.3965L6.896 2.3965L5 0.5H9.5Z" fill="#3558A2"/></svg>
-              Connaître les technologies et les débits disponibles dans votre lieu de vie et dans votre territoire
+              Voir la couverture réseaux sur maconnexioninternet.arcep.fr
             </div>
           </div>
           <div class="cardPartner" @click="goToPartner('brgm')" v-if="this.userLocation.level != 'departement'">
@@ -63,7 +63,7 @@
             </div> -->
             <div class="textPartner">
               <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M4 2V3H1.5V8.5H7V6H8V9C8 9.27614 7.77614 9.5 7.5 9.5H1C0.723858 9.5 0.5 9.27614 0.5 9V2.5C0.5 2.22386 0.723858 2 1 2H4ZM9.5 0.5V5L7.603 3.1035L4.6035 6.1035L3.8965 5.3965L6.896 2.3965L5 0.5H9.5Z" fill="#3558A2"/></svg>
-              Mieux connaître les risques sur le territoire
+              Voir les risques sur georisques.gouv.fr
             </div>
           </div>
           <div class="cardPartner" @click="goToPartner('acceslibre')">
@@ -72,7 +72,7 @@
             </div> -->
             <div class="textPartner">
               <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M4 2V3H1.5V8.5H7V6H8V9C8 9.27614 7.77614 9.5 7.5 9.5H1C0.723858 9.5 0.5 9.27614 0.5 9V2.5C0.5 2.22386 0.723858 2 1 2H4ZM9.5 0.5V5L7.603 3.1035L4.6035 6.1035L3.8965 5.3965L6.896 2.3965L5 0.5H9.5Z" fill="#3558A2"/></svg>
-              Accéder aux informations indispensables aux déplacements des personnes en situation de handicap sur le territoire
+              Voir l’accessibilité sur acceslibre.beta.gouv.fr
             </div>
           </div>
           <div class="cardPartner" @click="goToPartner('ign')">
@@ -81,7 +81,7 @@
             </div> -->
             <div class="textPartner">
               <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M4 2V3H1.5V8.5H7V6H8V9C8 9.27614 7.77614 9.5 7.5 9.5H1C0.723858 9.5 0.5 9.27614 0.5 9V2.5C0.5 2.22386 0.723858 2 1 2H4ZM9.5 0.5V5L7.603 3.1035L4.6035 6.1035L3.8965 5.3965L6.896 2.3965L5 0.5H9.5Z" fill="#3558A2"/></svg>
-              Consulter et télécharger l’information urbanistique sur votre territoire
+              Voir les informations d’urbanisme sur geoportail-urbanisme.gouv.fr
             </div>
           </div>
         </div>
@@ -125,12 +125,14 @@
         <div class="chart_container">
           <span class="chart_title">Evolution du prix de vente moyen au m²</span>
           <span class="chart_geo">{{chartGeoLabel}}</span>
+          <div class="chart_info_btn line_chart_info"><div>?</div></div>
           <line-chart></line-chart>
         </div>
 
         <div class="chart_container">
           <span class="chart_title">Distribution du prix de vente au m²</span>
           <span class="chart_geo">{{chartGeoLabel}}</span>
+          <div class="chart_info_btn bar_chart_info"><div>?</div></div>
           <bar-chart></bar-chart>
         </div>
 
@@ -765,12 +767,63 @@ export default {
   font-weight: 700;
 }
 
+.chart_info_btn{
+  display: inline-block; 
+  margin-left: 5px;
+  position: relative;
+  top:3px;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background-color: #E6EEFE;
+  cursor: pointer;
+}
+
+.chart_info_btn:after{
+  position: absolute;
+  width: 300px;
+  font-size: 10px;
+  font-weight: 400;
+  background-color: #E6EEFE;
+  left:-200px;
+  top:20px;
+  padding: 10px;
+  line-height: 16px;
+  border-radius: 5px;
+  display: none;
+}
+
+.chart_info_btn:hover:after{
+  display: block;
+}
+
+.chart_info_btn.line_chart_info:after{
+  content:"Ce graphique indique l'évolution du prix au m² pour le type de biens sélectionné et l'échelle sélectionnée. Les prix au m² sont obtenus en divisant la valeur foncière du bien par sa surface au sol.";
+}
+
+.chart_info_btn.bar_chart_info:after{
+  content:" Ce graphique montre la répartition des prix des ventes à l'échelle sélectionnée, pour le type de biens sélectionné. En survolant chaque barre, vous pouvez voir combien de ventes se sont faites à un montant compris dans la tranche de prix affichée.";
+}
+
+
+
+.chart_info_btn div{
+  display: block;
+  position: absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  font-size: 12px;
+  font-weight: 700;
+}
+
 .mutations_container{
   margin-top: 20px;
 }
 
 .mutation_box{
-  width: 300px;
+  width: 100%;
+  /*max-width: 450px;*/
   min-height:50px;
   margin:0 auto 15px;
 }
@@ -856,7 +909,7 @@ export default {
 }
 
 .cardPartner{
-  padding: 10px;
+  padding-bottom: 10px;
   display: flex;
   cursor: pointer;
 }
@@ -866,11 +919,6 @@ export default {
   font-size: 12px;
   font-weight: 700;
   line-height: 12px;
-}
-
-.logoPartner{
-  width: 200px;
-  height: 100%;
 }
 
 
