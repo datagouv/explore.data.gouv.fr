@@ -5,8 +5,8 @@
         <h4>Jeux de données utilisés</h4>
         <span class="chapo">Les données utilisées pour construire cette application sont disponibles en open data sur data.gouv.fr</span>
 
-        <dataset-embed :dataset='"63bce30c70d6d100b09dde9a"'></dataset-embed>
-        <dataset-embed :dataset='"639c7cf4969f3318338df9a8"'></dataset-embed>
+        <dataset-embed class="datasetembed" :dataset='"63bce30c70d6d100b09dde9a"'></dataset-embed>
+        <dataset-embed class="datasetembed" :dataset='"639c7cf4969f3318338df9a8"'></dataset-embed>
 
 
         <h4 class="second_title">Code source</h4>
@@ -68,6 +68,10 @@ export default {
 
   .second_title{
     margin-top:50px;
+  }
+
+  .datasetembed{
+    margin-bottom: 20px;
   }
 
   #git_container{

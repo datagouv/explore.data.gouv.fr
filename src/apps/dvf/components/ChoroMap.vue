@@ -5,7 +5,7 @@
     <div ref="mapTooltip" class="map_tooltip" v-show="tooltip.visibility=='visible'" :style="{top:tooltip.top,left:tooltip.left}">
       <div class="tooltip_body">
         {{ tooltip.place }}
-        <div v-if="tooltip.value" class="tooltip_place">{{tooltip.value}}</div>
+        <div v-if="tooltip.value" class="tooltip_place"><b>{{tooltip.value}}</b></div>
       </div>
     </div>
     <div class="map_container" ref="mapContainer"></div>
@@ -480,8 +480,9 @@ export default {
               // we are on the actual displaying departement, so no need to light grey dep
               this.map.setPaintProperty("departements_fill", "fill-opacity", 0)
             } else {
-              this.tooltip.value = null
-              this.tooltip.place = "Changer de département"
+              /* this.tooltip.value = null */
+              /* this.tooltip.place = "Changer de département" */
+              this.tooltip.visibility = false
             }
           }
         });
@@ -495,8 +496,9 @@ export default {
             this.displayTooltip(e)
           }
           if (sectionId.substring(0,5) != this.userLocation.com) {
-              this.tooltip.value = null
-              this.tooltip.place = "Changer de commune"
+              //this.tooltip.value = null
+              //this.tooltip.place = "Changer de commune"
+              this.tooltip.visibility = false
           }
           this.changeLocation("changeMouseLocation", "section", sectionId, sectionId)
         });

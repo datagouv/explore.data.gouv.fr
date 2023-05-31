@@ -33,7 +33,7 @@
 
     </div>
 
-    <footer-apps :scrollable="isScrollable"></footer-apps>
+    <footer-apps :scrollable="isScrollable" :display="isDisplay"></footer-apps>
   </div>
 </template>
 
@@ -92,7 +92,15 @@ export default {
       }else{
         return ""
       }
-    }
+    },
+    isDisplay:function(){
+      if(appStore.state.activePanel==='tableau'){
+        return ""
+      }else{
+        return "display"
+      }
+    },
+
   },
   mounted() {
 
