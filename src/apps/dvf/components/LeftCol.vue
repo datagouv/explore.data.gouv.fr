@@ -1,5 +1,5 @@
 <template>
-    <div class="leftCol">
+    <div class="leftCol" @click="changeLeftColOpening()" :class="{[leftColOpening]: true}">
 
       <div class="header_container" v-if="level === 'fra'">
         <h2 class="intro_title">Bonjour !<br>Bienvenue</h2>
@@ -205,7 +205,8 @@ export default {
         moy_prix_m2_local:0,
         moy_prix_m2_maison:0
       },
-      parcellesMutations:null
+      parcellesMutations:null,
+      leftColOpening:""
     }
   },
   computed: {
@@ -572,6 +573,14 @@ export default {
 
     getMutationPicto(){
       return "../assets/images/appartement.svg"
+    },
+
+    changeLeftColOpening(){
+      if(this.leftColOpening == "close"||this.leftColOpening == ""){
+        this.leftColOpening = "open"
+      }else{
+        this.leftColOpening = "close"
+      } 
     }
   },
   watch: {
@@ -930,7 +939,43 @@ export default {
     width: 40%;
   }
 
+}
 
+@media screen and (max-width: 767px){
+
+  .leftCol{
+    position: absolute;
+    width: 95%;
+    left:50%;
+    top:70%;
+    transform:translate(-50%,-40px);
+    z-index: 99;
+    background-color: white;
+    padding-top: 25px;
+    padding-bottom: 50px;
+    overflow: hidden;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .leftCol.close{
+    top:100%;
+  }
+
+  .leftCol.open{
+    top:10%;
+    overflow: scroll;
+  }
+
+  .leftCol:before{
+    content:"^";
+    font-size: 25px;
+    position: absolute;
+    top:10px;
+    left:50%;
+    transform:translate(-50%,0);
+  }
+
+  
 }
 
 
