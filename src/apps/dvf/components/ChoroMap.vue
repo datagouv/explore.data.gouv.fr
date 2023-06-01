@@ -989,4 +989,16 @@ export default {
     }
   }
 }
+
+@media screen and (max-width: 1279px){
+
+  .choroMap{
+    width: 60%;
+  }
+
+  .leg_container{
+    bottom: 60px;
+  }
+
+}
 </style>

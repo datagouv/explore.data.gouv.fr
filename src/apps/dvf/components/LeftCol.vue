@@ -696,6 +696,7 @@ export default {
   font-weight: 700;
   font-size: 12px;
   color:#3A3A3A;
+  line-height: 16px;
 }
 
 .global_number_value{
@@ -760,11 +761,13 @@ export default {
 .chart_title{
   font-size: 12px;
   font-weight: 700;
+  line-height: 16px;
 }
 
 .chart_geo{
   font-size: 12px;
   font-weight: 700;
+  line-height: 16px;
 }
 
 .chart_info_btn{
@@ -919,6 +922,15 @@ export default {
   font-size: 12px;
   font-weight: 700;
   line-height: 12px;
+}
+
+@media screen and (max-width: 1279px){
+
+  .leftCol{
+    width: 40%;
+  }
+
+
 }
 
 
