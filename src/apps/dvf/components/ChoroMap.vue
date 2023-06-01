@@ -999,6 +999,21 @@ export default {
   .leg_container{
     bottom: 60px;
   }
+}
 
+@media screen and (max-width: 767px){
+
+  .choroMap{
+    position: absolute;
+    width: 100%;
+    display: block;
+    min-height: 100%;
+    position: relative;
+  }
+
+  .leg_container{
+    display:none;
+  }
+  
 }
 </style>

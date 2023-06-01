@@ -77,6 +77,13 @@ export default {
     margin-right: 15px;
 }
 
+@media screen and (max-width: 767px){
+
+    .footerapps.display{
+        display: none;
+    }
+}
+
 
 
 </style>

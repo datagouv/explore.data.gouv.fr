@@ -328,4 +328,29 @@ export default {
     }
 
   }
+
+  @media screen and (max-width: 767px){
+
+    .dvf_header{
+      display: none;
+    }
+
+    .dvf_content{
+      top:60px;
+    }
+
+    .panel_container{
+      position: absolute;
+      bottom:0;
+      width: 100%;
+      z-index: 999;
+      background-color: white;
+    }
+
+    .dvf_app{
+      top:0px;    
+      bottom:41px;
+    }
+
+  }
 </style>
