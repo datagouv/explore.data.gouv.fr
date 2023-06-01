@@ -7,7 +7,7 @@
       <div class="maj_date_container">Dernière mise à jour des données : 26 octobre 2022</div>
     </div>
 
-    <div class="dvf_content" :class="activePanel==='faq'?'scrollable':''">
+    <div class="dvf_content" :class="activePanel==='faq'||activePanel==='sources'?'scrollable':''">
         
         <div class="panel_container">
           <div
@@ -87,7 +87,7 @@ export default {
       return appStore.state.mapProperties.init
     },
     isScrollable:function(){
-      if(appStore.state.activePanel==='faq'){
+      if(appStore.state.activePanel==='faq'||appStore.state.activePanel==='sources'){
         return "scrollable"
       }else{
         return ""
@@ -299,6 +299,7 @@ export default {
     border-bottom:1px solid #E5E5E5;
     cursor: pointer;
     transform:translate(-1px,1px);
+    overflow: hidden;
   }
 
   .panel img{
@@ -320,4 +321,11 @@ export default {
     color:#3558A2;
   }
 
+  @media screen and (max-width: 1279px){
+
+    .dvf_header .maj_date_container{
+      top:10px;
+    }
+
+  }
 </style>
