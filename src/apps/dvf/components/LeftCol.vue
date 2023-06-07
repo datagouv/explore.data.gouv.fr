@@ -125,14 +125,16 @@
         <div class="chart_container">
           <span class="chart_title">Evolution du prix de vente moyen au m²</span>
           <span class="chart_geo">{{chartGeoLabel}}</span>
-          <div class="chart_info_btn line_chart_info"><div>?</div></div>
+          <div class="chart_info_btn line_chart_info" @mouseenter="hoveredBulle='line'" @mouseleave="hoveredBulle=''"><div>?</div></div>
+          <div class="chart_info_bulle" v-if="hoveredBulle=='line'">Ce graphique indique l'évolution du prix au m² pour le type de biens sélectionné et l'échelle sélectionnée. Les prix au m² sont obtenus en divisant la valeur foncière du bien par sa surface au sol.</div>
           <line-chart></line-chart>
         </div>
 
         <div class="chart_container">
           <span class="chart_title">Distribution du prix de vente au m²</span>
           <span class="chart_geo">{{chartGeoLabel}}</span>
-          <div class="chart_info_btn bar_chart_info"><div>?</div></div>
+          <div class="chart_info_btn bar_chart_info" @mouseenter="hoveredBulle='bar'" @mouseleave="hoveredBulle=''"><div>?</div></div>
+          <div class="chart_info_bulle" v-if="hoveredBulle=='bar'">Ce graphique montre la répartition des prix des ventes à l'échelle sélectionnée, pour le type de biens sélectionné. En survolant chaque barre, vous pouvez voir combien de ventes se sont faites à un montant compris dans la tranche de prix affichée.</div>
           <bar-chart></bar-chart>
         </div>
 
@@ -206,7 +208,8 @@ export default {
         moy_prix_m2_maison:0
       },
       parcellesMutations:null,
-      leftColOpening:""
+      leftColOpening:"",
+      hoveredBulle:""
     }
   },
   computed: {
@@ -759,6 +762,7 @@ export default {
   padding-top: 20px;
   padding-bottom: 20px;
   border-bottom: 1px solid #E5E5E5;
+  position: relative;
 }
 
 .links_container{
@@ -791,33 +795,21 @@ export default {
   cursor: pointer;
 }
 
-.chart_info_btn:after{
+.chart_info_bulle{
   position: absolute;
-  width: 300px;
-  font-size: 10px;
+  width: 80%;
+  font-size: 12px;
   font-weight: 400;
-  background-color: #E6EEFE;
-  left:-200px;
-  top:20px;
+  background-color: white;
+  left:50%;
+  top:50px;
+  transform: translate(-50%,0);
   padding: 10px;
   line-height: 16px;
   border-radius: 5px;
-  display: none;
-}
-
-.chart_info_btn:hover:after{
   display: block;
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.16), 0px 1px 0px -2px rgba(0, 0, 0, 0.16), 0px 1px 4px rgba(0, 0, 0, 0.23);
 }
-
-.chart_info_btn.line_chart_info:after{
-  content:"Ce graphique indique l'évolution du prix au m² pour le type de biens sélectionné et l'échelle sélectionnée. Les prix au m² sont obtenus en divisant la valeur foncière du bien par sa surface au sol.";
-}
-
-.chart_info_btn.bar_chart_info:after{
-  content:" Ce graphique montre la répartition des prix des ventes à l'échelle sélectionnée, pour le type de biens sélectionné. En survolant chaque barre, vous pouvez voir combien de ventes se sont faites à un montant compris dans la tranche de prix affichée.";
-}
-
-
 
 .chart_info_btn div{
   display: block;
