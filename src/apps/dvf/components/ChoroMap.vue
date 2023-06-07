@@ -4,8 +4,9 @@
     <filters-box></filters-box>
     <div ref="mapTooltip" class="map_tooltip" v-show="tooltip.visibility=='visible'" :style="{top:tooltip.top,left:tooltip.left}">
       <div class="tooltip_body">
-        {{ tooltip.place }}
-        <div v-if="tooltip.value" class="tooltip_place"><b>{{tooltip.value}}</b></div>
+        <b>{{ tooltip.place }}</b>
+        <div v-if="tooltip.value&&tooltip.value!='nodata'" class="tooltip_place"><b>{{tooltip.value}}</b> par m²</div>
+        <div v-if="tooltip.value&&tooltip.value=='nodata'" class="tooltip_place">Pas de données disponible<br><b>Consultez notre FAQ pour en savoir plus</b></div>
       </div>
     </div>
     <div class="map_container" ref="mapContainer"></div>
@@ -825,9 +826,9 @@ export default {
       }
 
       if(result[this.actualPropertyPrix] === null){
-        this.tooltip.value = "Pas de données"
+        this.tooltip.value = "nodata"
       }else{
-        this.tooltip.value = Math.round(result[this.actualPropertyPrix]).toLocaleString()+" €/m²"
+        this.tooltip.value = Math.round(result[this.actualPropertyPrix]).toLocaleString()+"€"
       }
 
     },
@@ -969,7 +970,8 @@ export default {
 
 
 .map_tooltip{
-  width: 165px;
+  width: auto;
+  min-width: 165px;
   height: auto;
   background-color: white;
   position: fixed;
