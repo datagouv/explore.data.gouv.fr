@@ -2,7 +2,7 @@
     <div class="mainView" id="tableauView">
         <div class="filtersTable">
           <div class="filterTable">
-            Département
+            <div>Département</div>
             <select class="fr-select dgvSelector" v-model="selectedResource" @change="redirectToResource">
               <option
                 v-for="option in resources"
@@ -28,11 +28,11 @@
             {{ userLocation.parcelle }}
           </div>
           <div class="filterTable" v-if="this.$route.query.filtre">
-            Type de locaux<br />
-            <span v-if="this.$route.query.filtre == 'tous'">Appartement / Maison</span>
-            <span v-if="this.$route.query.filtre == 'appartement'">Appartement</span>
-            <span v-if="this.$route.query.filtre == 'maison'">Maison</span>
-            <span v-if="this.$route.query.filtre == 'local'">Locaux</span>
+            <div>Type de biens</div><br />
+            <span :class="(this.$route.query.filtre == 'tous')?'active':''"><div></div>Appartement / Maison</span>
+            <span :class="(this.$route.query.filtre == 'appartement')?'active':''"><div></div>Appartement</span>
+            <span :class="(this.$route.query.filtre == 'maison')?'active':''"><div></div>Maison</span>
+            <span :class="(this.$route.query.filtre == 'tous')?'local':''"><div></div>Locaux</span>
           </div>
         </div>
 
@@ -231,14 +231,57 @@ export default {
     display: flex;
     padding-left: 15px;
     padding-right: 15px;
+    position: relative;
 }
 
 .filterTable{
-    margin: 15px;
-    padding: 5px;
-    background-color: #E5EEFD;
+    padding-top: 15px;
+    padding-bottom: 15px;
     border-radius: 15px;
-
+    display: flex;
+    position: relative;
+    margin-right: 20px;
 }
+
+.filterTable div{
+  margin-right: 10px;
+  text-transform: uppercase;
+  font-size: 14px;
+  font-weight: 700;
+  position: relative;
+  margin-top: 10px;
+  height: auto;
+}
+
+.filterTable span{
+  color:#929292;
+  margin-right:10px;
+  margin-top: 0px;
+  font-size: 14px;
+}
+
+.filterTable span div{
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border:1px solid #929292;
+  border-radius: 50%;
+  transform:translate(4px,2px);
+  position: relative;
+}
+
+.filterTable span.active div:after{
+  content:"";
+  width: 10px;
+  height: 10px;
+  background-color: #929292;
+  display: block;
+  border-radius: 50%;
+  position: absolute;
+  left:50%;
+  top:50%;
+  transform: translate(-50%,-50%);
+}
+
 
 </style>
