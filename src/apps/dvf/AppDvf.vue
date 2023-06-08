@@ -20,7 +20,8 @@
             <img v-if="p.id==='tableau'" src="./assets/images/tableau.svg"/>
             <img v-if="p.id==='faq'" src="./assets/images/faq.svg"/>
             <img v-if="p.id==='sources'" src="./assets/images/sources.svg"/>
-            <span>{{p.label}}</span>
+            <span v-if="p.id=='faq'&&isMobile">FAQ</span>
+            <span v-else>{{p.label}}</span>
           </div>
         </div>
 
@@ -103,6 +104,15 @@ export default {
     },
     appLink:function(){
       return window.location.origin+"/dvf?onglet=carte&filtre=tous"
+    },
+    isMobile:function(){
+      if(window.innerWidth<768){
+        console.log("is mobile")
+        return true
+      }else{
+        console.log("is not mobile")
+        return false
+      }
     }
 
   },
@@ -340,7 +350,7 @@ export default {
     }
 
     .dvf_content{
-      top:60px;
+      top:50px;
     }
 
     .panel_container{
@@ -349,6 +359,32 @@ export default {
       width: 100%;
       z-index: 999;
       background-color: white;
+    }
+
+    .panel{
+      background-color: white;
+      flex-direction: column;
+      border:none;
+      font-size: 12px;
+    }
+
+    .panel img{
+      margin-right: 0px;
+      left:50%;
+      position: relative;
+      margin-left: -9px;
+      margin-top: 5px;
+    }
+
+    .panel span{
+      transform:translate(0,0px);
+    }
+
+    .panel.active{
+      background-color: white;
+      border:none;
+      cursor: default;
+      color:#3558A2;
     }
 
     .dvf_app{

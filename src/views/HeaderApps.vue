@@ -104,4 +104,16 @@ export default {
     color:black;
 }
 
+@media screen and (max-width: 767px){
+
+    .headerapps{
+        box-shadow: none;
+    }
+
+    .headerlink{
+        display: none;
+    }
+}
+
+
 </style>
