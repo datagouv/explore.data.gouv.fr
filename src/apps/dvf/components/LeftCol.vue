@@ -1,5 +1,7 @@
 <template>
-    <div class="leftCol" @click="changeLeftColOpening()" :class="{[leftColOpening]: true}">
+    <div class="leftCol" :class="{[leftColOpening]: true}">
+
+      <div class="leftColOpener" @click="changeLeftColOpening()"><span>^</span></div>
 
       <div class="header_container" v-if="level === 'fra'">
         <h2 class="intro_title">Bonjour !<br>Bienvenue</h2>
@@ -125,7 +127,7 @@
         <div class="chart_container">
           <span class="chart_title">Evolution du prix de vente moyen au m²</span>
           <span class="chart_geo">{{chartGeoLabel}}</span>
-          <div class="chart_info_btn line_chart_info" @mouseenter="hoveredBulle='line'" @mouseleave="hoveredBulle=''"><div>?</div></div>
+          <div class="chart_info_btn line_chart_info" @mouseover="hoveredBulle='line'" @mouseleave="hoveredBulle=''"><div>?</div></div>
           <div class="chart_info_bulle" v-if="hoveredBulle=='line'">Ce graphique indique l'évolution du prix au m² pour le type de biens sélectionné et l'échelle sélectionnée. Les prix au m² sont obtenus en divisant la valeur foncière du bien par sa surface au sol.</div>
           <line-chart></line-chart>
         </div>
@@ -133,7 +135,7 @@
         <div class="chart_container">
           <span class="chart_title">Distribution du prix de vente au m²</span>
           <span class="chart_geo">{{chartGeoLabel}}</span>
-          <div class="chart_info_btn bar_chart_info" @mouseenter="hoveredBulle='bar'" @mouseleave="hoveredBulle=''"><div>?</div></div>
+          <div class="chart_info_btn bar_chart_info" @mouseover="hoveredBulle='bar'" @mouseleave="hoveredBulle=''"><div>?</div></div>
           <div class="chart_info_bulle" v-if="hoveredBulle=='bar'">Ce graphique montre la répartition des prix des ventes à l'échelle sélectionnée, pour le type de biens sélectionné. En survolant chaque barre, vous pouvez voir combien de ventes se sont faites à un montant compris dans la tranche de prix affichée.</div>
           <bar-chart></bar-chart>
         </div>
@@ -634,6 +636,10 @@ export default {
   overflow: scroll;
 }
 
+.leftColOpener{
+  display: none;
+}
+
 .header_container{
   padding-bottom: 10px;
 }
@@ -958,13 +964,26 @@ export default {
     overflow: scroll;
   }
 
-  .leftCol:before{
-    content:"^";
+  .leftColOpener{
+    display: block;
     font-size: 25px;
+    height: 40px;
     position: absolute;
-    top:10px;
+    padding-top:10px;
+    top:0;
     left:50%;
     transform:translate(-50%,0);
+    width: 100%;
+    text-align: center;
+  }
+
+  .leftColOpener span{
+    position: relative;
+    top:0;
+  }
+
+  .leftCol.open .leftColOpener{
+    transform:translate(-50%,0) rotate(180deg);
   }
 
   

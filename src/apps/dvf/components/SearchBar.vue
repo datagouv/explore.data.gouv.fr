@@ -103,11 +103,13 @@ export default {
 
   .autocomplete-container {
     position: relative;
+    width: 305px;
+    left:0;
+    position: absolute;
   }
 
   .autocomplete {
     position: absolute;
-    
     border-top: 1px solid #ebebeb;
     width: 305px;
     z-index: 999;
