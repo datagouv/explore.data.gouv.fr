@@ -282,7 +282,7 @@ export default {
       this.setSearchParams(params)
     },
     setSearchParams (params) {
-      window.history.pushState(null, '', `/?${params.toString()}`)
+      window.history.pushState(null, '', this.$route.path+`?${params.toString()}`)
     },
     sliderChange(e) {
       clearTimeout(this.timer)

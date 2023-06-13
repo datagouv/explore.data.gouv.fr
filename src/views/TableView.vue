@@ -92,8 +92,10 @@ export default {
     const url = params.get('url')
     if (url) {
       if(url.includes('data.gouv.fr')){
-        let rid = url.split('/')[url.split('/').length - 1]
-        fetch(('https://www.data.gouv.fr/api/2/datasets/resources/' + rid + '/'))
+        var urlProps = url.split('/')
+        let rid = urlProps[urlProps.length - 1]
+        let domaineName = urlProps[2]
+        fetch(('https://'+domaineName+'/api/2/datasets/resources/' + rid + '/'))
         .then((response) => {
             return response.json()
         })

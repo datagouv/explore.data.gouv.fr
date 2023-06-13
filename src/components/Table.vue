@@ -179,7 +179,7 @@
               <p class="fr-col-auto"><strong>Nb. Lignes</strong> : {{totalRows}}</p>
             </div>
           </div>
-          <div class="fr-col-auto" v-if="dgvInfos.resource">
+          <div class="fr-col-auto">
             <a
               v-if="filters.length > 0"
               download 
@@ -189,13 +189,15 @@
               Télécharger les données filtrées
             </a>
             &nbsp;&nbsp;
-            <a
-              download 
-              :href="dgvInfos.resource.latest"
-              class="fr-btn fr-btn--sm fr-btn--secondary fr-btn--icon-left fr-icon-download-line"
-            >
-              Télécharger le fichier complet
-            </a>
+            <span  v-if="dgvInfos.resource">
+              <a
+                download 
+                :href="dgvInfos.resource.latest"
+                class="fr-btn fr-btn--sm fr-btn--secondary fr-btn--icon-left fr-icon-download-line"
+              >
+                Télécharger le fichier complet
+              </a>
+            </span>
           </div>
         </div>
       </tfoot>
@@ -743,6 +745,12 @@ th, td {
 .header.sticky-bar{
   padding: 0.45rem 1rem 0.4rem 1rem;
   font-size: 0.8rem;
+}
+
+.header.sticky-bar div{
+  max-height: 80px;
+  overflow: auto;
+  line-height: 16px;
 }
 
 .filter {

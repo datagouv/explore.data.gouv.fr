@@ -23,7 +23,7 @@
 		"@vue/cli-service": "^4.1.1",
 		"bootstrap-vue": "^2.1.0",
 		"cache-loader": "^4.1.0",
-		"chart.js": "^3.8.0",
+		"chart.js": "^3.9.1",
 		"d3-scale": "^4.0.2",
 		"hoek": "^5.0.3",
 		"maplibre-gl": "^2.4.0",
@@ -45,5 +45,8 @@
 		"> 1%",
 		"last 2 versions",
 		"not ie <= 8"
-	]
+	],
+	"dependencies": {
+		"crypto-js": "^4.1.1"
+	}
 }
