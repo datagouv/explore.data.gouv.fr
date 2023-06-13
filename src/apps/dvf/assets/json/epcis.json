@@ -1,0 +1,7532 @@
+[
+	{
+		"code": "200000172",
+		"nom": "CC Faucigny-Gli\u00e8res",
+		"parent": "74",
+		"valeur": 52
+	},
+	{
+		"code": "200000438",
+		"nom": "CC du Pays de Pontch\u00e2teau St-Gildas-des-Bois",
+		"parent": "44",
+		"valeur": 0
+	},
+	{
+		"code": "200000545",
+		"nom": "CC des Portes de Romilly sur Seine",
+		"parent": "10",
+		"valeur": 26
+	},
+	{
+		"code": "200000628",
+		"nom": "CC Rh\u00f4ne Lez Provence",
+		"parent": "84",
+		"valeur": 25
+	},
+	{
+		"code": "200000800",
+		"nom": "CC Coeur de Sologne",
+		"parent": "41",
+		"valeur": 15
+	},
+	{
+		"code": "200000925",
+		"nom": "CC de la Plaine Dijonnaise",
+		"parent": "21",
+		"valeur": 48
+	},
+	{
+		"code": "200000933",
+		"nom": "CC Sauldre et Sologne",
+		"parent": "18",
+		"valeur": 57
+	},
+	{
+		"code": "200004802",
+		"nom": "CC du Pays de Fayence",
+		"parent": "83",
+		"valeur": 12
+	},
+	{
+		"code": "200005932",
+		"nom": "CC des Portes de Sologne",
+		"parent": "45",
+		"valeur": 12
+	},
+	{
+		"code": "200005957",
+		"nom": "CC de la R\u00e9gion de Rambervillers",
+		"parent": "88",
+		"valeur": 82
+	},
+	{
+		"code": "200006682",
+		"nom": "CA Beaune, C\u00f4te et Sud - Communaut\u00e9 Beaune-Chagny-Nolay",
+		"parent": "21",
+		"valeur": 77
+	},
+	{
+		"code": "200006716",
+		"nom": "CC du Nogentais",
+		"parent": "10",
+		"valeur": 68
+	},
+	{
+		"code": "200006930",
+		"nom": "CC du Haut Allier",
+		"parent": "48",
+		"valeur": 52
+	},
+	{
+		"code": "200006971",
+		"nom": "CC du Perche",
+		"parent": "28",
+		"valeur": 32
+	},
+	{
+		"code": "200007052",
+		"nom": "CC de la Marche Berrichonne",
+		"parent": "36",
+		"valeur": 44
+	},
+	{
+		"code": "200007177",
+		"nom": "CC Pays de N\u00e9rondes",
+		"parent": "18",
+		"valeur": 70
+	},
+	{
+		"code": "200010650",
+		"nom": "CA du Grand Dole",
+		"parent": "39",
+		"valeur": 72
+	},
+	{
+		"code": "200010700",
+		"nom": "CA Caux Seine Agglo",
+		"parent": "76",
+		"valeur": 24
+	},
+	{
+		"code": "200011773",
+		"nom": "CA Annemasse-Les Voirons-Agglom\u00e9ration",
+		"parent": "74",
+		"valeur": 25
+	},
+	{
+		"code": "200011781",
+		"nom": "CC Portes du Berry entre Loire et Val d'Aubois",
+		"parent": "18",
+		"valeur": 61
+	},
+	{
+		"code": "200013050",
+		"nom": "CC Sauer-Pechelbronn",
+		"parent": "67",
+		"valeur": 95
+	},
+	{
+		"code": "200015162",
+		"nom": "CC de l'Oriente",
+		"parent": "2B",
+		"valeur": 30
+	},
+	{
+		"code": "200016905",
+		"nom": "CC du Pays de Lamastre",
+		"parent": "07",
+		"valeur": 9
+	},
+	{
+		"code": "200017341",
+		"nom": "CC Lod\u00e9vois et Larzac",
+		"parent": "34",
+		"valeur": 80
+	},
+	{
+		"code": "200017846",
+		"nom": "CA Etampois Sud Essonne",
+		"parent": "91",
+		"valeur": 47
+	},
+	{
+		"code": "200018083",
+		"nom": "CC de Desvres-Samer",
+		"parent": "62",
+		"valeur": 41
+	},
+	{
+		"code": "200018166",
+		"nom": "CC Le Gr\u00e9sivaudan",
+		"parent": "38",
+		"valeur": 33
+	},
+	{
+		"code": "200018406",
+		"nom": "CC du Romorantinais et du Monestois",
+		"parent": "41",
+		"valeur": 38
+	},
+	{
+		"code": "200018521",
+		"nom": "CC du Val de Bouzanne",
+		"parent": "36",
+		"valeur": 57
+	},
+	{
+		"code": "200018653",
+		"nom": "CA CAP Excellence",
+		"parent": "97",
+		"valeur": 97
+	},
+	{
+		"code": "200022986",
+		"nom": "CC du Grand Pic Saint-Loup",
+		"parent": "34",
+		"valeur": 58
+	},
+	{
+		"code": "200023075",
+		"nom": "CC du Pays de Ma\u00eeche",
+		"parent": "25",
+		"valeur": 75
+	},
+	{
+		"code": "200023125",
+		"nom": "CC Les Portes Briardes Entre Villes et For\u00eats",
+		"parent": "77",
+		"valeur": 37
+	},
+	{
+		"code": "200023240",
+		"nom": "CC Pays de Nemours",
+		"parent": "77",
+		"valeur": 28
+	},
+	{
+		"code": "200023299",
+		"nom": "CC Coeur de Tarentaise",
+		"parent": "73",
+		"valeur": 4
+	},
+	{
+		"code": "200023307",
+		"nom": "CA du Grand Villeneuvois",
+		"parent": "47",
+		"valeur": 15
+	},
+	{
+		"code": "200023372",
+		"nom": "CC de la Vall\u00e9e de Chamonix-Mont-Blanc",
+		"parent": "74",
+		"valeur": 92
+	},
+	{
+		"code": "200023414",
+		"nom": "M\u00e9tropole Rouen Normandie",
+		"parent": "76",
+		"valeur": 9
+	},
+	{
+		"code": "200023620",
+		"nom": "CC de la Gascogne Toulousaine",
+		"parent": "32",
+		"valeur": 62
+	},
+	{
+		"code": "200023737",
+		"nom": "CA du Grand Cahors",
+		"parent": "46",
+		"valeur": 81
+	},
+	{
+		"code": "200023778",
+		"nom": "CA du Pays de Saint-Gilles-Croix-de-Vie",
+		"parent": "85",
+		"valeur": 88
+	},
+	{
+		"code": "200023794",
+		"nom": "CC de Blaye",
+		"parent": "33",
+		"valeur": 100
+	},
+	{
+		"code": "200023919",
+		"nom": "CC G\u00e2tinais Val de Loing",
+		"parent": "77",
+		"valeur": 1
+	},
+	{
+		"code": "200026573",
+		"nom": "CC Haut-Jura Saint-Claude",
+		"parent": "39",
+		"valeur": 56
+	},
+	{
+		"code": "200027027",
+		"nom": "CC Arc Sud Bretagne",
+		"parent": "56",
+		"valeur": 9
+	},
+	{
+		"code": "200027076",
+		"nom": "CC Arnon Boischaut Cher",
+		"parent": "18",
+		"valeur": 70
+	},
+	{
+		"code": "200027100",
+		"nom": "CC M\u00e9diterran\u00e9e Porte des Maures",
+		"parent": "83",
+		"valeur": 52
+	},
+	{
+		"code": "200027183",
+		"nom": "CU Perpignan M\u00e9diterran\u00e9e M\u00e9tropole",
+		"parent": "66",
+		"valeur": 13
+	},
+	{
+		"code": "200027217",
+		"nom": "CC Sarlat-P\u00e9rigord Noir",
+		"parent": "24",
+		"valeur": 37
+	},
+	{
+		"code": "200027308",
+		"nom": "CC d'Auberive Vingeanne et Montsaugeonnais",
+		"parent": "52",
+		"valeur": 9
+	},
+	{
+		"code": "200027548",
+		"nom": "CC des Savanes",
+		"parent": "97",
+		"valeur": 10
+	},
+	{
+		"code": "200029734",
+		"nom": "CC des 4B Sud Charente",
+		"parent": "16",
+		"valeur": 21
+	},
+	{
+		"code": "200029999",
+		"nom": "CC Rives de l'Ain - Pays du Cerdon",
+		"parent": "01",
+		"valeur": 44
+	},
+	{
+		"code": "200030195",
+		"nom": "M\u00e9tropole Nice C\u00f4te d'Azur",
+		"parent": "06",
+		"valeur": 64
+	},
+	{
+		"code": "200030385",
+		"nom": "CA de Blois ''Agglopolys''",
+		"parent": "41",
+		"valeur": 30
+	},
+	{
+		"code": "200030435",
+		"nom": "CC d'Aire-sur-l'Adour",
+		"parent": "40",
+		"valeur": 93
+	},
+	{
+		"code": "200030526",
+		"nom": "CC du Ried de Marckolsheim",
+		"parent": "67",
+		"valeur": 52
+	},
+	{
+		"code": "200030633",
+		"nom": "CA du Caudr\u00e9sis et du Cat\u00e9sis",
+		"parent": "59",
+		"valeur": 38
+	},
+	{
+		"code": "200030658",
+		"nom": "CC du Tri\u00e8ves",
+		"parent": "38",
+		"valeur": 29
+	},
+	{
+		"code": "200030674",
+		"nom": "CA Val de Garonne Agglom\u00e9ration",
+		"parent": "47",
+		"valeur": 70
+	},
+	{
+		"code": "200032514",
+		"nom": "CC Berry-Loire-Vauvise",
+		"parent": "18",
+		"valeur": 46
+	},
+	{
+		"code": "200033025",
+		"nom": "CA de Bar-le-Duc - Sud Meuse",
+		"parent": "55",
+		"valeur": 32
+	},
+	{
+		"code": "200033090",
+		"nom": "CC Plaines et Monts de France",
+		"parent": "77",
+		"valeur": 81
+	},
+	{
+		"code": "200033116",
+		"nom": "CC Cluses-Arve et Montagnes",
+		"parent": "74",
+		"valeur": 27
+	},
+	{
+		"code": "200033173",
+		"nom": "CC de la Haute Vall\u00e9e de Chevreuse",
+		"parent": "78",
+		"valeur": 10
+	},
+	{
+		"code": "200033181",
+		"nom": "CA Chartres M\u00e9tropole",
+		"parent": "28",
+		"valeur": 78
+	},
+	{
+		"code": "200033298",
+		"nom": "CC des Co\u00ebvrons",
+		"parent": "53",
+		"valeur": 27
+	},
+	{
+		"code": "200033579",
+		"nom": "CU d'Arras",
+		"parent": "62",
+		"valeur": 42
+	},
+	{
+		"code": "200033827",
+		"nom": "CC de Fium'Orbu Castellu",
+		"parent": "2B",
+		"valeur": 58
+	},
+	{
+		"code": "200033868",
+		"nom": "CC des Ballons des Hautes-Vosges",
+		"parent": "88",
+		"valeur": 77
+	},
+	{
+		"code": "200034023",
+		"nom": "CC Tarn-Agout",
+		"parent": "81",
+		"valeur": 36
+	},
+	{
+		"code": "200034031",
+		"nom": "CC des Monts d'Alban et du Villefranchois",
+		"parent": "81",
+		"valeur": 11
+	},
+	{
+		"code": "200034049",
+		"nom": "CC Centre Tarn",
+		"parent": "81",
+		"valeur": 79
+	},
+	{
+		"code": "200034056",
+		"nom": "CC du Lautr\u00e9cois et du Pays d'Agout",
+		"parent": "81",
+		"valeur": 42
+	},
+	{
+		"code": "200034064",
+		"nom": "CC du Cordais et du Causse (4 C)",
+		"parent": "81",
+		"valeur": 46
+	},
+	{
+		"code": "200034098",
+		"nom": "CC des Montagnes du Giffre",
+		"parent": "74",
+		"valeur": 83
+	},
+	{
+		"code": "200034130",
+		"nom": "CC Gally Mauldre",
+		"parent": "78",
+		"valeur": 63
+	},
+	{
+		"code": "200034197",
+		"nom": "CC de Montaigne Montravel et Gurson",
+		"parent": "24",
+		"valeur": 48
+	},
+	{
+		"code": "200034205",
+		"nom": "CC de la Costa Verde",
+		"parent": "2B",
+		"valeur": 78
+	},
+	{
+		"code": "200034270",
+		"nom": "CC du Pays de Barr",
+		"parent": "67",
+		"valeur": 15
+	},
+	{
+		"code": "200034379",
+		"nom": "CC Pays d'Uz\u00e8s",
+		"parent": "30",
+		"valeur": 17
+	},
+	{
+		"code": "200034411",
+		"nom": "CC du Pi\u00e9mont C\u00e9venol",
+		"parent": "30",
+		"valeur": 4
+	},
+	{
+		"code": "200034601",
+		"nom": "CC Causses Aigoual C\u00e9vennes",
+		"parent": "30",
+		"valeur": 74
+	},
+	{
+		"code": "200034635",
+		"nom": "CC du Kochersberg",
+		"parent": "67",
+		"valeur": 75
+	},
+	{
+		"code": "200034692",
+		"nom": "CA du Gard Rhodanien",
+		"parent": "30",
+		"valeur": 97
+	},
+	{
+		"code": "200034700",
+		"nom": "CA Durance-Lub\u00e9ron-Verdon Agglom\u00e9ration",
+		"parent": "04",
+		"valeur": 56
+	},
+	{
+		"code": "200034718",
+		"nom": "CC de Vitry, Champagne et Der",
+		"parent": "51",
+		"valeur": 39
+	},
+	{
+		"code": "200034726",
+		"nom": "CC Bastides de Lomagne",
+		"parent": "32",
+		"valeur": 51
+	},
+	{
+		"code": "200034825",
+		"nom": "CA du Grand Gu\u00e9ret",
+		"parent": "23",
+		"valeur": 45
+	},
+	{
+		"code": "200034833",
+		"nom": "CC des Bastides Dordogne-P\u00e9rigord",
+		"parent": "24",
+		"valeur": 73
+	},
+	{
+		"code": "200034874",
+		"nom": "CC C\u00f4tes de Meuse Wo\u00ebvre",
+		"parent": "55",
+		"valeur": 31
+	},
+	{
+		"code": "200034882",
+		"nom": "CC Pays du Mont-Blanc",
+		"parent": "74",
+		"valeur": 16
+	},
+	{
+		"code": "200034957",
+		"nom": "CC du Frontonnais",
+		"parent": "31",
+		"valeur": 57
+	},
+	{
+		"code": "200035087",
+		"nom": "CA Terre de Provence",
+		"parent": "13",
+		"valeur": 31
+	},
+	{
+		"code": "200035103",
+		"nom": "CC de la Vall\u00e9e de la Haute Sarthe",
+		"parent": "61",
+		"valeur": 48
+	},
+	{
+		"code": "200035111",
+		"nom": "CC des Sources de l'Orne",
+		"parent": "61",
+		"valeur": 5
+	},
+	{
+		"code": "200035129",
+		"nom": "CC de C\u00e8ze C\u00e9vennes",
+		"parent": "30",
+		"valeur": 48
+	},
+	{
+		"code": "200035137",
+		"nom": "CC Marche Occitane - Val d'Anglin",
+		"parent": "36",
+		"valeur": 53
+	},
+	{
+		"code": "200035202",
+		"nom": "CC Charlieu-Belmont",
+		"parent": "42",
+		"valeur": 27
+	},
+	{
+		"code": "200035319",
+		"nom": "CA Est\u00e9rel C\u00f4te d'Azur Agglom\u00e9ration",
+		"parent": "83",
+		"valeur": 67
+	},
+	{
+		"code": "200035327",
+		"nom": "CC Cazals-Salviac",
+		"parent": "46",
+		"valeur": 52
+	},
+	{
+		"code": "200035442",
+		"nom": "CC du Sud-Artois",
+		"parent": "62",
+		"valeur": 79
+	},
+	{
+		"code": "200035533",
+		"nom": "CC du Grand Saint Emilionnais",
+		"parent": "33",
+		"valeur": 6
+	},
+	{
+		"code": "200035541",
+		"nom": "CC des Landes d'Armagnac",
+		"parent": "40",
+		"valeur": 85
+	},
+	{
+		"code": "200035632",
+		"nom": "CC Armagnac Adour",
+		"parent": "32",
+		"valeur": 37
+	},
+	{
+		"code": "200035707",
+		"nom": "CC Pi\u00e8ge Lauragais Malep\u00e8re",
+		"parent": "11",
+		"valeur": 53
+	},
+	{
+		"code": "200035715",
+		"nom": "CA Carcassonne Agglo",
+		"parent": "11",
+		"valeur": 64
+	},
+	{
+		"code": "200035723",
+		"nom": "CC Ventoux Sud",
+		"parent": "84",
+		"valeur": 68
+	},
+	{
+		"code": "200035731",
+		"nom": "CA Roannais Agglom\u00e9ration",
+		"parent": "42",
+		"valeur": 75
+	},
+	{
+		"code": "200035756",
+		"nom": "CC Astarac Arros en Gascogne",
+		"parent": "32",
+		"valeur": 92
+	},
+	{
+		"code": "200035764",
+		"nom": "CC de la Beauce Loir\u00e9taine",
+		"parent": "45",
+		"valeur": 6
+	},
+	{
+		"code": "200035772",
+		"nom": "CC du Pays du Saintois",
+		"parent": "54",
+		"valeur": 97
+	},
+	{
+		"code": "200035814",
+		"nom": "CA Flers Agglo",
+		"parent": "61",
+		"valeur": 68
+	},
+	{
+		"code": "200035848",
+		"nom": "CC du Ch\u00e2tillonnais en Berry",
+		"parent": "36",
+		"valeur": 77
+	},
+	{
+		"code": "200035855",
+		"nom": "CC Castelnaudary Lauragais Audois",
+		"parent": "11",
+		"valeur": 65
+	},
+	{
+		"code": "200035863",
+		"nom": "CC R\u00e9gion L\u00e9zignanaise, Corbi\u00e8res et Minervois",
+		"parent": "11",
+		"valeur": 25
+	},
+	{
+		"code": "200035970",
+		"nom": "CC Vexin Centre",
+		"parent": "95",
+		"valeur": 87
+	},
+	{
+		"code": "200036069",
+		"nom": "CC du Pays de Mortagne au Perche",
+		"parent": "61",
+		"valeur": 26
+	},
+	{
+		"code": "200036077",
+		"nom": "CC du Golfe de Saint-Tropez",
+		"parent": "83",
+		"valeur": 7
+	},
+	{
+		"code": "200036135",
+		"nom": "CC Coeur de France",
+		"parent": "18",
+		"valeur": 20
+	},
+	{
+		"code": "200036150",
+		"nom": "CC des Hauts du Val de Sa\u00f4ne",
+		"parent": "70",
+		"valeur": 24
+	},
+	{
+		"code": "200036465",
+		"nom": "CC de Thann-Cernay",
+		"parent": "68",
+		"valeur": 69
+	},
+	{
+		"code": "200036473",
+		"nom": "CA de Saintes",
+		"parent": "17",
+		"valeur": 9
+	},
+	{
+		"code": "200036499",
+		"nom": "CC de Marana-Golo",
+		"parent": "2B",
+		"valeur": 35
+	},
+	{
+		"code": "200036523",
+		"nom": "CC des Bastides en Haut Agenais P\u00e9rigord",
+		"parent": "47",
+		"valeur": 57
+	},
+	{
+		"code": "200036549",
+		"nom": "CC Val de Gray",
+		"parent": "70",
+		"valeur": 8
+	},
+	{
+		"code": "200037059",
+		"nom": "CC de la Haute Somme (Combles - P\u00e9ronne - Roisel)",
+		"parent": "80",
+		"valeur": 68
+	},
+	{
+		"code": "200037133",
+		"nom": "CC du Provinois",
+		"parent": "77",
+		"valeur": 100
+	},
+	{
+		"code": "200038958",
+		"nom": "CC de la Pieve de l'Ornano et du Taravo",
+		"parent": "2A",
+		"valeur": 94
+	},
+	{
+		"code": "200038990",
+		"nom": "CC de Saint-M\u00e9en Montauban",
+		"parent": "35",
+		"valeur": 70
+	},
+	{
+		"code": "200039022",
+		"nom": "CA Vitr\u00e9 Communaut\u00e9",
+		"parent": "35",
+		"valeur": 17
+	},
+	{
+		"code": "200039055",
+		"nom": "CC Ouche et Montagne",
+		"parent": "21",
+		"valeur": 6
+	},
+	{
+		"code": "200039063",
+		"nom": "CC For\u00eats, Seine et Suzon",
+		"parent": "21",
+		"valeur": 90
+	},
+	{
+		"code": "200039204",
+		"nom": "CC de Lacq-Orthez",
+		"parent": "64",
+		"valeur": 16
+	},
+	{
+		"code": "200039519",
+		"nom": "CC du Quercy Blanc",
+		"parent": "46",
+		"valeur": 30
+	},
+	{
+		"code": "200039642",
+		"nom": "CC Le Tonnerrois en Bourgogne",
+		"parent": "89",
+		"valeur": 18
+	},
+	{
+		"code": "200039709",
+		"nom": "CC du Serein",
+		"parent": "89",
+		"valeur": 70
+	},
+	{
+		"code": "200039758",
+		"nom": "CC Avallon, V\u00e9zelay, Morvan",
+		"parent": "89",
+		"valeur": 20
+	},
+	{
+		"code": "200039808",
+		"nom": "CC des Gorges de l'Ard\u00e8che",
+		"parent": "07",
+		"valeur": 77
+	},
+	{
+		"code": "200039824",
+		"nom": "CC Ard\u00e8che des Sources et Volcans",
+		"parent": "07",
+		"valeur": 27
+	},
+	{
+		"code": "200039832",
+		"nom": "CC Pays des Vans en C\u00e9vennes",
+		"parent": "07",
+		"valeur": 50
+	},
+	{
+		"code": "200039857",
+		"nom": "CA du Pays de Grasse",
+		"parent": "06",
+		"valeur": 58
+	},
+	{
+		"code": "200039865",
+		"nom": "Metz M\u00e9tropole",
+		"parent": "57",
+		"valeur": 4
+	},
+	{
+		"code": "200039907",
+		"nom": "CC du Sud Messin",
+		"parent": "57",
+		"valeur": 69
+	},
+	{
+		"code": "200039915",
+		"nom": "CA Cannes Pays de L\u00e9rins",
+		"parent": "06",
+		"valeur": 98
+	},
+	{
+		"code": "200039931",
+		"nom": "CC Alpes d'Azur",
+		"parent": "06",
+		"valeur": 14
+	},
+	{
+		"code": "200039949",
+		"nom": "CC Rives de Moselle",
+		"parent": "57",
+		"valeur": 87
+	},
+	{
+		"code": "200040038",
+		"nom": "CC Sa\u00f4ne Doubs Bresse",
+		"parent": "71",
+		"valeur": 28
+	},
+	{
+		"code": "200040095",
+		"nom": "CC Isle Vern Salembre en P\u00e9rigord",
+		"parent": "24",
+		"valeur": 29
+	},
+	{
+		"code": "200040111",
+		"nom": "CC Coeur de Chartreuse",
+		"parent": "38",
+		"valeur": 58
+	},
+	{
+		"code": "200040137",
+		"nom": "CC des Lacs de Champagne",
+		"parent": "10",
+		"valeur": 18
+	},
+	{
+		"code": "200040178",
+		"nom": "CC de l'Outre-For\u00eat",
+		"parent": "67",
+		"valeur": 84
+	},
+	{
+		"code": "200040202",
+		"nom": "CC Provence Verdon",
+		"parent": "83",
+		"valeur": 57
+	},
+	{
+		"code": "200040210",
+		"nom": "CC Lacs et Gorges du Verdon",
+		"parent": "83",
+		"valeur": 24
+	},
+	{
+		"code": "200040244",
+		"nom": "CA du Bocage Bressuirais",
+		"parent": "79",
+		"valeur": 73
+	},
+	{
+		"code": "200040251",
+		"nom": "CC Bass\u00e9e-Montois",
+		"parent": "77",
+		"valeur": 14
+	},
+	{
+		"code": "200040277",
+		"nom": "CA Agglo du Pays de Dreux",
+		"parent": "28",
+		"valeur": 50
+	},
+	{
+		"code": "200040293",
+		"nom": "CC du Clunisois",
+		"parent": "71",
+		"valeur": 34
+	},
+	{
+		"code": "200040350",
+		"nom": "CC Bugey Sud",
+		"parent": "01",
+		"valeur": 77
+	},
+	{
+		"code": "200040384",
+		"nom": "CC Isle Double Landais",
+		"parent": "24",
+		"valeur": 74
+	},
+	{
+		"code": "200040392",
+		"nom": "CA Le Grand P\u00e9rigueux",
+		"parent": "24",
+		"valeur": 77
+	},
+	{
+		"code": "200040400",
+		"nom": "CC du P\u00e9rigord Rib\u00e9racois",
+		"parent": "24",
+		"valeur": 42
+	},
+	{
+		"code": "200040418",
+		"nom": "CC du Pays de Serres en Quercy",
+		"parent": "82",
+		"valeur": 97
+	},
+	{
+		"code": "200040426",
+		"nom": "CC du Val de l'Oise",
+		"parent": "02",
+		"valeur": 49
+	},
+	{
+		"code": "200040442",
+		"nom": "CA Luberon Monts de Vaucluse",
+		"parent": "84",
+		"valeur": 68
+	},
+	{
+		"code": "200040459",
+		"nom": "CA Mont\u00e9limar Agglom\u00e9ration",
+		"parent": "26",
+		"valeur": 3
+	},
+	{
+		"code": "200040475",
+		"nom": "CC Lou\u00e9 - Br\u00fblon - Noyen",
+		"parent": "72",
+		"valeur": 53
+	},
+	{
+		"code": "200040491",
+		"nom": "CC Porte de Dromard\u00e8che",
+		"parent": "26",
+		"valeur": 25
+	},
+	{
+		"code": "200040509",
+		"nom": "CC du Crestois et de Pays de Saillans Coeur de Dr\u00f4me",
+		"parent": "26",
+		"valeur": 30
+	},
+	{
+		"code": "200040558",
+		"nom": "CC Ecueill\u00e9-Valen\u00e7ay",
+		"parent": "36",
+		"valeur": 53
+	},
+	{
+		"code": "200040566",
+		"nom": "CA de l'Ouest Rhodanien",
+		"parent": "69",
+		"valeur": 15
+	},
+	{
+		"code": "200040574",
+		"nom": "CC Beaujolais Pierres Dor\u00e9es",
+		"parent": "69",
+		"valeur": 25
+	},
+	{
+		"code": "200040590",
+		"nom": "CA Villefranche Beaujolais Sa\u00f4ne",
+		"parent": "69",
+		"valeur": 14
+	},
+	{
+		"code": "200040624",
+		"nom": "CC Pays d'Apt-Luberon",
+		"parent": "84",
+		"valeur": 18
+	},
+	{
+		"code": "200040657",
+		"nom": "CC de la Matheysine",
+		"parent": "38",
+		"valeur": 89
+	},
+	{
+		"code": "200040681",
+		"nom": "CC Enclave des Papes-Pays de Grignan",
+		"parent": "84",
+		"valeur": 87
+	},
+	{
+		"code": "200040715",
+		"nom": "Grenoble-Alpes-M\u00e9tropole",
+		"parent": "38",
+		"valeur": 7
+	},
+	{
+		"code": "200040764",
+		"nom": "CC du Sud Corse",
+		"parent": "2A",
+		"valeur": 86
+	},
+	{
+		"code": "200040772",
+		"nom": "CC du Perche et Haut Vend\u00f4mois",
+		"parent": "41",
+		"valeur": 84
+	},
+	{
+		"code": "200040798",
+		"nom": "CC Val Vanoise",
+		"parent": "73",
+		"valeur": 93
+	},
+	{
+		"code": "200040814",
+		"nom": "CC Briance Sud Haute Vienne",
+		"parent": "87",
+		"valeur": 42
+	},
+	{
+		"code": "200040830",
+		"nom": "CC du Pays de F\u00e9nelon",
+		"parent": "24",
+		"valeur": 78
+	},
+	{
+		"code": "200040889",
+		"nom": "CC de Portes Sud P\u00e9rigord",
+		"parent": "24",
+		"valeur": 42
+	},
+	{
+		"code": "200040905",
+		"nom": "CC Carmausin-S\u00e9gala",
+		"parent": "81",
+		"valeur": 20
+	},
+	{
+		"code": "200040947",
+		"nom": "CC de Flandre Int\u00e9rieure",
+		"parent": "59",
+		"valeur": 51
+	},
+	{
+		"code": "200040954",
+		"nom": "CC des Hauts de Flandre",
+		"parent": "59",
+		"valeur": 30
+	},
+	{
+		"code": "200041010",
+		"nom": "CC Coeur de Savoie",
+		"parent": "73",
+		"valeur": 71
+	},
+	{
+		"code": "200041051",
+		"nom": "CC Vall\u00e9e de la Dordogne et For\u00eat Bess\u00e8de",
+		"parent": "24",
+		"valeur": 90
+	},
+	{
+		"code": "200041150",
+		"nom": "CC Terrassonnais Haut P\u00e9rigord Noir",
+		"parent": "24",
+		"valeur": 38
+	},
+	{
+		"code": "200041168",
+		"nom": "CC de la Vall\u00e9e de l'Homme",
+		"parent": "24",
+		"valeur": 66
+	},
+	{
+		"code": "200041283",
+		"nom": "CC de la Plaine du Rhin",
+		"parent": "67",
+		"valeur": 64
+	},
+	{
+		"code": "200041317",
+		"nom": "CA du Niortais",
+		"parent": "79",
+		"valeur": 2
+	},
+	{
+		"code": "200041325",
+		"nom": "CC du Pays Rh\u00e9nan",
+		"parent": "67",
+		"valeur": 32
+	},
+	{
+		"code": "200041333",
+		"nom": "CC de Parthenay-G\u00e2tine",
+		"parent": "79",
+		"valeur": 63
+	},
+	{
+		"code": "200041366",
+		"nom": "CC Rh\u00f4ne Crussol",
+		"parent": "07",
+		"valeur": 82
+	},
+	{
+		"code": "200041416",
+		"nom": "CC Airvaudais-Val du Thouet",
+		"parent": "79",
+		"valeur": 72
+	},
+	{
+		"code": "200041440",
+		"nom": "CC de Domme- Villefranche du P\u00e9rigord",
+		"parent": "24",
+		"valeur": 50
+	},
+	{
+		"code": "200041465",
+		"nom": "CC Val Eyrieux",
+		"parent": "07",
+		"valeur": 97
+	},
+	{
+		"code": "200041499",
+		"nom": "CC Aunis Atlantique",
+		"parent": "17",
+		"valeur": 99
+	},
+	{
+		"code": "200041507",
+		"nom": "CA La Rivi\u00e9ra du Levant",
+		"parent": "97",
+		"valeur": 0
+	},
+	{
+		"code": "200041515",
+		"nom": "CC du Bassin de Pont-\u00e0-Mousson",
+		"parent": "54",
+		"valeur": 32
+	},
+	{
+		"code": "200041523",
+		"nom": "CC de la Haute Saintonge",
+		"parent": "17",
+		"valeur": 47
+	},
+	{
+		"code": "200041556",
+		"nom": "CC Portes de la Creuse en Marche",
+		"parent": "23",
+		"valeur": 23
+	},
+	{
+		"code": "200041572",
+		"nom": "CC Dronne et Belle",
+		"parent": "24",
+		"valeur": 8
+	},
+	{
+		"code": "200041614",
+		"nom": "CC Aunis Sud",
+		"parent": "17",
+		"valeur": 24
+	},
+	{
+		"code": "200041622",
+		"nom": "CC Ardennes Thi\u00e9rache",
+		"parent": "08",
+		"valeur": 37
+	},
+	{
+		"code": "200041630",
+		"nom": "CA Ardenne M\u00e9tropole",
+		"parent": "08",
+		"valeur": 86
+	},
+	{
+		"code": "200041689",
+		"nom": "CC Vals de Saintonge Communaut\u00e9",
+		"parent": "17",
+		"valeur": 21
+	},
+	{
+		"code": "200041721",
+		"nom": "CC de la Haute Comt\u00e9",
+		"parent": "70",
+		"valeur": 48
+	},
+	{
+		"code": "200041762",
+		"nom": "CA Rochefort Oc\u00e9an",
+		"parent": "17",
+		"valeur": 64
+	},
+	{
+		"code": "200041788",
+		"nom": "CA du Pays Nord Martinique",
+		"parent": "97",
+		"valeur": 45
+	},
+	{
+		"code": "200041853",
+		"nom": "CC du Pays de Montbozon et du Chanois",
+		"parent": "70",
+		"valeur": 97
+	},
+	{
+		"code": "200041861",
+		"nom": "CC du Triangle Vert",
+		"parent": "70",
+		"valeur": 67
+	},
+	{
+		"code": "200041879",
+		"nom": "CC Terres de Sa\u00f4ne",
+		"parent": "70",
+		"valeur": 3
+	},
+	{
+		"code": "200041887",
+		"nom": "CC du Val Marnaysien",
+		"parent": "70",
+		"valeur": 21
+	},
+	{
+		"code": "200041960",
+		"nom": "CC P\u00e9v\u00e8le-Carembault",
+		"parent": "59",
+		"valeur": 0
+	},
+	{
+		"code": "200041994",
+		"nom": "CC Haut Val de S\u00e8vre",
+		"parent": "79",
+		"valeur": 23
+	},
+	{
+		"code": "200042000",
+		"nom": "CC Bruy\u00e8res-Vallons des Vosges",
+		"parent": "88",
+		"valeur": 0
+	},
+	{
+		"code": "200042174",
+		"nom": "CA Lorient Agglom\u00e9ration",
+		"parent": "56",
+		"valeur": 60
+	},
+	{
+		"code": "200042182",
+		"nom": "CC du Mont des Avaloirs",
+		"parent": "53",
+		"valeur": 18
+	},
+	{
+		"code": "200042190",
+		"nom": "CA de la Porte du Hainaut",
+		"parent": "59",
+		"valeur": 35
+	},
+	{
+		"code": "200042372",
+		"nom": "CC des Coteaux Arrats Gimone",
+		"parent": "32",
+		"valeur": 13
+	},
+	{
+		"code": "200042414",
+		"nom": "CC Bresse Revermont 71",
+		"parent": "71",
+		"valeur": 86
+	},
+	{
+		"code": "200042463",
+		"nom": "CC de la Montagne Noire",
+		"parent": "11",
+		"valeur": 53
+	},
+	{
+		"code": "200042497",
+		"nom": "CC Dombes Sa\u00f4ne Vall\u00e9e",
+		"parent": "01",
+		"valeur": 80
+	},
+	{
+		"code": "200042604",
+		"nom": "CC de Granville, Terre et Mer",
+		"parent": "50",
+		"valeur": 38
+	},
+	{
+		"code": "200042620",
+		"nom": "CC de la R\u00e9gion de Suippes",
+		"parent": "51",
+		"valeur": 3
+	},
+	{
+		"code": "200042646",
+		"nom": "CC Grand Orb communaut\u00e9 de communes en Languedoc",
+		"parent": "34",
+		"valeur": 100
+	},
+	{
+		"code": "200042653",
+		"nom": "CC Sud-H\u00e9rault",
+		"parent": "34",
+		"valeur": 96
+	},
+	{
+		"code": "200042703",
+		"nom": "CC de l'Argonne Champenoise",
+		"parent": "51",
+		"valeur": 16
+	},
+	{
+		"code": "200042729",
+		"nom": "CC de la Baie du Cotentin",
+		"parent": "50",
+		"valeur": 88
+	},
+	{
+		"code": "200042901",
+		"nom": "CC Dr\u00f4me Sud Provence",
+		"parent": "26",
+		"valeur": 0
+	},
+	{
+		"code": "200042935",
+		"nom": "CA Haut - Bugey Agglom\u00e9ration",
+		"parent": "01",
+		"valeur": 36
+	},
+	{
+		"code": "200042943",
+		"nom": "CC du Cap Corse",
+		"parent": "2B",
+		"valeur": 54
+	},
+	{
+		"code": "200042992",
+		"nom": "CC Perthois-Bocage et Der",
+		"parent": "51",
+		"valeur": 83
+	},
+	{
+		"code": "200043016",
+		"nom": "CC Val de Charente",
+		"parent": "16",
+		"valeur": 93
+	},
+	{
+		"code": "200043065",
+		"nom": "CC du Val d Amboise",
+		"parent": "37",
+		"valeur": 72
+	},
+	{
+		"code": "200043081",
+		"nom": "CC Chinon, Vienne et Loire",
+		"parent": "37",
+		"valeur": 20
+	},
+	{
+		"code": "200043123",
+		"nom": "CC Auray Quiberon Terre Atlantique",
+		"parent": "56",
+		"valeur": 90
+	},
+	{
+		"code": "200043156",
+		"nom": "CC du Pays R\u00e9thelois",
+		"parent": "08",
+		"valeur": 74
+	},
+	{
+		"code": "200043172",
+		"nom": "CA du Bassin de Brive",
+		"parent": "19",
+		"valeur": 94
+	},
+	{
+		"code": "200043263",
+		"nom": "CC Coeur de l'Avesnois",
+		"parent": "59",
+		"valeur": 18
+	},
+	{
+		"code": "200043321",
+		"nom": "CC du Pays de Mormal",
+		"parent": "59",
+		"valeur": 32
+	},
+	{
+		"code": "200043354",
+		"nom": "CC de Villedieu Intercom",
+		"parent": "50",
+		"valeur": 48
+	},
+	{
+		"code": "200043396",
+		"nom": "CA Maubeuge Val de Sambre",
+		"parent": "59",
+		"valeur": 19
+	},
+	{
+		"code": "200043404",
+		"nom": "CC du Sud Avesnois",
+		"parent": "59",
+		"valeur": 59
+	},
+	{
+		"code": "200043438",
+		"nom": "CC de la Moivre \u00e0 la Coole",
+		"parent": "51",
+		"valeur": 30
+	},
+	{
+		"code": "200043495",
+		"nom": "CA du Pays de Laon",
+		"parent": "02",
+		"valeur": 34
+	},
+	{
+		"code": "200043602",
+		"nom": "CC des Alb\u00e8res, de la C\u00f4te Vermeille et de l'Illib\u00e9ris",
+		"parent": "66",
+		"valeur": 21
+	},
+	{
+		"code": "200043628",
+		"nom": "CC des Vall\u00e9es du Clain",
+		"parent": "86",
+		"valeur": 75
+	},
+	{
+		"code": "200043693",
+		"nom": "CC Terre Lorraine du Longuyonnais",
+		"parent": "54",
+		"valeur": 14
+	},
+	{
+		"code": "200043776",
+		"nom": "CC Pyr\u00e9n\u00e9es audoises",
+		"parent": "11",
+		"valeur": 52
+	},
+	{
+		"code": "200043974",
+		"nom": "CC du Sud Gironde",
+		"parent": "33",
+		"valeur": 57
+	},
+	{
+		"code": "200043982",
+		"nom": "CC du Bazadais",
+		"parent": "33",
+		"valeur": 43
+	},
+	{
+		"code": "200043990",
+		"nom": "CC Vallons de Haute-Bretagne Communaut\u00e9",
+		"parent": "35",
+		"valeur": 35
+	},
+	{
+		"code": "200044014",
+		"nom": "CC Creuse Grand Sud",
+		"parent": "23",
+		"valeur": 90
+	},
+	{
+		"code": "200044030",
+		"nom": "CC des 7 Vall\u00e9es",
+		"parent": "62",
+		"valeur": 44
+	},
+	{
+		"code": "200044048",
+		"nom": "CC Osartis Marquion",
+		"parent": "62",
+		"valeur": 43
+	},
+	{
+		"code": "200044253",
+		"nom": "CC du Bassin de Joinville en Champagne",
+		"parent": "52",
+		"valeur": 25
+	},
+	{
+		"code": "200044394",
+		"nom": "CC du R\u00e9olais en Sud Gironde",
+		"parent": "33",
+		"valeur": 37
+	},
+	{
+		"code": "200044469",
+		"nom": "CC du Pays de Mirepoix",
+		"parent": "09",
+		"valeur": 77
+	},
+	{
+		"code": "200044618",
+		"nom": "CA Douaisis Agglo",
+		"parent": "59",
+		"valeur": 40
+	},
+	{
+		"code": "200044691",
+		"nom": "CA du Nord Grande Terre",
+		"parent": "97",
+		"valeur": 44
+	},
+	{
+		"code": "200046977",
+		"nom": "M\u00e9tropole de Lyon",
+		"parent": "69",
+		"valeur": 41
+	},
+	{
+		"code": "200048551",
+		"nom": "CC du Pays de Craon",
+		"parent": "53",
+		"valeur": 38
+	},
+	{
+		"code": "200049187",
+		"nom": "CA du Grand Verdun",
+		"parent": "55",
+		"valeur": 93
+	},
+	{
+		"code": "200049211",
+		"nom": "CC Conflent-Canig\u00f3",
+		"parent": "66",
+		"valeur": 0
+	},
+	{
+		"code": "200049484",
+		"nom": "CC Berry Grand Sud",
+		"parent": "18",
+		"valeur": 94
+	},
+	{
+		"code": "200050532",
+		"nom": "CC de Petite-Terre",
+		"parent": "97",
+		"valeur": 93
+	},
+	{
+		"code": "200054781",
+		"nom": "M\u00e9tropole du Grand Paris",
+		"parent": "75",
+		"valeur": 11
+	},
+	{
+		"code": "200054807",
+		"nom": "M\u00e9tropole d'Aix-Marseille-Provence",
+		"parent": "13",
+		"valeur": 8
+	},
+	{
+		"code": "200055481",
+		"nom": "CC Beauce Val de Loire",
+		"parent": "41",
+		"valeur": 66
+	},
+	{
+		"code": "200055655",
+		"nom": "CA Roissy Pays de France",
+		"parent": "95",
+		"valeur": 61
+	},
+	{
+		"code": "200055887",
+		"nom": "CC Mayenne Communaut\u00e9",
+		"parent": "53",
+		"valeur": 91
+	},
+	{
+		"code": "200056232",
+		"nom": "CA Communaut\u00e9 Paris-Saclay",
+		"parent": "91",
+		"valeur": 11
+	},
+	{
+		"code": "200056380",
+		"nom": "CA Plaine Vall\u00e9e",
+		"parent": "95",
+		"valeur": 56
+	},
+	{
+		"code": "200057859",
+		"nom": "CA Coeur d'Essonne Agglom\u00e9ration",
+		"parent": "91",
+		"valeur": 10
+	},
+	{
+		"code": "200057958",
+		"nom": "CA Paris - Vall\u00e9e de la Marne",
+		"parent": "77",
+		"valeur": 25
+	},
+	{
+		"code": "200058360",
+		"nom": "CC entre Beauce et Perche",
+		"parent": "28",
+		"valeur": 24
+	},
+	{
+		"code": "200058477",
+		"nom": "CA Val d'Yerres Val de Seine",
+		"parent": "91",
+		"valeur": 60
+	},
+	{
+		"code": "200058485",
+		"nom": "CA Val Parisis",
+		"parent": "95",
+		"valeur": 9
+	},
+	{
+		"code": "200058519",
+		"nom": "CA Saint Germain Boucles de Seine",
+		"parent": "78",
+		"valeur": 79
+	},
+	{
+		"code": "200058782",
+		"nom": "CA de Saint Quentin en Yvelines",
+		"parent": "78",
+		"valeur": 98
+	},
+	{
+		"code": "200059228",
+		"nom": "CA Grand Paris Sud Seine Essonne S\u00e9nart",
+		"parent": "91",
+		"valeur": 80
+	},
+	{
+		"code": "200059392",
+		"nom": "CC Bi\u00e8vre Is\u00e8re",
+		"parent": "38",
+		"valeur": 57
+	},
+	{
+		"code": "200059400",
+		"nom": "CC Porte Oc\u00e9ane du Limousin",
+		"parent": "87",
+		"valeur": 14
+	},
+	{
+		"code": "200059871",
+		"nom": "CC du Centre-Ouest",
+		"parent": "97",
+		"valeur": 8
+	},
+	{
+		"code": "200059889",
+		"nom": "CU Grand Paris Seine et Oise",
+		"parent": "78",
+		"valeur": 3
+	},
+	{
+		"code": "200060010",
+		"nom": "CA Mauges Communaut\u00e9",
+		"parent": "49",
+		"valeur": 71
+	},
+	{
+		"code": "200060457",
+		"nom": "CA de Dembeni \/ Mamoudzou",
+		"parent": "97",
+		"valeur": 86
+	},
+	{
+		"code": "200060465",
+		"nom": "CA du Grand Nord de Mayotte",
+		"parent": "97",
+		"valeur": 92
+	},
+	{
+		"code": "200060473",
+		"nom": "CC du Sud",
+		"parent": "97",
+		"valeur": 100
+	},
+	{
+		"code": "200065563",
+		"nom": "CC Normandie-Cabourg-Pays d'Auge",
+		"parent": "14",
+		"valeur": 58
+	},
+	{
+		"code": "200065589",
+		"nom": "CC Val \u00e8s Dunes",
+		"parent": "14",
+		"valeur": 51
+	},
+	{
+		"code": "200065597",
+		"nom": "CU Caen la Mer",
+		"parent": "14",
+		"valeur": 56
+	},
+	{
+		"code": "200065647",
+		"nom": "CA Pays de Montb\u00e9liard Agglom\u00e9ration",
+		"parent": "25",
+		"valeur": 23
+	},
+	{
+		"code": "200065787",
+		"nom": "CC de Pont-Audemer \/ Val de Risle",
+		"parent": "27",
+		"valeur": 16
+	},
+	{
+		"code": "200065886",
+		"nom": "CA Loire Forez Agglom\u00e9ration (LFA)",
+		"parent": "42",
+		"valeur": 41
+	},
+	{
+		"code": "200065894",
+		"nom": "CC de Forez-Est",
+		"parent": "42",
+		"valeur": 84
+	},
+	{
+		"code": "200065928",
+		"nom": "CA Lannion-Tr\u00e9gor Communaut\u00e9",
+		"parent": "22",
+		"valeur": 8
+	},
+	{
+		"code": "200066009",
+		"nom": "CA Mulhouse Alsace Agglom\u00e9ration",
+		"parent": "68",
+		"valeur": 54
+	},
+	{
+		"code": "200066017",
+		"nom": "CC Lieuvin Pays d'Auge",
+		"parent": "27",
+		"valeur": 24
+	},
+	{
+		"code": "200066025",
+		"nom": "CC Pays Rhin - Brisach",
+		"parent": "68",
+		"valeur": 26
+	},
+	{
+		"code": "200066033",
+		"nom": "CC Sud Alsace Largue",
+		"parent": "68",
+		"valeur": 11
+	},
+	{
+		"code": "200066041",
+		"nom": "CC Sundgau",
+		"parent": "68",
+		"valeur": 94
+	},
+	{
+		"code": "200066058",
+		"nom": "CA Saint-Louis Agglom\u00e9ration",
+		"parent": "68",
+		"valeur": 16
+	},
+	{
+		"code": "200066108",
+		"nom": "CC des Portes de Meuse",
+		"parent": "55",
+		"valeur": 71
+	},
+	{
+		"code": "200066116",
+		"nom": "CC Argonne-Meuse",
+		"parent": "55",
+		"valeur": 12
+	},
+	{
+		"code": "200066124",
+		"nom": "CA Gaillac-Graulhet",
+		"parent": "81",
+		"valeur": 55
+	},
+	{
+		"code": "200066132",
+		"nom": "CC du Pays de Stenay et du Val Dunois",
+		"parent": "55",
+		"valeur": 84
+	},
+	{
+		"code": "200066140",
+		"nom": "CC de l'Aire \u00e0 l'Argonne",
+		"parent": "55",
+		"valeur": 74
+	},
+	{
+		"code": "200066157",
+		"nom": "CC de Commercy - Void - Vaucouleurs",
+		"parent": "55",
+		"valeur": 50
+	},
+	{
+		"code": "200066165",
+		"nom": "CC Val de Meuse - Voie Sacr\u00e9e",
+		"parent": "55",
+		"valeur": 47
+	},
+	{
+		"code": "200066173",
+		"nom": "CC de Damvillers Spincourt",
+		"parent": "55",
+		"valeur": 21
+	},
+	{
+		"code": "200066223",
+		"nom": "CC Arize L\u00e8ze",
+		"parent": "09",
+		"valeur": 28
+	},
+	{
+		"code": "200066231",
+		"nom": "CC des Portes d'Ari\u00e8ge Pyr\u00e9n\u00e9es",
+		"parent": "09",
+		"valeur": 6
+	},
+	{
+		"code": "200066280",
+		"nom": "CC du Pithiverais",
+		"parent": "45",
+		"valeur": 10
+	},
+	{
+		"code": "200066322",
+		"nom": "CC Terres des Confluences",
+		"parent": "82",
+		"valeur": 79
+	},
+	{
+		"code": "200066330",
+		"nom": "CC Terres du Haut Berry",
+		"parent": "18",
+		"valeur": 13
+	},
+	{
+		"code": "200066348",
+		"nom": "CC du Minervois au Caroux",
+		"parent": "34",
+		"valeur": 28
+	},
+	{
+		"code": "200066355",
+		"nom": "CA S\u00e8te Agglop\u00f4le M\u00e9diterran\u00e9e",
+		"parent": "34",
+		"valeur": 1
+	},
+	{
+		"code": "200066363",
+		"nom": "CC de la Haute Ari\u00e8ge",
+		"parent": "09",
+		"valeur": 23
+	},
+	{
+		"code": "200066371",
+		"nom": "CC Causses et Vall\u00e9e de la Dordogne",
+		"parent": "46",
+		"valeur": 75
+	},
+	{
+		"code": "200066389",
+		"nom": "CA Saint-L\u00f4 Agglo",
+		"parent": "50",
+		"valeur": 7
+	},
+	{
+		"code": "200066405",
+		"nom": "CC Roumois Seine",
+		"parent": "27",
+		"valeur": 81
+	},
+	{
+		"code": "200066413",
+		"nom": "CC Intercom Bernay Terres de Normandie",
+		"parent": "27",
+		"valeur": 27
+	},
+	{
+		"code": "200066462",
+		"nom": "CC Interco Normandie Sud Eure",
+		"parent": "27",
+		"valeur": 84
+	},
+	{
+		"code": "200066512",
+		"nom": "CC Elan Limousin Avenir Nature",
+		"parent": "87",
+		"valeur": 6
+	},
+	{
+		"code": "200066520",
+		"nom": "CC Ouest Limousin",
+		"parent": "87",
+		"valeur": 15
+	},
+	{
+		"code": "200066553",
+		"nom": "CC des Monts de Lacaune et de la Montagne du Haut Languedoc",
+		"parent": "81",
+		"valeur": 5
+	},
+	{
+		"code": "200066561",
+		"nom": "CC Sidobre Vals et Plateaux",
+		"parent": "81",
+		"valeur": 69
+	},
+	{
+		"code": "200066587",
+		"nom": "CC des Monts du Lyonnais",
+		"parent": "69",
+		"valeur": 94
+	},
+	{
+		"code": "200066603",
+		"nom": "CC du Pays de Lubersac-Pompadour",
+		"parent": "19",
+		"valeur": 93
+	},
+	{
+		"code": "200066637",
+		"nom": "CC Hautes Terres",
+		"parent": "15",
+		"valeur": 66
+	},
+	{
+		"code": "200066645",
+		"nom": "CC V\u00e9z\u00e8re-Mon\u00e9di\u00e8res-Millesources",
+		"parent": "19",
+		"valeur": 83
+	},
+	{
+		"code": "200066652",
+		"nom": "CC Grand Sud Tarn et Garonne",
+		"parent": "82",
+		"valeur": 11
+	},
+	{
+		"code": "200066660",
+		"nom": "CC de Saint-Flour",
+		"parent": "15",
+		"valeur": 23
+	},
+	{
+		"code": "200066678",
+		"nom": "CC de la Ch\u00e2taigneraie Cantalienne",
+		"parent": "15",
+		"valeur": 25
+	},
+	{
+		"code": "200066710",
+		"nom": "CC Cingal-Suisse Normande",
+		"parent": "14",
+		"valeur": 83
+	},
+	{
+		"code": "200066728",
+		"nom": "CC Vall\u00e9es de l'Orne et de l'Odon",
+		"parent": "14",
+		"valeur": 53
+	},
+	{
+		"code": "200066744",
+		"nom": "CC Haute-Corr\u00e8ze Communaut\u00e9",
+		"parent": "19",
+		"valeur": 58
+	},
+	{
+		"code": "200066751",
+		"nom": "CC Xaintrie Val'Dordogne",
+		"parent": "19",
+		"valeur": 18
+	},
+	{
+		"code": "200066769",
+		"nom": "CC Midi Corr\u00e9zien",
+		"parent": "19",
+		"valeur": 60
+	},
+	{
+		"code": "200066777",
+		"nom": "CC Plo\u00ebrmel Communaut\u00e9",
+		"parent": "56",
+		"valeur": 64
+	},
+	{
+		"code": "200066785",
+		"nom": "CC de l'Oust \u00e0 Broc\u00e9liande",
+		"parent": "56",
+		"valeur": 77
+	},
+	{
+		"code": "200066793",
+		"nom": "CA du Grand Annecy",
+		"parent": "74",
+		"valeur": 82
+	},
+	{
+		"code": "200066801",
+		"nom": "CC Isigny-Omaha Intercom",
+		"parent": "14",
+		"valeur": 84
+	},
+	{
+		"code": "200066819",
+		"nom": "CC du Volvestre",
+		"parent": "31",
+		"valeur": 71
+	},
+	{
+		"code": "200066827",
+		"nom": "CC du Pays de Honfleur-Beuzeville",
+		"parent": "14",
+		"valeur": 6
+	},
+	{
+		"code": "200066835",
+		"nom": "CC de S\u00e9zanne-Sud Ouest Marnais",
+		"parent": "51",
+		"valeur": 19
+	},
+	{
+		"code": "200066850",
+		"nom": "CC des Paysages de la Champagne",
+		"parent": "51",
+		"valeur": 32
+	},
+	{
+		"code": "200066868",
+		"nom": "CC Presqu'\u00eele de Crozon-Aulne maritime",
+		"parent": "29",
+		"valeur": 99
+	},
+	{
+		"code": "200066876",
+		"nom": "CA de Ch\u00e2lons-en-Champagne",
+		"parent": "51",
+		"valeur": 39
+	},
+	{
+		"code": "200066884",
+		"nom": "CC Quercy Vert-Aveyron",
+		"parent": "82",
+		"valeur": 62
+	},
+	{
+		"code": "200066892",
+		"nom": "CC de Vendeuvre-Soulaines",
+		"parent": "10",
+		"valeur": 46
+	},
+	{
+		"code": "200066918",
+		"nom": "CA Al\u00e8s Agglom\u00e9ration",
+		"parent": "30",
+		"valeur": 69
+	},
+	{
+		"code": "200066926",
+		"nom": "CA Grand Auch Coeur de Gascogne",
+		"parent": "32",
+		"valeur": 87
+	},
+	{
+		"code": "200066975",
+		"nom": "CC Senlis Sud Oise",
+		"parent": "60",
+		"valeur": 90
+	},
+	{
+		"code": "200067023",
+		"nom": "CC Coutances Mer et Bocage",
+		"parent": "50",
+		"valeur": 87
+	},
+	{
+		"code": "200067031",
+		"nom": "CC C\u00f4te Ouest Centre Manche",
+		"parent": "50",
+		"valeur": 95
+	},
+	{
+		"code": "200067049",
+		"nom": "CC Spelunca-Liamone",
+		"parent": "2A",
+		"valeur": 11
+	},
+	{
+		"code": "200067064",
+		"nom": "CC Decazeville Communaut\u00e9",
+		"parent": "12",
+		"valeur": 67
+	},
+	{
+		"code": "200067072",
+		"nom": "CC Haut-L\u00e9on Communaut\u00e9",
+		"parent": "29",
+		"valeur": 65
+	},
+	{
+		"code": "200067080",
+		"nom": "CC Chablis Villages et Terroirs",
+		"parent": "89",
+		"valeur": 58
+	},
+	{
+		"code": "200067106",
+		"nom": "CA du Pays Basque",
+		"parent": "64",
+		"valeur": 24
+	},
+	{
+		"code": "200067114",
+		"nom": "CA de l'Auxerrois",
+		"parent": "89",
+		"valeur": 15
+	},
+	{
+		"code": "200067122",
+		"nom": "CC Coteaux et Plaines du Pays Lafran\u00e7aisain",
+		"parent": "82",
+		"valeur": 3
+	},
+	{
+		"code": "200067130",
+		"nom": "CC de Puisaye-Forterre",
+		"parent": "89",
+		"valeur": 50
+	},
+	{
+		"code": "200067155",
+		"nom": "CC Saint Affricain, Roquefort, Sept Vallons",
+		"parent": "12",
+		"valeur": 81
+	},
+	{
+		"code": "200067163",
+		"nom": "CC Monts, Rance et Rougier",
+		"parent": "12",
+		"valeur": 92
+	},
+	{
+		"code": "200067171",
+		"nom": "CC Aubrac, Carladez et Viad\u00e8ne",
+		"parent": "12",
+		"valeur": 28
+	},
+	{
+		"code": "200067189",
+		"nom": "CC Creuse Sud Ouest",
+		"parent": "23",
+		"valeur": 15
+	},
+	{
+		"code": "200067197",
+		"nom": "CC Monts d'Arr\u00e9e Communaut\u00e9",
+		"parent": "29",
+		"valeur": 92
+	},
+	{
+		"code": "200067205",
+		"nom": "CA du Cotentin",
+		"parent": "50",
+		"valeur": 20
+	},
+	{
+		"code": "200067213",
+		"nom": "CU du Grand Reims",
+		"parent": "51",
+		"valeur": 8
+	},
+	{
+		"code": "200067239",
+		"nom": "CC des Luys en B\u00e9arn",
+		"parent": "64",
+		"valeur": 3
+	},
+	{
+		"code": "200067247",
+		"nom": "CC Pleyben-Ch\u00e2teaulin-Porzay",
+		"parent": "29",
+		"valeur": 84
+	},
+	{
+		"code": "200067254",
+		"nom": "CA Pau B\u00e9arn Pyr\u00e9n\u00e9es",
+		"parent": "64",
+		"valeur": 72
+	},
+	{
+		"code": "200067262",
+		"nom": "CC du Haut B\u00e9arn",
+		"parent": "64",
+		"valeur": 70
+	},
+	{
+		"code": "200067288",
+		"nom": "CC du B\u00e9arn des Gaves",
+		"parent": "64",
+		"valeur": 100
+	},
+	{
+		"code": "200067296",
+		"nom": "CC du Nord Est B\u00e9arn",
+		"parent": "64",
+		"valeur": 82
+	},
+	{
+		"code": "200067304",
+		"nom": "CC Serein et Armance",
+		"parent": "89",
+		"valeur": 16
+	},
+	{
+		"code": "200067320",
+		"nom": "CC Serre-Pon\u00e7on Val d'Avance",
+		"parent": "05",
+		"valeur": 44
+	},
+	{
+		"code": "200067346",
+		"nom": "CA Pornic Agglo Pays de Retz",
+		"parent": "44",
+		"valeur": 93
+	},
+	{
+		"code": "200067361",
+		"nom": "CC Grand-Figeac",
+		"parent": "46",
+		"valeur": 61
+	},
+	{
+		"code": "200067379",
+		"nom": "CC C\u00f4tes de Champagne et Val de Saulx",
+		"parent": "51",
+		"valeur": 42
+	},
+	{
+		"code": "200067429",
+		"nom": "CC Haut Nivernais-Val d'Yonne",
+		"parent": "58",
+		"valeur": 34
+	},
+	{
+		"code": "200067437",
+		"nom": "CA Provence-Alpes-Agglom\u00e9ration",
+		"parent": "04",
+		"valeur": 60
+	},
+	{
+		"code": "200067445",
+		"nom": "CC Bu\u00ebch-D\u00e9voluy",
+		"parent": "05",
+		"valeur": 61
+	},
+	{
+		"code": "200067452",
+		"nom": "CC du Guillestrois et du Queyras",
+		"parent": "05",
+		"valeur": 71
+	},
+	{
+		"code": "200067460",
+		"nom": "CC Loud\u00e9ac Communaut\u00e9 - Bretagne Centre",
+		"parent": "22",
+		"valeur": 88
+	},
+	{
+		"code": "200067478",
+		"nom": "CC Comtal Lot et Truy\u00e8re",
+		"parent": "12",
+		"valeur": 55
+	},
+	{
+		"code": "200067486",
+		"nom": "CC Bouzonvillois-Trois Fronti\u00e8res",
+		"parent": "57",
+		"valeur": 87
+	},
+	{
+		"code": "200067502",
+		"nom": "CA Saint-Avold Synergie",
+		"parent": "57",
+		"valeur": 7
+	},
+	{
+		"code": "200067544",
+		"nom": "CC Creuse Confluence",
+		"parent": "23",
+		"valeur": 59
+	},
+	{
+		"code": "200067551",
+		"nom": "CA Thonon Agglom\u00e9ration",
+		"parent": "74",
+		"valeur": 40
+	},
+	{
+		"code": "200067593",
+		"nom": "CC Marche et Combraille en Aquitaine",
+		"parent": "23",
+		"valeur": 80
+	},
+	{
+		"code": "200067627",
+		"nom": "CC Billom Communaut\u00e9",
+		"parent": "63",
+		"valeur": 93
+	},
+	{
+		"code": "200067635",
+		"nom": "CA Clisson S\u00e8vre et Maine Agglo",
+		"parent": "44",
+		"valeur": 52
+	},
+	{
+		"code": "200067643",
+		"nom": "CC Meurthe Mortagne Moselle",
+		"parent": "54",
+		"valeur": 27
+	},
+	{
+		"code": "200067650",
+		"nom": "CC Houve-Pays Boulageois",
+		"parent": "57",
+		"valeur": 80
+	},
+	{
+		"code": "200067668",
+		"nom": "CC de la Cl\u00e9ry, du Betz et de l'Ouanne",
+		"parent": "45",
+		"valeur": 8
+	},
+	{
+		"code": "200067676",
+		"nom": "CC Canaux et For\u00eats en G\u00e2tinais",
+		"parent": "45",
+		"valeur": 65
+	},
+	{
+		"code": "200067684",
+		"nom": "CA Epernay, Coteaux et Plaine de Champagne",
+		"parent": "51",
+		"valeur": 2
+	},
+	{
+		"code": "200067692",
+		"nom": "CC Tannay-Brinon-Corbigny",
+		"parent": "58",
+		"valeur": 90
+	},
+	{
+		"code": "200067700",
+		"nom": "CC Sud Nivernais",
+		"parent": "58",
+		"valeur": 43
+	},
+	{
+		"code": "200067742",
+		"nom": "CC Serre-Pon\u00e7on",
+		"parent": "05",
+		"valeur": 69
+	},
+	{
+		"code": "200067759",
+		"nom": "CC Vall\u00e9es et Plateau d'Ardenne",
+		"parent": "08",
+		"valeur": 5
+	},
+	{
+		"code": "200067767",
+		"nom": "CC du Royans-Vercors",
+		"parent": "26",
+		"valeur": 63
+	},
+	{
+		"code": "200067783",
+		"nom": "CC de Hanau-La Petite Pierre",
+		"parent": "67",
+		"valeur": 98
+	},
+	{
+		"code": "200067791",
+		"nom": "CA Pays Foix-Varilhes",
+		"parent": "09",
+		"valeur": 89
+	},
+	{
+		"code": "200067817",
+		"nom": "CC Sa\u00f4ne-Beaujolais",
+		"parent": "69",
+		"valeur": 69
+	},
+	{
+		"code": "200067825",
+		"nom": "CA Gap-Tallard-Durance",
+		"parent": "05",
+		"valeur": 48
+	},
+	{
+		"code": "200067841",
+		"nom": "CC de l'Alsace Bossue",
+		"parent": "67",
+		"valeur": 29
+	},
+	{
+		"code": "200067866",
+		"nom": "CC S\u00e8vre et Loire",
+		"parent": "44",
+		"valeur": 61
+	},
+	{
+		"code": "200067874",
+		"nom": "CA de Haguenau",
+		"parent": "67",
+		"valeur": 12
+	},
+	{
+		"code": "200067882",
+		"nom": "CC Bazois Loire Morvan",
+		"parent": "58",
+		"valeur": 51
+	},
+	{
+		"code": "200067890",
+		"nom": "CC Morvan Sommets et Grands Lacs",
+		"parent": "58",
+		"valeur": 29
+	},
+	{
+		"code": "200067908",
+		"nom": "CC Amognes Coeur du Nivernais",
+		"parent": "58",
+		"valeur": 86
+	},
+	{
+		"code": "200067916",
+		"nom": "CC Coeur de Loire",
+		"parent": "58",
+		"valeur": 77
+	},
+	{
+		"code": "200067924",
+		"nom": "CC du Canton d'Erstein",
+		"parent": "67",
+		"valeur": 49
+	},
+	{
+		"code": "200067932",
+		"nom": "CA Golfe du Morbihan - Vannes Agglom\u00e9ration",
+		"parent": "56",
+		"valeur": 6
+	},
+	{
+		"code": "200067940",
+		"nom": "CC Couserans-Pyr\u00e9n\u00e9es",
+		"parent": "09",
+		"valeur": 33
+	},
+	{
+		"code": "200067957",
+		"nom": "CC Haut Chemin-Pays de Pange",
+		"parent": "57",
+		"valeur": 40
+	},
+	{
+		"code": "200067965",
+		"nom": "CA de la R\u00e9gion de Compi\u00e8gne et de la Basse Automne",
+		"parent": "60",
+		"valeur": 53
+	},
+	{
+		"code": "200067973",
+		"nom": "CC Thelloise",
+		"parent": "60",
+		"valeur": 98
+	},
+	{
+		"code": "200067981",
+		"nom": "CA Guingamp-Paimpol Agglom\u00e9ration de l'Armor \u00e0 l'Argoat",
+		"parent": "22",
+		"valeur": 68
+	},
+	{
+		"code": "200067999",
+		"nom": "CA du Beauvaisis",
+		"parent": "60",
+		"valeur": 90
+	},
+	{
+		"code": "200068005",
+		"nom": "CC de l'Oise Picarde",
+		"parent": "60",
+		"valeur": 39
+	},
+	{
+		"code": "200068047",
+		"nom": "CA Creil Sud Oise",
+		"parent": "60",
+		"valeur": 77
+	},
+	{
+		"code": "200068070",
+		"nom": "CC Loue-Lison",
+		"parent": "25",
+		"valeur": 48
+	},
+	{
+		"code": "200068088",
+		"nom": "CC Les Bertranges",
+		"parent": "58",
+		"valeur": 55
+	},
+	{
+		"code": "200068096",
+		"nom": "CC Champsaur-Valgaudemar",
+		"parent": "05",
+		"valeur": 88
+	},
+	{
+		"code": "200068104",
+		"nom": "CA de la Provence Verte",
+		"parent": "83",
+		"valeur": 67
+	},
+	{
+		"code": "200068112",
+		"nom": "CC du Pays de Saverne",
+		"parent": "67",
+		"valeur": 57
+	},
+	{
+		"code": "200068120",
+		"nom": "CA Quimper Bretagne Occidentale",
+		"parent": "29",
+		"valeur": 76
+	},
+	{
+		"code": "200068146",
+		"nom": "CC Sarrebourg Moselle Sud",
+		"parent": "57",
+		"valeur": 66
+	},
+	{
+		"code": "200068229",
+		"nom": "CC des Baronnies en Dr\u00f4me Proven\u00e7ale",
+		"parent": "26",
+		"valeur": 25
+	},
+	{
+		"code": "200068278",
+		"nom": "CC Berry Loire Puisaye",
+		"parent": "45",
+		"valeur": 12
+	},
+	{
+		"code": "200068294",
+		"nom": "CC des Deux Vall\u00e9es Vertes",
+		"parent": "25",
+		"valeur": 50
+	},
+	{
+		"code": "200068369",
+		"nom": "CC de Mirecourt Dompaire",
+		"parent": "88",
+		"valeur": 94
+	},
+	{
+		"code": "200068377",
+		"nom": "CC de la Porte des Vosges M\u00e9ridionales",
+		"parent": "88",
+		"valeur": 35
+	},
+	{
+		"code": "200068435",
+		"nom": "CC Coeur du Perche",
+		"parent": "61",
+		"valeur": 84
+	},
+	{
+		"code": "200068443",
+		"nom": "CC Andaine - Passais",
+		"parent": "61",
+		"valeur": 44
+	},
+	{
+		"code": "200068450",
+		"nom": "CC Argentan Intercom",
+		"parent": "61",
+		"valeur": 71
+	},
+	{
+		"code": "200068468",
+		"nom": "CC des Pays de L'Aigle",
+		"parent": "61",
+		"valeur": 100
+	},
+	{
+		"code": "200068484",
+		"nom": "CC des Causses \u00e0 l'Aubrac",
+		"parent": "12",
+		"valeur": 42
+	},
+	{
+		"code": "200068500",
+		"nom": "CA de Cambrai",
+		"parent": "59",
+		"valeur": 14
+	},
+	{
+		"code": "200068534",
+		"nom": "CC Terroir de Caux",
+		"parent": "76",
+		"valeur": 67
+	},
+	{
+		"code": "200068542",
+		"nom": "CC Les Balcons du Dauphin\u00e9",
+		"parent": "38",
+		"valeur": 60
+	},
+	{
+		"code": "200068559",
+		"nom": "CC de l'Ouest Vosgien",
+		"parent": "88",
+		"valeur": 50
+	},
+	{
+		"code": "200068567",
+		"nom": "CC Les Vals du Dauphin\u00e9",
+		"parent": "38",
+		"valeur": 88
+	},
+	{
+		"code": "200068625",
+		"nom": "CC Alpes-Provence-Verdon \"Sources de lumi\u00e8re\"",
+		"parent": "04",
+		"valeur": 26
+	},
+	{
+		"code": "200068641",
+		"nom": "CA Le Muretain Agglo",
+		"parent": "31",
+		"valeur": 100
+	},
+	{
+		"code": "200068658",
+		"nom": "CA de Chaumont",
+		"parent": "52",
+		"valeur": 77
+	},
+	{
+		"code": "200068666",
+		"nom": "CA de Saint-Dizier Der et Blaise",
+		"parent": "52",
+		"valeur": 13
+	},
+	{
+		"code": "200068674",
+		"nom": "CA Grand Lac",
+		"parent": "73",
+		"valeur": 61
+	},
+	{
+		"code": "200068682",
+		"nom": "CC Terre d'Eau",
+		"parent": "88",
+		"valeur": 53
+	},
+	{
+		"code": "200068757",
+		"nom": "CA d'Epinal",
+		"parent": "88",
+		"valeur": 19
+	},
+	{
+		"code": "200068765",
+		"nom": "CC du Sisteronais-Bu\u00ebch",
+		"parent": "04",
+		"valeur": 66
+	},
+	{
+		"code": "200068773",
+		"nom": "CC des Vosges c\u00f4t\u00e9 Sud Ouest",
+		"parent": "88",
+		"valeur": 84
+	},
+	{
+		"code": "200068781",
+		"nom": "CA Valence Romans Agglo",
+		"parent": "26",
+		"valeur": 29
+	},
+	{
+		"code": "200068799",
+		"nom": "CC Intercom de la Vire au Noireau",
+		"parent": "14",
+		"valeur": 39
+	},
+	{
+		"code": "200068807",
+		"nom": "CC du Bassin Auterivain Haut-Garonnais",
+		"parent": "31",
+		"valeur": 61
+	},
+	{
+		"code": "200068815",
+		"nom": "CC Coeur de Garonne",
+		"parent": "31",
+		"valeur": 2
+	},
+	{
+		"code": "200068831",
+		"nom": "CC Pays S\u00e9gali Communaut\u00e9",
+		"parent": "12",
+		"valeur": 75
+	},
+	{
+		"code": "200068856",
+		"nom": "CC des Hauts du Perche",
+		"parent": "61",
+		"valeur": 25
+	},
+	{
+		"code": "200068864",
+		"nom": "CC de la Mossig et du Vignoble",
+		"parent": "67",
+		"valeur": 31
+	},
+	{
+		"code": "200068872",
+		"nom": "CC Eguzon - Argenton - Vall\u00e9e de la Creuse",
+		"parent": "36",
+		"valeur": 68
+	},
+	{
+		"code": "200068880",
+		"nom": "CC Champagne Boischauts",
+		"parent": "36",
+		"valeur": 63
+	},
+	{
+		"code": "200068914",
+		"nom": "CC La Rochefoucauld porte du P\u00e9rigord",
+		"parent": "16",
+		"valeur": 58
+	},
+	{
+		"code": "200068922",
+		"nom": "CC du Confluent et des Coteaux de Prayssas",
+		"parent": "47",
+		"valeur": 45
+	},
+	{
+		"code": "200068930",
+		"nom": "CC Fumel Vall\u00e9e du Lot",
+		"parent": "47",
+		"valeur": 15
+	},
+	{
+		"code": "200068948",
+		"nom": "CC Albret Communaut\u00e9",
+		"parent": "47",
+		"valeur": 75
+	},
+	{
+		"code": "200068955",
+		"nom": "CC Anjou Loir et Sarthe",
+		"parent": "49",
+		"valeur": 26
+	},
+	{
+		"code": "200068963",
+		"nom": "CC Maine Coeur de Sarthe",
+		"parent": "72",
+		"valeur": 100
+	},
+	{
+		"code": "200068989",
+		"nom": "CA Dinan Agglom\u00e9ration",
+		"parent": "22",
+		"valeur": 29
+	},
+	{
+		"code": "200068997",
+		"nom": "CA Arlys\u00e8re",
+		"parent": "73",
+		"valeur": 1
+	},
+	{
+		"code": "200069003",
+		"nom": "CC du Bars\u00e9quanais en Champagne",
+		"parent": "10",
+		"valeur": 13
+	},
+	{
+		"code": "200069029",
+		"nom": "CA des Deux Baies en Montreuillois",
+		"parent": "62",
+		"valeur": 0
+	},
+	{
+		"code": "200069037",
+		"nom": "CA du Pays de Saint-Omer",
+		"parent": "62",
+		"valeur": 59
+	},
+	{
+		"code": "200069052",
+		"nom": "CA Grand Belfort",
+		"parent": "90",
+		"valeur": 75
+	},
+	{
+		"code": "200069060",
+		"nom": "CC des Vosges du Sud",
+		"parent": "90",
+		"valeur": 43
+	},
+	{
+		"code": "200069086",
+		"nom": "CC Leff Armor Communaut\u00e9",
+		"parent": "22",
+		"valeur": 70
+	},
+	{
+		"code": "200069094",
+		"nom": "CC Isle et Crempse en P\u00e9rigord",
+		"parent": "24",
+		"valeur": 40
+	},
+	{
+		"code": "200069102",
+		"nom": "CC Randon - Margeride",
+		"parent": "48",
+		"valeur": 42
+	},
+	{
+		"code": "200069110",
+		"nom": "CA du Grand Chamb\u00e9ry",
+		"parent": "73",
+		"valeur": 8
+	},
+	{
+		"code": "200069128",
+		"nom": "CC Mont Loz\u00e8re",
+		"parent": "48",
+		"valeur": 62
+	},
+	{
+		"code": "200069136",
+		"nom": "CC des C\u00e9vennes au Mont Loz\u00e8re",
+		"parent": "48",
+		"valeur": 92
+	},
+	{
+		"code": "200069144",
+		"nom": "CC des Hautes Terres de l'Aubrac",
+		"parent": "48",
+		"valeur": 90
+	},
+	{
+		"code": "200069151",
+		"nom": "CC Gorges Causses C\u00e9vennes",
+		"parent": "48",
+		"valeur": 54
+	},
+	{
+		"code": "200069169",
+		"nom": "CC D\u00f4mes Sancy Artense",
+		"parent": "63",
+		"valeur": 27
+	},
+	{
+		"code": "200069177",
+		"nom": "CC Mond'Arverne Communaut\u00e9",
+		"parent": "63",
+		"valeur": 10
+	},
+	{
+		"code": "200069185",
+		"nom": "CC des Terres d'Apcher-Margeride-Aubrac",
+		"parent": "48",
+		"valeur": 8
+	},
+	{
+		"code": "200069193",
+		"nom": "CC de la Dombes",
+		"parent": "01",
+		"valeur": 67
+	},
+	{
+		"code": "200069227",
+		"nom": "CC Pays Fort Sancerrois Val de Loire",
+		"parent": "18",
+		"valeur": 96
+	},
+	{
+		"code": "200069235",
+		"nom": "CC du Haut Pays du Montreuillois",
+		"parent": "62",
+		"valeur": 74
+	},
+	{
+		"code": "200069250",
+		"nom": "CA Troyes Champagne M\u00e9tropole",
+		"parent": "10",
+		"valeur": 85
+	},
+	{
+		"code": "200069268",
+		"nom": "CC Aubrac Lot Causses Tarn",
+		"parent": "48",
+		"valeur": 54
+	},
+	{
+		"code": "200069300",
+		"nom": "CA Tarbes-Lourdes-Pyr\u00e9n\u00e9es",
+		"parent": "65",
+		"valeur": 54
+	},
+	{
+		"code": "200069383",
+		"nom": "CC Ouest Aveyron Communaut\u00e9",
+		"parent": "12",
+		"valeur": 92
+	},
+	{
+		"code": "200069391",
+		"nom": "CA Lamballe Terre et Mer",
+		"parent": "22",
+		"valeur": 68
+	},
+	{
+		"code": "200069409",
+		"nom": "CA Saint-Brieuc Armor Agglom\u00e9ration",
+		"parent": "22",
+		"valeur": 83
+	},
+	{
+		"code": "200069417",
+		"nom": "CC Pays d'Orthe et Arrigans",
+		"parent": "40",
+		"valeur": 7
+	},
+	{
+		"code": "200069425",
+		"nom": "CA Mont-Saint-Michel-Normandie",
+		"parent": "50",
+		"valeur": 0
+	},
+	{
+		"code": "200069433",
+		"nom": "CC de Vezouze en Pi\u00e9mont",
+		"parent": "54",
+		"valeur": 34
+	},
+	{
+		"code": "200069441",
+		"nom": "CC du Pays de Bitche",
+		"parent": "57",
+		"valeur": 77
+	},
+	{
+		"code": "200069458",
+		"nom": "CC des Vall\u00e9es d'Auge et du Merlerault",
+		"parent": "61",
+		"valeur": 58
+	},
+	{
+		"code": "200069482",
+		"nom": "CC des Campagnes de l'Artois",
+		"parent": "62",
+		"valeur": 62
+	},
+	{
+		"code": "200069516",
+		"nom": "CC Seulles Terre et Mer",
+		"parent": "14",
+		"valeur": 26
+	},
+	{
+		"code": "200069524",
+		"nom": "CC Pr\u00e9-Bocage Intercom",
+		"parent": "14",
+		"valeur": 42
+	},
+	{
+		"code": "200069532",
+		"nom": "CA Lisieux Normandie",
+		"parent": "14",
+		"valeur": 99
+	},
+	{
+		"code": "200069540",
+		"nom": "CC Norge et Tille",
+		"parent": "21",
+		"valeur": 96
+	},
+	{
+		"code": "200069565",
+		"nom": "CC des Lacs et Montagnes du Haut-Doubs",
+		"parent": "25",
+		"valeur": 14
+	},
+	{
+		"code": "200069581",
+		"nom": "CC Convergence Garonne",
+		"parent": "33",
+		"valeur": 25
+	},
+	{
+		"code": "200069599",
+		"nom": "CC rurales de l'Entre-Deux-Mers",
+		"parent": "33",
+		"valeur": 2
+	},
+	{
+		"code": "200069615",
+		"nom": "CC Bresse Haute Seille",
+		"parent": "39",
+		"valeur": 19
+	},
+	{
+		"code": "200069623",
+		"nom": "CC Champagnole Nozeroy Jura",
+		"parent": "39",
+		"valeur": 56
+	},
+	{
+		"code": "200069631",
+		"nom": "CC Terres de Chalosse",
+		"parent": "40",
+		"valeur": 77
+	},
+	{
+		"code": "200069649",
+		"nom": "CC Chalosse Tursan",
+		"parent": "40",
+		"valeur": 62
+	},
+	{
+		"code": "200069656",
+		"nom": "CC Coeur Haute Lande",
+		"parent": "40",
+		"valeur": 0
+	},
+	{
+		"code": "200069664",
+		"nom": "CC Meuse Rognon",
+		"parent": "52",
+		"valeur": 31
+	},
+	{
+		"code": "200069672",
+		"nom": "CC du Ternois",
+		"parent": "62",
+		"valeur": 54
+	},
+	{
+		"code": "200069698",
+		"nom": "CC M\u00e2connais - Tournugeois",
+		"parent": "71",
+		"valeur": 32
+	},
+	{
+		"code": "200069722",
+		"nom": "CC interr\u00e9gionale Aumale - Blangy-sur-Bresle",
+		"parent": "76",
+		"valeur": 6
+	},
+	{
+		"code": "200069730",
+		"nom": "CC des 4 rivi\u00e8res",
+		"parent": "76",
+		"valeur": 63
+	},
+	{
+		"code": "200069748",
+		"nom": "CC Val de G\u00e2tine",
+		"parent": "79",
+		"valeur": 54
+	},
+	{
+		"code": "200069755",
+		"nom": "CC Mellois en Poitou",
+		"parent": "79",
+		"valeur": 25
+	},
+	{
+		"code": "200069763",
+		"nom": "CC du Haut-Poitou",
+		"parent": "86",
+		"valeur": 65
+	},
+	{
+		"code": "200069821",
+		"nom": "CA F\u00e9camp Caux Littoral Agglom\u00e9ration",
+		"parent": "76",
+		"valeur": 62
+	},
+	{
+		"code": "200069839",
+		"nom": "CC de la C\u00f4te d'Alb\u00e2tre",
+		"parent": "76",
+		"valeur": 4
+	},
+	{
+		"code": "200069847",
+		"nom": "CC Plateau de Caux-Doudeville-Yerville",
+		"parent": "76",
+		"valeur": 41
+	},
+	{
+		"code": "200069854",
+		"nom": "CU du Grand Poitiers",
+		"parent": "86",
+		"valeur": 13
+	},
+	{
+		"code": "200069912",
+		"nom": "CC des For\u00eats du Perche",
+		"parent": "28",
+		"valeur": 68
+	},
+	{
+		"code": "200069953",
+		"nom": "CC des Portes Eur\u00e9liennes d'Ile de France",
+		"parent": "28",
+		"valeur": 51
+	},
+	{
+		"code": "200069961",
+		"nom": "CC du Grand Ch\u00e2teaudun",
+		"parent": "28",
+		"valeur": 91
+	},
+	{
+		"code": "200069995",
+		"nom": "CC M\u00e9doc Coeur de Presqu'\u00eele",
+		"parent": "33",
+		"valeur": 22
+	},
+	{
+		"code": "200070035",
+		"nom": "CC du Civraisien en Poitou",
+		"parent": "86",
+		"valeur": 100
+	},
+	{
+		"code": "200070043",
+		"nom": "CC Vienne et Gartempe",
+		"parent": "86",
+		"valeur": 98
+	},
+	{
+		"code": "200070068",
+		"nom": "CC Communaut\u00e9 Bray-Eawy",
+		"parent": "76",
+		"valeur": 97
+	},
+	{
+		"code": "200070092",
+		"nom": "CA du Libournais",
+		"parent": "33",
+		"valeur": 98
+	},
+	{
+		"code": "200070100",
+		"nom": "CC du Val de Sully",
+		"parent": "45",
+		"valeur": 94
+	},
+	{
+		"code": "200070118",
+		"nom": "CC Val de Sa\u00f4ne Centre",
+		"parent": "01",
+		"valeur": 26
+	},
+	{
+		"code": "200070126",
+		"nom": "CC Seine et Aube",
+		"parent": "10",
+		"valeur": 67
+	},
+	{
+		"code": "200070142",
+		"nom": "CC Lyons Andelle",
+		"parent": "27",
+		"valeur": 28
+	},
+	{
+		"code": "200070159",
+		"nom": "CC Coeur de Beauce",
+		"parent": "28",
+		"valeur": 27
+	},
+	{
+		"code": "200070167",
+		"nom": "CC Terres de Perche",
+		"parent": "28",
+		"valeur": 41
+	},
+	{
+		"code": "200070183",
+		"nom": "CC des Terres du Val de Loire",
+		"parent": "45",
+		"valeur": 35
+	},
+	{
+		"code": "200070233",
+		"nom": "CA Terres de Montaigu",
+		"parent": "85",
+		"valeur": 40
+	},
+	{
+		"code": "200070282",
+		"nom": "CC Lavalette Tude Dronne",
+		"parent": "16",
+		"valeur": 68
+	},
+	{
+		"code": "200070290",
+		"nom": "CC Coeur du Pays Haut",
+		"parent": "54",
+		"valeur": 70
+	},
+	{
+		"code": "200070308",
+		"nom": "CA M\u00e2connais Beaujolais Agglom\u00e9ration",
+		"parent": "71",
+		"valeur": 40
+	},
+	{
+		"code": "200070316",
+		"nom": "CC Entre Arroux, Loire et Somme",
+		"parent": "71",
+		"valeur": 19
+	},
+	{
+		"code": "200070324",
+		"nom": "CC du Territoire de Lun\u00e9ville \u00e0 Baccarat",
+		"parent": "54",
+		"valeur": 52
+	},
+	{
+		"code": "200070332",
+		"nom": "CC des Savoir-Faire",
+		"parent": "52",
+		"valeur": 54
+	},
+	{
+		"code": "200070340",
+		"nom": "CC Haute Maurienne Vanoise",
+		"parent": "73",
+		"valeur": 58
+	},
+	{
+		"code": "200070365",
+		"nom": "CC Corbi\u00e8res Salanque M\u00e9diterran\u00e9e",
+		"parent": "66",
+		"valeur": 1
+	},
+	{
+		"code": "200070373",
+		"nom": "CC Loir-Luc\u00e9-Berc\u00e9",
+		"parent": "72",
+		"valeur": 51
+	},
+	{
+		"code": "200070407",
+		"nom": "CA Agglo Pays d'Issoire",
+		"parent": "63",
+		"valeur": 22
+	},
+	{
+		"code": "200070431",
+		"nom": "CC Saint-Marcellin Vercors Is\u00e8re Communaut\u00e9",
+		"parent": "38",
+		"valeur": 37
+	},
+	{
+		"code": "200070449",
+		"nom": "CC inter-Caux-Vexin",
+		"parent": "76",
+		"valeur": 58
+	},
+	{
+		"code": "200070464",
+		"nom": "CC Coeur de Maurienne Arvan",
+		"parent": "73",
+		"valeur": 36
+	},
+	{
+		"code": "200070506",
+		"nom": "CC Pays de Nexon Monts de Chalus",
+		"parent": "87",
+		"valeur": 29
+	},
+	{
+		"code": "200070514",
+		"nom": "CA du Grand Cognac",
+		"parent": "16",
+		"valeur": 96
+	},
+	{
+		"code": "200070530",
+		"nom": "CC du Grand Autunois Morvan",
+		"parent": "71",
+		"valeur": 48
+	},
+	{
+		"code": "200070548",
+		"nom": "CC Brionnais Sud Bourgogne",
+		"parent": "71",
+		"valeur": 79
+	},
+	{
+		"code": "200070555",
+		"nom": "CC de la Veyle",
+		"parent": "01",
+		"valeur": 56
+	},
+	{
+		"code": "200070563",
+		"nom": "CC Terres Touloises",
+		"parent": "54",
+		"valeur": 54
+	},
+	{
+		"code": "200070571",
+		"nom": "CC Coeur de Berry",
+		"parent": "18",
+		"valeur": 37
+	},
+	{
+		"code": "200070589",
+		"nom": "CC de Seille et Grand Couronn\u00e9",
+		"parent": "54",
+		"valeur": 3
+	},
+	{
+		"code": "200070647",
+		"nom": "CA Bergeracoise",
+		"parent": "24",
+		"valeur": 42
+	},
+	{
+		"code": "200070662",
+		"nom": "CC Bretagne Porte de Loire Communaut\u00e9",
+		"parent": "35",
+		"valeur": 66
+	},
+	{
+		"code": "200070670",
+		"nom": "CC du Pays de Dol et de la Baie du Mont Saint-Michel",
+		"parent": "35",
+		"valeur": 69
+	},
+	{
+		"code": "200070688",
+		"nom": "CC Couesnon Marches de Bretagne",
+		"parent": "35",
+		"valeur": 13
+	},
+	{
+		"code": "200070712",
+		"nom": "CC Thiers Dore et Montagne",
+		"parent": "63",
+		"valeur": 60
+	},
+	{
+		"code": "200070720",
+		"nom": "CC M\u00e9doc Atlantique",
+		"parent": "33",
+		"valeur": 4
+	},
+	{
+		"code": "200070738",
+		"nom": "CC Mad et Moselle",
+		"parent": "57",
+		"valeur": 44
+	},
+	{
+		"code": "200070746",
+		"nom": "CA Sarreguemines Confluences",
+		"parent": "57",
+		"valeur": 83
+	},
+	{
+		"code": "200070753",
+		"nom": "CA Riom Limagne et Volcans",
+		"parent": "63",
+		"valeur": 8
+	},
+	{
+		"code": "200070761",
+		"nom": "CC Ambert Livradois Forez",
+		"parent": "63",
+		"valeur": 97
+	},
+	{
+		"code": "200070779",
+		"nom": "CC Brie des Rivi\u00e8res et Ch\u00e2teaux",
+		"parent": "77",
+		"valeur": 68
+	},
+	{
+		"code": "200070787",
+		"nom": "CC du Plateau de Lannemezan",
+		"parent": "65",
+		"valeur": 99
+	},
+	{
+		"code": "200070795",
+		"nom": "CC du Pays de Trie et du Magnoac",
+		"parent": "65",
+		"valeur": 91
+	},
+	{
+		"code": "200070803",
+		"nom": "CC des Coteaux du Val d'Arros",
+		"parent": "65",
+		"valeur": 93
+	},
+	{
+		"code": "200070811",
+		"nom": "CC Pyr\u00e9n\u00e9es Vall\u00e9es des Gaves",
+		"parent": "65",
+		"valeur": 1
+	},
+	{
+		"code": "200070829",
+		"nom": "CC Neste Barousse",
+		"parent": "65",
+		"valeur": 4
+	},
+	{
+		"code": "200070845",
+		"nom": "CC Orne Lorraine Confluences",
+		"parent": "54",
+		"valeur": 71
+	},
+	{
+		"code": "200070852",
+		"nom": "CC Usses et Rh\u00f4ne",
+		"parent": "74",
+		"valeur": 83
+	},
+	{
+		"code": "200070894",
+		"nom": "CC de Gevrey-Chambertin et de Nuits-Saint-Georges",
+		"parent": "21",
+		"valeur": 8
+	},
+	{
+		"code": "200070902",
+		"nom": "CC Auxonne Pontailler Val de Sa\u00f4ne",
+		"parent": "21",
+		"valeur": 20
+	},
+	{
+		"code": "200070910",
+		"nom": "CC Tille et Venelle",
+		"parent": "21",
+		"valeur": 35
+	},
+	{
+		"code": "200070928",
+		"nom": "CC Terre de Picardie",
+		"parent": "80",
+		"valeur": 43
+	},
+	{
+		"code": "200070936",
+		"nom": "CC Ponthieu-Marquenterre",
+		"parent": "80",
+		"valeur": 80
+	},
+	{
+		"code": "200070944",
+		"nom": "CC du Vimeu",
+		"parent": "80",
+		"valeur": 13
+	},
+	{
+		"code": "200070951",
+		"nom": "CC du Territoire Nord Picardie",
+		"parent": "80",
+		"valeur": 60
+	},
+	{
+		"code": "200070969",
+		"nom": "CC Avre Luce Noye",
+		"parent": "80",
+		"valeur": 1
+	},
+	{
+		"code": "200070977",
+		"nom": "CC du Grand Roye",
+		"parent": "80",
+		"valeur": 29
+	},
+	{
+		"code": "200070985",
+		"nom": "CC de l'Est de la Somme",
+		"parent": "80",
+		"valeur": 72
+	},
+	{
+		"code": "200070993",
+		"nom": "CA de la Baie de Somme",
+		"parent": "80",
+		"valeur": 76
+	},
+	{
+		"code": "200071017",
+		"nom": "CC des Terres d'Auxois",
+		"parent": "21",
+		"valeur": 60
+	},
+	{
+		"code": "200071025",
+		"nom": "CC Haute-Provence-Pays de Banon",
+		"parent": "04",
+		"valeur": 12
+	},
+	{
+		"code": "200071033",
+		"nom": "CC Jabron-Lure-Van\u00e7on-Durance",
+		"parent": "04",
+		"valeur": 78
+	},
+	{
+		"code": "200071041",
+		"nom": "CC du Chaour\u00e7ois et du Val d'Armance",
+		"parent": "10",
+		"valeur": 96
+	},
+	{
+		"code": "200071058",
+		"nom": "CC Les Avant-Monts",
+		"parent": "34",
+		"valeur": 6
+	},
+	{
+		"code": "200071066",
+		"nom": "CA de Saint-Di\u00e9-des-Vosges",
+		"parent": "88",
+		"valeur": 18
+	},
+	{
+		"code": "200071074",
+		"nom": "CC Les Portes de l'Ile de France",
+		"parent": "78",
+		"valeur": 47
+	},
+	{
+		"code": "200071082",
+		"nom": "CA Montlu\u00e7on Communaut\u00e9",
+		"parent": "03",
+		"valeur": 39
+	},
+	{
+		"code": "200071116",
+		"nom": "CA ECLA  (Espace Communautaire Lons Agglom\u00e9ration)",
+		"parent": "39",
+		"valeur": 2
+	},
+	{
+		"code": "200071140",
+		"nom": "CA Moulins Communaut\u00e9",
+		"parent": "03",
+		"valeur": 87
+	},
+	{
+		"code": "200071165",
+		"nom": "CA Les Sables d'Olonne Agglom\u00e9ration",
+		"parent": "85",
+		"valeur": 45
+	},
+	{
+		"code": "200071173",
+		"nom": "CC du Pays Arnay Liernais",
+		"parent": "21",
+		"valeur": 24
+	},
+	{
+		"code": "200071181",
+		"nom": "CC Somme Sud-Ouest",
+		"parent": "80",
+		"valeur": 6
+	},
+	{
+		"code": "200071199",
+		"nom": "CC Plaine Limagne",
+		"parent": "63",
+		"valeur": 95
+	},
+	{
+		"code": "200071207",
+		"nom": "CC de Pouilly en Auxois\/Bligny sur Ouche",
+		"parent": "21",
+		"valeur": 87
+	},
+	{
+		"code": "200071215",
+		"nom": "CC Chavanon Combrailles et Volcans",
+		"parent": "63",
+		"valeur": 100
+	},
+	{
+		"code": "200071223",
+		"nom": "CC Ni\u00e8vre et Somme",
+		"parent": "80",
+		"valeur": 40
+	},
+	{
+		"code": "200071298",
+		"nom": "CC des Terres du Lauragais",
+		"parent": "31",
+		"valeur": 38
+	},
+	{
+		"code": "200071314",
+		"nom": "CC des Hauts-Tolosans",
+		"parent": "31",
+		"valeur": 8
+	},
+	{
+		"code": "200071363",
+		"nom": "CA Vichy Communaut\u00e9",
+		"parent": "03",
+		"valeur": 1
+	},
+	{
+		"code": "200071371",
+		"nom": "CC Bresse et Sa\u00f4ne",
+		"parent": "01",
+		"valeur": 6
+	},
+	{
+		"code": "200071389",
+		"nom": "CC Saint-Pour\u00e7ain Sioule Limagne",
+		"parent": "03",
+		"valeur": 59
+	},
+	{
+		"code": "200071405",
+		"nom": "CC Ard\u00e8che Rh\u00f4ne Coiron",
+		"parent": "07",
+		"valeur": 70
+	},
+	{
+		"code": "200071413",
+		"nom": "CA Privas Centre Ard\u00e8che",
+		"parent": "07",
+		"valeur": 94
+	},
+	{
+		"code": "200071454",
+		"nom": "CA Evreux Portes de Normandie",
+		"parent": "27",
+		"valeur": 96
+	},
+	{
+		"code": "200071470",
+		"nom": "CC Entr'Allier Besbre et Loire",
+		"parent": "03",
+		"valeur": 82
+	},
+	{
+		"code": "200071496",
+		"nom": "CC du Bocage Bourbonnais",
+		"parent": "03",
+		"valeur": 11
+	},
+	{
+		"code": "200071504",
+		"nom": "CC des Collines du Perche Normand",
+		"parent": "61",
+		"valeur": 1
+	},
+	{
+		"code": "200071512",
+		"nom": "CC Commentry Montmarault N\u00e9ris Communaut\u00e9",
+		"parent": "03",
+		"valeur": 37
+	},
+	{
+		"code": "200071520",
+		"nom": "CC Domfront Tinchebray Interco",
+		"parent": "61",
+		"valeur": 91
+	},
+	{
+		"code": "200071538",
+		"nom": "CC Terres de Bresse",
+		"parent": "71",
+		"valeur": 32
+	},
+	{
+		"code": "200071546",
+		"nom": "CC Sud Retz Atlantique",
+		"parent": "44",
+		"valeur": 17
+	},
+	{
+		"code": "200071553",
+		"nom": "CC Loire Layon Aubance",
+		"parent": "49",
+		"valeur": 2
+	},
+	{
+		"code": "200071579",
+		"nom": "CC Bresse Louhannaise Intercom'",
+		"parent": "71",
+		"valeur": 26
+	},
+	{
+		"code": "200071587",
+		"nom": "CC Loches Sud Touraine",
+		"parent": "37",
+		"valeur": 82
+	},
+	{
+		"code": "200071595",
+		"nom": "CC Arbois, Poligny, Salins, Coeur du Jura",
+		"parent": "39",
+		"valeur": 17
+	},
+	{
+		"code": "200071629",
+		"nom": "CC Challans-Gois Communaut\u00e9",
+		"parent": "85",
+		"valeur": 11
+	},
+	{
+		"code": "200071645",
+		"nom": "CC Saint Cyr M\u00e8re Boitier entre Charolais et M\u00e2connais",
+		"parent": "71",
+		"valeur": 83
+	},
+	{
+		"code": "200071652",
+		"nom": "CC du Pays Fertois et du Bocage Carrougien",
+		"parent": "61",
+		"valeur": 31
+	},
+	{
+		"code": "200071678",
+		"nom": "CA Agglom\u00e9ration du Choletais",
+		"parent": "49",
+		"valeur": 86
+	},
+	{
+		"code": "200071751",
+		"nom": "CA du Bassin de Bourg-en-Bresse",
+		"parent": "01",
+		"valeur": 61
+	},
+	{
+		"code": "200071769",
+		"nom": "CC Picardie des Ch\u00e2teaux",
+		"parent": "02",
+		"valeur": 99
+	},
+	{
+		"code": "200071777",
+		"nom": "CC d'Arcis, Mailly, Ramerupt",
+		"parent": "10",
+		"valeur": 50
+	},
+	{
+		"code": "200071785",
+		"nom": "CA Chauny Tergnier La F\u00e8re",
+		"parent": "02",
+		"valeur": 15
+	},
+	{
+		"code": "200071819",
+		"nom": "CC du P\u00e9rigord Nontronnais",
+		"parent": "24",
+		"valeur": 97
+	},
+	{
+		"code": "200071827",
+		"nom": "CA du Grand Angoul\u00eame",
+		"parent": "16",
+		"valeur": 90
+	},
+	{
+		"code": "200071843",
+		"nom": "CC du Vexin Normand",
+		"parent": "27",
+		"valeur": 95
+	},
+	{
+		"code": "200071850",
+		"nom": "CC du Pithiverais-G\u00e2tinais",
+		"parent": "45",
+		"valeur": 28
+	},
+	{
+		"code": "200071868",
+		"nom": "CC des Vall\u00e9es du Haut-Anjou",
+		"parent": "49",
+		"valeur": 51
+	},
+	{
+		"code": "200071876",
+		"nom": "CA Saumur Val de Loire",
+		"parent": "49",
+		"valeur": 64
+	},
+	{
+		"code": "200071884",
+		"nom": "CC Le Grand Charolais",
+		"parent": "71",
+		"valeur": 46
+	},
+	{
+		"code": "200071892",
+		"nom": "CA du Saint-Quentinois",
+		"parent": "02",
+		"valeur": 70
+	},
+	{
+		"code": "200071900",
+		"nom": "CC Vend\u00e9e Grand Littoral",
+		"parent": "85",
+		"valeur": 24
+	},
+	{
+		"code": "200071918",
+		"nom": "CC du Pays de Saint-Fulgent - Les Essarts",
+		"parent": "85",
+		"valeur": 58
+	},
+	{
+		"code": "200071926",
+		"nom": "CC du Limouxin",
+		"parent": "11",
+		"valeur": 47
+	},
+	{
+		"code": "200071934",
+		"nom": "CC du Pays de Fontenay-Vend\u00e9e",
+		"parent": "85",
+		"valeur": 31
+	},
+	{
+		"code": "200071942",
+		"nom": "CC Haut Limousin en Marche",
+		"parent": "87",
+		"valeur": 76
+	},
+	{
+		"code": "200071967",
+		"nom": "CC Pays d'Evian Vall\u00e9e d'Abondance",
+		"parent": "74",
+		"valeur": 59
+	},
+	{
+		"code": "200071983",
+		"nom": "CC Thi\u00e9rache Sambre et Oise",
+		"parent": "02",
+		"valeur": 91
+	},
+	{
+		"code": "200071991",
+		"nom": "CC Retz en Valois",
+		"parent": "02",
+		"valeur": 90
+	},
+	{
+		"code": "200072007",
+		"nom": "CC de la Montagne d'Ard\u00e8che",
+		"parent": "07",
+		"valeur": 70
+	},
+	{
+		"code": "200072015",
+		"nom": "CA Annonay Rh\u00f4ne Agglo",
+		"parent": "07",
+		"valeur": 48
+	},
+	{
+		"code": "200072023",
+		"nom": "CC Coeur de Charente",
+		"parent": "16",
+		"valeur": 69
+	},
+	{
+		"code": "200072031",
+		"nom": "CA de la R\u00e9gion de Ch\u00e2teau-Thierry",
+		"parent": "02",
+		"valeur": 44
+	},
+	{
+		"code": "200072049",
+		"nom": "CC de Charente Limousine",
+		"parent": "16",
+		"valeur": 70
+	},
+	{
+		"code": "200072056",
+		"nom": "CC Porte du Jura",
+		"parent": "39",
+		"valeur": 1
+	},
+	{
+		"code": "200072064",
+		"nom": "CC Val-de-Cher-Controis",
+		"parent": "41",
+		"valeur": 46
+	},
+	{
+		"code": "200072072",
+		"nom": "CA Territoires Vend\u00f4mois",
+		"parent": "41",
+		"valeur": 86
+	},
+	{
+		"code": "200072080",
+		"nom": "CC du Pays de Saint-Eloy",
+		"parent": "63",
+		"valeur": 87
+	},
+	{
+		"code": "200072098",
+		"nom": "CC Combrailles Sioule et Morge",
+		"parent": "63",
+		"valeur": 94
+	},
+	{
+		"code": "200072106",
+		"nom": "CC Adour Madiran",
+		"parent": "65",
+		"valeur": 29
+	},
+	{
+		"code": "200072130",
+		"nom": "CA du Pays de Meaux",
+		"parent": "77",
+		"valeur": 63
+	},
+	{
+		"code": "200072304",
+		"nom": "CC Vall\u00e9e de l'Ubaye - Serre-Pon\u00e7on",
+		"parent": "04",
+		"valeur": 21
+	},
+	{
+		"code": "200072312",
+		"nom": "CA Seine Normandie Agglom\u00e9ration",
+		"parent": "27",
+		"valeur": 56
+	},
+	{
+		"code": "200072320",
+		"nom": "CC Val de Gers",
+		"parent": "32",
+		"valeur": 53
+	},
+	{
+		"code": "200072346",
+		"nom": "CA du Pays de Fontainebleau",
+		"parent": "77",
+		"valeur": 94
+	},
+	{
+		"code": "200072452",
+		"nom": "CA Foug\u00e8res Agglom\u00e9ration",
+		"parent": "35",
+		"valeur": 11
+	},
+	{
+		"code": "200072460",
+		"nom": "CA de B\u00e9thune-Bruay, Artois-Lys Romane",
+		"parent": "62",
+		"valeur": 7
+	},
+	{
+		"code": "200072478",
+		"nom": "CC Pays d'Opale",
+		"parent": "62",
+		"valeur": 24
+	},
+	{
+		"code": "200072544",
+		"nom": "CC des Deux Morin",
+		"parent": "77",
+		"valeur": 40
+	},
+	{
+		"code": "200072635",
+		"nom": "CC Pyr\u00e9n\u00e9es Haut Garonnaises",
+		"parent": "31",
+		"valeur": 9
+	},
+	{
+		"code": "200072643",
+		"nom": "CC Coeur et Coteaux du Comminges",
+		"parent": "31",
+		"valeur": 44
+	},
+	{
+		"code": "200072650",
+		"nom": "CC Touraine Vall\u00e9e de l'Indre",
+		"parent": "37",
+		"valeur": 71
+	},
+	{
+		"code": "200072668",
+		"nom": "CC Touraine Val de Vienne",
+		"parent": "37",
+		"valeur": 2
+	},
+	{
+		"code": "200072676",
+		"nom": "CC Maine Saosnois",
+		"parent": "72",
+		"valeur": 27
+	},
+	{
+		"code": "200072684",
+		"nom": "CC Le Gesnois Bilurien",
+		"parent": "72",
+		"valeur": 71
+	},
+	{
+		"code": "200072692",
+		"nom": "CC des Vall\u00e9es de la Braye et de l'Anille",
+		"parent": "72",
+		"valeur": 4
+	},
+	{
+		"code": "200072700",
+		"nom": "CC Haute Sarthe Alpes Mancelles",
+		"parent": "72",
+		"valeur": 26
+	},
+	{
+		"code": "200072718",
+		"nom": "CC de la Champagne Conlinoise et du Pays de Sill\u00e9",
+		"parent": "72",
+		"valeur": 54
+	},
+	{
+		"code": "200072726",
+		"nom": "CC Ch\u00e2teaubriant-Derval",
+		"parent": "44",
+		"valeur": 3
+	},
+	{
+		"code": "200072734",
+		"nom": "CC Estuaire et Sillon",
+		"parent": "44",
+		"valeur": 21
+	},
+	{
+		"code": "200072825",
+		"nom": "CC Mirebellois et Fontenois",
+		"parent": "21",
+		"valeur": 49
+	},
+	{
+		"code": "200072874",
+		"nom": "CC Val Briard",
+		"parent": "77",
+		"valeur": 87
+	},
+	{
+		"code": "200072882",
+		"nom": "CC de Vie et Boulogne",
+		"parent": "85",
+		"valeur": 94
+	},
+	{
+		"code": "200072981",
+		"nom": "CC Touraine Ouest Val de Loire",
+		"parent": "37",
+		"valeur": 93
+	},
+	{
+		"code": "200072999",
+		"nom": "CC du Grand Langres",
+		"parent": "52",
+		"valeur": 83
+	},
+	{
+		"code": "200073013",
+		"nom": "CC Carnelle Pays-de-France",
+		"parent": "95",
+		"valeur": 39
+	},
+	{
+		"code": "200073096",
+		"nom": "CA Arche Agglo",
+		"parent": "07",
+		"valeur": 87
+	},
+	{
+		"code": "200073104",
+		"nom": "CC de l'Ile-Rousse - Balagne",
+		"parent": "2B",
+		"valeur": 47
+	},
+	{
+		"code": "200073112",
+		"nom": "CC Sud Sarthe",
+		"parent": "72",
+		"valeur": 82
+	},
+	{
+		"code": "200073120",
+		"nom": "CC Nebbiu - Conca d'Oro",
+		"parent": "2B",
+		"valeur": 41
+	},
+	{
+		"code": "200073138",
+		"nom": "CC Pasquale Paoli",
+		"parent": "2B",
+		"valeur": 45
+	},
+	{
+		"code": "200073146",
+		"nom": "CC Cagire Garonne Salat",
+		"parent": "31",
+		"valeur": 6
+	},
+	{
+		"code": "200073161",
+		"nom": "CC Touraine-Est Vall\u00e9es",
+		"parent": "37",
+		"valeur": 5
+	},
+	{
+		"code": "200073237",
+		"nom": "CC de G\u00e2tine et Choisilles - Pays de Racan",
+		"parent": "37",
+		"valeur": 38
+	},
+	{
+		"code": "200073245",
+		"nom": "CC du Bassin d'Aubenas",
+		"parent": "07",
+		"valeur": 63
+	},
+	{
+		"code": "200073252",
+		"nom": "CC de la Castagniccia-Casinca",
+		"parent": "2B",
+		"valeur": 75
+	},
+	{
+		"code": "200073260",
+		"nom": "CC Sud Vend\u00e9e Littoral",
+		"parent": "85",
+		"valeur": 90
+	},
+	{
+		"code": "200073344",
+		"nom": "CA Rambouillet Territoires",
+		"parent": "78",
+		"valeur": 15
+	},
+	{
+		"code": "200073393",
+		"nom": "CC des Rives du Haut Allier",
+		"parent": "43",
+		"valeur": 43
+	},
+	{
+		"code": "200073401",
+		"nom": "CC M\u00e9zenc-Loire-Meygal",
+		"parent": "43",
+		"valeur": 25
+	},
+	{
+		"code": "200073419",
+		"nom": "CA du Puy-en-Velay",
+		"parent": "43",
+		"valeur": 68
+	},
+	{
+		"code": "200073427",
+		"nom": "CC Marches du Velay-Rochebaron",
+		"parent": "43",
+		"valeur": 24
+	},
+	{
+		"code": "200077014",
+		"nom": "CA Vienne Condrieu",
+		"parent": "38",
+		"valeur": 88
+	},
+	{
+		"code": "200083392",
+		"nom": "CA Laval Agglom\u00e9ration",
+		"parent": "53",
+		"valeur": 15
+	},
+	{
+		"code": "200084952",
+		"nom": "CU Le Havre Seine M\u00e9tropole",
+		"parent": "76",
+		"valeur": 48
+	},
+	{
+		"code": "200085728",
+		"nom": "CC Brioude Sud Auvergne",
+		"parent": "43",
+		"valeur": 4
+	},
+	{
+		"code": "200085751",
+		"nom": "CC Entre Bi\u00e8vre et Rh\u00f4ne",
+		"parent": "38",
+		"valeur": 74
+	},
+	{
+		"code": "200089456",
+		"nom": "CA Seine-Eure",
+		"parent": "27",
+		"valeur": 41
+	},
+	{
+		"code": "200090504",
+		"nom": "CA Coulommiers Pays de Brie",
+		"parent": "77",
+		"valeur": 66
+	},
+	{
+		"code": "200090561",
+		"nom": "CC Vierzon-Sologne-Berry",
+		"parent": "18",
+		"valeur": 11
+	},
+	{
+		"code": "200090579",
+		"nom": "CC Terre d'\u00c9meraude Communaut\u00e9",
+		"parent": "39",
+		"valeur": 83
+	},
+	{
+		"code": "200090751",
+		"nom": "CA Grand Calais Terres et Mers",
+		"parent": "62",
+		"valeur": 24
+	},
+	{
+		"code": "200093201",
+		"nom": "M\u00e9tropole Europ\u00e9enne de Lille",
+		"parent": "59",
+		"valeur": 88
+	},
+	{
+		"code": "200096634",
+		"nom": "CC des Hautes Vosges",
+		"parent": "88",
+		"valeur": 8
+	},
+	{
+		"code": "200096642",
+		"nom": "CC G\u00e9rardmer Hautes Vosges",
+		"parent": "88",
+		"valeur": 93
+	},
+	{
+		"code": "200096675",
+		"nom": "CC Baud Communaut\u00e9",
+		"parent": "56",
+		"valeur": 15
+	},
+	{
+		"code": "200096683",
+		"nom": "CC Centre Morbihan Communaut\u00e9",
+		"parent": "56",
+		"valeur": 96
+	},
+	{
+		"code": "200096956",
+		"nom": "CA Agglom\u00e9ration d'Agen",
+		"parent": "47",
+		"valeur": 37
+	},
+	{
+		"code": "240100610",
+		"nom": "CC de la C\u00f4ti\u00e8re \u00e0 Montluel",
+		"parent": "01",
+		"valeur": 13
+	},
+	{
+		"code": "240100750",
+		"nom": "CA du Pays de Gex",
+		"parent": "01",
+		"valeur": 21
+	},
+	{
+		"code": "240100800",
+		"nom": "CC de Miribel et du Plateau",
+		"parent": "01",
+		"valeur": 78
+	},
+	{
+		"code": "240100883",
+		"nom": "CC de la Plaine de l'Ain",
+		"parent": "01",
+		"valeur": 22
+	},
+	{
+		"code": "240100891",
+		"nom": "CC du Pays Bellegardien (CCPB)",
+		"parent": "01",
+		"valeur": 65
+	},
+	{
+		"code": "240200444",
+		"nom": "CC de la Thi\u00e9rache du Centre",
+		"parent": "02",
+		"valeur": 77
+	},
+	{
+		"code": "240200469",
+		"nom": "CC du Pays de la Serre",
+		"parent": "02",
+		"valeur": 37
+	},
+	{
+		"code": "240200477",
+		"nom": "CA GrandSoissons Agglom\u00e9ration",
+		"parent": "02",
+		"valeur": 54
+	},
+	{
+		"code": "240200493",
+		"nom": "CC du Pays du Vermandois",
+		"parent": "02",
+		"valeur": 31
+	},
+	{
+		"code": "240200501",
+		"nom": "CC du Val de l'Aisne",
+		"parent": "02",
+		"valeur": 87
+	},
+	{
+		"code": "240200519",
+		"nom": "CC du Canton d'Oulchy le Ch\u00e2teau",
+		"parent": "02",
+		"valeur": 55
+	},
+	{
+		"code": "240200576",
+		"nom": "CC de la Champagne Picarde",
+		"parent": "02",
+		"valeur": 86
+	},
+	{
+		"code": "240200584",
+		"nom": "CC du Canton de Charly sur Marne",
+		"parent": "02",
+		"valeur": 45
+	},
+	{
+		"code": "240200592",
+		"nom": "CC du Chemin des Dames",
+		"parent": "02",
+		"valeur": 82
+	},
+	{
+		"code": "240200600",
+		"nom": "CC des Trois Rivi\u00e8res",
+		"parent": "02",
+		"valeur": 66
+	},
+	{
+		"code": "240200634",
+		"nom": "CC des Portes de la Thi\u00e9rache",
+		"parent": "02",
+		"valeur": 46
+	},
+	{
+		"code": "240300491",
+		"nom": "CC du Pays de Lapalisse",
+		"parent": "03",
+		"valeur": 74
+	},
+	{
+		"code": "240300558",
+		"nom": "CC du Pays de Tron\u00e7ais",
+		"parent": "03",
+		"valeur": 6
+	},
+	{
+		"code": "240300566",
+		"nom": "CC du Val de Cher",
+		"parent": "03",
+		"valeur": 25
+	},
+	{
+		"code": "240300657",
+		"nom": "CC du Pays d'Huriel",
+		"parent": "03",
+		"valeur": 79
+	},
+	{
+		"code": "240400440",
+		"nom": "CC Pays Forcalquier et Montagne de Lure",
+		"parent": "04",
+		"valeur": 2
+	},
+	{
+		"code": "240500439",
+		"nom": "CC du Brian\u00e7onnais",
+		"parent": "05",
+		"valeur": 91
+	},
+	{
+		"code": "240500462",
+		"nom": "CC du Pays des Ecrins",
+		"parent": "05",
+		"valeur": 56
+	},
+	{
+		"code": "240600551",
+		"nom": "CA de la Riviera Fran\u00e7aise",
+		"parent": "06",
+		"valeur": 17
+	},
+	{
+		"code": "240600585",
+		"nom": "CA de Sophia Antipolis",
+		"parent": "06",
+		"valeur": 58
+	},
+	{
+		"code": "240600593",
+		"nom": "CC du Pays des Paillons",
+		"parent": "06",
+		"valeur": 57
+	},
+	{
+		"code": "240700302",
+		"nom": "CC du Pays Beaume-Drobie",
+		"parent": "07",
+		"valeur": 32
+	},
+	{
+		"code": "240700617",
+		"nom": "CC Val de Ligne",
+		"parent": "07",
+		"valeur": 29
+	},
+	{
+		"code": "240700716",
+		"nom": "CC du Val d'Ay",
+		"parent": "07",
+		"valeur": 13
+	},
+	{
+		"code": "240700815",
+		"nom": "CC Berg et Coiron",
+		"parent": "07",
+		"valeur": 31
+	},
+	{
+		"code": "240700864",
+		"nom": "CC du Rh\u00f4ne aux Gorges de l'Ard\u00e8che",
+		"parent": "07",
+		"valeur": 27
+	},
+	{
+		"code": "240800821",
+		"nom": "CC Ardenne, Rives de Meuse",
+		"parent": "08",
+		"valeur": 84
+	},
+	{
+		"code": "240800847",
+		"nom": "CC des Portes du Luxembourg",
+		"parent": "08",
+		"valeur": 51
+	},
+	{
+		"code": "240800862",
+		"nom": "CC des Cr\u00eates Pr\u00e9ardennaises",
+		"parent": "08",
+		"valeur": 77
+	},
+	{
+		"code": "240800920",
+		"nom": "CC de l'Argonne Ardennaise",
+		"parent": "08",
+		"valeur": 63
+	},
+	{
+		"code": "240900431",
+		"nom": "CC du Pays de Tarascon",
+		"parent": "09",
+		"valeur": 50
+	},
+	{
+		"code": "240900464",
+		"nom": "CC du Pays d'Olmes",
+		"parent": "09",
+		"valeur": 30
+	},
+	{
+		"code": "241000223",
+		"nom": "CC For\u00eats, Lacs, Terres en Champagne",
+		"parent": "10",
+		"valeur": 88
+	},
+	{
+		"code": "241000405",
+		"nom": "CC de la R\u00e9gion de Bar sur Aube",
+		"parent": "10",
+		"valeur": 55
+	},
+	{
+		"code": "241000447",
+		"nom": "CC du Pays d'Othe",
+		"parent": "10",
+		"valeur": 23
+	},
+	{
+		"code": "241000488",
+		"nom": "CC de l'Orvin et de l'Ardusson",
+		"parent": "10",
+		"valeur": 40
+	},
+	{
+		"code": "241100593",
+		"nom": "CA Le Grand Narbonne",
+		"parent": "11",
+		"valeur": 75
+	},
+	{
+		"code": "241200187",
+		"nom": "CA Rodez Agglom\u00e9ration",
+		"parent": "12",
+		"valeur": 18
+	},
+	{
+		"code": "241200542",
+		"nom": "CC du R\u00e9quistanais",
+		"parent": "12",
+		"valeur": 38
+	},
+	{
+		"code": "241200567",
+		"nom": "CC de Millau Grands Causses",
+		"parent": "12",
+		"valeur": 41
+	},
+	{
+		"code": "241200625",
+		"nom": "CC du Pays Rignacois",
+		"parent": "12",
+		"valeur": 50
+	},
+	{
+		"code": "241200641",
+		"nom": "CC Conques-Marcillac",
+		"parent": "12",
+		"valeur": 85
+	},
+	{
+		"code": "241200658",
+		"nom": "CC du Pays de Salars",
+		"parent": "12",
+		"valeur": 50
+	},
+	{
+		"code": "241200674",
+		"nom": "CC du Plateau de Montbazens",
+		"parent": "12",
+		"valeur": 23
+	},
+	{
+		"code": "241200765",
+		"nom": "CC de L\u00e9v\u00e9zou Pareloup",
+		"parent": "12",
+		"valeur": 80
+	},
+	{
+		"code": "241200807",
+		"nom": "CC Aveyron Bas S\u00e9gala Viaur",
+		"parent": "12",
+		"valeur": 28
+	},
+	{
+		"code": "241200906",
+		"nom": "CC Larzac et Vall\u00e9es",
+		"parent": "12",
+		"valeur": 54
+	},
+	{
+		"code": "241200914",
+		"nom": "CC de la Muse et des Raspes du Tarn",
+		"parent": "12",
+		"valeur": 98
+	},
+	{
+		"code": "241300375",
+		"nom": "CC Vall\u00e9e des Baux-Alpilles (CC VBA)",
+		"parent": "13",
+		"valeur": 62
+	},
+	{
+		"code": "241300417",
+		"nom": "CA d'Arles-Crau-Camargue-Montagnette",
+		"parent": "13",
+		"valeur": 30
+	},
+	{
+		"code": "241400415",
+		"nom": "CC Coeur C\u00f4te Fleurie",
+		"parent": "14",
+		"valeur": 83
+	},
+	{
+		"code": "241400514",
+		"nom": "CC du Pays de Falaise",
+		"parent": "14",
+		"valeur": 75
+	},
+	{
+		"code": "241400555",
+		"nom": "CC de Bayeux Intercom",
+		"parent": "14",
+		"valeur": 23
+	},
+	{
+		"code": "241400860",
+		"nom": "CC Coeur de Nacre",
+		"parent": "14",
+		"valeur": 46
+	},
+	{
+		"code": "241400878",
+		"nom": "CC Terre d'Auge",
+		"parent": "14",
+		"valeur": 98
+	},
+	{
+		"code": "241500230",
+		"nom": "CA du Bassin d'Aurillac",
+		"parent": "15",
+		"valeur": 49
+	},
+	{
+		"code": "241500255",
+		"nom": "CC du Pays Gentiane",
+		"parent": "15",
+		"valeur": 26
+	},
+	{
+		"code": "241500271",
+		"nom": "CC du Pays de Mauriac",
+		"parent": "15",
+		"valeur": 63
+	},
+	{
+		"code": "241501055",
+		"nom": "CC Sum\u00e8ne - Artense",
+		"parent": "15",
+		"valeur": 90
+	},
+	{
+		"code": "241501089",
+		"nom": "CC C\u00e8re et Goul en Carlad\u00e8s",
+		"parent": "15",
+		"valeur": 47
+	},
+	{
+		"code": "241501139",
+		"nom": "CC du Pays de Salers",
+		"parent": "15",
+		"valeur": 57
+	},
+	{
+		"code": "241600303",
+		"nom": "CC du Rouillacais",
+		"parent": "16",
+		"valeur": 33
+	},
+	{
+		"code": "241700434",
+		"nom": "CA de La Rochelle",
+		"parent": "17",
+		"valeur": 70
+	},
+	{
+		"code": "241700459",
+		"nom": "CC de l'Ile de R\u00e9",
+		"parent": "17",
+		"valeur": 9
+	},
+	{
+		"code": "241700517",
+		"nom": "CC Coeur de Saintonge",
+		"parent": "17",
+		"valeur": 36
+	},
+	{
+		"code": "241700624",
+		"nom": "CC de l'Ile d'Ol\u00e9ron",
+		"parent": "17",
+		"valeur": 39
+	},
+	{
+		"code": "241700632",
+		"nom": "CC de G\u00e9mozac et de la Saintonge Viticole",
+		"parent": "17",
+		"valeur": 58
+	},
+	{
+		"code": "241700640",
+		"nom": "CA Royan Atlantique",
+		"parent": "17",
+		"valeur": 12
+	},
+	{
+		"code": "241700699",
+		"nom": "CC du Bassin de Marennes",
+		"parent": "17",
+		"valeur": 21
+	},
+	{
+		"code": "241800374",
+		"nom": "CC la Septaine",
+		"parent": "18",
+		"valeur": 8
+	},
+	{
+		"code": "241800424",
+		"nom": "CC le Dunois",
+		"parent": "18",
+		"valeur": 40
+	},
+	{
+		"code": "241800432",
+		"nom": "CC les Trois Provinces",
+		"parent": "18",
+		"valeur": 2
+	},
+	{
+		"code": "241800457",
+		"nom": "CC FerCher",
+		"parent": "18",
+		"valeur": 10
+	},
+	{
+		"code": "241800507",
+		"nom": "CA Bourges Plus",
+		"parent": "18",
+		"valeur": 67
+	},
+	{
+		"code": "241900133",
+		"nom": "CC de Ventadour - Egletons - Mon\u00e9di\u00e8res",
+		"parent": "19",
+		"valeur": 23
+	},
+	{
+		"code": "241927201",
+		"nom": "CA Tulle Agglo",
+		"parent": "19",
+		"valeur": 85
+	},
+	{
+		"code": "241927243",
+		"nom": "CC du Pays d'Uzerche",
+		"parent": "19",
+		"valeur": 14
+	},
+	{
+		"code": "242000354",
+		"nom": "CA de Bastia",
+		"parent": "2B",
+		"valeur": 75
+	},
+	{
+		"code": "242000495",
+		"nom": "CC de l'Alta Rocca",
+		"parent": "2A",
+		"valeur": 89
+	},
+	{
+		"code": "242000503",
+		"nom": "CC Celavu-Prunelli",
+		"parent": "2A",
+		"valeur": 73
+	},
+	{
+		"code": "242010056",
+		"nom": "CA du Pays Ajaccien",
+		"parent": "2A",
+		"valeur": 1
+	},
+	{
+		"code": "242010130",
+		"nom": "CC du Sartenais Valinco Taravo",
+		"parent": "2A",
+		"valeur": 31
+	},
+	{
+		"code": "242020071",
+		"nom": "CC du Centre Corse",
+		"parent": "2B",
+		"valeur": 71
+	},
+	{
+		"code": "242020105",
+		"nom": "CC de Calvi Balagne",
+		"parent": "2B",
+		"valeur": 58
+	},
+	{
+		"code": "242100154",
+		"nom": "CC des Vall\u00e9es de la Tille et de l'Ignon",
+		"parent": "21",
+		"valeur": 92
+	},
+	{
+		"code": "242100410",
+		"nom": "Dijon M\u00e9tropole",
+		"parent": "21",
+		"valeur": 13
+	},
+	{
+		"code": "242101434",
+		"nom": "CC du Pays Ch\u00e2tillonnais",
+		"parent": "21",
+		"valeur": 86
+	},
+	{
+		"code": "242101442",
+		"nom": "CC de Saulieu",
+		"parent": "21",
+		"valeur": 24
+	},
+	{
+		"code": "242101459",
+		"nom": "CC du Pays d'Al\u00e9sia et de la Seine",
+		"parent": "21",
+		"valeur": 3
+	},
+	{
+		"code": "242101491",
+		"nom": "CC du Montbardois",
+		"parent": "21",
+		"valeur": 77
+	},
+	{
+		"code": "242101509",
+		"nom": "CC Rives de Sa\u00f4ne",
+		"parent": "21",
+		"valeur": 33
+	},
+	{
+		"code": "242200715",
+		"nom": "CC du Kreiz-Breizh (CCKB)",
+		"parent": "22",
+		"valeur": 40
+	},
+	{
+		"code": "242300135",
+		"nom": "CC du Pays Sostranien",
+		"parent": "23",
+		"valeur": 8
+	},
+	{
+		"code": "242320000",
+		"nom": "CC de B\u00e9n\u00e9vent Grand Bourg",
+		"parent": "23",
+		"valeur": 2
+	},
+	{
+		"code": "242320109",
+		"nom": "CC du Pays Dunois",
+		"parent": "23",
+		"valeur": 99
+	},
+	{
+		"code": "242400752",
+		"nom": "CC P\u00e9rigord-Limousin",
+		"parent": "24",
+		"valeur": 29
+	},
+	{
+		"code": "242400935",
+		"nom": "CC du Pays de Saint Aulaye",
+		"parent": "24",
+		"valeur": 18
+	},
+	{
+		"code": "242401024",
+		"nom": "CC Isle-Loue-Auv\u00e9z\u00e8re en P\u00e9rigord",
+		"parent": "24",
+		"valeur": 76
+	},
+	{
+		"code": "242500320",
+		"nom": "CC de Montbenoit",
+		"parent": "25",
+		"valeur": 98
+	},
+	{
+		"code": "242500338",
+		"nom": "CC du Grand Pontarlier",
+		"parent": "25",
+		"valeur": 25
+	},
+	{
+		"code": "242500361",
+		"nom": "CU Grand Besan\u00e7on M\u00e9tropole",
+		"parent": "25",
+		"valeur": 18
+	},
+	{
+		"code": "242504116",
+		"nom": "CC du Val de Morteau",
+		"parent": "25",
+		"valeur": 56
+	},
+	{
+		"code": "242504181",
+		"nom": "CC des Portes du Haut-Doubs",
+		"parent": "25",
+		"valeur": 60
+	},
+	{
+		"code": "242504355",
+		"nom": "CC du Plateau de Russey",
+		"parent": "25",
+		"valeur": 89
+	},
+	{
+		"code": "242504371",
+		"nom": "CC du Pays de Sancey-Belleherbe",
+		"parent": "25",
+		"valeur": 6
+	},
+	{
+		"code": "242504447",
+		"nom": "CC du Doubs Baumois",
+		"parent": "25",
+		"valeur": 63
+	},
+	{
+		"code": "242504488",
+		"nom": "CC Altitude 800",
+		"parent": "25",
+		"valeur": 21
+	},
+	{
+		"code": "242504496",
+		"nom": "CC du Plateau de Frasne et du Val de Drugeon (CFD)",
+		"parent": "25",
+		"valeur": 6
+	},
+	{
+		"code": "242600252",
+		"nom": "CC du Val de Dr\u00f4me en Biovall\u00e9e",
+		"parent": "26",
+		"valeur": 40
+	},
+	{
+		"code": "242600492",
+		"nom": "CC Dieulefit-Bourdeaux",
+		"parent": "26",
+		"valeur": 92
+	},
+	{
+		"code": "242600534",
+		"nom": "CC du Diois",
+		"parent": "26",
+		"valeur": 47
+	},
+	{
+		"code": "242700276",
+		"nom": "CC du Pays de Conches",
+		"parent": "27",
+		"valeur": 63
+	},
+	{
+		"code": "242700607",
+		"nom": "CC du Pays du Neubourg",
+		"parent": "27",
+		"valeur": 98
+	},
+	{
+		"code": "242852465",
+		"nom": "CC du Bonnevalais",
+		"parent": "28",
+		"valeur": 91
+	},
+	{
+		"code": "242900074",
+		"nom": "CC du Pays d'Iroise",
+		"parent": "29",
+		"valeur": 75
+	},
+	{
+		"code": "242900314",
+		"nom": "Brest M\u00e9tropole",
+		"parent": "29",
+		"valeur": 55
+	},
+	{
+		"code": "242900553",
+		"nom": "CC du Pays des Abers",
+		"parent": "29",
+		"valeur": 22
+	},
+	{
+		"code": "242900561",
+		"nom": "CC de Haute Cornouaille",
+		"parent": "29",
+		"valeur": 19
+	},
+	{
+		"code": "242900629",
+		"nom": "CC Cap Sizun - Pointe du Raz",
+		"parent": "29",
+		"valeur": 5
+	},
+	{
+		"code": "242900645",
+		"nom": "CC Douarnenez Communaut\u00e9",
+		"parent": "29",
+		"valeur": 73
+	},
+	{
+		"code": "242900660",
+		"nom": "CC du Pays Fouesnantais",
+		"parent": "29",
+		"valeur": 63
+	},
+	{
+		"code": "242900694",
+		"nom": "CA Quimperl\u00e9 Communaut\u00e9",
+		"parent": "29",
+		"valeur": 84
+	},
+	{
+		"code": "242900702",
+		"nom": "CC du Pays Bigouden Sud",
+		"parent": "29",
+		"valeur": 76
+	},
+	{
+		"code": "242900710",
+		"nom": "CC du Haut Pays Bigouden",
+		"parent": "29",
+		"valeur": 33
+	},
+	{
+		"code": "242900744",
+		"nom": "CC Poher Communaut\u00e9",
+		"parent": "29",
+		"valeur": 18
+	},
+	{
+		"code": "242900751",
+		"nom": "CC du Pays de Landivisiau",
+		"parent": "29",
+		"valeur": 91
+	},
+	{
+		"code": "242900769",
+		"nom": "CA Concarneau Cornouaille Agglom\u00e9ration",
+		"parent": "29",
+		"valeur": 58
+	},
+	{
+		"code": "242900793",
+		"nom": "CC Communaut\u00e9 Lesneven C\u00f4te des L\u00e9gendes",
+		"parent": "29",
+		"valeur": 26
+	},
+	{
+		"code": "242900801",
+		"nom": "CA du Pays de Landerneau-Daoulas",
+		"parent": "29",
+		"valeur": 50
+	},
+	{
+		"code": "242900835",
+		"nom": "CA Morlaix Communaut\u00e9",
+		"parent": "29",
+		"valeur": 38
+	},
+	{
+		"code": "243000270",
+		"nom": "CC du Pays Viganais",
+		"parent": "30",
+		"valeur": 100
+	},
+	{
+		"code": "243000296",
+		"nom": "CC du Pays de Sommi\u00e8res",
+		"parent": "30",
+		"valeur": 89
+	},
+	{
+		"code": "243000569",
+		"nom": "CC Rhony, Vistre, Vidourle",
+		"parent": "30",
+		"valeur": 45
+	},
+	{
+		"code": "243000585",
+		"nom": "CC Beaucaire Terre d'Argence",
+		"parent": "30",
+		"valeur": 68
+	},
+	{
+		"code": "243000593",
+		"nom": "CC de Petite Camargue",
+		"parent": "30",
+		"valeur": 64
+	},
+	{
+		"code": "243000643",
+		"nom": "CA de N\u00eemes M\u00e9tropole",
+		"parent": "30",
+		"valeur": 59
+	},
+	{
+		"code": "243000650",
+		"nom": "CC Terre de Camargue",
+		"parent": "30",
+		"valeur": 86
+	},
+	{
+		"code": "243000684",
+		"nom": "CC du Pont du Gard",
+		"parent": "30",
+		"valeur": 61
+	},
+	{
+		"code": "243100518",
+		"nom": "Toulouse M\u00e9tropole",
+		"parent": "31",
+		"valeur": 46
+	},
+	{
+		"code": "243100567",
+		"nom": "CC Lauragais Revel Sorezois",
+		"parent": "31",
+		"valeur": 72
+	},
+	{
+		"code": "243100633",
+		"nom": "CA du Sicoval",
+		"parent": "31",
+		"valeur": 99
+	},
+	{
+		"code": "243100732",
+		"nom": "CC des Coteaux du Girou",
+		"parent": "31",
+		"valeur": 90
+	},
+	{
+		"code": "243100773",
+		"nom": "CC Val'A\u00efgo",
+		"parent": "31",
+		"valeur": 80
+	},
+	{
+		"code": "243100781",
+		"nom": "CC Le Grand Ouest Toulousain",
+		"parent": "31",
+		"valeur": 100
+	},
+	{
+		"code": "243100815",
+		"nom": "CC des Coteaux Bellevue",
+		"parent": "31",
+		"valeur": 48
+	},
+	{
+		"code": "243200391",
+		"nom": "CC de la Lomagne Gersoise",
+		"parent": "32",
+		"valeur": 100
+	},
+	{
+		"code": "243200409",
+		"nom": "CC du Bas Armagnac",
+		"parent": "32",
+		"valeur": 2
+	},
+	{
+		"code": "243200417",
+		"nom": "CC de la Tenar\u00e8ze",
+		"parent": "32",
+		"valeur": 100
+	},
+	{
+		"code": "243200425",
+		"nom": "CC Coeur d'Astarac en Gascogne",
+		"parent": "32",
+		"valeur": 12
+	},
+	{
+		"code": "243200458",
+		"nom": "CC du Grand Armagnac",
+		"parent": "32",
+		"valeur": 73
+	},
+	{
+		"code": "243200508",
+		"nom": "CC Bastides et Vallons du Gers",
+		"parent": "32",
+		"valeur": 98
+	},
+	{
+		"code": "243200599",
+		"nom": "CC du Saves",
+		"parent": "32",
+		"valeur": 14
+	},
+	{
+		"code": "243200607",
+		"nom": "CC Artagnan de Fezensac",
+		"parent": "32",
+		"valeur": 84
+	},
+	{
+		"code": "243300316",
+		"nom": "Bordeaux M\u00e9tropole",
+		"parent": "33",
+		"valeur": 86
+	},
+	{
+		"code": "243300563",
+		"nom": "CA Bassin d'Arcachon Sud (COBAS)",
+		"parent": "33",
+		"valeur": 35
+	},
+	{
+		"code": "243300811",
+		"nom": "CC de l'Estuaire",
+		"parent": "33",
+		"valeur": 55
+	},
+	{
+		"code": "243301165",
+		"nom": "CC Jalle-Eau-Bourde",
+		"parent": "33",
+		"valeur": 76
+	},
+	{
+		"code": "243301181",
+		"nom": "CC Latitude Nord Gironde",
+		"parent": "33",
+		"valeur": 16
+	},
+	{
+		"code": "243301215",
+		"nom": "CC du Cr\u00e9onnais",
+		"parent": "33",
+		"valeur": 98
+	},
+	{
+		"code": "243301223",
+		"nom": "CC du Grand Cubzaguais",
+		"parent": "33",
+		"valeur": 81
+	},
+	{
+		"code": "243301249",
+		"nom": "CC Les rives de la Laurence",
+		"parent": "33",
+		"valeur": 21
+	},
+	{
+		"code": "243301264",
+		"nom": "CC de Montesquieu",
+		"parent": "33",
+		"valeur": 18
+	},
+	{
+		"code": "243301355",
+		"nom": "CC les Coteaux Bordelais",
+		"parent": "33",
+		"valeur": 56
+	},
+	{
+		"code": "243301371",
+		"nom": "CC du Pays Foyen",
+		"parent": "33",
+		"valeur": 92
+	},
+	{
+		"code": "243301389",
+		"nom": "CC M\u00e9dullienne",
+		"parent": "33",
+		"valeur": 22
+	},
+	{
+		"code": "243301397",
+		"nom": "CC du Fronsadais",
+		"parent": "33",
+		"valeur": 23
+	},
+	{
+		"code": "243301405",
+		"nom": "CC du Val de l'Eyre",
+		"parent": "33",
+		"valeur": 16
+	},
+	{
+		"code": "243301439",
+		"nom": "CC des Portes de l'Entre-Deux-Mers",
+		"parent": "33",
+		"valeur": 87
+	},
+	{
+		"code": "243301447",
+		"nom": "CC M\u00e9doc Estuaire",
+		"parent": "33",
+		"valeur": 2
+	},
+	{
+		"code": "243301454",
+		"nom": "CC Castillon\/Pujols",
+		"parent": "33",
+		"valeur": 46
+	},
+	{
+		"code": "243301504",
+		"nom": "CA du Bassin d'Arcachon Nord",
+		"parent": "33",
+		"valeur": 10
+	},
+	{
+		"code": "243400017",
+		"nom": "Montpellier M\u00e9diterran\u00e9e M\u00e9tropole",
+		"parent": "34",
+		"valeur": 48
+	},
+	{
+		"code": "243400355",
+		"nom": "CC du Clermontais",
+		"parent": "34",
+		"valeur": 28
+	},
+	{
+		"code": "243400470",
+		"nom": "CA du Pays de l'Or",
+		"parent": "34",
+		"valeur": 97
+	},
+	{
+		"code": "243400488",
+		"nom": "CC la Domitienne",
+		"parent": "34",
+		"valeur": 88
+	},
+	{
+		"code": "243400520",
+		"nom": "CC du Pays de Lunel",
+		"parent": "34",
+		"valeur": 80
+	},
+	{
+		"code": "243400694",
+		"nom": "CC Vall\u00e9e de l'H\u00e9rault",
+		"parent": "34",
+		"valeur": 5
+	},
+	{
+		"code": "243400736",
+		"nom": "CC des C\u00e9vennes Gangeoises et Sum\u00e9noises",
+		"parent": "34",
+		"valeur": 63
+	},
+	{
+		"code": "243400769",
+		"nom": "CA de B\u00e9ziers-M\u00e9diterran\u00e9e",
+		"parent": "34",
+		"valeur": 77
+	},
+	{
+		"code": "243400819",
+		"nom": "CA H\u00e9rault-M\u00e9diterran\u00e9e",
+		"parent": "34",
+		"valeur": 58
+	},
+	{
+		"code": "243500139",
+		"nom": "Rennes M\u00e9tropole",
+		"parent": "35",
+		"valeur": 52
+	},
+	{
+		"code": "243500550",
+		"nom": "CC Montfort Communaut\u00e9",
+		"parent": "35",
+		"valeur": 73
+	},
+	{
+		"code": "243500618",
+		"nom": "CC Broc\u00e9liande Communaut\u00e9",
+		"parent": "35",
+		"valeur": 24
+	},
+	{
+		"code": "243500634",
+		"nom": "CC Roche aux F\u00e9es Communaut\u00e9",
+		"parent": "35",
+		"valeur": 76
+	},
+	{
+		"code": "243500659",
+		"nom": "CC Pays de Ch\u00e2teaugiron Communaut\u00e9",
+		"parent": "35",
+		"valeur": 51
+	},
+	{
+		"code": "243500667",
+		"nom": "CC Val d'Ille-Aubign\u00e9",
+		"parent": "35",
+		"valeur": 65
+	},
+	{
+		"code": "243500725",
+		"nom": "CC C\u00f4te d'Emeraude",
+		"parent": "35",
+		"valeur": 11
+	},
+	{
+		"code": "243500733",
+		"nom": "CC Bretagne Romantique",
+		"parent": "35",
+		"valeur": 38
+	},
+	{
+		"code": "243500741",
+		"nom": "CA Redon Agglom\u00e9ration",
+		"parent": "35",
+		"valeur": 8
+	},
+	{
+		"code": "243500774",
+		"nom": "CC Liffr\u00e9-Cormier Communaut\u00e9",
+		"parent": "35",
+		"valeur": 92
+	},
+	{
+		"code": "243500782",
+		"nom": "CA du Pays de Saint Malo Agglom\u00e9ration",
+		"parent": "35",
+		"valeur": 49
+	},
+	{
+		"code": "243600202",
+		"nom": "CC Chabris - Pays de Bazelle",
+		"parent": "36",
+		"valeur": 94
+	},
+	{
+		"code": "243600236",
+		"nom": "CC du Pays d'Issoudun",
+		"parent": "36",
+		"valeur": 25
+	},
+	{
+		"code": "243600293",
+		"nom": "CC de la R\u00e9gion de Levroux",
+		"parent": "36",
+		"valeur": 24
+	},
+	{
+		"code": "243600301",
+		"nom": "CC Val de l'Indre - Brenne",
+		"parent": "36",
+		"valeur": 7
+	},
+	{
+		"code": "243600319",
+		"nom": "CC Brenne - Val de Creuse",
+		"parent": "36",
+		"valeur": 78
+	},
+	{
+		"code": "243600327",
+		"nom": "CA Ch\u00e2teauroux M\u00e9tropole",
+		"parent": "36",
+		"valeur": 64
+	},
+	{
+		"code": "243600343",
+		"nom": "CC Coeur de Brenne",
+		"parent": "36",
+		"valeur": 40
+	},
+	{
+		"code": "243600350",
+		"nom": "CC de la Ch\u00e2tre et Sainte-S\u00e9v\u00e8re",
+		"parent": "36",
+		"valeur": 57
+	},
+	{
+		"code": "243700499",
+		"nom": "CC du Castelrenaudais",
+		"parent": "37",
+		"valeur": 10
+	},
+	{
+		"code": "243700754",
+		"nom": "Tours M\u00e9tropole Val de Loire",
+		"parent": "37",
+		"valeur": 40
+	},
+	{
+		"code": "243700820",
+		"nom": "CC de Bl\u00e9r\u00e9 Val de Cher",
+		"parent": "37",
+		"valeur": 73
+	},
+	{
+		"code": "243800604",
+		"nom": "CA Porte de l'Is\u00e8re (CAPI)",
+		"parent": "38",
+		"valeur": 52
+	},
+	{
+		"code": "243800745",
+		"nom": "CC de l'Oisans",
+		"parent": "38",
+		"valeur": 82
+	},
+	{
+		"code": "243800935",
+		"nom": "CC Lyon-Saint-Exup\u00e9ry en Dauphin\u00e9",
+		"parent": "38",
+		"valeur": 19
+	},
+	{
+		"code": "243800984",
+		"nom": "CA du Pays Voironnais",
+		"parent": "38",
+		"valeur": 58
+	},
+	{
+		"code": "243801024",
+		"nom": "CC du Massif du Vercors",
+		"parent": "38",
+		"valeur": 29
+	},
+	{
+		"code": "243801073",
+		"nom": "CC de Bi\u00e8vre Est",
+		"parent": "38",
+		"valeur": 59
+	},
+	{
+		"code": "243801255",
+		"nom": "CC COLLines Is\u00e8re Nord Communaut\u00e9",
+		"parent": "38",
+		"valeur": 92
+	},
+	{
+		"code": "243900354",
+		"nom": "CC de la Station des Rousses-Haut Jura",
+		"parent": "39",
+		"valeur": 97
+	},
+	{
+		"code": "243900420",
+		"nom": "CC du Val d'Amour",
+		"parent": "39",
+		"valeur": 56
+	},
+	{
+		"code": "243900479",
+		"nom": "CC Haut-Jura Arcade Communaut\u00e9",
+		"parent": "39",
+		"valeur": 81
+	},
+	{
+		"code": "243900560",
+		"nom": "CC Jura Nord",
+		"parent": "39",
+		"valeur": 100
+	},
+	{
+		"code": "243900610",
+		"nom": "CC la Grandvalli\u00e8re",
+		"parent": "39",
+		"valeur": 46
+	},
+	{
+		"code": "243901089",
+		"nom": "CC de la Plaine Jurassienne",
+		"parent": "39",
+		"valeur": 52
+	},
+	{
+		"code": "244000543",
+		"nom": "CC de Mimizan",
+		"parent": "40",
+		"valeur": 0
+	},
+	{
+		"code": "244000659",
+		"nom": "CC du Seignanx",
+		"parent": "40",
+		"valeur": 86
+	},
+	{
+		"code": "244000675",
+		"nom": "CA du Grand Dax",
+		"parent": "40",
+		"valeur": 53
+	},
+	{
+		"code": "244000691",
+		"nom": "CC du Pays Morcenais",
+		"parent": "40",
+		"valeur": 83
+	},
+	{
+		"code": "244000766",
+		"nom": "CC du Pays Tarusate",
+		"parent": "40",
+		"valeur": 25
+	},
+	{
+		"code": "244000774",
+		"nom": "CC du Pays de Villeneuve en Armagnac Landais",
+		"parent": "40",
+		"valeur": 32
+	},
+	{
+		"code": "244000808",
+		"nom": "CA Mont de Marsan Agglom\u00e9ration",
+		"parent": "40",
+		"valeur": 65
+	},
+	{
+		"code": "244000824",
+		"nom": "CC du Pays Grenadois",
+		"parent": "40",
+		"valeur": 22
+	},
+	{
+		"code": "244000857",
+		"nom": "CC C\u00f4te Landes Nature",
+		"parent": "40",
+		"valeur": 97
+	},
+	{
+		"code": "244000865",
+		"nom": "CC Maremne Adour C\u00f4te Sud",
+		"parent": "40",
+		"valeur": 41
+	},
+	{
+		"code": "244000873",
+		"nom": "CC des Grands Lacs",
+		"parent": "40",
+		"valeur": 56
+	},
+	{
+		"code": "244000881",
+		"nom": "CC Coteaux et Vall\u00e9es des Luys",
+		"parent": "40",
+		"valeur": 38
+	},
+	{
+		"code": "244100293",
+		"nom": "CC des Collines du Perche",
+		"parent": "41",
+		"valeur": 2
+	},
+	{
+		"code": "244100780",
+		"nom": "CC de la Sologne des Etangs",
+		"parent": "41",
+		"valeur": 63
+	},
+	{
+		"code": "244100798",
+		"nom": "CC du Grand Chambord",
+		"parent": "41",
+		"valeur": 33
+	},
+	{
+		"code": "244100806",
+		"nom": "CC de la Sologne des Rivi\u00e8res",
+		"parent": "41",
+		"valeur": 26
+	},
+	{
+		"code": "244200614",
+		"nom": "CC des Vals d'Aix et Isable",
+		"parent": "42",
+		"valeur": 15
+	},
+	{
+		"code": "244200622",
+		"nom": "CC des Monts du Pilat",
+		"parent": "42",
+		"valeur": 97
+	},
+	{
+		"code": "244200630",
+		"nom": "CC du Pays Entre Loire et Rh\u00f4ne",
+		"parent": "42",
+		"valeur": 8
+	},
+	{
+		"code": "244200770",
+		"nom": "Saint-Etienne M\u00e9tropole",
+		"parent": "42",
+		"valeur": 45
+	},
+	{
+		"code": "244200820",
+		"nom": "CC du Pays d'Urf\u00e9",
+		"parent": "42",
+		"valeur": 24
+	},
+	{
+		"code": "244200895",
+		"nom": "CC du Pilat Rhodanien",
+		"parent": "42",
+		"valeur": 29
+	},
+	{
+		"code": "244300307",
+		"nom": "CC du Pays de Montfaucon",
+		"parent": "43",
+		"valeur": 32
+	},
+	{
+		"code": "244301016",
+		"nom": "CC des Sucs",
+		"parent": "43",
+		"valeur": 35
+	},
+	{
+		"code": "244301099",
+		"nom": "CC Auzon Communaut\u00e9",
+		"parent": "43",
+		"valeur": 29
+	},
+	{
+		"code": "244301107",
+		"nom": "CC du Haut Lignon",
+		"parent": "43",
+		"valeur": 62
+	},
+	{
+		"code": "244301123",
+		"nom": "CC des Pays de Cayres et de Pradelles",
+		"parent": "43",
+		"valeur": 32
+	},
+	{
+		"code": "244301131",
+		"nom": "CC Loire et Sem\u00e8ne",
+		"parent": "43",
+		"valeur": 93
+	},
+	{
+		"code": "244400404",
+		"nom": "Nantes M\u00e9tropole",
+		"parent": "44",
+		"valeur": 89
+	},
+	{
+		"code": "244400438",
+		"nom": "CC Grand Lieu Communaut\u00e9",
+		"parent": "44",
+		"valeur": 98
+	},
+	{
+		"code": "244400453",
+		"nom": "CC de la R\u00e9gion de Blain",
+		"parent": "44",
+		"valeur": 84
+	},
+	{
+		"code": "244400503",
+		"nom": "CC d'Erdre et Gesvres",
+		"parent": "44",
+		"valeur": 80
+	},
+	{
+		"code": "244400537",
+		"nom": "CC de Nozay",
+		"parent": "44",
+		"valeur": 1
+	},
+	{
+		"code": "244400552",
+		"nom": "CC du Pays d'Ancenis",
+		"parent": "44",
+		"valeur": 44
+	},
+	{
+		"code": "244400586",
+		"nom": "CC du Sud Estuaire",
+		"parent": "44",
+		"valeur": 26
+	},
+	{
+		"code": "244400610",
+		"nom": "CA de la Presqu'\u00eele de Gu\u00e9rande Atlantique (CAP ATLANTIQUE)",
+		"parent": "44",
+		"valeur": 63
+	},
+	{
+		"code": "244400644",
+		"nom": "CA de la R\u00e9gion Nazairienne et de l'Estuaire (CARENE)",
+		"parent": "44",
+		"valeur": 60
+	},
+	{
+		"code": "244500203",
+		"nom": "CA Montargoise et Rives du Loing (AME)",
+		"parent": "45",
+		"valeur": 99
+	},
+	{
+		"code": "244500211",
+		"nom": "CC Giennoises",
+		"parent": "45",
+		"valeur": 7
+	},
+	{
+		"code": "244500419",
+		"nom": "CC des Quatre Vall\u00e9es",
+		"parent": "45",
+		"valeur": 21
+	},
+	{
+		"code": "244500427",
+		"nom": "CC des Loges",
+		"parent": "45",
+		"valeur": 59
+	},
+	{
+		"code": "244500468",
+		"nom": "Orl\u00e9ans M\u00e9tropole",
+		"parent": "45",
+		"valeur": 49
+	},
+	{
+		"code": "244500484",
+		"nom": "CC de la For\u00eat",
+		"parent": "45",
+		"valeur": 9
+	},
+	{
+		"code": "244500542",
+		"nom": "CC de la Plaine du Nord Loiret",
+		"parent": "45",
+		"valeur": 71
+	},
+	{
+		"code": "244600433",
+		"nom": "CC de la Vall\u00e9e du Lot et du Vignoble",
+		"parent": "46",
+		"valeur": 70
+	},
+	{
+		"code": "244600482",
+		"nom": "CC Quercy - Bouriane",
+		"parent": "46",
+		"valeur": 20
+	},
+	{
+		"code": "244600532",
+		"nom": "CC du Pays de Lalbenque-Limogne",
+		"parent": "46",
+		"valeur": 26
+	},
+	{
+		"code": "244600573",
+		"nom": "CC du Causse de Labastide Murat",
+		"parent": "46",
+		"valeur": 82
+	},
+	{
+		"code": "244700449",
+		"nom": "CC du Pays de Duras",
+		"parent": "47",
+		"valeur": 89
+	},
+	{
+		"code": "244700464",
+		"nom": "CC du Pays de Lauzun",
+		"parent": "47",
+		"valeur": 32
+	},
+	{
+		"code": "244701355",
+		"nom": "CC des Coteaux et Landes de Gascogne",
+		"parent": "47",
+		"valeur": 92
+	},
+	{
+		"code": "244701405",
+		"nom": "CC Lot et Tolzac",
+		"parent": "47",
+		"valeur": 96
+	},
+	{
+		"code": "244800405",
+		"nom": "CC Coeur de Loz\u00e8re",
+		"parent": "48",
+		"valeur": 7
+	},
+	{
+		"code": "244800470",
+		"nom": "CC du G\u00e9vaudan",
+		"parent": "48",
+		"valeur": 87
+	},
+	{
+		"code": "244900015",
+		"nom": "CU Angers Loire M\u00e9tropole",
+		"parent": "49",
+		"valeur": 19
+	},
+	{
+		"code": "244900809",
+		"nom": "CC Anjou Bleu Communaut\u00e9",
+		"parent": "49",
+		"valeur": 98
+	},
+	{
+		"code": "244900882",
+		"nom": "CC Baugeois Vall\u00e9e",
+		"parent": "49",
+		"valeur": 67
+	},
+	{
+		"code": "245100615",
+		"nom": "CC de la Grande Vall\u00e9e de la Marne",
+		"parent": "51",
+		"valeur": 5
+	},
+	{
+		"code": "245100888",
+		"nom": "CC de la Brie Champenoise",
+		"parent": "51",
+		"valeur": 97
+	},
+	{
+		"code": "245100979",
+		"nom": "CC du Sud Marnais",
+		"parent": "51",
+		"valeur": 36
+	},
+	{
+		"code": "245200597",
+		"nom": "CC des Trois For\u00eats",
+		"parent": "52",
+		"valeur": 29
+	},
+	{
+		"code": "245300223",
+		"nom": "CC du Pays de Meslay-Grez",
+		"parent": "53",
+		"valeur": 71
+	},
+	{
+		"code": "245300355",
+		"nom": "CC de l'Ern\u00e9e",
+		"parent": "53",
+		"valeur": 38
+	},
+	{
+		"code": "245300389",
+		"nom": "CC du Bocage Mayennais",
+		"parent": "53",
+		"valeur": 0
+	},
+	{
+		"code": "245300447",
+		"nom": "CC du Pays de Ch\u00e2teau-Gontier",
+		"parent": "53",
+		"valeur": 52
+	},
+	{
+		"code": "245400171",
+		"nom": "CC Moselle et Madon",
+		"parent": "54",
+		"valeur": 34
+	},
+	{
+		"code": "245400189",
+		"nom": "CC des Pays du Sel et du Vermois",
+		"parent": "54",
+		"valeur": 95
+	},
+	{
+		"code": "245400262",
+		"nom": "CA Grand Longwy Agglom\u00e9ration",
+		"parent": "54",
+		"valeur": 7
+	},
+	{
+		"code": "245400510",
+		"nom": "CC du Pays de Colombey et du Sud Toulois",
+		"parent": "54",
+		"valeur": 84
+	},
+	{
+		"code": "245400601",
+		"nom": "CC du Bassin de Pompey",
+		"parent": "54",
+		"valeur": 94
+	},
+	{
+		"code": "245400676",
+		"nom": "M\u00e9tropole du Grand Nancy",
+		"parent": "54",
+		"valeur": 84
+	},
+	{
+		"code": "245400759",
+		"nom": "CC du Pays du Sanon",
+		"parent": "54",
+		"valeur": 56
+	},
+	{
+		"code": "245500327",
+		"nom": "CC du Sammiellois",
+		"parent": "55",
+		"valeur": 13
+	},
+	{
+		"code": "245501176",
+		"nom": "CC du Territoire de Fresnes en Wo\u00ebvre",
+		"parent": "55",
+		"valeur": 33
+	},
+	{
+		"code": "245501184",
+		"nom": "CC du Pays de Revigny sur Ornain",
+		"parent": "55",
+		"valeur": 88
+	},
+	{
+		"code": "245501242",
+		"nom": "CC du Pays d'Etain",
+		"parent": "55",
+		"valeur": 69
+	},
+	{
+		"code": "245501259",
+		"nom": "CC du Pays de Montm\u00e9dy",
+		"parent": "55",
+		"valeur": 76
+	},
+	{
+		"code": "245600440",
+		"nom": "CC de Blavet Bellevue Oc\u00e9an",
+		"parent": "56",
+		"valeur": 28
+	},
+	{
+		"code": "245600465",
+		"nom": "CC de Belle Ile en Mer",
+		"parent": "56",
+		"valeur": 87
+	},
+	{
+		"code": "245614383",
+		"nom": "CC Questembert Communaut\u00e9",
+		"parent": "56",
+		"valeur": 22
+	},
+	{
+		"code": "245614417",
+		"nom": "CC Roi Morvan Communaut\u00e9",
+		"parent": "56",
+		"valeur": 77
+	},
+	{
+		"code": "245614433",
+		"nom": "CC Pontivy Communaut\u00e9",
+		"parent": "56",
+		"valeur": 89
+	},
+	{
+		"code": "245700133",
+		"nom": "CC du District Urbain de Faulquemont (DUF)",
+		"parent": "57",
+		"valeur": 72
+	},
+	{
+		"code": "245700372",
+		"nom": "CA de Forbach Porte de France",
+		"parent": "57",
+		"valeur": 71
+	},
+	{
+		"code": "245700398",
+		"nom": "CC de Freyming-Merlebach",
+		"parent": "57",
+		"valeur": 93
+	},
+	{
+		"code": "245700695",
+		"nom": "CC de Cattenom et Environs",
+		"parent": "57",
+		"valeur": 76
+	},
+	{
+		"code": "245700950",
+		"nom": "CC du Pays de Phalsbourg",
+		"parent": "57",
+		"valeur": 45
+	},
+	{
+		"code": "245701164",
+		"nom": "CC du Warndt",
+		"parent": "57",
+		"valeur": 92
+	},
+	{
+		"code": "245701206",
+		"nom": "CC du Saulnois",
+		"parent": "57",
+		"valeur": 89
+	},
+	{
+		"code": "245701222",
+		"nom": "CA du Val de Fensch",
+		"parent": "57",
+		"valeur": 72
+	},
+	{
+		"code": "245701271",
+		"nom": "CC du Pays Orne Moselle",
+		"parent": "57",
+		"valeur": 73
+	},
+	{
+		"code": "245701354",
+		"nom": "CC de l'Arc Mosellan",
+		"parent": "57",
+		"valeur": 97
+	},
+	{
+		"code": "245701362",
+		"nom": "CA Portes de France-Thionville",
+		"parent": "57",
+		"valeur": 82
+	},
+	{
+		"code": "245701404",
+		"nom": "CC du Pays Haut Val d'Alzette",
+		"parent": "54",
+		"valeur": 15
+	},
+	{
+		"code": "245801063",
+		"nom": "CC Loire et Allier",
+		"parent": "58",
+		"valeur": 8
+	},
+	{
+		"code": "245804406",
+		"nom": "CA de Nevers",
+		"parent": "58",
+		"valeur": 94
+	},
+	{
+		"code": "245804497",
+		"nom": "CC du Nivernais Bourbonnais",
+		"parent": "58",
+		"valeur": 8
+	},
+	{
+		"code": "245900428",
+		"nom": "CU de Dunkerque",
+		"parent": "59",
+		"valeur": 3
+	},
+	{
+		"code": "245900758",
+		"nom": "CC Flandre Lys",
+		"parent": "59",
+		"valeur": 1
+	},
+	{
+		"code": "245901038",
+		"nom": "CC du Pays Solesmois",
+		"parent": "59",
+		"valeur": 34
+	},
+	{
+		"code": "245901152",
+		"nom": "CC Coeur d'Ostrevent (CCCO)",
+		"parent": "59",
+		"valeur": 3
+	},
+	{
+		"code": "245901160",
+		"nom": "CA Valenciennes M\u00e9tropole",
+		"parent": "59",
+		"valeur": 36
+	},
+	{
+		"code": "246000129",
+		"nom": "CC du Liancourtois",
+		"parent": "60",
+		"valeur": 67
+	},
+	{
+		"code": "246000376",
+		"nom": "CC du Clermontois",
+		"parent": "60",
+		"valeur": 5
+	},
+	{
+		"code": "246000566",
+		"nom": "CC du Plateau Picard",
+		"parent": "60",
+		"valeur": 5
+	},
+	{
+		"code": "246000582",
+		"nom": "CC des Sablons",
+		"parent": "60",
+		"valeur": 80
+	},
+	{
+		"code": "246000707",
+		"nom": "CC du Vexin-Thelle",
+		"parent": "60",
+		"valeur": 73
+	},
+	{
+		"code": "246000749",
+		"nom": "CC des Lisi\u00e8res de l'Oise",
+		"parent": "60",
+		"valeur": 13
+	},
+	{
+		"code": "246000756",
+		"nom": "CC du Pays Noyonnais",
+		"parent": "60",
+		"valeur": 85
+	},
+	{
+		"code": "246000764",
+		"nom": "CC de l'Aire Cantilienne",
+		"parent": "60",
+		"valeur": 20
+	},
+	{
+		"code": "246000772",
+		"nom": "CC des Deux Vall\u00e9es",
+		"parent": "60",
+		"valeur": 11
+	},
+	{
+		"code": "246000848",
+		"nom": "CC de la Picardie Verte",
+		"parent": "60",
+		"valeur": 0
+	},
+	{
+		"code": "246000855",
+		"nom": "CC du Pays des Sources",
+		"parent": "60",
+		"valeur": 72
+	},
+	{
+		"code": "246000871",
+		"nom": "CC du Pays de Valois",
+		"parent": "60",
+		"valeur": 26
+	},
+	{
+		"code": "246000897",
+		"nom": "CC de la Plaine d'Estr\u00e9es",
+		"parent": "60",
+		"valeur": 20
+	},
+	{
+		"code": "246000913",
+		"nom": "CC du Pays de Bray",
+		"parent": "60",
+		"valeur": 70
+	},
+	{
+		"code": "246000921",
+		"nom": "CC des Pays d'Oise et d'Halatte",
+		"parent": "60",
+		"valeur": 39
+	},
+	{
+		"code": "246100390",
+		"nom": "CC du Val d'Orne",
+		"parent": "61",
+		"valeur": 29
+	},
+	{
+		"code": "246100663",
+		"nom": "CU d'Alen\u00e7on",
+		"parent": "61",
+		"valeur": 10
+	},
+	{
+		"code": "246200299",
+		"nom": "CA d'H\u00e9nin-Carvin",
+		"parent": "62",
+		"valeur": 36
+	},
+	{
+		"code": "246200364",
+		"nom": "CA de Lens - Li\u00e9vin",
+		"parent": "62",
+		"valeur": 69
+	},
+	{
+		"code": "246200380",
+		"nom": "CC de la Terre des Deux Caps",
+		"parent": "62",
+		"valeur": 57
+	},
+	{
+		"code": "246200729",
+		"nom": "CA du Boulonnais",
+		"parent": "62",
+		"valeur": 75
+	},
+	{
+		"code": "246200844",
+		"nom": "CC de la R\u00e9gion d'Audruicq",
+		"parent": "62",
+		"valeur": 63
+	},
+	{
+		"code": "246201016",
+		"nom": "CC du Pays de Lumbres",
+		"parent": "62",
+		"valeur": 9
+	},
+	{
+		"code": "246300701",
+		"nom": "Clermont Auvergne M\u00e9tropole",
+		"parent": "63",
+		"valeur": 98
+	},
+	{
+		"code": "246300966",
+		"nom": "CC du Massif du Sancy",
+		"parent": "63",
+		"valeur": 34
+	},
+	{
+		"code": "246301097",
+		"nom": "CC Entre Dore et Allier",
+		"parent": "63",
+		"valeur": 83
+	},
+	{
+		"code": "246400337",
+		"nom": "CC de la Vall\u00e9e d'Ossau",
+		"parent": "64",
+		"valeur": 8
+	},
+	{
+		"code": "246401756",
+		"nom": "CC Pays de Nay",
+		"parent": "64",
+		"valeur": 94
+	},
+	{
+		"code": "246500482",
+		"nom": "CC de la Haute-Bigorre",
+		"parent": "65",
+		"valeur": 37
+	},
+	{
+		"code": "246500573",
+		"nom": "CC Aure Louron",
+		"parent": "65",
+		"valeur": 90
+	},
+	{
+		"code": "246600282",
+		"nom": "CC Sud-Roussillon",
+		"parent": "66",
+		"valeur": 41
+	},
+	{
+		"code": "246600373",
+		"nom": "CC du Vallespir",
+		"parent": "66",
+		"valeur": 77
+	},
+	{
+		"code": "246600399",
+		"nom": "CC Pyr\u00e9n\u00e9es Cerdagne",
+		"parent": "66",
+		"valeur": 59
+	},
+	{
+		"code": "246600415",
+		"nom": "CC Roussillon-Conflent",
+		"parent": "66",
+		"valeur": 80
+	},
+	{
+		"code": "246600423",
+		"nom": "CC Agly Fenouill\u00e8des",
+		"parent": "66",
+		"valeur": 95
+	},
+	{
+		"code": "246600449",
+		"nom": "CC des Aspres",
+		"parent": "66",
+		"valeur": 84
+	},
+	{
+		"code": "246600464",
+		"nom": "CC Pyr\u00e9n\u00e9es Catalanes",
+		"parent": "66",
+		"valeur": 31
+	},
+	{
+		"code": "246600548",
+		"nom": "CC du Haut Vallespir",
+		"parent": "66",
+		"valeur": 78
+	},
+	{
+		"code": "246700306",
+		"nom": "CC de la Vall\u00e9e de la Bruche",
+		"parent": "67",
+		"valeur": 57
+	},
+	{
+		"code": "246700488",
+		"nom": "Eurom\u00e9tropole de Strasbourg",
+		"parent": "67",
+		"valeur": 61
+	},
+	{
+		"code": "246700744",
+		"nom": "CC des Portes de Rosheim",
+		"parent": "67",
+		"valeur": 63
+	},
+	{
+		"code": "246700777",
+		"nom": "CC de la Vall\u00e9e de Vill\u00e9",
+		"parent": "67",
+		"valeur": 91
+	},
+	{
+		"code": "246700843",
+		"nom": "CC de la Basse-Zorn",
+		"parent": "67",
+		"valeur": 92
+	},
+	{
+		"code": "246700926",
+		"nom": "CC du Pays de Wissembourg",
+		"parent": "67",
+		"valeur": 76
+	},
+	{
+		"code": "246700959",
+		"nom": "CC du Pays de la Zorn",
+		"parent": "67",
+		"valeur": 37
+	},
+	{
+		"code": "246700967",
+		"nom": "CC de S\u00e9lestat",
+		"parent": "67",
+		"valeur": 82
+	},
+	{
+		"code": "246701064",
+		"nom": "CC de la R\u00e9gion de Molsheim-Mutzig",
+		"parent": "67",
+		"valeur": 83
+	},
+	{
+		"code": "246701080",
+		"nom": "CC du Pays de Sainte-Odile",
+		"parent": "67",
+		"valeur": 2
+	},
+	{
+		"code": "246701098",
+		"nom": "CC du Pays de Niederbronn-les-Bains",
+		"parent": "67",
+		"valeur": 78
+	},
+	{
+		"code": "246800205",
+		"nom": "CC de la Vall\u00e9e de Saint-Amarin",
+		"parent": "68",
+		"valeur": 80
+	},
+	{
+		"code": "246800395",
+		"nom": "CC du Val d'Argent",
+		"parent": "68",
+		"valeur": 64
+	},
+	{
+		"code": "246800445",
+		"nom": "CC du Centre du Haut-Rhin",
+		"parent": "68",
+		"valeur": 24
+	},
+	{
+		"code": "246800494",
+		"nom": "CC du Pays de Rouffach, Vignobles et Ch\u00e2teaux",
+		"parent": "68",
+		"valeur": 58
+	},
+	{
+		"code": "246800551",
+		"nom": "CC de la Vall\u00e9e de Kaysersberg",
+		"parent": "68",
+		"valeur": 82
+	},
+	{
+		"code": "246800569",
+		"nom": "CC de la R\u00e9gion de Guebwiller",
+		"parent": "68",
+		"valeur": 18
+	},
+	{
+		"code": "246800577",
+		"nom": "CC du Pays de Ribeauvill\u00e9",
+		"parent": "68",
+		"valeur": 15
+	},
+	{
+		"code": "246800585",
+		"nom": "CC de la Vall\u00e9e de Munster",
+		"parent": "68",
+		"valeur": 21
+	},
+	{
+		"code": "246800676",
+		"nom": "CC de la Vall\u00e9e de la Doller et du Soultzbach",
+		"parent": "68",
+		"valeur": 44
+	},
+	{
+		"code": "246800726",
+		"nom": "CA Colmar Agglom\u00e9ration",
+		"parent": "68",
+		"valeur": 34
+	},
+	{
+		"code": "246900575",
+		"nom": "CC de l'Est Lyonnais (CCEL)",
+		"parent": "69",
+		"valeur": 82
+	},
+	{
+		"code": "246900625",
+		"nom": "CC du Pays de l'Arbresle (CCPA)",
+		"parent": "69",
+		"valeur": 69
+	},
+	{
+		"code": "246900724",
+		"nom": "CC des Vallons du Lyonnais (CCVL)",
+		"parent": "69",
+		"valeur": 40
+	},
+	{
+		"code": "246900740",
+		"nom": "CC du Pays Mornantais (COPAMO)",
+		"parent": "69",
+		"valeur": 0
+	},
+	{
+		"code": "246900757",
+		"nom": "CC de la Vall\u00e9e du Garon (CCVG)",
+		"parent": "69",
+		"valeur": 22
+	},
+	{
+		"code": "246900765",
+		"nom": "CC du Pays de l'Ozon",
+		"parent": "69",
+		"valeur": 72
+	},
+	{
+		"code": "247000011",
+		"nom": "CA de Vesoul",
+		"parent": "70",
+		"valeur": 45
+	},
+	{
+		"code": "247000367",
+		"nom": "CC des Combes",
+		"parent": "70",
+		"valeur": 55
+	},
+	{
+		"code": "247000623",
+		"nom": "CC des Quatre Rivi\u00e8res",
+		"parent": "70",
+		"valeur": 9
+	},
+	{
+		"code": "247000664",
+		"nom": "CC du Pays de Lure",
+		"parent": "70",
+		"valeur": 45
+	},
+	{
+		"code": "247000698",
+		"nom": "CC des Monts de Gy",
+		"parent": "70",
+		"valeur": 33
+	},
+	{
+		"code": "247000706",
+		"nom": "CC du Pays Riolais",
+		"parent": "70",
+		"valeur": 64
+	},
+	{
+		"code": "247000714",
+		"nom": "CC du Pays de Villersexel",
+		"parent": "70",
+		"valeur": 15
+	},
+	{
+		"code": "247000722",
+		"nom": "CC du Pays d'H\u00e9ricourt",
+		"parent": "70",
+		"valeur": 63
+	},
+	{
+		"code": "247000755",
+		"nom": "CC du Pays de Luxeuil",
+		"parent": "70",
+		"valeur": 24
+	},
+	{
+		"code": "247000821",
+		"nom": "CC Rahin et Ch\u00e9rimont",
+		"parent": "70",
+		"valeur": 35
+	},
+	{
+		"code": "247000854",
+		"nom": "CC des 1000 \u00e9tangs",
+		"parent": "70",
+		"valeur": 9
+	},
+	{
+		"code": "247100290",
+		"nom": "CU Le Creusot Montceau-les-Mines",
+		"parent": "71",
+		"valeur": 58
+	},
+	{
+		"code": "247100589",
+		"nom": "CA Le Grand Chalon",
+		"parent": "71",
+		"valeur": 86
+	},
+	{
+		"code": "247100639",
+		"nom": "CC de Marcigny",
+		"parent": "71",
+		"valeur": 72
+	},
+	{
+		"code": "247100647",
+		"nom": "CC Bresse Nord Intercom'",
+		"parent": "71",
+		"valeur": 51
+	},
+	{
+		"code": "247103765",
+		"nom": "CC Entre Sa\u00f4ne et Grosne",
+		"parent": "71",
+		"valeur": 100
+	},
+	{
+		"code": "247103864",
+		"nom": "CC de Semur en Brionnais",
+		"parent": "71",
+		"valeur": 68
+	},
+	{
+		"code": "247104094",
+		"nom": "CC Sud C\u00f4te Chalonnaise",
+		"parent": "71",
+		"valeur": 85
+	},
+	{
+		"code": "247200090",
+		"nom": "CC Communaut\u00e9 de communes du Pays Sabolien",
+		"parent": "72",
+		"valeur": 88
+	},
+	{
+		"code": "247200132",
+		"nom": "CU Le Mans M\u00e9tropole",
+		"parent": "72",
+		"valeur": 8
+	},
+	{
+		"code": "247200348",
+		"nom": "CC du Pays Fl\u00e9chois",
+		"parent": "72",
+		"valeur": 88
+	},
+	{
+		"code": "247200421",
+		"nom": "CC du Sud Est Manceau",
+		"parent": "72",
+		"valeur": 31
+	},
+	{
+		"code": "247200447",
+		"nom": "CC Or\u00e9e de Berc\u00e9 - Belinois",
+		"parent": "72",
+		"valeur": 8
+	},
+	{
+		"code": "247200629",
+		"nom": "CC du Val de Sarthe",
+		"parent": "72",
+		"valeur": 65
+	},
+	{
+		"code": "247200686",
+		"nom": "CC du Pays de l'Huisne Sarthoise",
+		"parent": "72",
+		"valeur": 9
+	},
+	{
+		"code": "247300015",
+		"nom": "CC des Vall\u00e9es d'Aigueblanche",
+		"parent": "73",
+		"valeur": 81
+	},
+	{
+		"code": "247300254",
+		"nom": "CC de Haute-Tarentaise",
+		"parent": "73",
+		"valeur": 75
+	},
+	{
+		"code": "247300262",
+		"nom": "CC de Yenne",
+		"parent": "73",
+		"valeur": 86
+	},
+	{
+		"code": "247300361",
+		"nom": "CC du Canton de La Chambre",
+		"parent": "73",
+		"valeur": 72
+	},
+	{
+		"code": "247300452",
+		"nom": "CC Maurienne Galibier",
+		"parent": "73",
+		"valeur": 24
+	},
+	{
+		"code": "247300528",
+		"nom": "CC Val Guiers",
+		"parent": "73",
+		"valeur": 42
+	},
+	{
+		"code": "247300668",
+		"nom": "CC du Lac d'Aiguebelette (CCLA)",
+		"parent": "73",
+		"valeur": 97
+	},
+	{
+		"code": "247300676",
+		"nom": "CC Porte de Maurienne",
+		"parent": "73",
+		"valeur": 48
+	},
+	{
+		"code": "247300817",
+		"nom": "CC Les Versants d'Aime",
+		"parent": "73",
+		"valeur": 48
+	},
+	{
+		"code": "247400047",
+		"nom": "CC de la Vall\u00e9e Verte",
+		"parent": "74",
+		"valeur": 52
+	},
+	{
+		"code": "247400112",
+		"nom": "CC du Pays de Cruseilles",
+		"parent": "74",
+		"valeur": 39
+	},
+	{
+		"code": "247400567",
+		"nom": "CC Fier et Usses",
+		"parent": "74",
+		"valeur": 100
+	},
+	{
+		"code": "247400583",
+		"nom": "CC Arve et Sal\u00e8ve",
+		"parent": "74",
+		"valeur": 21
+	},
+	{
+		"code": "247400617",
+		"nom": "CC des Vall\u00e9es de Th\u00f4nes",
+		"parent": "74",
+		"valeur": 14
+	},
+	{
+		"code": "247400666",
+		"nom": "CC des Quatre Rivi\u00e8res",
+		"parent": "74",
+		"valeur": 7
+	},
+	{
+		"code": "247400682",
+		"nom": "CC du Haut-Chablais",
+		"parent": "74",
+		"valeur": 1
+	},
+	{
+		"code": "247400690",
+		"nom": "CC du Genevois",
+		"parent": "74",
+		"valeur": 24
+	},
+	{
+		"code": "247400724",
+		"nom": "CC du Pays Rochois",
+		"parent": "74",
+		"valeur": 100
+	},
+	{
+		"code": "247400740",
+		"nom": "CC Rumilly Terre de Savoie",
+		"parent": "74",
+		"valeur": 27
+	},
+	{
+		"code": "247400773",
+		"nom": "CC des sources du lac d'Annecy",
+		"parent": "74",
+		"valeur": 7
+	},
+	{
+		"code": "247600505",
+		"nom": "CC Campagne-de-Caux",
+		"parent": "76",
+		"valeur": 0
+	},
+	{
+		"code": "247600588",
+		"nom": "CC des Villes Soeurs",
+		"parent": "76",
+		"valeur": 33
+	},
+	{
+		"code": "247600604",
+		"nom": "CC de Londini\u00e8res",
+		"parent": "76",
+		"valeur": 51
+	},
+	{
+		"code": "247600620",
+		"nom": "CC Yvetot Normandie",
+		"parent": "76",
+		"valeur": 2
+	},
+	{
+		"code": "247600646",
+		"nom": "CC Caux - Austreberthe",
+		"parent": "76",
+		"valeur": 90
+	},
+	{
+		"code": "247600729",
+		"nom": "CC Falaises du Talou",
+		"parent": "76",
+		"valeur": 83
+	},
+	{
+		"code": "247600786",
+		"nom": "CA de la R\u00e9gion Dieppoise",
+		"parent": "76",
+		"valeur": 19
+	},
+	{
+		"code": "247700032",
+		"nom": "CC Moret Seine et Loing",
+		"parent": "77",
+		"valeur": 46
+	},
+	{
+		"code": "247700057",
+		"nom": "CA Melun Val de Seine",
+		"parent": "77",
+		"valeur": 43
+	},
+	{
+		"code": "247700065",
+		"nom": "CC du Pays de l'Ourcq",
+		"parent": "77",
+		"valeur": 40
+	},
+	{
+		"code": "247700107",
+		"nom": "CC Pays de Montereau",
+		"parent": "77",
+		"valeur": 10
+	},
+	{
+		"code": "247700339",
+		"nom": "CA Val d'Europe Agglom\u00e9ration",
+		"parent": "77",
+		"valeur": 84
+	},
+	{
+		"code": "247700594",
+		"nom": "CA Marne et Gondoire",
+		"parent": "77",
+		"valeur": 75
+	},
+	{
+		"code": "247700644",
+		"nom": "CC l'Or\u00e9e de la Brie",
+		"parent": "77",
+		"valeur": 23
+	},
+	{
+		"code": "247700701",
+		"nom": "CC Brie Nangissienne",
+		"parent": "77",
+		"valeur": 50
+	},
+	{
+		"code": "247800550",
+		"nom": "CC du Pays Houdanais (CCPH)",
+		"parent": "78",
+		"valeur": 39
+	},
+	{
+		"code": "247800584",
+		"nom": "CA Versailles Grand Parc (CAVGP)",
+		"parent": "78",
+		"valeur": 90
+	},
+	{
+		"code": "247800618",
+		"nom": "CC Coeur d'Yvelines",
+		"parent": "78",
+		"valeur": 58
+	},
+	{
+		"code": "247900798",
+		"nom": "CC du Thouarsais",
+		"parent": "79",
+		"valeur": 74
+	},
+	{
+		"code": "248000499",
+		"nom": "CC du Val de Somme",
+		"parent": "80",
+		"valeur": 97
+	},
+	{
+		"code": "248000531",
+		"nom": "CA Amiens M\u00e9tropole",
+		"parent": "80",
+		"valeur": 53
+	},
+	{
+		"code": "248000747",
+		"nom": "CC du Pays du Coquelicot",
+		"parent": "80",
+		"valeur": 33
+	},
+	{
+		"code": "248100158",
+		"nom": "CC du Sor et de l'Agout",
+		"parent": "81",
+		"valeur": 76
+	},
+	{
+		"code": "248100430",
+		"nom": "CA de Castres Mazamet",
+		"parent": "81",
+		"valeur": 78
+	},
+	{
+		"code": "248100497",
+		"nom": "CC Val 81",
+		"parent": "81",
+		"valeur": 73
+	},
+	{
+		"code": "248100737",
+		"nom": "CA de l'Albigeois (C2A)",
+		"parent": "81",
+		"valeur": 1
+	},
+	{
+		"code": "248100745",
+		"nom": "CC Thor\u00e9 Montagne Noire",
+		"parent": "81",
+		"valeur": 59
+	},
+	{
+		"code": "248200016",
+		"nom": "CC des Deux Rives",
+		"parent": "82",
+		"valeur": 31
+	},
+	{
+		"code": "248200057",
+		"nom": "CC du Quercy Caussadais",
+		"parent": "82",
+		"valeur": 83
+	},
+	{
+		"code": "248200065",
+		"nom": "CC de la Lomagne Tarn-et-Garonnaise",
+		"parent": "82",
+		"valeur": 78
+	},
+	{
+		"code": "248200099",
+		"nom": "CA Grand Montauban",
+		"parent": "82",
+		"valeur": 70
+	},
+	{
+		"code": "248200107",
+		"nom": "CC du Quercy Rouergue et des Gorges de l'Aveyron",
+		"parent": "82",
+		"valeur": 81
+	},
+	{
+		"code": "248300394",
+		"nom": "CA Sud Sainte Baume",
+		"parent": "83",
+		"valeur": 72
+	},
+	{
+		"code": "248300410",
+		"nom": "CC de la Vall\u00e9e du Gapeau",
+		"parent": "83",
+		"valeur": 60
+	},
+	{
+		"code": "248300493",
+		"nom": "CA Drac\u00e9nie Provence Verdon Agglom\u00e9ration",
+		"parent": "83",
+		"valeur": 65
+	},
+	{
+		"code": "248300543",
+		"nom": "M\u00e9tropole Toulon-Provence-M\u00e9diterran\u00e9e",
+		"parent": "83",
+		"valeur": 61
+	},
+	{
+		"code": "248300550",
+		"nom": "CC Coeur du Var",
+		"parent": "83",
+		"valeur": 59
+	},
+	{
+		"code": "248400053",
+		"nom": "CA Ventoux-Comtat-Venaissin (COVE)",
+		"parent": "84",
+		"valeur": 79
+	},
+	{
+		"code": "248400160",
+		"nom": "CC Aygues-Ouv\u00e8ze en Provence (CCAOP)",
+		"parent": "84",
+		"valeur": 22
+	},
+	{
+		"code": "248400236",
+		"nom": "CC du Pays R\u00e9uni d'Orange",
+		"parent": "84",
+		"valeur": 8
+	},
+	{
+		"code": "248400251",
+		"nom": "CA du Grand Avignon (COGA)",
+		"parent": "84",
+		"valeur": 7
+	},
+	{
+		"code": "248400285",
+		"nom": "CC Territoriale Sud-Luberon",
+		"parent": "84",
+		"valeur": 34
+	},
+	{
+		"code": "248400293",
+		"nom": "CA des Sorgues du Comtat",
+		"parent": "84",
+		"valeur": 81
+	},
+	{
+		"code": "248400319",
+		"nom": "CC du Pays des Sorgues et des Monts de Vaucluse",
+		"parent": "84",
+		"valeur": 77
+	},
+	{
+		"code": "248400335",
+		"nom": "CC Vaison Ventoux",
+		"parent": "84",
+		"valeur": 22
+	},
+	{
+		"code": "248500191",
+		"nom": "CC de l'Ile de Noirmoutier",
+		"parent": "85",
+		"valeur": 4
+	},
+	{
+		"code": "248500258",
+		"nom": "CC Oc\u00e9an Marais de Monts",
+		"parent": "85",
+		"valeur": 84
+	},
+	{
+		"code": "248500340",
+		"nom": "CC Pays de Chantonnay",
+		"parent": "85",
+		"valeur": 16
+	},
+	{
+		"code": "248500415",
+		"nom": "CC du Pays de la Ch\u00e2taigneraie",
+		"parent": "85",
+		"valeur": 71
+	},
+	{
+		"code": "248500464",
+		"nom": "CC du Pays de Pouzauges",
+		"parent": "85",
+		"valeur": 13
+	},
+	{
+		"code": "248500530",
+		"nom": "CC du Pays des Achards",
+		"parent": "85",
+		"valeur": 45
+	},
+	{
+		"code": "248500563",
+		"nom": "CC Vend\u00e9e, S\u00e8vre, Autise",
+		"parent": "85",
+		"valeur": 33
+	},
+	{
+		"code": "248500589",
+		"nom": "CA La Roche sur Yon - Agglom\u00e9ration",
+		"parent": "85",
+		"valeur": 74
+	},
+	{
+		"code": "248500621",
+		"nom": "CC du Pays des Herbiers",
+		"parent": "85",
+		"valeur": 87
+	},
+	{
+		"code": "248500662",
+		"nom": "CC du Pays de Mortagne",
+		"parent": "85",
+		"valeur": 58
+	},
+	{
+		"code": "248600413",
+		"nom": "CA Grand Ch\u00e2tellerault",
+		"parent": "86",
+		"valeur": 26
+	},
+	{
+		"code": "248600447",
+		"nom": "CC du Pays Loudunais",
+		"parent": "86",
+		"valeur": 63
+	},
+	{
+		"code": "248700189",
+		"nom": "CC du Pays de Saint Yrieix",
+		"parent": "87",
+		"valeur": 24
+	},
+	{
+		"code": "248719262",
+		"nom": "CC Gartempe - Saint Pardoux",
+		"parent": "87",
+		"valeur": 87
+	},
+	{
+		"code": "248719288",
+		"nom": "CC du Val de Vienne",
+		"parent": "87",
+		"valeur": 50
+	},
+	{
+		"code": "248719312",
+		"nom": "CU Limoges M\u00e9tropole",
+		"parent": "87",
+		"valeur": 38
+	},
+	{
+		"code": "248719338",
+		"nom": "CC Briance-Combade",
+		"parent": "87",
+		"valeur": 21
+	},
+	{
+		"code": "248719353",
+		"nom": "CC des Portes de Vassivi\u00e8re",
+		"parent": "87",
+		"valeur": 57
+	},
+	{
+		"code": "248719361",
+		"nom": "CC de Noblat",
+		"parent": "87",
+		"valeur": 90
+	},
+	{
+		"code": "248900334",
+		"nom": "CA du Grand S\u00e9nonais",
+		"parent": "89",
+		"valeur": 23
+	},
+	{
+		"code": "248900383",
+		"nom": "CC de l'Agglom\u00e9ration Migennoise",
+		"parent": "89",
+		"valeur": 36
+	},
+	{
+		"code": "248900524",
+		"nom": "CC de l'Aillantais en Bourgogne",
+		"parent": "89",
+		"valeur": 98
+	},
+	{
+		"code": "248900664",
+		"nom": "CC de la Vanne et du Pays d'Othe",
+		"parent": "89",
+		"valeur": 85
+	},
+	{
+		"code": "248900748",
+		"nom": "CC du G\u00e2tinais en Bourgogne",
+		"parent": "89",
+		"valeur": 63
+	},
+	{
+		"code": "248900896",
+		"nom": "CC Yonne Nord",
+		"parent": "89",
+		"valeur": 61
+	},
+	{
+		"code": "248900938",
+		"nom": "CC du Jovinien",
+		"parent": "89",
+		"valeur": 30
+	},
+	{
+		"code": "249000241",
+		"nom": "CC du Sud Territoire",
+		"parent": "90",
+		"valeur": 79
+	},
+	{
+		"code": "249100074",
+		"nom": "CC du Pays de Limours (CCPL)",
+		"parent": "91",
+		"valeur": 41
+	},
+	{
+		"code": "249100157",
+		"nom": "CC des 2 Vall\u00e9es",
+		"parent": "91",
+		"valeur": 39
+	},
+	{
+		"code": "249100546",
+		"nom": "CC du Val d'Essonne (CCVE)",
+		"parent": "91",
+		"valeur": 95
+	},
+	{
+		"code": "249100553",
+		"nom": "CC Entre Juine et Renarde (CCEJR)",
+		"parent": "91",
+		"valeur": 9
+	},
+	{
+		"code": "249100595",
+		"nom": "CC le Dourdannais en Hurepoix (CCDH)",
+		"parent": "91",
+		"valeur": 32
+	},
+	{
+		"code": "249500109",
+		"nom": "CA de Cergy-Pontoise",
+		"parent": "95",
+		"valeur": 11
+	},
+	{
+		"code": "249500430",
+		"nom": "CC Sausseron Impressionnistes",
+		"parent": "95",
+		"valeur": 86
+	},
+	{
+		"code": "249500455",
+		"nom": "CC de la Vall\u00e9e de l'Oise et des Trois For\u00eats",
+		"parent": "95",
+		"valeur": 92
+	},
+	{
+		"code": "249500489",
+		"nom": "CC du Haut Val d'Oise",
+		"parent": "95",
+		"valeur": 41
+	},
+	{
+		"code": "249500513",
+		"nom": "CC du Vexin-Val de Seine",
+		"parent": "95",
+		"valeur": 30
+	},
+	{
+		"code": "249710047",
+		"nom": "CC de Marie-Galante",
+		"parent": "97",
+		"valeur": 56
+	},
+	{
+		"code": "249710062",
+		"nom": "CA du Nord Basse-Terre",
+		"parent": "97",
+		"valeur": 82
+	},
+	{
+		"code": "249710070",
+		"nom": "CA Grand Sud Cara\u00efbe",
+		"parent": "97",
+		"valeur": 38
+	},
+	{
+		"code": "249720053",
+		"nom": "CA de l'Espace Sud de la Martinique",
+		"parent": "97",
+		"valeur": 99
+	},
+	{
+		"code": "249720061",
+		"nom": "CA du Centre de la Martinique",
+		"parent": "97",
+		"valeur": 37
+	},
+	{
+		"code": "249730037",
+		"nom": "CC de l'Ouest Guyanais",
+		"parent": "97",
+		"valeur": 14
+	},
+	{
+		"code": "249730045",
+		"nom": "CA du Centre Littoral",
+		"parent": "97",
+		"valeur": 77
+	},
+	{
+		"code": "249730052",
+		"nom": "CC de l'Est Guyanais",
+		"parent": "97",
+		"valeur": 48
+	},
+	{
+		"code": "249740077",
+		"nom": "CA CIVIS (Communaut\u00e9 Intercommunale des Villes Solidaires)",
+		"parent": "97",
+		"valeur": 74
+	},
+	{
+		"code": "249740085",
+		"nom": "CA du Sud",
+		"parent": "97",
+		"valeur": 18
+	},
+	{
+		"code": "249740093",
+		"nom": "CA Intercommunale de la R\u00e9union Est (CIREST)",
+		"parent": "97",
+		"valeur": 50
+	},
+	{
+		"code": "249740101",
+		"nom": "CA Territoire de la C\u00f4te Ouest (TCO)",
+		"parent": "97",
+		"valeur": 41
+	},
+	{
+		"code": "249740119",
+		"nom": "CA Intercommunale du Nord de la R\u00e9union (CINOR)",
+		"parent": "97",
+		"valeur": 23
+	}
+]
