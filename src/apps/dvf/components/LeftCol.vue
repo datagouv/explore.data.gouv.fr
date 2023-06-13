@@ -260,7 +260,7 @@ export default {
     }
   },
   mounted() {
-      let url = "http://dvf.dataeng.etalab.studio/nation/mois"
+      let url = "https://api-dvf.preprod.data.gouv.fr/nation/mois"
       fetch(url)
       .then((response) => {
           return response.json()
@@ -286,19 +286,19 @@ export default {
         let data = null
         if (level == "fra"){
           code = "nation"
-          url = "http://dvf.dataeng.etalab.studio/nation/mois"
+          url = "https://api-dvf.preprod.data.gouv.fr/nation/mois"
         }
         if (level === "departement"){
           code = this.dep
-          url = "http://dvf.dataeng.etalab.studio/departement/" + code
+          url = "https://api-dvf.preprod.data.gouv.fr/departement/" + code
         }
         if (level === "commune"){
           code = this.com
-          url = "http://dvf.dataeng.etalab.studio/commune/" + code
+          url = "https://api-dvf.preprod.data.gouv.fr/commune/" + code
         }
         if (level === "section"){
           code = this.section
-          url = "http://dvf.dataeng.etalab.studio/section/" + code
+          url = "https://api-dvf.preprod.data.gouv.fr/section/" + code
         }
         if (this.saveApiUrl.includes(url)){
           data = this.saveApiResponse[url] 
@@ -330,14 +330,14 @@ export default {
     buildClientData(){
       var url
       if(this.apiLevel=="commune"){
-        url = "http://dvf.dataeng.etalab.studio/departement/"+this.dep+"/communes"
+        url = "https://api-dvf.preprod.data.gouv.fr/departement/"+this.dep+"/communes"
       } else if(this.apiLevel=="section"){
-        url= "http://dvf.dataeng.etalab.studio/commune/"+this.com+"/sections"
+        url= "https://api-dvf.preprod.data.gouv.fr/commune/"+this.com+"/sections"
       } else if(this.apiLevel=="fra"){
-         url = "http://dvf.dataeng.etalab.studio/nation"
+         url = "https://api-dvf.preprod.data.gouv.fr/nation"
       }
       else{
-        url = "http://dvf.dataeng.etalab.studio/" + this.apiLevel
+        url = "https://api-dvf.preprod.data.gouv.fr/" + this.apiLevel
       }
       if (this.saveApiUrl.includes(url)) {
           this.manageClientData(this.saveApiResponse[url])
@@ -472,7 +472,7 @@ export default {
       if(this.userLocation.parcelle){
         var self = this
         let data = null
-        var url="http://dvf.dataeng.etalab.studio/mutations/" + this.userLocation.parcelle.substring(0,5) + "/" + this.userLocation.parcelle.substring(5,10)
+        var url="https://api-dvf.preprod.data.gouv.fr/mutations/" + this.userLocation.parcelle.substring(0,5) + "/" + this.userLocation.parcelle.substring(5,10)
         if (this.saveApiUrl.includes(url)){
             data = this.saveApiResponse[url] 
             this.manageMutationsData(data)

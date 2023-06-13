@@ -165,7 +165,7 @@ export default {
     }
     this.$router.push({path: this.$route.path, query: obj}).catch(()=>{})
     // Au load de la page, on récupère les stats au niveau EPCI pour l'affichage carte
-    let url = 'http://dvf.dataeng.etalab.studio/epci'
+    let url = 'https://api-dvf.preprod.data.gouv.fr/epci'
     fetch(url)
     .then((response) => {
         return response.json()
@@ -733,7 +733,7 @@ export default {
       return { x, scaleMin, scaleMax }
     },
     displayCommunes(code){
-      fetch('http://dvf.dataeng.etalab.studio/departement/' + code + '/communes')
+      fetch('https://api-dvf.preprod.data.gouv.fr/departement/' + code + '/communes')
       .then((response) => {
           return response.json()
       })
@@ -750,7 +750,7 @@ export default {
       });
     },
     displaySections(code){
-      fetch('http://dvf.dataeng.etalab.studio/commune/' + code + '/sections')
+      fetch('https://api-dvf.preprod.data.gouv.fr/commune/' + code + '/sections')
       .then((response) => {
           return response.json()
       })
@@ -789,11 +789,11 @@ export default {
       if (!this.fetching) {
         this.fetching = true
         if (this.userLocation.level == "fra") {
-          url = "http://dvf.dataeng.etalab.studio/departement"
+          url = "https://api-dvf.preprod.data.gouv.fr/departement"
         } else if (this.userLocation.level == "departement") {
-          url = "http://dvf.dataeng.etalab.studio/departement/" + code.substring(0,2) + "/communes"
+          url = "https://api-dvf.preprod.data.gouv.fr/departement/" + code.substring(0,2) + "/communes"
         } else if (this.userLocation.level == "commune") {
-          url = "http://dvf.dataeng.etalab.studio/commune/" + code.substring(0,5) + "/sections"
+          url = "https://api-dvf.preprod.data.gouv.fr/commune/" + code.substring(0,5) + "/sections"
         }
         let data = null
         if (this.saveApiUrl.includes(url)){
