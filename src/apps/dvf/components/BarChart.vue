@@ -40,7 +40,7 @@ export default {
   methods: {
     updateData(code){
       var self = this
-      fetch("http://dvf.dataeng.etalab.studio/distribution/"+code)
+      fetch("https://api-dvf.preprod.data.gouv.fr/distribution/"+code)
       .then((response) => {
           return response.json()
       })

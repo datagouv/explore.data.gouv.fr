@@ -107,7 +107,7 @@ export default new Vuex.Store({
           return dispatch('showError', res)
         }
       }).catch(res => dispatch('handleError', res))
-    }
+    },
   },
   mutations: {
     updateLoadingState(state, data) {

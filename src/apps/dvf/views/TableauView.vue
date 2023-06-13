@@ -47,6 +47,7 @@
 import appStore from '@/apps/dvf/store'
 import exploreStore from '@/store.js'
 import Table from '../../../components/Table.vue'
+import MD5 from "crypto-js/md5";
 
 export default {
   name: 'TableauView',
@@ -70,7 +71,10 @@ export default {
     
   },
   created() {
-    this.$store.dispatch('apify', this.csvUrl).finally(() => {
+    //this.$store.dispatch('apifyWithoutAnalysis', this.csvUrl).finally(() => {
+    //})
+
+    this.$store.dispatch('getData', this.getmd5(this.csvUrl)).finally(() => {
     })
     fetch('https://www.data.gouv.fr/api/1/datasets/642205e1f2a0d0428a738699')
     .then((response) => {
@@ -113,6 +117,9 @@ export default {
     })
   },
   methods: {
+    getmd5(d){
+      return MD5(d)
+    },
     changeLocation(commitFunction, level, code, name){
       let obj = {}
       if (level == "fra") {
@@ -186,7 +193,9 @@ export default {
     },
     redirectToResource(){
       this.csvUrl = 'https://www.data.gouv.fr/fr/datasets/r/' + this.selectedResource
-      this.$store.dispatch('apify', this.csvUrl).finally(() => {
+      //this.$store.dispatch('apifyWithoutAnalysis', this.csvUrl).finally(() => {
+      //})
+      this.$store.dispatch('getData', this.getmd5(this.csvUrl)).finally(() => {
       })
       this.resource.id = this.selectedResource
       this.setFiltersFromQueryString(this.$route.query)
