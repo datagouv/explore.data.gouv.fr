@@ -59,7 +59,20 @@
           Pour toute information sur l’enregistrement d’une mutation, vous pouvez vous adresser à votre service de publicité foncière de proximité, qui a pour mission de porter à la connaissance de tout usager qui en fait la demande les renseignements concernant la situation juridique des immeubles.</span>
         </div>
 
-        <div class="question_box"  data-question="8" :class="(question8)?'open':''" @click="(question8)?question8=false:question8=true">
+         <div class="question_box"  data-question="8" :class="(question8)?'open':''" @click="(question8)?question8=false:question8=true">
+          <span class="title">Autres services utiles</span>
+          <span class="reponse">Cette application permet de visualiser les données de demandes de valeurs foncières (DVF), ainsi que d'autres données publiques telles que les diagnostics de performance énergétique et les copropriétés.<br>
+          De nombreux autres services sont construits à partir des données ouvertes autour de la thématique du logement, notamment :<br>
+          <ul>
+            <li>La couverture des réseaux sur <a href="https://maconnexioninternet.arcep.fr/">maconnexioninternet.arcep.fr</a></li>
+            <li>L'accessibilité sur  <a href="https://acceslibre.beta.gouv.fr/">acceslibre.beta.gouv.fr</a></li>
+            <li>Les risques sur  <a href="https://www.georisques.gouv.fr/">georisques.gouv.fr</a></li>
+            <li>Les informations d'urbanisme sur  <a href="https://www.geoportail-urbanisme.gouv.fr/">geoportail-urbanisme.gouv.fr</a></li>
+            <li>Les diagnostics de performance énergétique sur  <a href="https://particulier.gorenove.fr/">gorenove.fr</a></li>
+          </ul></span>
+        </div>
+
+        <div class="question_box"  data-question="9" :class="(question9)?'open':''" @click="(question9)?question9=false:question9=true">
           <span class="title">J’ai une autre question</span>
           <span class="reponse">Pour toute demande d’information ou toute erreur détectée dans les données vous pouvez écrire aux producteurs des données sur <a href="https://www.data.gouv.fr/fr/datasets/demandes-de-valeurs-foncieres-geolocalisees/">la page dédiée</a> ou contacter le bureau CL2A de la DGFIP à l’adresse suivante : <b>bureau.cl2a-dvf@dgfip.finances.gouv.fr</b><br><br>
           Si votre question porte plus spécifiquement sur l’application, vous pouvez <a href="https://support.data.gouv.fr/">écrire à l’équipe data.gouv.fr</a>.</span>
@@ -87,7 +100,8 @@ export default {
       question5:false,
       question6:false,
       question7:false,
-      question8:false
+      question8:false,
+      question9:false
     }
   },
   computed: {

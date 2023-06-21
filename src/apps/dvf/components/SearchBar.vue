@@ -149,4 +149,12 @@ export default {
     color: white;
   }
 
+  @media screen and (max-width: 767px){
+    #searchMap{
+      right:auto;
+      left:50%;
+      transform:translate(-50%,0);
+    }
+  }
+
 </style>

@@ -911,7 +911,7 @@ export default {
   @import '~maplibre-gl/dist/maplibre-gl.css';
 
   .choroMap{
-    width: 75%;
+    width: 70%;
     display: inline-block;
     min-height: 100%;
     position: relative;

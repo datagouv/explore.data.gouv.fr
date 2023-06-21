@@ -168,4 +168,12 @@ export default {
     transform: translate(-50%,-50%);
   }
 
+  @media screen and (max-width: 767px){
+    #filtersBox{
+      right:auto;
+      left:50%;
+      transform:translate(-50%,0);
+    }
+  }
+
 </style>
