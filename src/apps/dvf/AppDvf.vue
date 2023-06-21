@@ -219,6 +219,10 @@ export default {
 
 <style scoped>
 
+  *{
+    box-sizing: inherit;
+  }
+
   .dvf_header{
     padding-left: 20px;
     padding-top: 30px;
@@ -235,6 +239,7 @@ export default {
     font-size: 14px;
     font-weight: 400;
     margin-bottom: 0;
+    line-height: 2.25rem;
   }
 
   .dvf_header .maj_date_container{
@@ -249,7 +254,7 @@ export default {
 
   .dvf_content{
     position: absolute;
-    top:158px;
+    top:156px;
     bottom:0px;
     width: 100%;
   }

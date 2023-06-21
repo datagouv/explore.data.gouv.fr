@@ -195,6 +195,7 @@ export default {
     width: 100%;
     height: auto;
     max-height: 120px;
+    margin-top: 20px;
   }
 
   .lineChart canvas{

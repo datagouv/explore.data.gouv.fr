@@ -1,7 +1,7 @@
 <template>
-    <div class="leftCol" :class="{[leftColOpening]: true}">
+    <div class="leftCol" :class="leftColOpening">
 
-      <div class="leftColOpener" @click="changeLeftColOpening()"><span>^</span></div>
+      <div class="leftColOpener" @click="changeLeftColOpening()"><svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M4.99999 2.21917L1.69999 5.51916L0.757324 4.5765L4.99999 0.333832L9.24266 4.5765L8.29999 5.51916L4.99999 2.21917Z" fill="#161616"/></svg></div>
 
       <div class="header_container" v-if="level === 'fra'">
         <h2 class="intro_title">Bonjour !<br>Bienvenue</h2>
@@ -49,7 +49,8 @@
 
       </div>
 
-      <div class="links_container" v-if="level != 'fra'">
+      <div class="links_container" v-if="level != 'fra'" :data-open="(openLinks)?'open':''">
+          <div class="links_title" @click="toggleLinks()">Liens utiles <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M4.99999 2.21917L1.69999 5.51916L0.757324 4.5765L4.99999 0.333832L9.24266 4.5765L8.29999 5.51916L4.99999 2.21917Z" fill="#161616"/></svg></div>
           <div class="cardPartner" @click="goToPartner('arcep')">
             <!-- <div class="logoPartner">
               <img src="../assets/logos/arcep.png" width="100" />
@@ -144,6 +145,7 @@
       </div>
 
       <div class="mutations_container" v-if="level === 'parcelle'">
+        <div class="mutations_total">{{Object.keys(parcellesMutations).length}} mutations</div>
         <div class="mutation_box" v-bind:key="p['id']" v-for="p in parcellesMutations">
           <div class="content">
             <div class="nature">{{ p["nature_mutation"] }}</div>
@@ -210,8 +212,9 @@ export default {
         moy_prix_m2_maison:0
       },
       parcellesMutations:null,
-      leftColOpening:"",
-      hoveredBulle:""
+      leftColOpening:"semiopen",
+      hoveredBulle:"",
+      openLinks:false
     }
   },
   computed: {
@@ -581,11 +584,19 @@ export default {
     },
 
     changeLeftColOpening(){
-      if(this.leftColOpening == "close"||this.leftColOpening == ""){
+      if(this.leftColOpening == "close"||this.leftColOpening == "semiopen"){
         this.leftColOpening = "open"
       }else{
         this.leftColOpening = "close"
       } 
+    },
+
+    toggleLinks(){
+      if(this.openLinks==false){
+        this.openLinks=true
+      }else{
+        this.openLinks=false
+      }
     }
   },
   watch: {
@@ -597,6 +608,7 @@ export default {
     // },
     level(){
       this.fetchHistoricalData(this.level)
+      if(this.leftColOpening == "close"){ this.leftColOpening = "semiopen"}
       //this.buildClientData()
     },
     dep(){
@@ -628,7 +640,7 @@ export default {
 .leftCol{
   position: relative;
   display: inline-block;
-  width: 25%;
+  width: 30%;
   float:left;
   padding-left: 20px;
   padding-right: 20px;
@@ -684,6 +696,7 @@ export default {
 .location_container{
   width: 100%;
   margin-top: 10px;
+  margin-bottom: 20px;
 }
 
 .location_title{
@@ -775,6 +788,37 @@ export default {
   padding-top: 0px;
   padding-bottom: 5px;
   border-bottom: 1px solid #E5E5E5;
+  height: 35px;
+  overflow: hidden;
+  position: relative;
+}
+
+.links_container[data-open="open"]{
+  height: auto;
+}
+
+.links_title{
+  font-size: 14px;
+  font-weight: 400;
+  margin-bottom: 20px;
+  position: relative;
+  left:10px;
+  cursor: pointer;
+}
+
+.links_title svg{
+  position: absolute;
+  right:20px;
+  top:50%;
+  transform:translate(0,-50%) rotate(180deg);
+}
+
+.links_container[data-open="open"] .links_title{
+  font-weight: 700;
+}
+
+.links_container[data-open="open"] .links_title svg{
+  transform:translate(0,-50%) rotate(0deg); 
 }
 
 .chart_title{
@@ -828,14 +872,22 @@ export default {
 }
 
 .mutations_container{
-  margin-top: 20px;
+  margin-top: 30px;
+}
+
+.mutations_total{
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 16px;
+  text-align: center;
+  margin-bottom: 25px;
 }
 
 .mutation_box{
   width: 100%;
   /*max-width: 450px;*/
   min-height:50px;
-  margin:0 auto 15px;
+  margin:0 auto 35px;
 }
 
 .mutation_box .content{
@@ -964,9 +1016,12 @@ export default {
     overflow: scroll;
   }
 
+  .leftCol.semiopen{
+    top:70%;
+  }
+
   .leftColOpener{
     display: block;
-    font-size: 25px;
     height: 40px;
     position: absolute;
     padding-top:10px;
@@ -977,7 +1032,7 @@ export default {
     text-align: center;
   }
 
-  .leftColOpener span{
+  .leftColOpener svg{
     position: relative;
     top:0;
   }

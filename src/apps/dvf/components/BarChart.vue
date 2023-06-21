@@ -199,6 +199,7 @@ export default {
   .barChart{
     width: 100%;
     height: 120px;
+    margin-top:20px;
   }
 
   .barChart canvas{

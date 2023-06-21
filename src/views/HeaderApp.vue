@@ -25,7 +25,7 @@ export default {
     name: 'HeaderApp',
     computed: {
         formHref() {
-            return 'https://tally.so/r/nr5BML'
+            return 'https://tally.so/r/m6L5jo'
         },
         home() {
             return window.location.origin

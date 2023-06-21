@@ -8,7 +8,6 @@
         <dataset-embed class="datasetembed" :dataset='"63bce30c70d6d100b09dde9a"'></dataset-embed>
         <dataset-embed class="datasetembed" :dataset='"639c7cf4969f3318338df9a8"'></dataset-embed>
 
-
         <h4 class="second_title">Code source</h4>
         <span class="chapo">Le code source de cette application est disponible sur Github</span>
 
