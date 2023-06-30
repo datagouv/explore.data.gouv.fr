@@ -179,703 +179,816 @@
 </template>
 
 <script>
-
-import appStore from '@/apps/dvf/store'
-import LineChart from '@/apps/dvf/components/LineChart'
-import BarChart from '@/apps/dvf/components/BarChart'
-import CenterDeps from '@/apps/dvf/assets/json/centers_deps.json'
+import appStore from "@/apps/dvf/store";
+import LineChart from "@/apps/dvf/components/LineChart";
+import BarChart from "@/apps/dvf/components/BarChart";
+import CenterDeps from "@/apps/dvf/assets/json/centers_deps.json";
 
 export default {
-  name: 'LeftCol',
-  components: {LineChart, BarChart},
+  name: "LeftCol",
+  components: { LineChart, BarChart },
   data() {
     return {
       apiLevel: null,
       apiResult: null,
       apiCode: null,
-      clientData:{
-        totalVentes:0,
-        totalAverage:0,
-        appVentes:0,
-        appPrice:0,
-        houseVentes:0,
-        housePrice:0,
-        localVentes:0,
-        localPrice:0
+      clientData: {
+        totalVentes: 0,
+        totalAverage: 0,
+        appVentes: 0,
+        appPrice: 0,
+        houseVentes: 0,
+        housePrice: 0,
+        localVentes: 0,
+        localPrice: 0,
       },
-      rollingData:{
-        nb_ventes_appartement:0,
-        nb_ventes_local:0,
-        nb_ventes_maison:0,
-        moy_prix_m2_appartement:0,
-        moy_prix_m2_local:0,
-        moy_prix_m2_maison:0
+      rollingData: {
+        nb_ventes_appartement: 0,
+        nb_ventes_local: 0,
+        nb_ventes_maison: 0,
+        moy_prix_m2_appartement: 0,
+        moy_prix_m2_local: 0,
+        moy_prix_m2_maison: 0,
       },
-      parcellesMutations:null,
-      leftColOpening:"semiopen",
-      hoveredBulle:"",
-      openLinks:false
-    }
+      parcellesMutations: null,
+      leftColOpening: "semiopen",
+      hoveredBulle: "",
+      openLinks: false,
+    };
   },
   computed: {
-    saveApiUrl:function(){
-      return appStore.state.saveApiUrl
+    saveApiUrl: function () {
+      return appStore.state.saveApiUrl;
     },
-    saveApiResponse:function(){
-      return appStore.state.saveApiResponse
+    saveApiResponse: function () {
+      return appStore.state.saveApiResponse;
     },
-    zoomLevel:function(){
-      return appStore.state.map.zoomLevel
+    zoomLevel: function () {
+      return appStore.state.map.zoomLevel;
     },
-    dep:function(){
-      return appStore.state.userLocation.dep
+    dep: function () {
+      return appStore.state.userLocation.dep;
     },
-    com:function(){
-      return appStore.state.userLocation.com
+    com: function () {
+      return appStore.state.userLocation.com;
     },
-    section:function(){
-      return appStore.state.userLocation.section
+    section: function () {
+      return appStore.state.userLocation.section;
     },
-    parcelle:function(){
-      return appStore.state.userLocation.parcelle
+    parcelle: function () {
+      return appStore.state.userLocation.parcelle;
     },
-    level:function(){
-      return appStore.state.userLocation.level
+    level: function () {
+      return appStore.state.userLocation.level;
     },
-    depLabel:function(){
-      return appStore.state.locationLabels.dep
+    depLabel: function () {
+      return appStore.state.locationLabels.dep;
     },
-    comLabel:function(){
-      return appStore.state.locationLabels.com
+    comLabel: function () {
+      return appStore.state.locationLabels.com;
     },
-    activeFilter:function(){
-      return appStore.state.activeFilter
+    activeFilter: function () {
+      return appStore.state.activeFilter;
     },
-    userLocation:function(){
-      return appStore.state.userLocation
+    userLocation: function () {
+      return appStore.state.userLocation;
     },
-    mapProperties:function(){
-      return appStore.state.mapProperties
+    mapProperties: function () {
+      return appStore.state.mapProperties;
     },
-    chartGeoLabel:function(){
-      var label = this.getGeoLabel()
-      return label
-    }
+    chartGeoLabel: function () {
+      var label = this.getGeoLabel();
+      return label;
+    },
   },
   mounted() {
-      let url = "http://dvf.dataeng.etalab.studio/nation/mois"
-      fetch(url)
+    let url = process.env.VUE_APP_DVF_API + "/nation/mois";
+    fetch(url)
       .then((response) => {
-          return response.json()
+        return response.json();
       })
       .then((data) => {
-       this.sendApiResultToStore(url, data)
-       this.apiResult = data
-       this.apiLevel = "nation"
-       if(this.$route.query.filtre){
-          if(this.$route.query.filtre != this.activeFilter){
-            this.updateActiveFilter(this.$route.query.filtre) 
+        this.sendApiResultToStore(url, data);
+        this.apiResult = data;
+        this.apiLevel = "nation";
+        if (this.$route.query.filtre) {
+          if (this.$route.query.filtre != this.activeFilter) {
+            this.updateActiveFilter(this.$route.query.filtre);
           }
-        }else{
-          this.updateActiveFilter("tous")
+        } else {
+          this.updateActiveFilter("tous");
         }
       });
   },
   methods: {
-    fetchHistoricalData(level){
-      if (level != "parcelle"){
-        let url = null
-        let code = null
-        let data = null
-        if (level == "fra"){
-          code = "nation"
-          url = "http://dvf.dataeng.etalab.studio/nation/mois"
+    fetchHistoricalData(level) {
+      if (level != "parcelle") {
+        let url = null;
+        let code = null;
+        let data = null;
+        if (level == "fra") {
+          code = "nation";
+          url = process.env.VUE_APP_DVF_API + "/nation/mois";
         }
-        if (level === "departement"){
-          code = this.dep
-          url = "http://dvf.dataeng.etalab.studio/departement/" + code
+        if (level === "departement") {
+          code = this.dep;
+          url = process.env.VUE_APP_DVF_API + "/departement/" + code;
         }
-        if (level === "commune"){
-          code = this.com
-          url = "http://dvf.dataeng.etalab.studio/commune/" + code
+        if (level === "commune") {
+          code = this.com;
+          url = process.env.VUE_APP_DVF_API + "/commune/" + code;
         }
-        if (level === "section"){
-          code = this.section
-          url = "http://dvf.dataeng.etalab.studio/section/" + code
+        if (level === "section") {
+          code = this.section;
+          url = process.env.VUE_APP_DVF_API + "/section/" + code;
         }
-        if (this.saveApiUrl.includes(url)){
-          data = this.saveApiResponse[url] 
+        if (this.saveApiUrl.includes(url)) {
+          data = this.saveApiResponse[url];
           if (data) {
-            this.sendApiResultToStore(url, data)
-            this.apiResult = data
-            this.apiLevel = level
-            this.apiCode = code
+            this.sendApiResultToStore(url, data);
+            this.apiResult = data;
+            this.apiLevel = level;
+            this.apiCode = code;
           }
         } else {
           fetch(url)
-          .then((response) => {
-              return response.json()
-          })
-          .then((data) => {
-            this.sendApiResultToStore(url, data)
-            this.apiResult = data
-            this.apiLevel = level
-            this.apiCode = code
-          });
+            .then((response) => {
+              return response.json();
+            })
+            .then((data) => {
+              this.sendApiResultToStore(url, data);
+              this.apiResult = data;
+              this.apiLevel = level;
+              this.apiCode = code;
+            });
         }
       }
     },
-    storeApiData(){
-      appStore.commit("updateApiData",this.apiResult)
-      appStore.commit("updateApiLevel",this.apiLevel)
-      appStore.commit("updateApiCode",this.apiCode)
+    storeApiData() {
+      appStore.commit("updateApiData", this.apiResult);
+      appStore.commit("updateApiLevel", this.apiLevel);
+      appStore.commit("updateApiCode", this.apiCode);
     },
-    buildClientData(){
-      var url
-      if(this.apiLevel=="commune"){
-        url = "http://dvf.dataeng.etalab.studio/departement/"+this.dep+"/communes"
-      } else if(this.apiLevel=="section"){
-        url= "http://dvf.dataeng.etalab.studio/commune/"+this.com+"/sections"
-      } else if(this.apiLevel=="fra"){
-         url = "http://dvf.dataeng.etalab.studio/nation"
-      }
-      else{
-        url = "http://dvf.dataeng.etalab.studio/" + this.apiLevel
+    buildClientData() {
+      var url;
+      if (this.apiLevel == "commune") {
+        url =
+          process.env.VUE_APP_DVF_API +
+          "/departement/" +
+          this.dep +
+          "/communes";
+      } else if (this.apiLevel == "section") {
+        url =
+          process.env.VUE_APP_DVF_API + "/commune/" + this.com + "/sections";
+      } else if (this.apiLevel == "fra") {
+        url = process.env.VUE_APP_DVF_API + "/nation";
+      } else {
+        url = process.env.VUE_APP_DVF_API + "/" + this.apiLevel;
       }
       if (this.saveApiUrl.includes(url)) {
-          this.manageClientData(this.saveApiResponse[url])
+        this.manageClientData(this.saveApiResponse[url]);
       } else {
         fetch(url)
-        .then((response) => {
-            return response.json()
-        })
-        .then((data) => {
-          this.sendApiResultToStore(url, data)
-          this.manageClientData(data)
-          });
-      }
-    },
-
-    manageClientData(data){
-        var levelData
-        if(this.apiLevel == 'nation'){
-          levelData = data["data"][0]
-        }else{
-          levelData = data["data"].find(obj => {
-            return obj.code_geo === this.apiCode
-          })
-        }
-        if(this.activeFilter === 'tous'){
-          this.clientData.totalVentes=(levelData["nb_mutations_appartement_5ans"]+levelData["nb_mutations_maison_5ans"]).toLocaleString()
-          this.clientData.totalAverage=Math.round(levelData["moy_prix_m2_appart_maison_5ans"]).toLocaleString()+"€"
-        }else if(this.activeFilter === 'maison'){
-          this.clientData.totalVentes=levelData["nb_mutations_maison_5ans"].toLocaleString()
-          this.clientData.totalAverage=Math.round(levelData["moy_prix_m2_maison_5ans"]).toLocaleString()+"€"
-        }else if(this.activeFilter === 'appartement'){
-          this.clientData.totalVentes=levelData["nb_mutations_appartement_5ans"].toLocaleString()
-          this.clientData.totalAverage=Math.round(levelData["moy_prix_m2_appart_5ans"]).toLocaleString()+"€"
-        }else if(this.activeFilter === 'local'){
-          this.clientData.totalVentes=levelData["nb_mutations_local_5ans"].toLocaleString()
-          this.clientData.totalAverage=Math.round(levelData["moy_prix_m2_local_5ans"]).toLocaleString()+"€"
-        }
-        this.clientData.appVentes=levelData["nb_mutations_appartement_5ans"].toLocaleString()
-
-        if(levelData["moy_prix_m2_appart_5ans"] === null){
-          this.clientData.appPrice = "indisponible"
-        }else{
-          this.clientData.appPrice=Math.round(levelData["moy_prix_m2_appart_5ans"]).toLocaleString()+"€"  
-        }
-        
-        this.clientData.houseVentes=levelData["nb_mutations_maison_5ans"].toLocaleString()
-
-        if(levelData["moy_prix_m2_maison_5ans"] === null){
-          this.clientData.housePrice = "indisponible"
-        }else{
-          this.clientData.housePrice=Math.round(levelData["moy_prix_m2_maison_5ans"]).toLocaleString()+"€"  
-        }
-
-        this.clientData.localVentes=levelData["nb_mutations_local_5ans"].toLocaleString()
-
-        if(levelData["moy_prix_m2_local_5ans"] === null){
-          this.clientData.localPrice = "indisponible"
-        }else{
-          this.clientData.localPrice=Math.round(levelData["moy_prix_m2_local_5ans"]).toLocaleString()+"€"  
-        }
-
-    },
-    manageMutationsData(data){
-      if(data){
-        let mutationsId = []
-        let mutationsObj = {}
-        this.parcellesMutations = []
-        data["data"].forEach(obj => {
-          if (obj.id_parcelle == this.userLocation.parcelle) {
-            if (!mutationsId.includes(obj.id_mutation)){ 
-              mutationsId.push(obj.id_mutation)
-              mutationsObj[obj.id_mutation] = {}
-              mutationsObj[obj.id_mutation]["id"] = obj.id_mutation
-              mutationsObj[obj.id_mutation]["nature_mutation"] = obj.nature_mutation
-              mutationsObj[obj.id_mutation]["adresse_nom_voie"] = obj.adresse_nom_voie
-              mutationsObj[obj.id_mutation]["adresse_numero"] = obj.adresse_numero
-              mutationsObj[obj.id_mutation]["date"] = this.formatDate(obj.date_mutation)
-              mutationsObj[obj.id_mutation]["price"] = this.formatPrice(obj.valeur_fonciere)
-              mutationsObj[obj.id_mutation]["assets"] = []
-            }
-            if(obj.type_local) {
-              let asset = {}
-              let complement_type = ""
-              if (obj.nombre_pieces_principales){
-                complement_type = " / " + obj.nombre_pieces_principales + "p"
-              }
-              asset["type"] = obj.type_local + complement_type
-              asset["surface"] = this.formatSurface(obj.surface_reelle_bati)
-              mutationsObj[obj.id_mutation]["assets"].push(asset)
-            }
-            if(obj.nature_culture) {
-              let asset = {}
-              asset["type"] = obj.nature_culture
-              asset["surface"] = this.formatSurface(obj.surface_terrain)
-              mutationsObj[obj.id_mutation]["assets"].push(asset)
-            }
-            mutationsObj[obj.id_mutation]["assets"] = mutationsObj[obj.id_mutation]["assets"].reduce((unique, o) => {
-                if(!unique.some(subobj => subobj.type === o.type && subobj.surface === o.surface)) {
-                  unique.push(o);
-                }
-                return unique;
-            },[]);
-            let sorter = (a, b) => {
-              if(a.type.includes("Appartement")){
-                  return -1;
-              };
-              if(b.type.includes("Appartement")){
-                  return 1;
-              };
-              return a.name < b.name ? -1 : 1;
-            };
-            mutationsObj[obj.id_mutation]["assets"].sort(sorter)
-            sorter = (a, b) => {
-              if(a.type.includes("Maison")){
-                  return -1;
-              };
-              if(b.type.includes("Maison")){
-                  return 1;
-              };
-              return a.name < b.name ? -1 : 1;
-            };
-            mutationsObj[obj.id_mutation]["assets"].sort(sorter)
-            this.parcellesMutations = mutationsObj
-            console.log(this.parcellesMutations)
-            //console.log(obj)
-            }
-          });
-          //console.log(mutationsObj)
-      }
-    },
-    fetchMutationsData(){
-      if(this.userLocation.parcelle){
-        var self = this
-        let data = null
-        var url="http://dvf.dataeng.etalab.studio/mutations/" + this.userLocation.parcelle.substring(0,5) + "/" + this.userLocation.parcelle.substring(5,10)
-        if (this.saveApiUrl.includes(url)){
-            data = this.saveApiResponse[url] 
-            this.manageMutationsData(data)
-          } else {
-          fetch(url)
           .then((response) => {
-              return response.json()
+            return response.json();
           })
           .then((data) => {
-            this.sendApiResultToStore(url, data)
-            this.manageMutationsData(data)
+            this.sendApiResultToStore(url, data);
+            this.manageClientData(data);
+          });
+      }
+    },
 
-          })
+    manageClientData(data) {
+      var levelData;
+      if (this.apiLevel == "nation") {
+        levelData = data["data"][0];
+      } else {
+        levelData = data["data"].find((obj) => {
+          return obj.code_geo === this.apiCode;
+        });
+      }
+      if (this.activeFilter === "tous") {
+        this.clientData.totalVentes = (
+          levelData["nb_mutations_appartement_5ans"] +
+          levelData["nb_mutations_maison_5ans"]
+        ).toLocaleString();
+        this.clientData.totalAverage =
+          Math.round(
+            levelData["moy_prix_m2_appart_maison_5ans"]
+          ).toLocaleString() + "€";
+      } else if (this.activeFilter === "maison") {
+        this.clientData.totalVentes =
+          levelData["nb_mutations_maison_5ans"].toLocaleString();
+        this.clientData.totalAverage =
+          Math.round(levelData["moy_prix_m2_maison_5ans"]).toLocaleString() +
+          "€";
+      } else if (this.activeFilter === "appartement") {
+        this.clientData.totalVentes =
+          levelData["nb_mutations_appartement_5ans"].toLocaleString();
+        this.clientData.totalAverage =
+          Math.round(levelData["moy_prix_m2_appart_5ans"]).toLocaleString() +
+          "€";
+      } else if (this.activeFilter === "local") {
+        this.clientData.totalVentes =
+          levelData["nb_mutations_local_5ans"].toLocaleString();
+        this.clientData.totalAverage =
+          Math.round(levelData["moy_prix_m2_local_5ans"]).toLocaleString() +
+          "€";
+      }
+      this.clientData.appVentes =
+        levelData["nb_mutations_appartement_5ans"].toLocaleString();
+
+      if (levelData["moy_prix_m2_appart_5ans"] === null) {
+        this.clientData.appPrice = "indisponible";
+      } else {
+        this.clientData.appPrice =
+          Math.round(levelData["moy_prix_m2_appart_5ans"]).toLocaleString() +
+          "€";
+      }
+
+      this.clientData.houseVentes =
+        levelData["nb_mutations_maison_5ans"].toLocaleString();
+
+      if (levelData["moy_prix_m2_maison_5ans"] === null) {
+        this.clientData.housePrice = "indisponible";
+      } else {
+        this.clientData.housePrice =
+          Math.round(levelData["moy_prix_m2_maison_5ans"]).toLocaleString() +
+          "€";
+      }
+
+      this.clientData.localVentes =
+        levelData["nb_mutations_local_5ans"].toLocaleString();
+
+      if (levelData["moy_prix_m2_local_5ans"] === null) {
+        this.clientData.localPrice = "indisponible";
+      } else {
+        this.clientData.localPrice =
+          Math.round(levelData["moy_prix_m2_local_5ans"]).toLocaleString() +
+          "€";
+      }
+    },
+    manageMutationsData(data) {
+      if (data) {
+        let mutationsId = [];
+        let mutationsObj = {};
+        this.parcellesMutations = [];
+        data["data"].forEach((obj) => {
+          if (obj.id_parcelle == this.userLocation.parcelle) {
+            if (!mutationsId.includes(obj.id_mutation)) {
+              mutationsId.push(obj.id_mutation);
+              mutationsObj[obj.id_mutation] = {};
+              mutationsObj[obj.id_mutation]["id"] = obj.id_mutation;
+              mutationsObj[obj.id_mutation]["nature_mutation"] =
+                obj.nature_mutation;
+              mutationsObj[obj.id_mutation]["adresse_nom_voie"] =
+                obj.adresse_nom_voie;
+              mutationsObj[obj.id_mutation]["adresse_numero"] =
+                obj.adresse_numero;
+              mutationsObj[obj.id_mutation]["date"] = this.formatDate(
+                obj.date_mutation
+              );
+              mutationsObj[obj.id_mutation]["price"] = this.formatPrice(
+                obj.valeur_fonciere
+              );
+              mutationsObj[obj.id_mutation]["assets"] = [];
+            }
+            if (obj.type_local) {
+              let asset = {};
+              let complement_type = "";
+              if (obj.nombre_pieces_principales) {
+                complement_type = " / " + obj.nombre_pieces_principales + "p";
+              }
+              asset["type"] = obj.type_local + complement_type;
+              asset["surface"] = this.formatSurface(obj.surface_reelle_bati);
+              mutationsObj[obj.id_mutation]["assets"].push(asset);
+            }
+            if (obj.nature_culture) {
+              let asset = {};
+              asset["type"] = obj.nature_culture;
+              asset["surface"] = this.formatSurface(obj.surface_terrain);
+              mutationsObj[obj.id_mutation]["assets"].push(asset);
+            }
+            mutationsObj[obj.id_mutation]["assets"] = mutationsObj[
+              obj.id_mutation
+            ]["assets"].reduce((unique, o) => {
+              if (
+                !unique.some(
+                  (subobj) =>
+                    subobj.type === o.type && subobj.surface === o.surface
+                )
+              ) {
+                unique.push(o);
+              }
+              return unique;
+            }, []);
+            let sorter = (a, b) => {
+              if (a.type.includes("Appartement")) {
+                return -1;
+              }
+              if (b.type.includes("Appartement")) {
+                return 1;
+              }
+              return a.name < b.name ? -1 : 1;
+            };
+            mutationsObj[obj.id_mutation]["assets"].sort(sorter);
+            sorter = (a, b) => {
+              if (a.type.includes("Maison")) {
+                return -1;
+              }
+              if (b.type.includes("Maison")) {
+                return 1;
+              }
+              return a.name < b.name ? -1 : 1;
+            };
+            mutationsObj[obj.id_mutation]["assets"].sort(sorter);
+            this.parcellesMutations = mutationsObj;
+            console.log(this.parcellesMutations);
+            //console.log(obj)
+          }
+        });
+        //console.log(mutationsObj)
+      }
+    },
+    fetchMutationsData() {
+      if (this.userLocation.parcelle) {
+        var self = this;
+        let data = null;
+        var url =
+          process.env.VUE_APP_DVF_API +
+          "/mutations/" +
+          this.userLocation.parcelle.substring(0, 5) +
+          "/" +
+          this.userLocation.parcelle.substring(5, 10);
+        if (this.saveApiUrl.includes(url)) {
+          data = this.saveApiResponse[url];
+          this.manageMutationsData(data);
+        } else {
+          fetch(url)
+            .then((response) => {
+              return response.json();
+            })
+            .then((data) => {
+              this.sendApiResultToStore(url, data);
+              this.manageMutationsData(data);
+            });
         }
       }
     },
 
-    updateActiveFilter(f){
-      appStore.commit("updateActiveFilter",f)
-      this.$router.push({path: this.$route.path, query: { ...this.$route.query, filtre: f }}).catch(()=>{});
+    updateActiveFilter(f) {
+      appStore.commit("updateActiveFilter", f);
+      this.$router
+        .push({
+          path: this.$route.path,
+          query: { ...this.$route.query, filtre: f },
+        })
+        .catch(() => {});
     },
 
-    formatDate(date){
-      var d = new Date(date)
-      const options = { year: 'numeric', month: 'long', day: 'numeric' };
-      return d.toLocaleDateString("fr-Fr",options)
+    formatDate(date) {
+      var d = new Date(date);
+      const options = { year: "numeric", month: "long", day: "numeric" };
+      return d.toLocaleDateString("fr-Fr", options);
     },
 
-    formatPrice(price){
+    formatPrice(price) {
       if (price) {
-        var p = parseInt(price).toLocaleString()+" €"
-        return p
+        var p = parseInt(price).toLocaleString() + " €";
+        return p;
       } else {
-        return "Non renseigné"
+        return "Non renseigné";
       }
     },
 
-    formatSurface(surface){
-      if(surface) {
-        var s = parseInt(surface).toLocaleString()+" m²"
-        return s
+    formatSurface(surface) {
+      if (surface) {
+        var s = parseInt(surface).toLocaleString() + " m²";
+        return s;
       } else {
-        return null
+        return null;
       }
     },
 
-    sendApiResultToStore(url, data){
-      let obj = {}
-      obj.url = url
-      obj.data = data
-      appStore.commit("addApiResult", obj)
+    sendApiResultToStore(url, data) {
+      let obj = {};
+      obj.url = url;
+      obj.data = data;
+      appStore.commit("addApiResult", obj);
     },
-    goToPartner(partner){
-      if (this.userLocation.level == "departement"){
-        if (partner == 'arcep') { 
-          window.open("https://maconnexioninternet.arcep.fr/?lat=" + CenterDeps[this.userLocation.dep]["coordinates"][1] + '&lng=' + CenterDeps[this.userLocation.dep]["coordinates"][0] + '&zoom=' + this.mapProperties.zoomLevel + '&mode=normal')
+    goToPartner(partner) {
+      if (this.userLocation.level == "departement") {
+        if (partner == "arcep") {
+          window.open(
+            "https://maconnexioninternet.arcep.fr/?lat=" +
+              CenterDeps[this.userLocation.dep]["coordinates"][1] +
+              "&lng=" +
+              CenterDeps[this.userLocation.dep]["coordinates"][0] +
+              "&zoom=" +
+              this.mapProperties.zoomLevel +
+              "&mode=normal"
+          );
         }
-        if (partner == 'acceslibre') { 
-          window.open("https://acceslibre.beta.gouv.fr/recherche/?what=&where=" + this.userLocation.depName + "&lat=" + CenterDeps[this.userLocation.dep]["coordinates"][1] + "&lon=" + CenterDeps[this.userLocation.dep]["coordinates"][0] + "&code=" + this.userLocation.dep)
+        if (partner == "acceslibre") {
+          window.open(
+            "https://acceslibre.beta.gouv.fr/recherche/?what=&where=" +
+              this.userLocation.depName +
+              "&lat=" +
+              CenterDeps[this.userLocation.dep]["coordinates"][1] +
+              "&lon=" +
+              CenterDeps[this.userLocation.dep]["coordinates"][0] +
+              "&code=" +
+              this.userLocation.dep
+          );
         }
-        if (partner == 'ign') { 
-          window.open("https://www.geoportail-urbanisme.gouv.fr/map/#tile=1&zoom=" + this.mapProperties.zoomLevel + "&lon=" + CenterDeps[this.userLocation.dep]["coordinates"][0] + "&lat=" + CenterDeps[this.userLocation.dep]["coordinates"][1])
+        if (partner == "ign") {
+          window.open(
+            "https://www.geoportail-urbanisme.gouv.fr/map/#tile=1&zoom=" +
+              this.mapProperties.zoomLevel +
+              "&lon=" +
+              CenterDeps[this.userLocation.dep]["coordinates"][0] +
+              "&lat=" +
+              CenterDeps[this.userLocation.dep]["coordinates"][1]
+          );
         }
       } else {
-        let url = "https://geo.api.gouv.fr/communes?code=" + this.userLocation.com + "&fields=centre"
+        let url =
+          "https://geo.api.gouv.fr/communes?code=" +
+          this.userLocation.com +
+          "&fields=centre";
         fetch(url)
-        .then((response) => {
-            return response.json()
-        })
-        .then((data) => {
-          if (partner == 'arcep') { 
-            window.open("https://maconnexioninternet.arcep.fr/?lat=" + data[0]["centre"]["coordinates"][1] + '&lng=' + data[0]["centre"]["coordinates"][0] + '&zoom=' + this.mapProperties.zoomLevel + '&mode=normal')
-          }
-          if (partner == 'brgm') { 
-            window.open("https://www.georisques.gouv.fr/mes-risques/connaitre-les-risques-pres-de-chez-moi/rapport2?form-adresse=true&isCadastre=false&city=" + this.userLocation.comName + "&type=housenumber&typeForm=commune&codeInsee=" + this.userLocation.com + "&lon=" + data[0]["centre"]["coordinates"][0] + "&lat=" +  data[0]["centre"]["coordinates"][1] + "&go_back=%2F")
-          }
-          if (partner == 'acceslibre') { 
-            window.open("https://acceslibre.beta.gouv.fr/recherche/?what=&where=" + this.userLocation.comName + "&lat=" + data[0]["centre"]["coordinates"][1] + "&lon=" + data[0]["centre"]["coordinates"][0] + "&code=" + this.userLocation.com)
-          }
-          if (partner == 'ign') { 
-            window.open("https://www.geoportail-urbanisme.gouv.fr/map/#tile=1&zoom=" + this.mapProperties.zoomLevel + "&lon=" + data[0]["centre"]["coordinates"][0] + "&lat=" + data[0]["centre"]["coordinates"][1] + "&mlon=" + data[0]["centre"]["coordinates"][0] + "&mlat=" + data[0]["centre"]["coordinates"][1])
-          }
-        })
+          .then((response) => {
+            return response.json();
+          })
+          .then((data) => {
+            if (partner == "arcep") {
+              window.open(
+                "https://maconnexioninternet.arcep.fr/?lat=" +
+                  data[0]["centre"]["coordinates"][1] +
+                  "&lng=" +
+                  data[0]["centre"]["coordinates"][0] +
+                  "&zoom=" +
+                  this.mapProperties.zoomLevel +
+                  "&mode=normal"
+              );
+            }
+            if (partner == "brgm") {
+              window.open(
+                "https://www.georisques.gouv.fr/mes-risques/connaitre-les-risques-pres-de-chez-moi/rapport2?form-adresse=true&isCadastre=false&city=" +
+                  this.userLocation.comName +
+                  "&type=housenumber&typeForm=commune&codeInsee=" +
+                  this.userLocation.com +
+                  "&lon=" +
+                  data[0]["centre"]["coordinates"][0] +
+                  "&lat=" +
+                  data[0]["centre"]["coordinates"][1] +
+                  "&go_back=%2F"
+              );
+            }
+            if (partner == "acceslibre") {
+              window.open(
+                "https://acceslibre.beta.gouv.fr/recherche/?what=&where=" +
+                  this.userLocation.comName +
+                  "&lat=" +
+                  data[0]["centre"]["coordinates"][1] +
+                  "&lon=" +
+                  data[0]["centre"]["coordinates"][0] +
+                  "&code=" +
+                  this.userLocation.com
+              );
+            }
+            if (partner == "ign") {
+              window.open(
+                "https://www.geoportail-urbanisme.gouv.fr/map/#tile=1&zoom=" +
+                  this.mapProperties.zoomLevel +
+                  "&lon=" +
+                  data[0]["centre"]["coordinates"][0] +
+                  "&lat=" +
+                  data[0]["centre"]["coordinates"][1] +
+                  "&mlon=" +
+                  data[0]["centre"]["coordinates"][0] +
+                  "&mlat=" +
+                  data[0]["centre"]["coordinates"][1]
+              );
+            }
+          });
       }
     },
-    getGeoLabel(){
-      var label = ""
+    getGeoLabel() {
+      var label = "";
 
-      if(this.level === 'fra'){
-        label = ""
-      }else if(this.level === 'departement'){
-        label = " ("+this.userLocation.depName+")"
-      }else if(this.level === 'commune'){
-        label = " ("+this.userLocation.comName+")"
-      }else if(this.level === 'section'){
-        label = " ("+this.userLocation.section+")"
-      }else if(this.level === 'parcelle'){
-        label = " ("+this.userLocation.parcelle+")"
+      if (this.level === "fra") {
+        label = "";
+      } else if (this.level === "departement") {
+        label = " (" + this.userLocation.depName + ")";
+      } else if (this.level === "commune") {
+        label = " (" + this.userLocation.comName + ")";
+      } else if (this.level === "section") {
+        label = " (" + this.userLocation.section + ")";
+      } else if (this.level === "parcelle") {
+        label = " (" + this.userLocation.parcelle + ")";
       }
 
-      return label
+      return label;
     },
 
-    getMutationPicto(){
-      return "../assets/images/appartement.svg"
+    getMutationPicto() {
+      return "../assets/images/appartement.svg";
     },
 
-    changeLeftColOpening(){
-      if(this.leftColOpening == "close"||this.leftColOpening == "semiopen"){
-        this.leftColOpening = "open"
-      }else{
-        this.leftColOpening = "close"
-      } 
-    },
-
-    toggleLinks(){
-      if(this.openLinks==false){
-        this.openLinks=true
-      }else{
-        this.openLinks=false
+    changeLeftColOpening() {
+      if (this.leftColOpening == "close" || this.leftColOpening == "semiopen") {
+        this.leftColOpening = "open";
+      } else {
+        this.leftColOpening = "close";
       }
-    }
+    },
+
+    toggleLinks() {
+      if (this.openLinks == false) {
+        this.openLinks = true;
+      } else {
+        this.openLinks = false;
+      }
+    },
   },
   watch: {
-    
     // level: {
     //   handler(value) {
     //     this.fetchHistoricalData(value)
     //   }
     // },
-    level(){
-      this.fetchHistoricalData(this.level)
-      if(this.leftColOpening == "close"){ this.leftColOpening = "semiopen"}
+    level() {
+      this.fetchHistoricalData(this.level);
+      if (this.leftColOpening == "close") {
+        this.leftColOpening = "semiopen";
+      }
       //this.buildClientData()
     },
-    dep(){
-      this.fetchHistoricalData(this.level)
+    dep() {
+      this.fetchHistoricalData(this.level);
     },
-    com(){
-      this.fetchHistoricalData(this.level)
+    com() {
+      this.fetchHistoricalData(this.level);
     },
-    section(){
-      this.fetchHistoricalData(this.level)
+    section() {
+      this.fetchHistoricalData(this.level);
     },
-    parcelle(){
-      this.fetchMutationsData(this.parcelle)
+    parcelle() {
+      this.fetchMutationsData(this.parcelle);
     },
-    apiResult(){
-      this.buildClientData()
-      this.storeApiData()
+    apiResult() {
+      this.buildClientData();
+      this.storeApiData();
     },
-    activeFilter(){
-      this.buildClientData()
-    }
-  }
-}
-
+    activeFilter() {
+      this.buildClientData();
+    },
+  },
+};
 </script>
 
 <style scoped>
-
-.leftCol{
+.leftCol {
   position: relative;
   display: inline-block;
   width: 30%;
-  float:left;
+  float: left;
   padding-left: 20px;
   padding-right: 20px;
   height: 100%;
   overflow: scroll;
 }
 
-.leftColOpener{
+.leftColOpener {
   display: none;
 }
 
-.header_container{
+.header_container {
   padding-bottom: 10px;
 }
 
-.intro_title{
+.intro_title {
   font-size: 28px;
   line-height: 38px;
   margin-bottom: 5px;
   margin-top: 10px;
 }
 
-.intro_text{
+.intro_text {
   font-size: 14px;
   line-height: 24px;
 }
 
-.ariane_container{
+.ariane_container {
   width: 100%;
   margin-top: 20px;
 }
 
-.ariane_container div{
+.ariane_container div {
   display: inline-block;
   font-size: 12px;
-  color:#666666;
+  color: #666666;
 }
 
-.ariane_container div span{
+.ariane_container div span {
   text-decoration: underline;
 }
 
-.ariane_container div:before{
+.ariane_container div:before {
   content: ">";
-  margin:0 5px 0 5px;
+  margin: 0 5px 0 5px;
   text-decoration: none;
 }
 
-.ariane_container div:first-child:before{
+.ariane_container div:first-child:before {
   display: none;
 }
 
-.location_container{
+.location_container {
   width: 100%;
   margin-top: 10px;
   margin-bottom: 20px;
 }
 
-.location_title{
+.location_title {
   font-weight: 700;
   font-size: 12px;
-  color:#3A3A3A;
+  color: #3a3a3a;
 }
 
-.location_label{
+.location_label {
   font-weight: 800;
   font-size: 28px;
-  color:#161616;
+  color: #161616;
 }
 
-.global_numbers_container{
+.global_numbers_container {
   padding-top: 20px;
   padding-bottom: 20px;
-  border-bottom: 1px solid #E5E5E5;
-  border-top: 1px solid #E5E5E5;
+  border-bottom: 1px solid #e5e5e5;
+  border-top: 1px solid #e5e5e5;
 }
 
-.global_number_wrapper{
+.global_number_wrapper {
   width: 50%;
   display: inline-block;
 }
 
-.global_number_title{
+.global_number_title {
   font-weight: 700;
   font-size: 12px;
-  color:#3A3A3A;
+  color: #3a3a3a;
   line-height: 16px;
 }
 
-.global_number_value{
+.global_number_value {
   font-weight: 800;
   font-size: 24px;
-  color:#161616;
+  color: #161616;
 }
 
-.tab_container{
+.tab_container {
   padding-top: 20px;
   padding-bottom: 20px;
-  border-bottom: 1px solid #E5E5E5;
+  border-bottom: 1px solid #e5e5e5;
 }
 
-.tab_container table{
+.tab_container table {
   width: 100%;
   text-align: center;
-  margin:0 auto;
+  margin: 0 auto;
 }
 
-.tab_container table th{
+.tab_container table th {
   font-size: 12px;
   font-weight: 400;
 }
 
-.tab_container table th svg{
+.tab_container table th svg {
   width: 12px;
   height: 12px;
-  transform:translate(0,1px);
+  transform: translate(0, 1px);
 }
 
-.tab_container table th.hide{
+.tab_container table th.hide {
   opacity: 0.3;
 }
 
-.tab_container table th.left{
+.tab_container table th.left {
   text-align: left;
 }
 
-.tab_container table td{
+.tab_container table td {
   font-size: 12px;
   font-weight: 700;
 }
 
-.tab_container table td.hide{
+.tab_container table td.hide {
   opacity: 0.3;
 }
 
-
-.chart_container{
+.chart_container {
   padding-top: 20px;
   padding-bottom: 20px;
-  border-bottom: 1px solid #E5E5E5;
+  border-bottom: 1px solid #e5e5e5;
   position: relative;
 }
 
-.links_container{
+.links_container {
   padding-top: 0px;
   padding-bottom: 5px;
-  border-bottom: 1px solid #E5E5E5;
+  border-bottom: 1px solid #e5e5e5;
   height: 35px;
   overflow: hidden;
   position: relative;
 }
 
-.links_container[data-open="open"]{
+.links_container[data-open="open"] {
   height: auto;
 }
 
-.links_title{
+.links_title {
   font-size: 14px;
   font-weight: 400;
   margin-bottom: 20px;
   position: relative;
-  left:10px;
+  left: 10px;
   cursor: pointer;
 }
 
-.links_title svg{
+.links_title svg {
   position: absolute;
-  right:20px;
-  top:50%;
-  transform:translate(0,-50%) rotate(180deg);
+  right: 20px;
+  top: 50%;
+  transform: translate(0, -50%) rotate(180deg);
 }
 
-.links_container[data-open="open"] .links_title{
+.links_container[data-open="open"] .links_title {
   font-weight: 700;
 }
 
-.links_container[data-open="open"] .links_title svg{
-  transform:translate(0,-50%) rotate(0deg); 
+.links_container[data-open="open"] .links_title svg {
+  transform: translate(0, -50%) rotate(0deg);
 }
 
-.chart_title{
+.chart_title {
   font-size: 12px;
   font-weight: 700;
   line-height: 16px;
 }
 
-.chart_geo{
+.chart_geo {
   font-size: 12px;
   font-weight: 700;
   line-height: 16px;
 }
 
-.chart_info_btn{
-  display: inline-block; 
+.chart_info_btn {
+  display: inline-block;
   margin-left: 5px;
   position: relative;
-  top:3px;
+  top: 3px;
   width: 15px;
   height: 15px;
   border-radius: 50%;
-  background-color: #E6EEFE;
+  background-color: #e6eefe;
   cursor: pointer;
 }
 
-.chart_info_bulle{
+.chart_info_bulle {
   position: absolute;
   width: 80%;
   font-size: 12px;
   font-weight: 400;
   background-color: white;
-  left:50%;
-  top:50px;
-  transform: translate(-50%,0);
+  left: 50%;
+  top: 50px;
+  transform: translate(-50%, 0);
   padding: 10px;
   line-height: 16px;
   border-radius: 5px;
   display: block;
-  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.16), 0px 1px 0px -2px rgba(0, 0, 0, 0.16), 0px 1px 4px rgba(0, 0, 0, 0.23);
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.16),
+    0px 1px 0px -2px rgba(0, 0, 0, 0.16), 0px 1px 4px rgba(0, 0, 0, 0.23);
 }
 
-.chart_info_btn div{
+.chart_info_btn div {
   display: block;
   position: absolute;
-  left:50%;
-  top:50%;
-  transform:translate(-50%,-50%);
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
   font-size: 12px;
   font-weight: 700;
 }
 
-.mutations_container{
+.mutations_container {
   margin-top: 30px;
 }
 
-.mutations_total{
+.mutations_total {
   font-size: 12px;
   font-weight: 700;
   line-height: 16px;
@@ -883,61 +996,61 @@ export default {
   margin-bottom: 25px;
 }
 
-.mutation_box{
+.mutation_box {
   width: 100%;
   /*max-width: 450px;*/
-  min-height:50px;
-  margin:0 auto 35px;
+  min-height: 50px;
+  margin: 0 auto 35px;
 }
 
-.mutation_box .content{
-  border:1px solid #eeeeee;
-  padding:20px;
+.mutation_box .content {
+  border: 1px solid #eeeeee;
+  padding: 20px;
   position: relative;
 }
 
-.mutation_box .content .nature{
+.mutation_box .content .nature {
   position: absolute;
-  top:0;
+  top: 0;
   font-size: 12px;
   font-weight: 700;
-  color:#666666;
+  color: #666666;
   background-color: white;
-  border:1px solid #eeeeee;
+  border: 1px solid #eeeeee;
   border-radius: 4px;
   padding: 0 6px 0 6px;
-  text-transform:uppercase;
-  transform: translate(0,-50%);
+  text-transform: uppercase;
+  transform: translate(0, -50%);
 }
 
-.mutation_box .content .price{
+.mutation_box .content .price {
   font-size: 18px;
   font-weight: 800;
   display: block;
   color: #161616;
 }
 
-.mutation_box .content .infos{
+.mutation_box .content .infos {
   padding: 0 10px 0;
 }
 
-.mutation_box .content .topinfo{
+.mutation_box .content .topinfo {
   font-size: 12px;
-  color:#666666;
+  color: #666666;
   font-weight: 400;
   display: block;
   height: 20px;
 }
 
-.mutation_box .content .topinfo img{
+.mutation_box .content .topinfo img {
   vertical-align: middle;
 }
 
-.mutation_box .content .date{
+.mutation_box .content .date {
   margin-bottom: 10px;
 }
 
-.infos_item{
+.infos_item {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -945,17 +1058,17 @@ export default {
   align-items: center;
 }
 
-.infos_item .title{
+.infos_item .title {
   font-size: 12px;
   font-weight: 400;
-  color:#161616;
+  color: #161616;
 }
 
-.infos_item .title img{
+.infos_item .title img {
   vertical-align: middle;
 }
 
-.infos_item .filet{
+.infos_item .filet {
   width: auto;
   height: 1px;
   background-color: #eeeeee;
@@ -964,41 +1077,38 @@ export default {
   margin-right: 10px;
 }
 
-.infos_item .value{
+.infos_item .value {
   font-size: 12px;
   font-weight: 700;
-  color:#161616;
+  color: #161616;
 }
 
-.cardPartner{
+.cardPartner {
   padding-bottom: 10px;
   display: flex;
   cursor: pointer;
 }
 
-.textPartner{
-  color:#3558A2;
+.textPartner {
+  color: #3558a2;
   font-size: 12px;
   font-weight: 700;
   line-height: 12px;
 }
 
-@media screen and (max-width: 1279px){
-
-  .leftCol{
+@media screen and (max-width: 1279px) {
+  .leftCol {
     width: 40%;
   }
-
 }
 
-@media screen and (max-width: 767px){
-
-  .leftCol{
+@media screen and (max-width: 767px) {
+  .leftCol {
     position: absolute;
     width: 95%;
-    left:50%;
-    top:70%;
-    transform:translate(-50%,-40px);
+    left: 50%;
+    top: 70%;
+    transform: translate(-50%, -40px);
     z-index: 99;
     background-color: white;
     padding-top: 25px;
@@ -1007,42 +1117,38 @@ export default {
     transition: all 0.3s ease-in-out;
   }
 
-  .leftCol.close{
-    top:100%;
+  .leftCol.close {
+    top: 100%;
   }
 
-  .leftCol.open{
-    top:10%;
+  .leftCol.open {
+    top: 10%;
     overflow: scroll;
   }
 
-  .leftCol.semiopen{
-    top:70%;
+  .leftCol.semiopen {
+    top: 70%;
   }
 
-  .leftColOpener{
+  .leftColOpener {
     display: block;
     height: 40px;
     position: absolute;
-    padding-top:10px;
-    top:0;
-    left:50%;
-    transform:translate(-50%,0);
+    padding-top: 10px;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, 0);
     width: 100%;
     text-align: center;
   }
 
-  .leftColOpener svg{
+  .leftColOpener svg {
     position: relative;
-    top:0;
+    top: 0;
   }
 
-  .leftCol.open .leftColOpener{
-    transform:translate(-50%,0) rotate(180deg);
+  .leftCol.open .leftColOpener {
+    transform: translate(-50%, 0) rotate(180deg);
   }
-
-  
 }
-
-
 </style>
