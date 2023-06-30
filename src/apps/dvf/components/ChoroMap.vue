@@ -54,7 +54,7 @@ import appStore from "@/apps/dvf/store";
 import SearchBar from "@/apps/dvf/components/SearchBar";
 import FiltersBox from "@/apps/dvf/components/FiltersBox";
 
-import { Map } from "maplibre-gl";
+import { Map, GeolocateControl } from "maplibre-gl";
 
 import { markRaw } from "vue";
 import styleVector from "@/apps/dvf/assets/json/vector-dvf.json";
@@ -644,6 +644,15 @@ export default {
             }, 500);
           }
         });
+
+        this.map.addControl(
+          new GeolocateControl({
+            positionOptions: {
+              enableHighAccuracy: true,
+            },
+            trackUserLocation: true,
+          })
+        );
       });
   },
   methods: {
