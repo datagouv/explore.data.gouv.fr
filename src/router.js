@@ -27,7 +27,7 @@ export default new Router({
       component: AppRuptureCarburant
     },*/
     {
-      path: '/dvf',
+      path: '/immobilier',
       name: 'AppDvf',
       component: AppDvf
     },
