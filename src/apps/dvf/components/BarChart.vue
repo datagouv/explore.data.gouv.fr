@@ -44,7 +44,7 @@ export default {
   methods: {
     updateData(code) {
       var self = this;
-      fetch("https://api-dvf.preprod.data.gouv.fr/distribution/" + code)
+      fetch(process.env.VUE_APP_DVF_API + "/distribution/" + code)
         .then((response) => {
           return response.json();
         })
@@ -67,7 +67,7 @@ export default {
 
       switch (this.activeFilter) {
         case "tous":
-          filter = "apt+maison";
+          filter = "apt_maison";
           break;
         case "maison":
           filter = "maison";
@@ -85,7 +85,6 @@ export default {
       }
 
       var filteredData = this.barData[filter];
-
       if (filteredData["xaxis"]) {
         filteredData["xaxis"].forEach(function (d) {
           self.labels.push(d[0]);

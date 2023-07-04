@@ -7,7 +7,7 @@ import AppDvf from './apps/dvf/AppDvf.vue'
 
 Vue.use(Router)
 
-export default new Router({  
+export default new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
@@ -28,6 +28,11 @@ export default new Router({
     },*/
     {
       path: '/dvf',
+      name: 'AppDvf',
+      component: AppDvf
+    },
+    {
+      path: '/immobilier',
       name: 'AppDvf',
       component: AppDvf
     },

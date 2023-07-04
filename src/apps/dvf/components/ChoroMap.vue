@@ -90,17 +90,17 @@ export default {
       fetching: false,
       fetchedCommunes: [],
       mappingPropertiesPrix: {
-        tous: "moy_prix_m2_appart_maison_5ans",
-        maison: "moy_prix_m2_maison_5ans",
-        appartement: "moy_prix_m2_appart_5ans",
-        local: "moy_prix_m2_local_5ans",
+        tous: "med_prix_m2_whole_apt_maison",
+        maison: "med_prix_m2_whole_maison",
+        appartement: "med_prix_m2_whole_appartement",
+        local: "med_prix_m2_whole_local",
       },
       mappingPropertiesFillLayer: {
         fra: "epcis_fill",
         departement: "communes_fill",
         commune: "sections_fill",
       },
-      actualPropertyPrix: "moy_prix_m2_appart_maison_5ans",
+      actualPropertyPrix: "med_prix_m2_whole_apt_maison",
       mousePosition: {
         dep: {
           code: null,
@@ -172,6 +172,9 @@ export default {
     },
     searchBarCoordinates: function () {
       return appStore.state.searchBarCoordinates;
+    },
+    parcellesAdjacentes: function () {
+      return appStore.state.parcellesAdjacentes;
     },
   },
   mounted() {
@@ -258,8 +261,8 @@ export default {
               "fill-color": "rgba(0,0,0,0)",
               "fill-opacity": 0.8,
             },
-            minzoom: 11,
-            maxzoom: 15,
+            minzoom: 10,
+            maxzoom: 14,
           };
 
           const sectionsLineLayer = {
@@ -301,7 +304,7 @@ export default {
               "fill-opacity": 0,
             },
             minzoom: 11,
-            maxzoom: 15,
+            maxzoom: 14,
           };
 
           const communesLineLayer = {
@@ -395,10 +398,25 @@ export default {
               this.userLocation.level == "departement" &&
               this.userLocation.dep == this.mouseLocation.dep
             ) {
+              let zoom = 12;
+              // if (parseInt(this.userLocation.dep.substring(0, 2)) >= 97) {
+              //   zoom = 14;
+              // }
               this.changeCom = true;
+              let comToChange = ["751", "132", "693"];
+              let littleDep = ["92", "93", "94"];
+              console.log(this.mousePosition);
+              if (
+                comToChange.includes(
+                  this.mousePosition.com.code.substring(0, 3)
+                ) ||
+                littleDep.includes(this.mousePosition.dep.code)
+              ) {
+                zoom = 13.5;
+              }
               this.map.flyTo({
                 center: [e.lngLat.lng, e.lngLat.lat],
-                zoom: 12,
+                zoom: zoom,
               });
             }
           });
@@ -489,17 +507,20 @@ export default {
           this.map.on("click", "communes_fill2", (e) => {
             let comId = e.features[0]["properties"]["code"];
             let comToChange = ["75056", "13055", "69123"];
+            let zoom = 12;
             if (comToChange.includes(comId)) {
               comId = e.features[1]["properties"]["code"];
+              console.log("ici c paris");
+              zoom = 13.5;
             }
             if (this.userLocation.com != comId) {
               this.mousePosition.com.code = comId;
               this.mousePosition.com.nom = e.features[0]["properties"]["nom"];
               this.changeCom = true;
-              if (this.map.getZoom() <= 15) {
+              if (this.map.getZoom() <= 14) {
                 this.map.flyTo({
                   center: [e.lngLat.lng, e.lngLat.lat],
-                  zoom: 12,
+                  zoom: zoom,
                 });
               }
             }
@@ -522,7 +543,7 @@ export default {
             // if mouseover is on other commune than the actual one
             if (comId != this.userLocation.com) {
               // if we are on level departement, we display commune on tooltip
-              if (comId.substring(0, 2) == this.userLocation.dep) {
+              if (this.getCode(comId) == this.userLocation.dep) {
                 if (!this.changeCom) {
                   this.mousePosition.com.code = comId;
                   this.mousePosition.com.nom =
@@ -589,11 +610,22 @@ export default {
           ) {
             this.mousePosition.section.code = sectionId;
             this.mousePosition.section.nom = sectionId;
-
-            if (this.map.getZoom() <= 15) {
+            let zoom = 15;
+            let comToChange = ["751", "132", "693"];
+            let littleDep = ["92", "93", "94"];
+            console.log(this.mousePosition);
+            if (
+              comToChange.includes(
+                this.mousePosition.com.code.substring(0, 3)
+              ) ||
+              littleDep.includes(this.mousePosition.dep.code)
+            ) {
+              zoom = 16;
+            }
+            if (this.map.getZoom() <= 14) {
               this.map.flyTo({
                 center: [e.lngLat.lng, e.lngLat.lat],
-                zoom: 17,
+                zoom: zoom,
               });
               //this.changeLocation("changeUserLocation", "section", sectionId)
             }
@@ -630,10 +662,11 @@ export default {
                     this.mousePosition.com.code =
                       this.$route.query.code.substring(0, 5);
                     this.mousePosition.com.nom = data[0]["nom"];
-                    this.mousePosition.dep.code =
-                      this.$route.query.code.substring(0, 2);
+                    this.mousePosition.dep.code = this.getCode(
+                      this.$route.query.code
+                    );
                     this.mousePosition.dep.nom =
-                      CenterDeps[this.$route.query.code.substring(0, 2)]["nom"];
+                      CenterDeps[this.getCode(this.$route.query.code)]["nom"];
                     this.map.flyTo({
                       center: data[0]["centre"]["coordinates"],
                       zoom: 12,
@@ -661,13 +694,91 @@ export default {
         this.mapStyle = "ortho";
         this.map.setLayoutProperty("simple-tiles", "visibility", "visible");
         this.map.setLayoutProperty("background", "visibility", "none");
+        this.map.setLayoutProperty("landcover-grass", "visibility", "none");
+        this.map.setLayoutProperty(
+          "landcover-grass-park",
+          "visibility",
+          "none"
+        );
+        this.map.setLayoutProperty("waterway_tunnel", "visibility", "none");
+        this.map.setLayoutProperty("waterway-other", "visibility", "none");
+        this.map.setLayoutProperty(
+          "waterway-other-intermittent",
+          "visibility",
+          "none"
+        );
+        this.map.setLayoutProperty(
+          "waterway-stream-canal",
+          "visibility",
+          "none"
+        );
+        this.map.setLayoutProperty(
+          "waterway-stream-canal-intermittent",
+          "visibility",
+          "none"
+        );
+        this.map.setLayoutProperty("waterway-river", "visibility", "none");
+        this.map.setLayoutProperty(
+          "waterway-river-intermittent",
+          "visibility",
+          "none"
+        );
+        this.map.setLayoutProperty("water-offset", "visibility", "none");
+        this.map.setLayoutProperty("water", "visibility", "none");
+        this.map.setLayoutProperty("water-intermittent", "visibility", "none");
+        this.map.setLayoutProperty("boundary-water", "visibility", "none");
       } else {
         this.mapStyle = "vector";
         this.map.setLayoutProperty("simple-tiles", "visibility", "none");
         this.map.setLayoutProperty("background", "visibility", "visible");
+        this.map.setLayoutProperty("landcover-grass", "visibility", "visible");
+        this.map.setLayoutProperty(
+          "landcover-grass-park",
+          "visibility",
+          "visible"
+        );
+        this.map.setLayoutProperty("waterway_tunnel", "visibility", "visible");
+        this.map.setLayoutProperty("waterway-other", "visibility", "visible");
+        this.map.setLayoutProperty(
+          "waterway-other-intermittent",
+          "visibility",
+          "visible"
+        );
+        this.map.setLayoutProperty(
+          "waterway-stream-canal",
+          "visibility",
+          "visible"
+        );
+        this.map.setLayoutProperty(
+          "waterway-stream-canal-intermittent",
+          "visibility",
+          "visible"
+        );
+        this.map.setLayoutProperty("waterway-river", "visibility", "visible");
+        this.map.setLayoutProperty(
+          "waterway-river-intermittent",
+          "visibility",
+          "visible"
+        );
+        this.map.setLayoutProperty("water-offset", "visibility", "visible");
+        this.map.setLayoutProperty("water", "visibility", "visible");
+        this.map.setLayoutProperty(
+          "water-intermittent",
+          "visibility",
+          "visible"
+        );
+        this.map.setLayoutProperty("boundary-water", "visibility", "visible");
+      }
+    },
+    getCode(code) {
+      if (parseInt(code.substring(0, 2)) >= 97) {
+        return code.substring(0, 3);
+      } else {
+        return code.substring(0, 2);
       }
     },
     changeLocation(commitFunction, level, code, name) {
+      this.fetching = false;
       let obj = {};
       if (level == "fra") {
         obj.level = "fra";
@@ -692,9 +803,10 @@ export default {
         obj.parcelleName = null;
       }
       if (level == "commune") {
+        let parse_code = this.getCode(code);
         obj.level = "commune";
-        obj.dep = code.substring(0, 2);
-        obj.depName = CenterDeps[code.substring(0, 2)]["nom"];
+        obj.dep = parse_code;
+        obj.depName = CenterDeps[parse_code]["nom"];
         obj.com = code;
         obj.comName = name;
         obj.section = null;
@@ -703,9 +815,10 @@ export default {
         obj.parcelleName = null;
       }
       if (level == "section") {
+        let parse_code = this.getCode(code);
         obj.level = "section";
-        obj.dep = code.substring(0, 2);
-        obj.depName = CenterDeps[code.substring(0, 2)]["nom"];
+        obj.dep = parse_code;
+        obj.depName = CenterDeps[parse_code]["nom"];
         obj.com = code.substring(0, 5);
         obj.comName = this.userLocation.comName;
         obj.section = code;
@@ -717,9 +830,10 @@ export default {
         obj.parcelleName = null;
       }
       if (level == "parcelle") {
+        let parse_code = this.getCode(code);
         obj.level = "parcelle";
-        obj.dep = code.substring(0, 2);
-        obj.depName = CenterDeps[code.substring(0, 2)]["nom"];
+        obj.dep = parse_code;
+        obj.depName = CenterDeps[parse_code]["nom"];
         obj.com = code.substring(0, 5);
         obj.comName = this.userLocation.comName;
         obj.section = code.substring(0, 10);
@@ -967,7 +1081,7 @@ export default {
           url =
             process.env.VUE_APP_DVF_API +
             "/departement/" +
-            code.substring(0, 2) +
+            this.getCode(code) +
             "/communes";
         } else if (this.userLocation.level == "commune") {
           url =
@@ -1039,14 +1153,33 @@ export default {
     },
   },
   watch: {
+    parcellesAdjacentes() {
+      let matchExpression = ["match", ["get", "id"]];
+      matchExpression.push(this.userLocation.parcelle, "rgba(255, 0, 0, 0.5)");
+      let parcellesToColorized = [];
+      for (const [key, value] of Object.entries(this.parcellesAdjacentes)) {
+        this.parcellesAdjacentes[key].forEach((obj) => {
+          if (!parcellesToColorized.includes(obj)) {
+            parcellesToColorized.push(obj);
+            matchExpression.push(obj, "rgba(255, 0, 0, 0.35)");
+          }
+        });
+      }
+      matchExpression.push("rgba(0, 0, 255, 0.2)");
+      this.map.setPaintProperty(
+        "parcelles_fill",
+        "fill-color",
+        matchExpression
+      );
+    },
     activeFilter() {
       this.manageChloroplethColors();
     },
     searchBarCoordinates() {
-      appStore.commit("changeZoomLevel", 17);
+      appStore.commit("changeZoomLevel", 16);
       this.map.flyTo({
         center: this.searchBarCoordinates,
-        zoom: 17,
+        zoom: 16,
       });
     },
     zoomLevel() {
@@ -1063,8 +1196,7 @@ export default {
           this.manageChloroplethColors();
         }
       }
-      if (this.zoomLevel >= 8 && this.zoomLevel < 11) {
-        console.log(this.level);
+      if (this.zoomLevel >= 8 && this.zoomLevel < 12) {
         if (this.level != "departement" || this.changeDep) {
           this.map.setLayoutProperty("epcis_fill", "visibility", "none");
           this.map.setLayoutProperty("communes_fill", "visibility", "visible");
@@ -1079,7 +1211,7 @@ export default {
           this.manageChloroplethColors();
         }
       }
-      if (this.zoomLevel >= 11 && this.zoomLevel < 15) {
+      if (this.zoomLevel >= 12 && this.zoomLevel < 14) {
         if (this.level != "commune" || this.changeCom) {
           this.map.setLayoutProperty(
             "departements_fill",
@@ -1100,8 +1232,9 @@ export default {
           this.changeCom = false;
         }
       }
-      if (this.zoomLevel >= 15) {
-        if (this.level != "section") {
+      if (this.zoomLevel >= 14) {
+        if (this.level != "section" && this.parcelle === null) {
+          console.log(this.parcelle);
           this.map.setLayoutProperty("departements_fill", "visibility", "none");
           this.map.setLayoutProperty("epcis_fill", "visibility", "none");
           this.changeLocation(

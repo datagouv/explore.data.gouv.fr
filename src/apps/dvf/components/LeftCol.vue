@@ -88,6 +88,148 @@
             </div>
           </div>
         </div>
+        
+      <div class="links_container" v-if="level != 'fra' && parcellesDpeNb > 0" :data-open="(openDpe)?'open':''">
+          <div class="links_title" @click="toggleDpe()">Diagnostics de Performance Energétique (DPE) <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M4.99999 2.21917L1.69999 5.51916L0.757324 4.5765L4.99999 0.333832L9.24266 4.5765L8.29999 5.51916L4.99999 2.21917Z" fill="#161616"/></svg></div>
+          <div class="content-dpe">
+            <span v-if="parcellesDpeNb > 1">
+              Il semble qu'il y ait plusieurs bâtiments sur cette parcelle. Il y a donc plusieurs résultats DPE.<br />
+            </span>
+            <div v-for="item in parcellesDpe" v-bind:key="item['batiment_groupe_id']">
+              <span v-if="item['classe_bilan_dpe'] != null">
+                <div class="etiquette-dpe">
+                  <div>
+                    <span v-if="item['classe_bilan_dpe'] == 'A'">
+                      <div _ngcontent-lto-c101="" class="dpe-tag dpe-color-a">A</div>
+                    </span>
+                    <span v-if="item['classe_bilan_dpe'] == 'B'">
+                      <div _ngcontent-lto-c101="" class="dpe-tag dpe-color-b">B</div>
+                    </span>
+                    <span v-if="item['classe_bilan_dpe'] == 'C'">
+                      <div _ngcontent-lto-c101="" class="dpe-tag dpe-color-c">C</div>
+                    </span>
+                    <span v-if="item['classe_bilan_dpe'] == 'D'">
+                      <div _ngcontent-lto-c101="" class="dpe-tag dpe-color-d">D</div>
+                    </span>
+                    <span v-if="item['classe_bilan_dpe'] == 'E'">
+                      <div _ngcontent-lto-c101="" class="dpe-tag dpe-color-e">E</div>
+                    </span>
+                    <span v-if="item['classe_bilan_dpe'] == 'F'">
+                      <div _ngcontent-lto-c101="" class="dpe-tag dpe-color-f">F</div>
+                    </span>
+                    <span v-if="item['classe_bilan_dpe'] == 'G'">
+                      <div _ngcontent-lto-c101="" class="dpe-tag dpe-color-g">G</div>
+                    </span>
+                  </div>
+                  <div class="title-etiquette"><b>Consommation d'énergie</b></div>
+                </div>
+                <div class="etiquette-dpe">
+                  <div>
+                    <span v-if="item['classe_emission_ges'] == 'A'">
+                      <div _ngcontent-lto-c101="" class="dpe-tag dpe-color-a">A</div>
+                    </span>
+                    <span v-if="item['classe_emission_ges'] == 'B'">
+                      <div _ngcontent-lto-c101="" class="dpe-tag dpe-color-b">B</div>
+                    </span>
+                    <span v-if="item['classe_emission_ges'] == 'C'">
+                      <div _ngcontent-lto-c101="" class="dpe-tag dpe-color-c">C</div>
+                    </span>
+                    <span v-if="item['classe_emission_ges'] == 'D'">
+                      <div _ngcontent-lto-c101="" class="dpe-tag dpe-color-d">D</div>
+                    </span>
+                    <span v-if="item['classe_emission_ges'] == 'E'">
+                      <div _ngcontent-lto-c101="" class="dpe-tag dpe-color-e">E</div>
+                    </span>
+                    <span v-if="item['classe_emission_ges'] == 'F'">
+                      <div _ngcontent-lto-c101="" class="dpe-tag dpe-color-f">F</div>
+                    </span>
+                    <span v-if="item['classe_emission_ges'] == 'G'">
+                      <div _ngcontent-lto-c101="" class="dpe-tag dpe-color-g">G</div>
+                    </span>
+                  </div>
+                  <div class="title-etiquette"><b>Emission de gaz à effet de serre</b></div>
+                </div>
+                <div v-if="item['periode_construction_dpe'] != null">
+                  Période de construction : <b>{{ item['periode_construction_dpe'] }}</b>
+                </div>
+                <div v-if="item['nombre_niveau_immeuble'] != null">
+                  Immeuble sur <b>{{ item['nombre_niveau_immeuble'] }}</b> niveaux
+                </div>
+                <div v-if="item['surface_habitable_immeuble'] != null">
+                  Immeuble d'une superficie de <b>{{ item['surface_habitable_immeuble'] }}</b> m2
+                </div>
+              </span>
+              <div class="one-dpe"></div>
+            </div>
+            <div class="textPartner dpe-final" @click="goToPartner('cstb')">
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M4 2V3H1.5V8.5H7V6H8V9C8 9.27614 7.77614 9.5 7.5 9.5H1C0.723858 9.5 0.5 9.27614 0.5 9V2.5C0.5 2.22386 0.723858 2 1 2H4ZM9.5 0.5V5L7.603 3.1035L4.6035 6.1035L3.8965 5.3965L6.896 2.3965L5 0.5H9.5Z" fill="#3558A2"/></svg>Voir des infos complémentaires autour de la rénovation
+            </div>            
+            <div>Sources : <span class="textPartner" @click="goToPartner('bdnb')">BDNB</span></div>
+
+          </div>
+        </div>
+
+      <div class="links_container" v-if="level != 'fra' && parcellesCoproNb > 0" :data-open="(openCopro)?'open':''">
+          <div class="links_title" @click="toggleCopro()">Informations sur la Copropriété <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M4.99999 2.21917L1.69999 5.51916L0.757324 4.5765L4.99999 0.333832L9.24266 4.5765L8.29999 5.51916L4.99999 2.21917Z" fill="#161616"/></svg></div>
+          <div class="content-copro">
+            <span v-if="parcellesCoproNb > 1">
+              Il semble qu'il y ait plusieurs copropriétés référencés sur cette parcelle.
+            </span>
+            <div v-for="item in parcellesCopro" v-bind:key="item['numero_immatriculation']">
+              <div v-if="item['syndicat_principal_ou_secondaire'] != null && parcellesCoproNb > 1">
+                Syndicat principal : <b>{{ item['syndicat_principal_ou_secondaire'] }}</b>
+              </div>
+              <div v-if="item['syndicat_cooperatif'] != null">
+                Syndicat coopératif : <b>{{ item['syndicat_cooperatif'] }}</b>
+              </div>
+              <div v-if="item['identification_representant_legal'] != null">
+                Représentant légal : 
+                <span 
+                  class="textPartner dpe-final"
+                  v-if="item['siret_representant_legal'] != null"
+                  @click="goToPartner('annuaire', item['siret_representant_legal'])">
+                    {{ item['identification_representant_legal'] }}
+                </span>
+                <span v-else>
+                  <b>{{ item['identification_representant_legal'] }}</b>
+                </span>
+              </div>
+              <div v-if="item['nom_usage_copropriete'] != null">
+                Nom d'usage de la copropriété : <b>{{ item['nom_usage_copropriete'] }}</b>
+              </div>
+              <div v-if="item['numero_immatriculation'] != null">
+                Numéro d'immatriculation de la copropriété : <b>{{ item['numero_immatriculation'] }}</b>
+              </div>
+              <div v-if="item['nombre_total_lots'] != null">
+                Nombre total de lots : <b>{{ item['nombre_total_lots'] }}</b>
+              </div>
+              <div v-if="item['nombre_lots_usage_habitation'] != null">
+                Nombre de lots à usage d'habitation : <b>{{ item['nombre_lots_usage_habitation'] }}</b>
+              </div>
+              <div v-if="item['nombre_lots_stationnement'] != null">
+                Nombre de lots de stationnement : <b>{{ item['nombre_lots_stationnement'] }}</b>
+              </div>
+              <div v-if="item['mandat_en_cours_copropriete'] != null">
+                Mandat sur la propriété : <b>{{ item['mandat_en_cours_copropriete'] }}</b>
+              </div>
+              <div v-if="item['nombre_arretes_code_sante_publique_en_cours'] != null">
+                Arrêtés relevant du code de la santé publique en cours : <b>{{ item['nombre_arretes_code_sante_publique_en_cours'] }}</b>
+              </div>
+              <div v-if="item['nombre_arretes_peril_parties_communes_en_cours'] != null">
+                Arrêtés de péril sur les parties communes en cours : <b>{{ item['nombre_arretes_peril_parties_communes_en_cours'] }}</b>
+              </div>
+              <div v-if="item['nombre_arretes_equipements_communs_en_cours'] != null">
+                Arrêtés sur les équipements communs en cours : <b>{{ item['nombre_arretes_equipements_communs_en_cours'] }}</b>
+              </div>
+              <div class="one-copro"></div>
+            </div>
+            <div class="textPartner dpe-final" @click="goToPartner('anah')">
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M4 2V3H1.5V8.5H7V6H8V9C8 9.27614 7.77614 9.5 7.5 9.5H1C0.723858 9.5 0.5 9.27614 0.5 9V2.5C0.5 2.22386 0.723858 2 1 2H4ZM9.5 0.5V5L7.603 3.1035L4.6035 6.1035L3.8965 5.3965L6.896 2.3965L5 0.5H9.5Z" fill="#3558A2"/></svg>Consulter l'annuaire des copropriétés
+            </div>            
+            <div>Sources : <span class="textPartner" @click="goToPartner('copro')">Registre d'Immatriculation des Copropriétés</span></div>
+
+          </div>
+        </div>
 
       <div class="stats_container" v-if="level != 'parcelle'">
 
@@ -97,7 +239,7 @@
             <div class="global_number_value">{{clientData["totalVentes"]}}</div>
           </div>
           <div class="global_number_wrapper">
-            <div class="global_number_title">Prix de vente moyen au m²</div>
+            <div class="global_number_title">Prix de vente médian au m²</div>
             <div class="global_number_value">{{clientData["totalAverage"]}}</div>
           </div>
         </div>
@@ -126,7 +268,7 @@
         </div>
 
         <div class="chart_container">
-          <span class="chart_title">Evolution du prix de vente moyen au m²</span>
+          <span class="chart_title">Evolution du prix de vente median au m²</span>
           <span class="chart_geo">{{chartGeoLabel}}</span>
           <div class="chart_info_btn line_chart_info" @mouseover="hoveredBulle='line'" @mouseleave="hoveredBulle=''"><div>?</div></div>
           <div class="chart_info_bulle" v-if="hoveredBulle=='line'">Ce graphique indique l'évolution du prix au m² pour le type de biens sélectionné et l'échelle sélectionnée. Les prix au m² sont obtenus en divisant la valeur foncière du bien par sa surface au sol.</div>
@@ -145,18 +287,22 @@
       </div>
 
       <div class="mutations_container" v-if="level === 'parcelle'">
+        <div class="title_mutations">Liste des mutations immobilières</div>
         <div class="mutations_total">{{Object.keys(parcellesMutations).length}} mutations</div>
         <div class="mutation_box" v-bind:key="p['id']" v-for="p in parcellesMutations">
           <div class="content">
             <div class="nature">{{ p["nature_mutation"] }}</div>
             <span class="price">{{ p["price"] }}</span>
             <div class="infos">
-              <span class="topinfo adresse"><img src="../assets/images/pin.svg"/> {{p["adresse_numero"]}} {{p["adresse_nom_voie"].toLowerCase()}}</span>
-              <span class="topinfo id"><img src="../assets/images/id.svg"/> {{ p["id"] }}</span>
-              <span class="topinfo date"><img src="../assets/images/date.svg"/> {{ p["date"] }}</span>
+              <span class="topinfo adresse" v-if="p['adresse_nom_voie'] != null">
+                <img src="../assets/images/pin.svg"/>
+                {{p["adresse_numero"]}} {{p["adresse_nom_voie"].toLowerCase()}}
+              </span>
+              <span class="topinfo id" v-if="p['id'] != null"><img src="../assets/images/id.svg"/> {{ p["id"] }}</span>
+              <span class="topinfo date" v-if="p['date'] != null"><img src="../assets/images/date.svg"/> {{ p["date"] }}</span>
               
               <span v-for="item in p['assets']" class="infos_item">
-                <span class="title">
+                <span class="title" v-if="item['type'] != null">
                   <img v-if="item['type'].substring(0,4) === 'Dépe'" src="../assets/images/dependance.svg"/>
                   <img v-if="item['type'].substring(0,4) === 'Mais'" src="../assets/images/maison.svg"/>
                   <img v-if="item['type'].substring(0,4) === 'Loca'" src="../assets/images/local.svg"/>
@@ -165,7 +311,18 @@
                   {{ item["type"] }}
                 </span>
                 <div class="filet" v-if="item['surface']"></div>
-                <span class="value">{{ item["surface"] }}</span>
+                <span class="value" v-if="p['surface'] != null">{{ item["surface"] }}</span>
+              </span>
+
+              <span 
+                class="complInfo" 
+                v-if="parcellesAdjacentes &&
+                parcellesAdjacentes.hasOwnProperty(p['id'])&&
+                parcellesAdjacentes[p['id']].length != 0"
+              >
+                Cette vente s'est effectuée sur plusieurs parcelles.<br />
+                Liste des parcelles complémentaires :<br />
+                {{ parcellesAdjacentes[p['id']].join(', ') }}
               </span>
             </div>  
             </div>
@@ -206,17 +363,27 @@ export default {
         nb_ventes_appartement: 0,
         nb_ventes_local: 0,
         nb_ventes_maison: 0,
-        moy_prix_m2_appartement: 0,
-        moy_prix_m2_local: 0,
-        moy_prix_m2_maison: 0,
+        med_prix_m2_whole_appartement: 0,
+        med_prix_m2_whole_local: 0,
+        med_prix_m2_whole_maison: 0,
       },
       parcellesMutations: null,
+      parcellesCopro: null,
+      parcellesCoproNb: null,
+      parcellesDpe: null,
+      parcellesDpeNb: 0,
+      parcellesDpeId: null,
       leftColOpening: "semiopen",
       hoveredBulle: "",
       openLinks: false,
+      openDpe: false,
+      openCopro: false,
     };
   },
   computed: {
+    parcellesAdjacentes: function () {
+      return appStore.state.parcellesAdjacentes;
+    },
     saveApiUrl: function () {
       return appStore.state.saveApiUrl;
     },
@@ -345,6 +512,7 @@ export default {
       } else {
         url = process.env.VUE_APP_DVF_API + "/" + this.apiLevel;
       }
+      console.log(url);
       if (this.saveApiUrl.includes(url)) {
         this.manageClientData(this.saveApiResponse[url]);
       } else {
@@ -369,69 +537,91 @@ export default {
         });
       }
       if (this.activeFilter === "tous") {
-        this.clientData.totalVentes = (
-          levelData["nb_mutations_appartement_5ans"] +
-          levelData["nb_mutations_maison_5ans"]
-        ).toLocaleString();
+        this.clientData.totalVentes =
+          levelData["nb_ventes_whole_apt_maison"].toLocaleString();
         this.clientData.totalAverage =
           Math.round(
-            levelData["moy_prix_m2_appart_maison_5ans"]
+            levelData["med_prix_m2_whole_apt_maison"]
           ).toLocaleString() + "€";
       } else if (this.activeFilter === "maison") {
         this.clientData.totalVentes =
-          levelData["nb_mutations_maison_5ans"].toLocaleString();
+          levelData["nb_ventes_whole_maison"].toLocaleString();
         this.clientData.totalAverage =
-          Math.round(levelData["moy_prix_m2_maison_5ans"]).toLocaleString() +
+          Math.round(levelData["med_prix_m2_whole_maison"]).toLocaleString() +
           "€";
       } else if (this.activeFilter === "appartement") {
         this.clientData.totalVentes =
-          levelData["nb_mutations_appartement_5ans"].toLocaleString();
+          levelData["nb_ventes_whole_appartement"].toLocaleString();
         this.clientData.totalAverage =
-          Math.round(levelData["moy_prix_m2_appart_5ans"]).toLocaleString() +
-          "€";
+          Math.round(
+            levelData["med_prix_m2_whole_appartement"]
+          ).toLocaleString() + "€";
       } else if (this.activeFilter === "local") {
         this.clientData.totalVentes =
-          levelData["nb_mutations_local_5ans"].toLocaleString();
+          levelData["nb_ventes_whole_local"].toLocaleString();
         this.clientData.totalAverage =
-          Math.round(levelData["moy_prix_m2_local_5ans"]).toLocaleString() +
+          Math.round(levelData["med_prix_m2_whole_local"]).toLocaleString() +
           "€";
       }
       this.clientData.appVentes =
-        levelData["nb_mutations_appartement_5ans"].toLocaleString();
+        levelData["nb_ventes_whole_appartement"].toLocaleString();
 
-      if (levelData["moy_prix_m2_appart_5ans"] === null) {
+      if (levelData["med_prix_m2_whole_appartement"] === null) {
         this.clientData.appPrice = "indisponible";
       } else {
         this.clientData.appPrice =
-          Math.round(levelData["moy_prix_m2_appart_5ans"]).toLocaleString() +
-          "€";
+          Math.round(
+            levelData["med_prix_m2_whole_appartement"]
+          ).toLocaleString() + "€";
       }
 
       this.clientData.houseVentes =
-        levelData["nb_mutations_maison_5ans"].toLocaleString();
+        levelData["nb_ventes_whole_maison"].toLocaleString();
 
-      if (levelData["moy_prix_m2_maison_5ans"] === null) {
+      if (levelData["med_prix_m2_whole_maison"] === null) {
         this.clientData.housePrice = "indisponible";
       } else {
         this.clientData.housePrice =
-          Math.round(levelData["moy_prix_m2_maison_5ans"]).toLocaleString() +
+          Math.round(levelData["med_prix_m2_whole_maison"]).toLocaleString() +
           "€";
       }
 
       this.clientData.localVentes =
-        levelData["nb_mutations_local_5ans"].toLocaleString();
+        levelData["nb_ventes_whole_local"].toLocaleString();
 
-      if (levelData["moy_prix_m2_local_5ans"] === null) {
+      if (levelData["med_prix_m2_whole_local"] === null) {
         this.clientData.localPrice = "indisponible";
       } else {
         this.clientData.localPrice =
-          Math.round(levelData["moy_prix_m2_local_5ans"]).toLocaleString() +
+          Math.round(levelData["med_prix_m2_whole_local"]).toLocaleString() +
           "€";
+      }
+    },
+    manageCoproDpeData(data) {
+      console.log(data);
+      if (data) {
+        //this.parcellesDpe = data[]
+        this.parcellesDpe = data["data"]["dpe"];
+        let cpt = 0;
+        this.parcellesDpe.forEach((obj) => {
+          if (obj.classe_bilan_dpe != null) {
+            cpt = cpt + 1;
+            this.parcellesDpeId = obj.batiment_groupe_id;
+          }
+        });
+        this.parcellesDpeNb = cpt;
+        this.parcellesCopro = data["data"]["copro"];
+        cpt = 0;
+        this.parcellesCopro.forEach((obj) => {
+          cpt = cpt + 1;
+        });
+        this.parcellesCoproNb = cpt;
       }
     },
     manageMutationsData(data) {
       if (data) {
         let mutationsId = [];
+        let mutationsParcelles = {};
         let mutationsObj = {};
         this.parcellesMutations = [];
         data["data"].forEach((obj) => {
@@ -504,11 +694,47 @@ export default {
             };
             mutationsObj[obj.id_mutation]["assets"].sort(sorter);
             this.parcellesMutations = mutationsObj;
-            console.log(this.parcellesMutations);
             //console.log(obj)
           }
         });
+        data["data"].forEach((obj) => {
+          if (mutationsId.includes(obj.id_mutation)) {
+            if (!mutationsParcelles.hasOwnProperty(obj.id_mutation)) {
+              mutationsParcelles[obj.id_mutation] = [];
+            }
+            if (
+              !mutationsParcelles[obj.id_mutation].includes(obj.id_parcelle) &&
+              obj.id_parcelle != this.userLocation.parcelle
+            ) {
+              mutationsParcelles[obj.id_mutation].push(obj.id_parcelle);
+            }
+          }
+        });
         //console.log(mutationsObj)
+        appStore.commit("changeParcellesAdjacentes", mutationsParcelles);
+      }
+    },
+    fetchDpeCoproData() {
+      if (this.userLocation.parcelle) {
+        var self = this;
+        let data = null;
+        var url =
+          process.env.VUE_APP_DVF_API +
+          "/dpe-copro/" +
+          this.userLocation.parcelle;
+        if (this.saveApiUrl.includes(url)) {
+          data = this.saveApiResponse[url];
+          this.manageCoproDpeData(data);
+        } else {
+          fetch(url)
+            .then((response) => {
+              return response.json();
+            })
+            .then((data) => {
+              this.sendApiResultToStore(url, data);
+              this.manageCoproDpeData(data);
+            });
+        }
       }
     },
     fetchMutationsData() {
@@ -577,7 +803,30 @@ export default {
       obj.data = data;
       appStore.commit("addApiResult", obj);
     },
-    goToPartner(partner) {
+    goToPartner(partner, compl) {
+      if (partner == "cstb") {
+        window.open(
+          "https://particulier.gorenove.fr/map?bnb_id=" + this.parcellesDpeId
+        );
+      }
+      if (partner == "copro") {
+        window.open(
+          "https://www.data.gouv.fr/fr/datasets/registre-national-dimmatriculation-des-coproprietes/"
+        );
+      }
+      if (partner == "anah") {
+        window.open("https://www.registre-coproprietes.gouv.fr/annuaire");
+      }
+      if (partner == "annuaire") {
+        window.open(
+          "https://annuaire-entreprises.data.gouv.fr/etablissement/" + compl
+        );
+      }
+      if (partner == "bdnb") {
+        window.open(
+          "https://www.data.gouv.fr/fr/datasets/base-de-donnees-nationale-des-batiments/"
+        );
+      }
       if (this.userLocation.level == "departement") {
         if (partner == "arcep") {
           window.open(
@@ -708,8 +957,30 @@ export default {
     toggleLinks() {
       if (this.openLinks == false) {
         this.openLinks = true;
+        this.openDpe = false;
+        this.openCopro = false;
       } else {
         this.openLinks = false;
+      }
+    },
+
+    toggleDpe() {
+      if (this.openDpe == false) {
+        this.openDpe = true;
+        this.openLinks = false;
+        this.openCopro = false;
+      } else {
+        this.openDpe = false;
+      }
+    },
+
+    toggleCopro() {
+      if (this.openCopro == false) {
+        this.openCopro = true;
+        this.openLinks = false;
+        this.openDpe = false;
+      } else {
+        this.openCopro = false;
       }
     },
   },
@@ -736,7 +1007,18 @@ export default {
       this.fetchHistoricalData(this.level);
     },
     parcelle() {
+      console.log("change");
+      this.openLinks = false;
+      this.openDpe = false;
+      this.openCopro = false;
+      this.parcellesMutations = null;
+      this.parcellesCopro = null;
+      this.parcellesCoproNb = 0;
+      this.parcellesDpe = null;
+      this.parcellesDpeId = null;
+      this.parcellesDpeNb = 0;
       this.fetchMutationsData(this.parcelle);
+      this.fetchDpeCoproData(this.parcelle);
     },
     apiResult() {
       this.buildClientData();
@@ -903,6 +1185,7 @@ export default {
   height: 35px;
   overflow: hidden;
   position: relative;
+  margin-bottom: 15px;
 }
 
 .links_container[data-open="open"] {
@@ -988,6 +1271,13 @@ export default {
   margin-top: 30px;
 }
 
+.title_mutations {
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
 .mutations_total {
   font-size: 12px;
   font-weight: 700;
@@ -1042,6 +1332,13 @@ export default {
   height: 20px;
 }
 
+.mutation_box .content .complInfo {
+  font-size: 11px;
+  color: #666666;
+  font-weight: 400;
+  display: block;
+}
+
 .mutation_box .content .topinfo img {
   vertical-align: middle;
 }
@@ -1094,6 +1391,83 @@ export default {
   font-size: 12px;
   font-weight: 700;
   line-height: 12px;
+  cursor: pointer;
+}
+
+.dpe-tag {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 500;
+  width: 64px;
+  height: 32px;
+  line-height: 32px;
+  padding-right: 12px;
+  text-align: center;
+  clip-path: polygon(0 0, 75% 0, 75% 0, 99% 50%, 75% 99%, 75% 99%, 0 99%);
+}
+
+.content-dpe {
+  font-size: 12px;
+}
+
+.content-copro {
+  font-size: 12px;
+}
+
+.dpe-final {
+  margin-top: 10px;
+}
+
+.copro-final {
+  margin-top: 10px;
+}
+
+.one-dpe {
+  margin-left: 40px;
+  margin-right: 40px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ebebeb;
+}
+
+.one-copro {
+  margin-left: 40px;
+  margin-right: 40px;
+  margin-top: 10px;
+  border: 1px solid #ebebeb;
+}
+
+.etiquette-dpe {
+  display: flex;
+  flex-direction: row;
+  height: 40px;
+}
+
+.title-etiquette {
+  margin-left: 15px;
+  line-height: 30px;
+}
+
+.dpe-color-a {
+  background-color: #009c6d;
+}
+.dpe-color-b {
+  background-color: #52b153;
+}
+.dpe-color-c {
+  background-color: #78bd76;
+}
+.dpe-color-d {
+  background-color: #f4e70f;
+}
+.dpe-color-e {
+  background-color: #f0b50f;
+}
+.dpe-color-f {
+  background-color: #eb8235;
+}
+.dpe-color-g {
+  background-color: #d7221f;
 }
 
 @media screen and (max-width: 1279px) {
