@@ -41,13 +41,12 @@ export default {
       this.apiData["data"].forEach(function (d, i) {
         self.labels.push(self.rewriteAnneeMois(d["annee_mois"]));
         if (self.activeFilter == "tous") {
-          // This is now false : to change with median below when ready
-          //var medAllVentes = Math.round(d["med_prix_m2_appartement"]);
-          var medAllVentes = Math.round(
-            (d["nb_ventes_appartement"] * d["moy_prix_m2_appartement"] +
-              d["nb_ventes_maison"] * d["moy_prix_m2_maison"]) /
-              (d["nb_ventes_appartement"] + d["nb_ventes_maison"])
-          );
+          var medAllVentes = Math.round(d["med_prix_m2_appartement"]);
+          // var medAllVentes = Math.round(
+          //   (d["nb_ventes_appartement"] * d["moy_prix_m2_appartement"] +
+          //     d["nb_ventes_maison"] * d["moy_prix_m2_maison"]) /
+          //     (d["nb_ventes_appartement"] + d["nb_ventes_maison"])
+          // );
         } else if (self.activeFilter == "appartement") {
           var medAllVentes = Math.round(d["med_prix_m2_appartement"]);
         } else if (self.activeFilter == "maison") {

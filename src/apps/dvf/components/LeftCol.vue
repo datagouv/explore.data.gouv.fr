@@ -259,7 +259,7 @@
               <td :class="activeFilter!='local'?'hide':''">{{clientData["localVentes"]}}</td>
             </tr>
             <tr>
-              <th class='left'>Prix moyen m² :</th>
+              <th class='left'>Prix median m² :</th>
               <td :class="activeFilter=='maison'||activeFilter=='local'?'hide':''">{{clientData["appPrice"]}}</td>
               <td :class="activeFilter=='appartement'||activeFilter=='local'?'hide':''">{{clientData["housePrice"]}}</td>
               <td :class="activeFilter!='local'?'hide':''">{{clientData["localPrice"]}}</td>
@@ -512,7 +512,6 @@ export default {
       } else {
         url = process.env.VUE_APP_DVF_API + "/" + this.apiLevel;
       }
-      console.log(url);
       if (this.saveApiUrl.includes(url)) {
         this.manageClientData(this.saveApiResponse[url]);
       } else {
@@ -598,7 +597,6 @@ export default {
       }
     },
     manageCoproDpeData(data) {
-      console.log(data);
       if (data) {
         //this.parcellesDpe = data[]
         this.parcellesDpe = data["data"]["dpe"];
@@ -694,7 +692,6 @@ export default {
             };
             mutationsObj[obj.id_mutation]["assets"].sort(sorter);
             this.parcellesMutations = mutationsObj;
-            //console.log(obj)
           }
         });
         data["data"].forEach((obj) => {
@@ -710,7 +707,6 @@ export default {
             }
           }
         });
-        //console.log(mutationsObj)
         appStore.commit("changeParcellesAdjacentes", mutationsParcelles);
       }
     },
@@ -1007,7 +1003,6 @@ export default {
       this.fetchHistoricalData(this.level);
     },
     parcelle() {
-      console.log("change");
       this.openLinks = false;
       this.openDpe = false;
       this.openCopro = false;

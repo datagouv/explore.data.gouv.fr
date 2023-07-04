@@ -510,7 +510,6 @@ export default {
             let zoom = 12;
             if (comToChange.includes(comId)) {
               comId = e.features[1]["properties"]["code"];
-              console.log("ici c paris");
               zoom = 13.5;
             }
             if (this.userLocation.com != comId) {
@@ -1234,7 +1233,6 @@ export default {
       }
       if (this.zoomLevel >= 14) {
         if (this.level != "section" && this.parcelle === null) {
-          console.log(this.parcelle);
           this.map.setLayoutProperty("departements_fill", "visibility", "none");
           this.map.setLayoutProperty("epcis_fill", "visibility", "none");
           this.changeLocation(
