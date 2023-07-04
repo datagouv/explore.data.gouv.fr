@@ -4044,7 +4044,7 @@
             "type": "line",
             "source": "cadastre",
             "source-layer": "parcelles",
-            "minzoom": 16,
+            "minzoom": 14,
             "maxzoom": 24,
             "layout": {
                 "visibility": "visible",
