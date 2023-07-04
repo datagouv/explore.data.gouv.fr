@@ -1,7 +1,7 @@
 <template>
-    <div class="leftCol" :class="{[leftColOpening]: true}">
+    <div class="leftCol" :class="leftColOpening">
 
-      <div class="leftColOpener" @click="changeLeftColOpening()"><span>^</span></div>
+      <div class="leftColOpener" @click="changeLeftColOpening()"><svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M4.99999 2.21917L1.69999 5.51916L0.757324 4.5765L4.99999 0.333832L9.24266 4.5765L8.29999 5.51916L4.99999 2.21917Z" fill="#161616"/></svg></div>
 
       <div class="header_container" v-if="level === 'fra'">
         <h2 class="intro_title">Bonjour !<br>Bienvenue</h2>
@@ -49,7 +49,8 @@
 
       </div>
 
-      <div class="links_container" v-if="level != 'fra'">
+      <div class="links_container" v-if="level != 'fra'" :data-open="(openLinks)?'open':''">
+          <div class="links_title" @click="toggleLinks()">Liens utiles <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M4.99999 2.21917L1.69999 5.51916L0.757324 4.5765L4.99999 0.333832L9.24266 4.5765L8.29999 5.51916L4.99999 2.21917Z" fill="#161616"/></svg></div>
           <div class="cardPartner" @click="goToPartner('arcep')">
             <!-- <div class="logoPartner">
               <img src="../assets/logos/arcep.png" width="100" />
@@ -87,6 +88,148 @@
             </div>
           </div>
         </div>
+        
+      <div class="links_container" v-if="level != 'fra' && parcellesDpeNb > 0" :data-open="(openDpe)?'open':''">
+          <div class="links_title" @click="toggleDpe()">Diagnostics de Performance Energétique (DPE) <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M4.99999 2.21917L1.69999 5.51916L0.757324 4.5765L4.99999 0.333832L9.24266 4.5765L8.29999 5.51916L4.99999 2.21917Z" fill="#161616"/></svg></div>
+          <div class="content-dpe">
+            <span v-if="parcellesDpeNb > 1">
+              Il semble qu'il y ait plusieurs bâtiments sur cette parcelle. Il y a donc plusieurs résultats DPE.<br />
+            </span>
+            <div v-for="item in parcellesDpe" v-bind:key="item['batiment_groupe_id']">
+              <span v-if="item['classe_bilan_dpe'] != null">
+                <div class="etiquette-dpe">
+                  <div>
+                    <span v-if="item['classe_bilan_dpe'] == 'A'">
+                      <div _ngcontent-lto-c101="" class="dpe-tag dpe-color-a">A</div>
+                    </span>
+                    <span v-if="item['classe_bilan_dpe'] == 'B'">
+                      <div _ngcontent-lto-c101="" class="dpe-tag dpe-color-b">B</div>
+                    </span>
+                    <span v-if="item['classe_bilan_dpe'] == 'C'">
+                      <div _ngcontent-lto-c101="" class="dpe-tag dpe-color-c">C</div>
+                    </span>
+                    <span v-if="item['classe_bilan_dpe'] == 'D'">
+                      <div _ngcontent-lto-c101="" class="dpe-tag dpe-color-d">D</div>
+                    </span>
+                    <span v-if="item['classe_bilan_dpe'] == 'E'">
+                      <div _ngcontent-lto-c101="" class="dpe-tag dpe-color-e">E</div>
+                    </span>
+                    <span v-if="item['classe_bilan_dpe'] == 'F'">
+                      <div _ngcontent-lto-c101="" class="dpe-tag dpe-color-f">F</div>
+                    </span>
+                    <span v-if="item['classe_bilan_dpe'] == 'G'">
+                      <div _ngcontent-lto-c101="" class="dpe-tag dpe-color-g">G</div>
+                    </span>
+                  </div>
+                  <div class="title-etiquette"><b>Consommation d'énergie</b></div>
+                </div>
+                <div class="etiquette-dpe">
+                  <div>
+                    <span v-if="item['classe_emission_ges'] == 'A'">
+                      <div _ngcontent-lto-c101="" class="dpe-tag dpe-color-a">A</div>
+                    </span>
+                    <span v-if="item['classe_emission_ges'] == 'B'">
+                      <div _ngcontent-lto-c101="" class="dpe-tag dpe-color-b">B</div>
+                    </span>
+                    <span v-if="item['classe_emission_ges'] == 'C'">
+                      <div _ngcontent-lto-c101="" class="dpe-tag dpe-color-c">C</div>
+                    </span>
+                    <span v-if="item['classe_emission_ges'] == 'D'">
+                      <div _ngcontent-lto-c101="" class="dpe-tag dpe-color-d">D</div>
+                    </span>
+                    <span v-if="item['classe_emission_ges'] == 'E'">
+                      <div _ngcontent-lto-c101="" class="dpe-tag dpe-color-e">E</div>
+                    </span>
+                    <span v-if="item['classe_emission_ges'] == 'F'">
+                      <div _ngcontent-lto-c101="" class="dpe-tag dpe-color-f">F</div>
+                    </span>
+                    <span v-if="item['classe_emission_ges'] == 'G'">
+                      <div _ngcontent-lto-c101="" class="dpe-tag dpe-color-g">G</div>
+                    </span>
+                  </div>
+                  <div class="title-etiquette"><b>Emission de gaz à effet de serre</b></div>
+                </div>
+                <div v-if="item['periode_construction_dpe'] != null">
+                  Période de construction : <b>{{ item['periode_construction_dpe'] }}</b>
+                </div>
+                <div v-if="item['nombre_niveau_immeuble'] != null">
+                  Immeuble sur <b>{{ item['nombre_niveau_immeuble'] }}</b> niveaux
+                </div>
+                <div v-if="item['surface_habitable_immeuble'] != null">
+                  Immeuble d'une superficie de <b>{{ item['surface_habitable_immeuble'] }}</b> m2
+                </div>
+              </span>
+              <div class="one-dpe"></div>
+            </div>
+            <div class="textPartner dpe-final" @click="goToPartner('cstb')">
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M4 2V3H1.5V8.5H7V6H8V9C8 9.27614 7.77614 9.5 7.5 9.5H1C0.723858 9.5 0.5 9.27614 0.5 9V2.5C0.5 2.22386 0.723858 2 1 2H4ZM9.5 0.5V5L7.603 3.1035L4.6035 6.1035L3.8965 5.3965L6.896 2.3965L5 0.5H9.5Z" fill="#3558A2"/></svg>Voir des infos complémentaires autour de la rénovation
+            </div>            
+            <div>Sources : <span class="textPartner" @click="goToPartner('bdnb')">BDNB</span></div>
+
+          </div>
+        </div>
+
+      <div class="links_container" v-if="level != 'fra' && parcellesCoproNb > 0" :data-open="(openCopro)?'open':''">
+          <div class="links_title" @click="toggleCopro()">Informations sur la Copropriété <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M4.99999 2.21917L1.69999 5.51916L0.757324 4.5765L4.99999 0.333832L9.24266 4.5765L8.29999 5.51916L4.99999 2.21917Z" fill="#161616"/></svg></div>
+          <div class="content-copro">
+            <span v-if="parcellesCoproNb > 1">
+              Il semble qu'il y ait plusieurs copropriétés référencés sur cette parcelle.
+            </span>
+            <div v-for="item in parcellesCopro" v-bind:key="item['numero_immatriculation']">
+              <div v-if="item['syndicat_principal_ou_secondaire'] != null && parcellesCoproNb > 1">
+                Syndicat principal : <b>{{ item['syndicat_principal_ou_secondaire'] }}</b>
+              </div>
+              <div v-if="item['syndicat_cooperatif'] != null">
+                Syndicat coopératif : <b>{{ item['syndicat_cooperatif'] }}</b>
+              </div>
+              <div v-if="item['identification_representant_legal'] != null">
+                Représentant légal : 
+                <span 
+                  class="textPartner dpe-final"
+                  v-if="item['siret_representant_legal'] != null"
+                  @click="goToPartner('annuaire', item['siret_representant_legal'])">
+                    {{ item['identification_representant_legal'] }}
+                </span>
+                <span v-else>
+                  <b>{{ item['identification_representant_legal'] }}</b>
+                </span>
+              </div>
+              <div v-if="item['nom_usage_copropriete'] != null">
+                Nom d'usage de la copropriété : <b>{{ item['nom_usage_copropriete'] }}</b>
+              </div>
+              <div v-if="item['numero_immatriculation'] != null">
+                Numéro d'immatriculation de la copropriété : <b>{{ item['numero_immatriculation'] }}</b>
+              </div>
+              <div v-if="item['nombre_total_lots'] != null">
+                Nombre total de lots : <b>{{ item['nombre_total_lots'] }}</b>
+              </div>
+              <div v-if="item['nombre_lots_usage_habitation'] != null">
+                Nombre de lots à usage d'habitation : <b>{{ item['nombre_lots_usage_habitation'] }}</b>
+              </div>
+              <div v-if="item['nombre_lots_stationnement'] != null">
+                Nombre de lots de stationnement : <b>{{ item['nombre_lots_stationnement'] }}</b>
+              </div>
+              <div v-if="item['mandat_en_cours_copropriete'] != null">
+                Mandat sur la propriété : <b>{{ item['mandat_en_cours_copropriete'] }}</b>
+              </div>
+              <div v-if="item['nombre_arretes_code_sante_publique_en_cours'] != null">
+                Arrêtés relevant du code de la santé publique en cours : <b>{{ item['nombre_arretes_code_sante_publique_en_cours'] }}</b>
+              </div>
+              <div v-if="item['nombre_arretes_peril_parties_communes_en_cours'] != null">
+                Arrêtés de péril sur les parties communes en cours : <b>{{ item['nombre_arretes_peril_parties_communes_en_cours'] }}</b>
+              </div>
+              <div v-if="item['nombre_arretes_equipements_communs_en_cours'] != null">
+                Arrêtés sur les équipements communs en cours : <b>{{ item['nombre_arretes_equipements_communs_en_cours'] }}</b>
+              </div>
+              <div class="one-copro"></div>
+            </div>
+            <div class="textPartner dpe-final" @click="goToPartner('anah')">
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M4 2V3H1.5V8.5H7V6H8V9C8 9.27614 7.77614 9.5 7.5 9.5H1C0.723858 9.5 0.5 9.27614 0.5 9V2.5C0.5 2.22386 0.723858 2 1 2H4ZM9.5 0.5V5L7.603 3.1035L4.6035 6.1035L3.8965 5.3965L6.896 2.3965L5 0.5H9.5Z" fill="#3558A2"/></svg>Consulter l'annuaire des copropriétés
+            </div>            
+            <div>Sources : <span class="textPartner" @click="goToPartner('copro')">Registre d'Immatriculation des Copropriétés</span></div>
+
+          </div>
+        </div>
 
       <div class="stats_container" v-if="level != 'parcelle'">
 
@@ -96,7 +239,7 @@
             <div class="global_number_value">{{clientData["totalVentes"]}}</div>
           </div>
           <div class="global_number_wrapper">
-            <div class="global_number_title">Prix de vente moyen au m²</div>
+            <div class="global_number_title">Prix de vente médian au m²</div>
             <div class="global_number_value">{{clientData["totalAverage"]}}</div>
           </div>
         </div>
@@ -116,7 +259,7 @@
               <td :class="activeFilter!='local'?'hide':''">{{clientData["localVentes"]}}</td>
             </tr>
             <tr>
-              <th class='left'>Prix moyen m² :</th>
+              <th class='left'>Prix median m² :</th>
               <td :class="activeFilter=='maison'||activeFilter=='local'?'hide':''">{{clientData["appPrice"]}}</td>
               <td :class="activeFilter=='appartement'||activeFilter=='local'?'hide':''">{{clientData["housePrice"]}}</td>
               <td :class="activeFilter!='local'?'hide':''">{{clientData["localPrice"]}}</td>
@@ -125,7 +268,7 @@
         </div>
 
         <div class="chart_container">
-          <span class="chart_title">Evolution du prix de vente moyen au m²</span>
+          <span class="chart_title">Evolution du prix de vente median au m²</span>
           <span class="chart_geo">{{chartGeoLabel}}</span>
           <div class="chart_info_btn line_chart_info" @mouseover="hoveredBulle='line'" @mouseleave="hoveredBulle=''"><div>?</div></div>
           <div class="chart_info_bulle" v-if="hoveredBulle=='line'">Ce graphique indique l'évolution du prix au m² pour le type de biens sélectionné et l'échelle sélectionnée. Les prix au m² sont obtenus en divisant la valeur foncière du bien par sa surface au sol.</div>
@@ -144,17 +287,22 @@
       </div>
 
       <div class="mutations_container" v-if="level === 'parcelle'">
+        <div class="title_mutations">Liste des mutations immobilières</div>
+        <div class="mutations_total">{{Object.keys(parcellesMutations).length}} mutations</div>
         <div class="mutation_box" v-bind:key="p['id']" v-for="p in parcellesMutations">
           <div class="content">
             <div class="nature">{{ p["nature_mutation"] }}</div>
             <span class="price">{{ p["price"] }}</span>
             <div class="infos">
-              <span class="topinfo adresse"><img src="../assets/images/pin.svg"/> {{p["adresse_numero"]}} {{p["adresse_nom_voie"].toLowerCase()}}</span>
-              <span class="topinfo id"><img src="../assets/images/id.svg"/> {{ p["id"] }}</span>
-              <span class="topinfo date"><img src="../assets/images/date.svg"/> {{ p["date"] }}</span>
+              <span class="topinfo adresse" v-if="p['adresse_nom_voie'] != null">
+                <img src="../assets/images/pin.svg"/>
+                {{p["adresse_numero"]}} {{p["adresse_nom_voie"].toLowerCase()}}
+              </span>
+              <span class="topinfo id" v-if="p['id'] != null"><img src="../assets/images/id.svg"/> {{ p["id"] }}</span>
+              <span class="topinfo date" v-if="p['date'] != null"><img src="../assets/images/date.svg"/> {{ p["date"] }}</span>
               
               <span v-for="item in p['assets']" class="infos_item">
-                <span class="title">
+                <span class="title" v-if="item['type'] != null">
                   <img v-if="item['type'].substring(0,4) === 'Dépe'" src="../assets/images/dependance.svg"/>
                   <img v-if="item['type'].substring(0,4) === 'Mais'" src="../assets/images/maison.svg"/>
                   <img v-if="item['type'].substring(0,4) === 'Loca'" src="../assets/images/local.svg"/>
@@ -163,7 +311,18 @@
                   {{ item["type"] }}
                 </span>
                 <div class="filet" v-if="item['surface']"></div>
-                <span class="value">{{ item["surface"] }}</span>
+                <span class="value" v-if="p['surface'] != null">{{ item["surface"] }}</span>
+              </span>
+
+              <span 
+                class="complInfo" 
+                v-if="parcellesAdjacentes &&
+                parcellesAdjacentes.hasOwnProperty(p['id'])&&
+                parcellesAdjacentes[p['id']].length != 0"
+              >
+                Cette vente s'est effectuée sur plusieurs parcelles.<br />
+                Liste des parcelles complémentaires :<br />
+                {{ parcellesAdjacentes[p['id']].join(', ') }}
               </span>
             </div>  
             </div>
@@ -177,715 +336,1013 @@
 </template>
 
 <script>
-
-import appStore from '@/apps/dvf/store'
-import LineChart from '@/apps/dvf/components/LineChart'
-import BarChart from '@/apps/dvf/components/BarChart'
-import CenterDeps from '@/apps/dvf/assets/json/centers_deps.json'
+import appStore from "@/apps/dvf/store";
+import LineChart from "@/apps/dvf/components/LineChart";
+import BarChart from "@/apps/dvf/components/BarChart";
+import CenterDeps from "@/apps/dvf/assets/json/centers_deps.json";
 
 export default {
-  name: 'LeftCol',
-  components: {LineChart, BarChart},
+  name: "LeftCol",
+  components: { LineChart, BarChart },
   data() {
     return {
       apiLevel: null,
       apiResult: null,
       apiCode: null,
-      clientData:{
-        totalVentes:0,
-        totalAverage:0,
-        appVentes:0,
-        appPrice:0,
-        houseVentes:0,
-        housePrice:0,
-        localVentes:0,
-        localPrice:0
+      clientData: {
+        totalVentes: 0,
+        totalAverage: 0,
+        appVentes: 0,
+        appPrice: 0,
+        houseVentes: 0,
+        housePrice: 0,
+        localVentes: 0,
+        localPrice: 0,
       },
-      rollingData:{
-        nb_ventes_appartement:0,
-        nb_ventes_local:0,
-        nb_ventes_maison:0,
-        moy_prix_m2_appartement:0,
-        moy_prix_m2_local:0,
-        moy_prix_m2_maison:0
+      rollingData: {
+        nb_ventes_appartement: 0,
+        nb_ventes_local: 0,
+        nb_ventes_maison: 0,
+        med_prix_m2_whole_appartement: 0,
+        med_prix_m2_whole_local: 0,
+        med_prix_m2_whole_maison: 0,
       },
-      parcellesMutations:null,
-      leftColOpening:"",
-      hoveredBulle:""
-    }
+      parcellesMutations: null,
+      parcellesCopro: null,
+      parcellesCoproNb: null,
+      parcellesDpe: null,
+      parcellesDpeNb: 0,
+      parcellesDpeId: null,
+      leftColOpening: "semiopen",
+      hoveredBulle: "",
+      openLinks: false,
+      openDpe: false,
+      openCopro: false,
+    };
   },
   computed: {
-    saveApiUrl:function(){
-      return appStore.state.saveApiUrl
+    parcellesAdjacentes: function () {
+      return appStore.state.parcellesAdjacentes;
     },
-    saveApiResponse:function(){
-      return appStore.state.saveApiResponse
+    saveApiUrl: function () {
+      return appStore.state.saveApiUrl;
     },
-    zoomLevel:function(){
-      return appStore.state.map.zoomLevel
+    saveApiResponse: function () {
+      return appStore.state.saveApiResponse;
     },
-    dep:function(){
-      return appStore.state.userLocation.dep
+    zoomLevel: function () {
+      return appStore.state.map.zoomLevel;
     },
-    com:function(){
-      return appStore.state.userLocation.com
+    dep: function () {
+      return appStore.state.userLocation.dep;
     },
-    section:function(){
-      return appStore.state.userLocation.section
+    com: function () {
+      return appStore.state.userLocation.com;
     },
-    parcelle:function(){
-      return appStore.state.userLocation.parcelle
+    section: function () {
+      return appStore.state.userLocation.section;
     },
-    level:function(){
-      return appStore.state.userLocation.level
+    parcelle: function () {
+      return appStore.state.userLocation.parcelle;
     },
-    depLabel:function(){
-      return appStore.state.locationLabels.dep
+    level: function () {
+      return appStore.state.userLocation.level;
     },
-    comLabel:function(){
-      return appStore.state.locationLabels.com
+    depLabel: function () {
+      return appStore.state.locationLabels.dep;
     },
-    activeFilter:function(){
-      return appStore.state.activeFilter
+    comLabel: function () {
+      return appStore.state.locationLabels.com;
     },
-    userLocation:function(){
-      return appStore.state.userLocation
+    activeFilter: function () {
+      return appStore.state.activeFilter;
     },
-    mapProperties:function(){
-      return appStore.state.mapProperties
+    userLocation: function () {
+      return appStore.state.userLocation;
     },
-    chartGeoLabel:function(){
-      var label = this.getGeoLabel()
-      return label
-    }
+    mapProperties: function () {
+      return appStore.state.mapProperties;
+    },
+    chartGeoLabel: function () {
+      var label = this.getGeoLabel();
+      return label;
+    },
   },
   mounted() {
-      let url = "https://api-dvf.preprod.data.gouv.fr/nation/mois"
-      fetch(url)
+    let url = process.env.VUE_APP_DVF_API + "/nation/mois";
+    fetch(url)
       .then((response) => {
-          return response.json()
+        return response.json();
       })
       .then((data) => {
-       this.sendApiResultToStore(url, data)
-       this.apiResult = data
-       this.apiLevel = "nation"
-       if(this.$route.query.filtre){
-          if(this.$route.query.filtre != this.activeFilter){
-            this.updateActiveFilter(this.$route.query.filtre) 
+        this.sendApiResultToStore(url, data);
+        this.apiResult = data;
+        this.apiLevel = "nation";
+        if (this.$route.query.filtre) {
+          if (this.$route.query.filtre != this.activeFilter) {
+            this.updateActiveFilter(this.$route.query.filtre);
           }
-        }else{
-          this.updateActiveFilter("tous")
+        } else {
+          this.updateActiveFilter("tous");
         }
       });
   },
   methods: {
-    fetchHistoricalData(level){
-      if (level != "parcelle"){
-        let url = null
-        let code = null
-        let data = null
-        if (level == "fra"){
-          code = "nation"
-          url = "https://api-dvf.preprod.data.gouv.fr/nation/mois"
+    fetchHistoricalData(level) {
+      if (level != "parcelle") {
+        let url = null;
+        let code = null;
+        let data = null;
+        if (level == "fra") {
+          code = "nation";
+          url = process.env.VUE_APP_DVF_API + "/nation/mois";
         }
-        if (level === "departement"){
-          code = this.dep
-          url = "https://api-dvf.preprod.data.gouv.fr/departement/" + code
+        if (level === "departement") {
+          code = this.dep;
+          url = process.env.VUE_APP_DVF_API + "/departement/" + code;
         }
-        if (level === "commune"){
-          code = this.com
-          url = "https://api-dvf.preprod.data.gouv.fr/commune/" + code
+        if (level === "commune") {
+          code = this.com;
+          url = process.env.VUE_APP_DVF_API + "/commune/" + code;
         }
-        if (level === "section"){
-          code = this.section
-          url = "https://api-dvf.preprod.data.gouv.fr/section/" + code
+        if (level === "section") {
+          code = this.section;
+          url = process.env.VUE_APP_DVF_API + "/section/" + code;
         }
-        if (this.saveApiUrl.includes(url)){
-          data = this.saveApiResponse[url] 
+        if (this.saveApiUrl.includes(url)) {
+          data = this.saveApiResponse[url];
           if (data) {
-            this.sendApiResultToStore(url, data)
-            this.apiResult = data
-            this.apiLevel = level
-            this.apiCode = code
+            this.sendApiResultToStore(url, data);
+            this.apiResult = data;
+            this.apiLevel = level;
+            this.apiCode = code;
           }
         } else {
           fetch(url)
-          .then((response) => {
-              return response.json()
-          })
-          .then((data) => {
-            this.sendApiResultToStore(url, data)
-            this.apiResult = data
-            this.apiLevel = level
-            this.apiCode = code
-          });
+            .then((response) => {
+              return response.json();
+            })
+            .then((data) => {
+              this.sendApiResultToStore(url, data);
+              this.apiResult = data;
+              this.apiLevel = level;
+              this.apiCode = code;
+            });
         }
       }
     },
-    storeApiData(){
-      appStore.commit("updateApiData",this.apiResult)
-      appStore.commit("updateApiLevel",this.apiLevel)
-      appStore.commit("updateApiCode",this.apiCode)
+    storeApiData() {
+      appStore.commit("updateApiData", this.apiResult);
+      appStore.commit("updateApiLevel", this.apiLevel);
+      appStore.commit("updateApiCode", this.apiCode);
     },
-    buildClientData(){
-      var url
-      if(this.apiLevel=="commune"){
-        url = "https://api-dvf.preprod.data.gouv.fr/departement/"+this.dep+"/communes"
-      } else if(this.apiLevel=="section"){
-        url= "https://api-dvf.preprod.data.gouv.fr/commune/"+this.com+"/sections"
-      } else if(this.apiLevel=="fra"){
-         url = "https://api-dvf.preprod.data.gouv.fr/nation"
-      }
-      else{
-        url = "https://api-dvf.preprod.data.gouv.fr/" + this.apiLevel
+    buildClientData() {
+      var url;
+      if (this.apiLevel == "commune") {
+        url =
+          process.env.VUE_APP_DVF_API +
+          "/departement/" +
+          this.dep +
+          "/communes";
+      } else if (this.apiLevel == "section") {
+        url =
+          process.env.VUE_APP_DVF_API + "/commune/" + this.com + "/sections";
+      } else if (this.apiLevel == "fra") {
+        url = process.env.VUE_APP_DVF_API + "/nation";
+      } else {
+        url = process.env.VUE_APP_DVF_API + "/" + this.apiLevel;
       }
       if (this.saveApiUrl.includes(url)) {
-          this.manageClientData(this.saveApiResponse[url])
+        this.manageClientData(this.saveApiResponse[url]);
       } else {
         fetch(url)
-        .then((response) => {
-            return response.json()
-        })
-        .then((data) => {
-          this.sendApiResultToStore(url, data)
-          this.manageClientData(data)
-          });
-      }
-    },
-
-    manageClientData(data){
-        var levelData
-        if(this.apiLevel == 'nation'){
-          levelData = data["data"][0]
-        }else{
-          levelData = data["data"].find(obj => {
-            return obj.code_geo === this.apiCode
-          })
-        }
-        if(this.activeFilter === 'tous'){
-          this.clientData.totalVentes=(levelData["nb_mutations_appartement_5ans"]+levelData["nb_mutations_maison_5ans"]).toLocaleString()
-          this.clientData.totalAverage=Math.round(levelData["moy_prix_m2_appart_maison_5ans"]).toLocaleString()+"€"
-        }else if(this.activeFilter === 'maison'){
-          this.clientData.totalVentes=levelData["nb_mutations_maison_5ans"].toLocaleString()
-          this.clientData.totalAverage=Math.round(levelData["moy_prix_m2_maison_5ans"]).toLocaleString()+"€"
-        }else if(this.activeFilter === 'appartement'){
-          this.clientData.totalVentes=levelData["nb_mutations_appartement_5ans"].toLocaleString()
-          this.clientData.totalAverage=Math.round(levelData["moy_prix_m2_appart_5ans"]).toLocaleString()+"€"
-        }else if(this.activeFilter === 'local'){
-          this.clientData.totalVentes=levelData["nb_mutations_local_5ans"].toLocaleString()
-          this.clientData.totalAverage=Math.round(levelData["moy_prix_m2_local_5ans"]).toLocaleString()+"€"
-        }
-        this.clientData.appVentes=levelData["nb_mutations_appartement_5ans"].toLocaleString()
-
-        if(levelData["moy_prix_m2_appart_5ans"] === null){
-          this.clientData.appPrice = "indisponible"
-        }else{
-          this.clientData.appPrice=Math.round(levelData["moy_prix_m2_appart_5ans"]).toLocaleString()+"€"  
-        }
-        
-        this.clientData.houseVentes=levelData["nb_mutations_maison_5ans"].toLocaleString()
-
-        if(levelData["moy_prix_m2_maison_5ans"] === null){
-          this.clientData.housePrice = "indisponible"
-        }else{
-          this.clientData.housePrice=Math.round(levelData["moy_prix_m2_maison_5ans"]).toLocaleString()+"€"  
-        }
-
-        this.clientData.localVentes=levelData["nb_mutations_local_5ans"].toLocaleString()
-
-        if(levelData["moy_prix_m2_local_5ans"] === null){
-          this.clientData.localPrice = "indisponible"
-        }else{
-          this.clientData.localPrice=Math.round(levelData["moy_prix_m2_local_5ans"]).toLocaleString()+"€"  
-        }
-
-    },
-    manageMutationsData(data){
-      if(data){
-        let mutationsId = []
-        let mutationsObj = {}
-        this.parcellesMutations = []
-        data["data"].forEach(obj => {
-          if (obj.id_parcelle == this.userLocation.parcelle) {
-            if (!mutationsId.includes(obj.id_mutation)){ 
-              mutationsId.push(obj.id_mutation)
-              mutationsObj[obj.id_mutation] = {}
-              mutationsObj[obj.id_mutation]["id"] = obj.id_mutation
-              mutationsObj[obj.id_mutation]["nature_mutation"] = obj.nature_mutation
-              mutationsObj[obj.id_mutation]["adresse_nom_voie"] = obj.adresse_nom_voie
-              mutationsObj[obj.id_mutation]["adresse_numero"] = obj.adresse_numero
-              mutationsObj[obj.id_mutation]["date"] = this.formatDate(obj.date_mutation)
-              mutationsObj[obj.id_mutation]["price"] = this.formatPrice(obj.valeur_fonciere)
-              mutationsObj[obj.id_mutation]["assets"] = []
-            }
-            if(obj.type_local) {
-              let asset = {}
-              let complement_type = ""
-              if (obj.nombre_pieces_principales){
-                complement_type = " / " + obj.nombre_pieces_principales + "p"
-              }
-              asset["type"] = obj.type_local + complement_type
-              asset["surface"] = this.formatSurface(obj.surface_reelle_bati)
-              mutationsObj[obj.id_mutation]["assets"].push(asset)
-            }
-            if(obj.nature_culture) {
-              let asset = {}
-              asset["type"] = obj.nature_culture
-              asset["surface"] = this.formatSurface(obj.surface_terrain)
-              mutationsObj[obj.id_mutation]["assets"].push(asset)
-            }
-            mutationsObj[obj.id_mutation]["assets"] = mutationsObj[obj.id_mutation]["assets"].reduce((unique, o) => {
-                if(!unique.some(subobj => subobj.type === o.type && subobj.surface === o.surface)) {
-                  unique.push(o);
-                }
-                return unique;
-            },[]);
-            let sorter = (a, b) => {
-              if(a.type.includes("Appartement")){
-                  return -1;
-              };
-              if(b.type.includes("Appartement")){
-                  return 1;
-              };
-              return a.name < b.name ? -1 : 1;
-            };
-            mutationsObj[obj.id_mutation]["assets"].sort(sorter)
-            sorter = (a, b) => {
-              if(a.type.includes("Maison")){
-                  return -1;
-              };
-              if(b.type.includes("Maison")){
-                  return 1;
-              };
-              return a.name < b.name ? -1 : 1;
-            };
-            mutationsObj[obj.id_mutation]["assets"].sort(sorter)
-            this.parcellesMutations = mutationsObj
-            console.log(this.parcellesMutations)
-            //console.log(obj)
-            }
-          });
-          //console.log(mutationsObj)
-      }
-    },
-    fetchMutationsData(){
-      if(this.userLocation.parcelle){
-        var self = this
-        let data = null
-        var url="https://api-dvf.preprod.data.gouv.fr/mutations/" + this.userLocation.parcelle.substring(0,5) + "/" + this.userLocation.parcelle.substring(5,10)
-        if (this.saveApiUrl.includes(url)){
-            data = this.saveApiResponse[url] 
-            this.manageMutationsData(data)
-          } else {
-          fetch(url)
           .then((response) => {
-              return response.json()
+            return response.json();
           })
           .then((data) => {
-            this.sendApiResultToStore(url, data)
-            this.manageMutationsData(data)
+            this.sendApiResultToStore(url, data);
+            this.manageClientData(data);
+          });
+      }
+    },
 
-          })
+    manageClientData(data) {
+      var levelData;
+      if (this.apiLevel == "nation") {
+        levelData = data["data"][0];
+      } else {
+        levelData = data["data"].find((obj) => {
+          return obj.code_geo === this.apiCode;
+        });
+      }
+      if (this.activeFilter === "tous") {
+        this.clientData.totalVentes =
+          levelData["nb_ventes_whole_apt_maison"].toLocaleString();
+        this.clientData.totalAverage =
+          Math.round(
+            levelData["med_prix_m2_whole_apt_maison"]
+          ).toLocaleString() + "€";
+      } else if (this.activeFilter === "maison") {
+        this.clientData.totalVentes =
+          levelData["nb_ventes_whole_maison"].toLocaleString();
+        this.clientData.totalAverage =
+          Math.round(levelData["med_prix_m2_whole_maison"]).toLocaleString() +
+          "€";
+      } else if (this.activeFilter === "appartement") {
+        this.clientData.totalVentes =
+          levelData["nb_ventes_whole_appartement"].toLocaleString();
+        this.clientData.totalAverage =
+          Math.round(
+            levelData["med_prix_m2_whole_appartement"]
+          ).toLocaleString() + "€";
+      } else if (this.activeFilter === "local") {
+        this.clientData.totalVentes =
+          levelData["nb_ventes_whole_local"].toLocaleString();
+        this.clientData.totalAverage =
+          Math.round(levelData["med_prix_m2_whole_local"]).toLocaleString() +
+          "€";
+      }
+      this.clientData.appVentes =
+        levelData["nb_ventes_whole_appartement"].toLocaleString();
+
+      if (levelData["med_prix_m2_whole_appartement"] === null) {
+        this.clientData.appPrice = "indisponible";
+      } else {
+        this.clientData.appPrice =
+          Math.round(
+            levelData["med_prix_m2_whole_appartement"]
+          ).toLocaleString() + "€";
+      }
+
+      this.clientData.houseVentes =
+        levelData["nb_ventes_whole_maison"].toLocaleString();
+
+      if (levelData["med_prix_m2_whole_maison"] === null) {
+        this.clientData.housePrice = "indisponible";
+      } else {
+        this.clientData.housePrice =
+          Math.round(levelData["med_prix_m2_whole_maison"]).toLocaleString() +
+          "€";
+      }
+
+      this.clientData.localVentes =
+        levelData["nb_ventes_whole_local"].toLocaleString();
+
+      if (levelData["med_prix_m2_whole_local"] === null) {
+        this.clientData.localPrice = "indisponible";
+      } else {
+        this.clientData.localPrice =
+          Math.round(levelData["med_prix_m2_whole_local"]).toLocaleString() +
+          "€";
+      }
+    },
+    manageCoproDpeData(data) {
+      if (data) {
+        //this.parcellesDpe = data[]
+        this.parcellesDpe = data["data"]["dpe"];
+        let cpt = 0;
+        this.parcellesDpe.forEach((obj) => {
+          if (obj.classe_bilan_dpe != null) {
+            cpt = cpt + 1;
+            this.parcellesDpeId = obj.batiment_groupe_id;
+          }
+        });
+        this.parcellesDpeNb = cpt;
+        this.parcellesCopro = data["data"]["copro"];
+        cpt = 0;
+        this.parcellesCopro.forEach((obj) => {
+          cpt = cpt + 1;
+        });
+        this.parcellesCoproNb = cpt;
+      }
+    },
+    manageMutationsData(data) {
+      if (data) {
+        let mutationsId = [];
+        let mutationsParcelles = {};
+        let mutationsObj = {};
+        this.parcellesMutations = [];
+        data["data"].forEach((obj) => {
+          if (obj.id_parcelle == this.userLocation.parcelle) {
+            if (!mutationsId.includes(obj.id_mutation)) {
+              mutationsId.push(obj.id_mutation);
+              mutationsObj[obj.id_mutation] = {};
+              mutationsObj[obj.id_mutation]["id"] = obj.id_mutation;
+              mutationsObj[obj.id_mutation]["nature_mutation"] =
+                obj.nature_mutation;
+              mutationsObj[obj.id_mutation]["adresse_nom_voie"] =
+                obj.adresse_nom_voie;
+              mutationsObj[obj.id_mutation]["adresse_numero"] =
+                obj.adresse_numero;
+              mutationsObj[obj.id_mutation]["date"] = this.formatDate(
+                obj.date_mutation
+              );
+              mutationsObj[obj.id_mutation]["price"] = this.formatPrice(
+                obj.valeur_fonciere
+              );
+              mutationsObj[obj.id_mutation]["assets"] = [];
+            }
+            if (obj.type_local) {
+              let asset = {};
+              let complement_type = "";
+              if (obj.nombre_pieces_principales) {
+                complement_type = " / " + obj.nombre_pieces_principales + "p";
+              }
+              asset["type"] = obj.type_local + complement_type;
+              asset["surface"] = this.formatSurface(obj.surface_reelle_bati);
+              mutationsObj[obj.id_mutation]["assets"].push(asset);
+            }
+            if (obj.nature_culture) {
+              let asset = {};
+              asset["type"] = obj.nature_culture;
+              asset["surface"] = this.formatSurface(obj.surface_terrain);
+              mutationsObj[obj.id_mutation]["assets"].push(asset);
+            }
+            mutationsObj[obj.id_mutation]["assets"] = mutationsObj[
+              obj.id_mutation
+            ]["assets"].reduce((unique, o) => {
+              if (
+                !unique.some(
+                  (subobj) =>
+                    subobj.type === o.type && subobj.surface === o.surface
+                )
+              ) {
+                unique.push(o);
+              }
+              return unique;
+            }, []);
+            let sorter = (a, b) => {
+              if (a.type.includes("Appartement")) {
+                return -1;
+              }
+              if (b.type.includes("Appartement")) {
+                return 1;
+              }
+              return a.name < b.name ? -1 : 1;
+            };
+            mutationsObj[obj.id_mutation]["assets"].sort(sorter);
+            sorter = (a, b) => {
+              if (a.type.includes("Maison")) {
+                return -1;
+              }
+              if (b.type.includes("Maison")) {
+                return 1;
+              }
+              return a.name < b.name ? -1 : 1;
+            };
+            mutationsObj[obj.id_mutation]["assets"].sort(sorter);
+            this.parcellesMutations = mutationsObj;
+          }
+        });
+        data["data"].forEach((obj) => {
+          if (mutationsId.includes(obj.id_mutation)) {
+            if (!mutationsParcelles.hasOwnProperty(obj.id_mutation)) {
+              mutationsParcelles[obj.id_mutation] = [];
+            }
+            if (
+              !mutationsParcelles[obj.id_mutation].includes(obj.id_parcelle) &&
+              obj.id_parcelle != this.userLocation.parcelle
+            ) {
+              mutationsParcelles[obj.id_mutation].push(obj.id_parcelle);
+            }
+          }
+        });
+        appStore.commit("changeParcellesAdjacentes", mutationsParcelles);
+      }
+    },
+    fetchDpeCoproData() {
+      if (this.userLocation.parcelle) {
+        var self = this;
+        let data = null;
+        var url =
+          process.env.VUE_APP_DVF_API +
+          "/dpe-copro/" +
+          this.userLocation.parcelle;
+        if (this.saveApiUrl.includes(url)) {
+          data = this.saveApiResponse[url];
+          this.manageCoproDpeData(data);
+        } else {
+          fetch(url)
+            .then((response) => {
+              return response.json();
+            })
+            .then((data) => {
+              this.sendApiResultToStore(url, data);
+              this.manageCoproDpeData(data);
+            });
+        }
+      }
+    },
+    fetchMutationsData() {
+      if (this.userLocation.parcelle) {
+        var self = this;
+        let data = null;
+        var url =
+          process.env.VUE_APP_DVF_API +
+          "/mutations/" +
+          this.userLocation.parcelle.substring(0, 5) +
+          "/" +
+          this.userLocation.parcelle.substring(5, 10);
+        if (this.saveApiUrl.includes(url)) {
+          data = this.saveApiResponse[url];
+          this.manageMutationsData(data);
+        } else {
+          fetch(url)
+            .then((response) => {
+              return response.json();
+            })
+            .then((data) => {
+              this.sendApiResultToStore(url, data);
+              this.manageMutationsData(data);
+            });
         }
       }
     },
 
-    updateActiveFilter(f){
-      appStore.commit("updateActiveFilter",f)
-      this.$router.push({path: this.$route.path, query: { ...this.$route.query, filtre: f }}).catch(()=>{});
+    updateActiveFilter(f) {
+      appStore.commit("updateActiveFilter", f);
+      this.$router
+        .push({
+          path: this.$route.path,
+          query: { ...this.$route.query, filtre: f },
+        })
+        .catch(() => {});
     },
 
-    formatDate(date){
-      var d = new Date(date)
-      const options = { year: 'numeric', month: 'long', day: 'numeric' };
-      return d.toLocaleDateString("fr-Fr",options)
+    formatDate(date) {
+      var d = new Date(date);
+      const options = { year: "numeric", month: "long", day: "numeric" };
+      return d.toLocaleDateString("fr-Fr", options);
     },
 
-    formatPrice(price){
+    formatPrice(price) {
       if (price) {
-        var p = parseInt(price).toLocaleString()+" €"
-        return p
+        var p = parseInt(price).toLocaleString() + " €";
+        return p;
       } else {
-        return "Non renseigné"
+        return "Non renseigné";
       }
     },
 
-    formatSurface(surface){
-      if(surface) {
-        var s = parseInt(surface).toLocaleString()+" m²"
-        return s
+    formatSurface(surface) {
+      if (surface) {
+        var s = parseInt(surface).toLocaleString() + " m²";
+        return s;
       } else {
-        return null
+        return null;
       }
     },
 
-    sendApiResultToStore(url, data){
-      let obj = {}
-      obj.url = url
-      obj.data = data
-      appStore.commit("addApiResult", obj)
+    sendApiResultToStore(url, data) {
+      let obj = {};
+      obj.url = url;
+      obj.data = data;
+      appStore.commit("addApiResult", obj);
     },
-    goToPartner(partner){
-      if (this.userLocation.level == "departement"){
-        if (partner == 'arcep') { 
-          window.open("https://maconnexioninternet.arcep.fr/?lat=" + CenterDeps[this.userLocation.dep]["coordinates"][1] + '&lng=' + CenterDeps[this.userLocation.dep]["coordinates"][0] + '&zoom=' + this.mapProperties.zoomLevel + '&mode=normal')
+    goToPartner(partner, compl) {
+      if (partner == "cstb") {
+        window.open(
+          "https://particulier.gorenove.fr/map?bnb_id=" + this.parcellesDpeId
+        );
+      }
+      if (partner == "copro") {
+        window.open(
+          "https://www.data.gouv.fr/fr/datasets/registre-national-dimmatriculation-des-coproprietes/"
+        );
+      }
+      if (partner == "anah") {
+        window.open("https://www.registre-coproprietes.gouv.fr/annuaire");
+      }
+      if (partner == "annuaire") {
+        window.open(
+          "https://annuaire-entreprises.data.gouv.fr/etablissement/" + compl
+        );
+      }
+      if (partner == "bdnb") {
+        window.open(
+          "https://www.data.gouv.fr/fr/datasets/base-de-donnees-nationale-des-batiments/"
+        );
+      }
+      if (this.userLocation.level == "departement") {
+        if (partner == "arcep") {
+          window.open(
+            "https://maconnexioninternet.arcep.fr/?lat=" +
+              CenterDeps[this.userLocation.dep]["coordinates"][1] +
+              "&lng=" +
+              CenterDeps[this.userLocation.dep]["coordinates"][0] +
+              "&zoom=" +
+              this.mapProperties.zoomLevel +
+              "&mode=normal"
+          );
         }
-        if (partner == 'acceslibre') { 
-          window.open("https://acceslibre.beta.gouv.fr/recherche/?what=&where=" + this.userLocation.depName + "&lat=" + CenterDeps[this.userLocation.dep]["coordinates"][1] + "&lon=" + CenterDeps[this.userLocation.dep]["coordinates"][0] + "&code=" + this.userLocation.dep)
+        if (partner == "acceslibre") {
+          window.open(
+            "https://acceslibre.beta.gouv.fr/recherche/?what=&where=" +
+              this.userLocation.depName +
+              "&lat=" +
+              CenterDeps[this.userLocation.dep]["coordinates"][1] +
+              "&lon=" +
+              CenterDeps[this.userLocation.dep]["coordinates"][0] +
+              "&code=" +
+              this.userLocation.dep
+          );
         }
-        if (partner == 'ign') { 
-          window.open("https://www.geoportail-urbanisme.gouv.fr/map/#tile=1&zoom=" + this.mapProperties.zoomLevel + "&lon=" + CenterDeps[this.userLocation.dep]["coordinates"][0] + "&lat=" + CenterDeps[this.userLocation.dep]["coordinates"][1])
+        if (partner == "ign") {
+          window.open(
+            "https://www.geoportail-urbanisme.gouv.fr/map/#tile=1&zoom=" +
+              this.mapProperties.zoomLevel +
+              "&lon=" +
+              CenterDeps[this.userLocation.dep]["coordinates"][0] +
+              "&lat=" +
+              CenterDeps[this.userLocation.dep]["coordinates"][1]
+          );
         }
       } else {
-        let url = "https://geo.api.gouv.fr/communes?code=" + this.userLocation.com + "&fields=centre"
+        let url =
+          "https://geo.api.gouv.fr/communes?code=" +
+          this.userLocation.com +
+          "&fields=centre";
         fetch(url)
-        .then((response) => {
-            return response.json()
-        })
-        .then((data) => {
-          if (partner == 'arcep') { 
-            window.open("https://maconnexioninternet.arcep.fr/?lat=" + data[0]["centre"]["coordinates"][1] + '&lng=' + data[0]["centre"]["coordinates"][0] + '&zoom=' + this.mapProperties.zoomLevel + '&mode=normal')
-          }
-          if (partner == 'brgm') { 
-            window.open("https://www.georisques.gouv.fr/mes-risques/connaitre-les-risques-pres-de-chez-moi/rapport2?form-adresse=true&isCadastre=false&city=" + this.userLocation.comName + "&type=housenumber&typeForm=commune&codeInsee=" + this.userLocation.com + "&lon=" + data[0]["centre"]["coordinates"][0] + "&lat=" +  data[0]["centre"]["coordinates"][1] + "&go_back=%2F")
-          }
-          if (partner == 'acceslibre') { 
-            window.open("https://acceslibre.beta.gouv.fr/recherche/?what=&where=" + this.userLocation.comName + "&lat=" + data[0]["centre"]["coordinates"][1] + "&lon=" + data[0]["centre"]["coordinates"][0] + "&code=" + this.userLocation.com)
-          }
-          if (partner == 'ign') { 
-            window.open("https://www.geoportail-urbanisme.gouv.fr/map/#tile=1&zoom=" + this.mapProperties.zoomLevel + "&lon=" + data[0]["centre"]["coordinates"][0] + "&lat=" + data[0]["centre"]["coordinates"][1] + "&mlon=" + data[0]["centre"]["coordinates"][0] + "&mlat=" + data[0]["centre"]["coordinates"][1])
-          }
-        })
+          .then((response) => {
+            return response.json();
+          })
+          .then((data) => {
+            if (partner == "arcep") {
+              window.open(
+                "https://maconnexioninternet.arcep.fr/?lat=" +
+                  data[0]["centre"]["coordinates"][1] +
+                  "&lng=" +
+                  data[0]["centre"]["coordinates"][0] +
+                  "&zoom=" +
+                  this.mapProperties.zoomLevel +
+                  "&mode=normal"
+              );
+            }
+            if (partner == "brgm") {
+              window.open(
+                "https://www.georisques.gouv.fr/mes-risques/connaitre-les-risques-pres-de-chez-moi/rapport2?form-adresse=true&isCadastre=false&city=" +
+                  this.userLocation.comName +
+                  "&type=housenumber&typeForm=commune&codeInsee=" +
+                  this.userLocation.com +
+                  "&lon=" +
+                  data[0]["centre"]["coordinates"][0] +
+                  "&lat=" +
+                  data[0]["centre"]["coordinates"][1] +
+                  "&go_back=%2F"
+              );
+            }
+            if (partner == "acceslibre") {
+              window.open(
+                "https://acceslibre.beta.gouv.fr/recherche/?what=&where=" +
+                  this.userLocation.comName +
+                  "&lat=" +
+                  data[0]["centre"]["coordinates"][1] +
+                  "&lon=" +
+                  data[0]["centre"]["coordinates"][0] +
+                  "&code=" +
+                  this.userLocation.com
+              );
+            }
+            if (partner == "ign") {
+              window.open(
+                "https://www.geoportail-urbanisme.gouv.fr/map/#tile=1&zoom=" +
+                  this.mapProperties.zoomLevel +
+                  "&lon=" +
+                  data[0]["centre"]["coordinates"][0] +
+                  "&lat=" +
+                  data[0]["centre"]["coordinates"][1] +
+                  "&mlon=" +
+                  data[0]["centre"]["coordinates"][0] +
+                  "&mlat=" +
+                  data[0]["centre"]["coordinates"][1]
+              );
+            }
+          });
       }
     },
-    getGeoLabel(){
-      var label = ""
+    getGeoLabel() {
+      var label = "";
 
-      if(this.level === 'fra'){
-        label = ""
-      }else if(this.level === 'departement'){
-        label = " ("+this.userLocation.depName+")"
-      }else if(this.level === 'commune'){
-        label = " ("+this.userLocation.comName+")"
-      }else if(this.level === 'section'){
-        label = " ("+this.userLocation.section+")"
-      }else if(this.level === 'parcelle'){
-        label = " ("+this.userLocation.parcelle+")"
+      if (this.level === "fra") {
+        label = "";
+      } else if (this.level === "departement") {
+        label = " (" + this.userLocation.depName + ")";
+      } else if (this.level === "commune") {
+        label = " (" + this.userLocation.comName + ")";
+      } else if (this.level === "section") {
+        label = " (" + this.userLocation.section + ")";
+      } else if (this.level === "parcelle") {
+        label = " (" + this.userLocation.parcelle + ")";
       }
 
-      return label
+      return label;
     },
 
-    getMutationPicto(){
-      return "../assets/images/appartement.svg"
+    getMutationPicto() {
+      return "../assets/images/appartement.svg";
     },
 
-    changeLeftColOpening(){
-      if(this.leftColOpening == "close"||this.leftColOpening == ""){
-        this.leftColOpening = "open"
-      }else{
-        this.leftColOpening = "close"
-      } 
-    }
+    changeLeftColOpening() {
+      if (this.leftColOpening == "close" || this.leftColOpening == "semiopen") {
+        this.leftColOpening = "open";
+      } else {
+        this.leftColOpening = "close";
+      }
+    },
+
+    toggleLinks() {
+      if (this.openLinks == false) {
+        this.openLinks = true;
+        this.openDpe = false;
+        this.openCopro = false;
+      } else {
+        this.openLinks = false;
+      }
+    },
+
+    toggleDpe() {
+      if (this.openDpe == false) {
+        this.openDpe = true;
+        this.openLinks = false;
+        this.openCopro = false;
+      } else {
+        this.openDpe = false;
+      }
+    },
+
+    toggleCopro() {
+      if (this.openCopro == false) {
+        this.openCopro = true;
+        this.openLinks = false;
+        this.openDpe = false;
+      } else {
+        this.openCopro = false;
+      }
+    },
   },
   watch: {
-    
     // level: {
     //   handler(value) {
     //     this.fetchHistoricalData(value)
     //   }
     // },
-    level(){
-      this.fetchHistoricalData(this.level)
+    level() {
+      this.fetchHistoricalData(this.level);
+      if (this.leftColOpening == "close") {
+        this.leftColOpening = "semiopen";
+      }
       //this.buildClientData()
     },
-    dep(){
-      this.fetchHistoricalData(this.level)
+    dep() {
+      this.fetchHistoricalData(this.level);
     },
-    com(){
-      this.fetchHistoricalData(this.level)
+    com() {
+      this.fetchHistoricalData(this.level);
     },
-    section(){
-      this.fetchHistoricalData(this.level)
+    section() {
+      this.fetchHistoricalData(this.level);
     },
-    parcelle(){
-      this.fetchMutationsData(this.parcelle)
+    parcelle() {
+      this.openLinks = false;
+      this.openDpe = false;
+      this.openCopro = false;
+      this.parcellesMutations = null;
+      this.parcellesCopro = null;
+      this.parcellesCoproNb = 0;
+      this.parcellesDpe = null;
+      this.parcellesDpeId = null;
+      this.parcellesDpeNb = 0;
+      this.fetchMutationsData(this.parcelle);
+      this.fetchDpeCoproData(this.parcelle);
     },
-    apiResult(){
-      this.buildClientData()
-      this.storeApiData()
+    apiResult() {
+      this.buildClientData();
+      this.storeApiData();
     },
-    activeFilter(){
-      this.buildClientData()
-    }
-  }
-}
-
+    activeFilter() {
+      this.buildClientData();
+    },
+  },
+};
 </script>
 
 <style scoped>
-
-.leftCol{
+.leftCol {
   position: relative;
   display: inline-block;
-  width: 25%;
-  float:left;
+  width: 30%;
+  float: left;
   padding-left: 20px;
   padding-right: 20px;
   height: 100%;
   overflow: scroll;
 }
 
-.leftColOpener{
+.leftColOpener {
   display: none;
 }
 
-.header_container{
+.header_container {
   padding-bottom: 10px;
 }
 
-.intro_title{
+.intro_title {
   font-size: 28px;
   line-height: 38px;
   margin-bottom: 5px;
   margin-top: 10px;
 }
 
-.intro_text{
+.intro_text {
   font-size: 14px;
   line-height: 24px;
 }
 
-.ariane_container{
+.ariane_container {
   width: 100%;
   margin-top: 20px;
 }
 
-.ariane_container div{
+.ariane_container div {
   display: inline-block;
   font-size: 12px;
-  color:#666666;
+  color: #666666;
 }
 
-.ariane_container div span{
+.ariane_container div span {
   text-decoration: underline;
 }
 
-.ariane_container div:before{
+.ariane_container div:before {
   content: ">";
-  margin:0 5px 0 5px;
+  margin: 0 5px 0 5px;
   text-decoration: none;
 }
 
-.ariane_container div:first-child:before{
+.ariane_container div:first-child:before {
   display: none;
 }
 
-.location_container{
+.location_container {
   width: 100%;
   margin-top: 10px;
+  margin-bottom: 20px;
 }
 
-.location_title{
+.location_title {
   font-weight: 700;
   font-size: 12px;
-  color:#3A3A3A;
+  color: #3a3a3a;
 }
 
-.location_label{
+.location_label {
   font-weight: 800;
   font-size: 28px;
-  color:#161616;
+  color: #161616;
 }
 
-.global_numbers_container{
+.global_numbers_container {
   padding-top: 20px;
   padding-bottom: 20px;
-  border-bottom: 1px solid #E5E5E5;
-  border-top: 1px solid #E5E5E5;
+  border-bottom: 1px solid #e5e5e5;
+  border-top: 1px solid #e5e5e5;
 }
 
-.global_number_wrapper{
+.global_number_wrapper {
   width: 50%;
   display: inline-block;
 }
 
-.global_number_title{
+.global_number_title {
   font-weight: 700;
   font-size: 12px;
-  color:#3A3A3A;
+  color: #3a3a3a;
   line-height: 16px;
 }
 
-.global_number_value{
+.global_number_value {
   font-weight: 800;
   font-size: 24px;
-  color:#161616;
+  color: #161616;
 }
 
-.tab_container{
+.tab_container {
   padding-top: 20px;
   padding-bottom: 20px;
-  border-bottom: 1px solid #E5E5E5;
+  border-bottom: 1px solid #e5e5e5;
 }
 
-.tab_container table{
+.tab_container table {
   width: 100%;
   text-align: center;
-  margin:0 auto;
+  margin: 0 auto;
 }
 
-.tab_container table th{
+.tab_container table th {
   font-size: 12px;
   font-weight: 400;
 }
 
-.tab_container table th svg{
+.tab_container table th svg {
   width: 12px;
   height: 12px;
-  transform:translate(0,1px);
+  transform: translate(0, 1px);
 }
 
-.tab_container table th.hide{
+.tab_container table th.hide {
   opacity: 0.3;
 }
 
-.tab_container table th.left{
+.tab_container table th.left {
   text-align: left;
 }
 
-.tab_container table td{
+.tab_container table td {
   font-size: 12px;
   font-weight: 700;
 }
 
-.tab_container table td.hide{
+.tab_container table td.hide {
   opacity: 0.3;
 }
 
-
-.chart_container{
+.chart_container {
   padding-top: 20px;
   padding-bottom: 20px;
-  border-bottom: 1px solid #E5E5E5;
+  border-bottom: 1px solid #e5e5e5;
   position: relative;
 }
 
-.links_container{
+.links_container {
   padding-top: 0px;
   padding-bottom: 5px;
-  border-bottom: 1px solid #E5E5E5;
-}
-
-.chart_title{
-  font-size: 12px;
-  font-weight: 700;
-  line-height: 16px;
-}
-
-.chart_geo{
-  font-size: 12px;
-  font-weight: 700;
-  line-height: 16px;
-}
-
-.chart_info_btn{
-  display: inline-block; 
-  margin-left: 5px;
+  border-bottom: 1px solid #e5e5e5;
+  height: 35px;
+  overflow: hidden;
   position: relative;
-  top:3px;
-  width: 15px;
-  height: 15px;
-  border-radius: 50%;
-  background-color: #E6EEFE;
+  margin-bottom: 15px;
+}
+
+.links_container[data-open="open"] {
+  height: auto;
+}
+
+.links_title {
+  font-size: 14px;
+  font-weight: 400;
+  margin-bottom: 20px;
+  position: relative;
+  left: 10px;
   cursor: pointer;
 }
 
-.chart_info_bulle{
+.links_title svg {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translate(0, -50%) rotate(180deg);
+}
+
+.links_container[data-open="open"] .links_title {
+  font-weight: 700;
+}
+
+.links_container[data-open="open"] .links_title svg {
+  transform: translate(0, -50%) rotate(0deg);
+}
+
+.chart_title {
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 16px;
+}
+
+.chart_geo {
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 16px;
+}
+
+.chart_info_btn {
+  display: inline-block;
+  margin-left: 5px;
+  position: relative;
+  top: 3px;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background-color: #e6eefe;
+  cursor: pointer;
+}
+
+.chart_info_bulle {
   position: absolute;
   width: 80%;
   font-size: 12px;
   font-weight: 400;
   background-color: white;
-  left:50%;
-  top:50px;
-  transform: translate(-50%,0);
+  left: 50%;
+  top: 50px;
+  transform: translate(-50%, 0);
   padding: 10px;
   line-height: 16px;
   border-radius: 5px;
   display: block;
-  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.16), 0px 1px 0px -2px rgba(0, 0, 0, 0.16), 0px 1px 4px rgba(0, 0, 0, 0.23);
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.16),
+    0px 1px 0px -2px rgba(0, 0, 0, 0.16), 0px 1px 4px rgba(0, 0, 0, 0.23);
 }
 
-.chart_info_btn div{
+.chart_info_btn div {
   display: block;
   position: absolute;
-  left:50%;
-  top:50%;
-  transform:translate(-50%,-50%);
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
   font-size: 12px;
   font-weight: 700;
 }
 
-.mutations_container{
-  margin-top: 20px;
+.mutations_container {
+  margin-top: 30px;
 }
 
-.mutation_box{
+.title_mutations {
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.mutations_total {
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 16px;
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.mutation_box {
   width: 100%;
   /*max-width: 450px;*/
-  min-height:50px;
-  margin:0 auto 15px;
+  min-height: 50px;
+  margin: 0 auto 35px;
 }
 
-.mutation_box .content{
-  border:1px solid #eeeeee;
-  padding:20px;
+.mutation_box .content {
+  border: 1px solid #eeeeee;
+  padding: 20px;
   position: relative;
 }
 
-.mutation_box .content .nature{
+.mutation_box .content .nature {
   position: absolute;
-  top:0;
+  top: 0;
   font-size: 12px;
   font-weight: 700;
-  color:#666666;
+  color: #666666;
   background-color: white;
-  border:1px solid #eeeeee;
+  border: 1px solid #eeeeee;
   border-radius: 4px;
   padding: 0 6px 0 6px;
-  text-transform:uppercase;
-  transform: translate(0,-50%);
+  text-transform: uppercase;
+  transform: translate(0, -50%);
 }
 
-.mutation_box .content .price{
+.mutation_box .content .price {
   font-size: 18px;
   font-weight: 800;
   display: block;
   color: #161616;
 }
 
-.mutation_box .content .infos{
+.mutation_box .content .infos {
   padding: 0 10px 0;
 }
 
-.mutation_box .content .topinfo{
+.mutation_box .content .topinfo {
   font-size: 12px;
-  color:#666666;
+  color: #666666;
   font-weight: 400;
   display: block;
   height: 20px;
 }
 
-.mutation_box .content .topinfo img{
+.mutation_box .content .complInfo {
+  font-size: 11px;
+  color: #666666;
+  font-weight: 400;
+  display: block;
+}
+
+.mutation_box .content .topinfo img {
   vertical-align: middle;
 }
 
-.mutation_box .content .date{
+.mutation_box .content .date {
   margin-bottom: 10px;
 }
 
-.infos_item{
+.infos_item {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -893,17 +1350,17 @@ export default {
   align-items: center;
 }
 
-.infos_item .title{
+.infos_item .title {
   font-size: 12px;
   font-weight: 400;
-  color:#161616;
+  color: #161616;
 }
 
-.infos_item .title img{
+.infos_item .title img {
   vertical-align: middle;
 }
 
-.infos_item .filet{
+.infos_item .filet {
   width: auto;
   height: 1px;
   background-color: #eeeeee;
@@ -912,41 +1369,115 @@ export default {
   margin-right: 10px;
 }
 
-.infos_item .value{
+.infos_item .value {
   font-size: 12px;
   font-weight: 700;
-  color:#161616;
+  color: #161616;
 }
 
-.cardPartner{
+.cardPartner {
   padding-bottom: 10px;
   display: flex;
   cursor: pointer;
 }
 
-.textPartner{
-  color:#3558A2;
+.textPartner {
+  color: #3558a2;
   font-size: 12px;
   font-weight: 700;
   line-height: 12px;
+  cursor: pointer;
 }
 
-@media screen and (max-width: 1279px){
+.dpe-tag {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 500;
+  width: 64px;
+  height: 32px;
+  line-height: 32px;
+  padding-right: 12px;
+  text-align: center;
+  clip-path: polygon(0 0, 75% 0, 75% 0, 99% 50%, 75% 99%, 75% 99%, 0 99%);
+}
 
-  .leftCol{
+.content-dpe {
+  font-size: 12px;
+}
+
+.content-copro {
+  font-size: 12px;
+}
+
+.dpe-final {
+  margin-top: 10px;
+}
+
+.copro-final {
+  margin-top: 10px;
+}
+
+.one-dpe {
+  margin-left: 40px;
+  margin-right: 40px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ebebeb;
+}
+
+.one-copro {
+  margin-left: 40px;
+  margin-right: 40px;
+  margin-top: 10px;
+  border: 1px solid #ebebeb;
+}
+
+.etiquette-dpe {
+  display: flex;
+  flex-direction: row;
+  height: 40px;
+}
+
+.title-etiquette {
+  margin-left: 15px;
+  line-height: 30px;
+}
+
+.dpe-color-a {
+  background-color: #009c6d;
+}
+.dpe-color-b {
+  background-color: #52b153;
+}
+.dpe-color-c {
+  background-color: #78bd76;
+}
+.dpe-color-d {
+  background-color: #f4e70f;
+}
+.dpe-color-e {
+  background-color: #f0b50f;
+}
+.dpe-color-f {
+  background-color: #eb8235;
+}
+.dpe-color-g {
+  background-color: #d7221f;
+}
+
+@media screen and (max-width: 1279px) {
+  .leftCol {
     width: 40%;
   }
-
 }
 
-@media screen and (max-width: 767px){
-
-  .leftCol{
+@media screen and (max-width: 767px) {
+  .leftCol {
     position: absolute;
     width: 95%;
-    left:50%;
-    top:70%;
-    transform:translate(-50%,-40px);
+    left: 50%;
+    top: 70%;
+    transform: translate(-50%, -40px);
     z-index: 99;
     background-color: white;
     padding-top: 25px;
@@ -955,39 +1486,38 @@ export default {
     transition: all 0.3s ease-in-out;
   }
 
-  .leftCol.close{
-    top:100%;
+  .leftCol.close {
+    top: 100%;
   }
 
-  .leftCol.open{
-    top:10%;
+  .leftCol.open {
+    top: 10%;
     overflow: scroll;
   }
 
-  .leftColOpener{
+  .leftCol.semiopen {
+    top: 70%;
+  }
+
+  .leftColOpener {
     display: block;
-    font-size: 25px;
     height: 40px;
     position: absolute;
-    padding-top:10px;
-    top:0;
-    left:50%;
-    transform:translate(-50%,0);
+    padding-top: 10px;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, 0);
     width: 100%;
     text-align: center;
   }
 
-  .leftColOpener span{
+  .leftColOpener svg {
     position: relative;
-    top:0;
+    top: 0;
   }
 
-  .leftCol.open .leftColOpener{
-    transform:translate(-50%,0) rotate(180deg);
+  .leftCol.open .leftColOpener {
+    transform: translate(-50%, 0) rotate(180deg);
   }
-
-  
 }
-
-
 </style>
