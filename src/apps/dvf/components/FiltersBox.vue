@@ -207,7 +207,7 @@ export default {
   #filtersBox {
     right: auto;
     left: 50%;
-    transform: translate(-50%, 0);
+    transform: translate(-55%, 0);
   }
 }
 </style>
