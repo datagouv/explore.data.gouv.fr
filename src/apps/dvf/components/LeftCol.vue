@@ -311,7 +311,7 @@
                   {{ item["type"] }}
                 </span>
                 <div class="filet" v-if="item['surface']"></div>
-                <span class="value" v-if="p['surface'] != null">{{ item["surface"] }}</span>
+                <span class="value" v-if="item['surface'] != null">{{ item["surface"] }}</span>
               </span>
 
               <span 
