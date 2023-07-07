@@ -1,42 +1,44 @@
 <template>
-  <div class="fr-container fr-container-lg--fluid" id="searchMap">
-    <div class="autocomplete-container">
-      <div class="fr-search-bar" id="search-540" role="search">
-        <label class="fr-label" for="search-540-input"> Rechercher </label>
-        <input
-          v-model="searchAdress"
-          class="fr-input"
-          placeholder="Rechercher une adresse"
-          type="search"
-          id="search-540-input"
-          name="search-540-input"
-          v-on:keyup.enter="goToFirstResult()"
-          @input="autoComplete()"
-        />
-        <button
-          class="fr-btn search-btn"
-          title="Rechercher"
-          @click="getAdresses()"
-        >
-          Rechercher
-        </button>
-      </div>
-      <div v-if="resultsAdresses" class="autocomplete">
-        <div
-          @click="moveTo(item.geometry.coordinates, 13)"
-          v-for="item in resultsAdresses.features"
-          :key="item.properties.label"
-        >
-          <div
-            :class="
-              firstResult.properties.label === item.properties.label
-                ? 'autocomplete-item autocomplete-item-select'
-                : 'autocomplete-item'
-            "
-            @mouseover="firstResult = item"
+  <div>
+    <div class="fr-container fr-container-lg--fluid" id="searchMap">
+      <div class="autocomplete-container">
+        <div class="fr-search-bar" id="search-540" role="search">
+          <label class="fr-label" for="search-540-input"> Rechercher </label>
+          <input
+            v-model="searchAdress"
+            class="fr-input"
+            placeholder="Rechercher une adresse"
+            type="search"
+            id="search-540-input"
+            name="search-540-input"
+            v-on:keyup.enter="goToFirstResult()"
+            @input="autoComplete()"
+          />
+          <button
+            class="fr-btn search-btn"
+            title="Rechercher"
+            @click="getAdresses()"
           >
-            {{ item.properties.label }}
-          </div>
+            Rechercher
+          </button>
+        </div>
+      </div>
+    </div>
+    <div v-if="resultsAdresses" class="autocomplete">
+      <div
+        @click="moveTo(item.geometry.coordinates, 13)"
+        v-for="item in resultsAdresses.features"
+        :key="item.properties.label"
+      >
+        <div
+          :class="
+            firstResult.properties.label === item.properties.label
+              ? 'autocomplete-item autocomplete-item-select'
+              : 'autocomplete-item'
+          "
+          @mouseover="firstResult = item"
+        >
+          {{ item.properties.label }}
         </div>
       </div>
     </div>
@@ -116,6 +118,8 @@ export default {
   border-top: 1px solid #ebebeb;
   width: 305px;
   z-index: 999;
+  top: 50px;
+  right: 45px;
 }
 
 input {
