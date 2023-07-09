@@ -9,6 +9,8 @@ export default new Vuex.Store({
     mapProperties: {
       lng: 2,
       lat: 46.3,
+      centerLat: 2,
+      centerLng: 46.3,
       zoom: null,
       zoomLevel: 4.8,
       init: true,
@@ -71,6 +73,12 @@ export default new Vuex.Store({
     },
     changeMapLng(state, data) {
       state.mapProperties.lng = data
+    },
+    changeCenterMapLat(state, data) {
+      state.mapProperties.centerLat = data
+    },
+    changeCenterMapLng(state, data) {
+      state.mapProperties.centerLng = data
     },
     changeMapInit(state, data) {
       state.mapProperties.init = data

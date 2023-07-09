@@ -122,6 +122,7 @@ export default {
       changeDep: false,
       changeCom: false,
       mapStyle: "vector",
+      waitZoom: false,
     };
   },
   computed: {
@@ -145,6 +146,12 @@ export default {
     },
     lat: function () {
       return appStore.state.mapProperties.lat;
+    },
+    centerLng: function () {
+      return appStore.state.mapProperties.centerLng;
+    },
+    centerLat: function () {
+      return appStore.state.mapProperties.centerLat;
     },
     zoom: function () {
       return appStore.state.mapProperties.zoom;
@@ -405,7 +412,6 @@ export default {
               this.changeCom = true;
               let comToChange = ["751", "132", "693"];
               let littleDep = ["92", "93", "94"];
-              console.log(this.mousePosition);
               if (
                 comToChange.includes(
                   this.mousePosition.com.code.substring(0, 3)
@@ -599,6 +605,15 @@ export default {
           appStore.commit("changeMapLng", e.lngLat.wrap().lng);
         });
 
+        this.map.on("move", (e) => {
+          appStore.commit("changeCenterMapLat", this.map.getCenter().lat);
+          appStore.commit("changeCenterMapLng", this.map.getCenter().lng);
+        });
+
+        this.map.on("moveend", (e) => {
+          this.waitZoom = false;
+        });
+
         this.map.on("click", "sections_fill", (e) => {
           let sectionId = e.features[0]["properties"]["id"];
           // appStore.commit("changeLocationSection", sectionId)
@@ -612,7 +627,6 @@ export default {
             let zoom = 15;
             let comToChange = ["751", "132", "693"];
             let littleDep = ["92", "93", "94"];
-            console.log(this.mousePosition);
             if (
               comToChange.includes(
                 this.mousePosition.com.code.substring(0, 3)
@@ -632,49 +646,74 @@ export default {
         });
 
         this.map.on("load", (e) => {
-          if (this.$route.query.level && this.$route.query.code) {
-            setTimeout((e) => {
-              if (this.$route.query.level == "departement") {
-                this.mousePosition.dep.code = this.$route.query.code;
-                this.mousePosition.dep.nom =
-                  CenterDeps[this.$route.query.code]["nom"];
-                this.changeDep = true;
-                let depBonus = ["75", "92", "93", "94"];
-                let bonus = 0;
-                if (depBonus.includes(this.$route.query.code)) {
-                  bonus = 1.8;
-                }
-                this.map.flyTo({
-                  center: CenterDeps[this.$route.query.code]["coordinates"],
-                  zoom: 9 + bonus,
-                });
-              } else {
-                fetch(
-                  "https://geo.api.gouv.fr/communes?code=" +
-                    this.$route.query.code.substring(0, 5) +
-                    "&fields=centre"
-                )
-                  .then((response) => {
-                    return response.json();
-                  })
-                  .then((data) => {
-                    this.mousePosition.com.code =
-                      this.$route.query.code.substring(0, 5);
-                    this.mousePosition.com.nom = data[0]["nom"];
-                    this.mousePosition.dep.code = this.getCode(
-                      this.$route.query.code
-                    );
-                    this.mousePosition.dep.nom =
-                      CenterDeps[this.getCode(this.$route.query.code)]["nom"];
-                    this.map.flyTo({
-                      center: data[0]["centre"]["coordinates"],
-                      zoom: 12,
-                    });
-                  });
-              }
-              appStore.commit("changeMapInit", false);
-            }, 500);
-          }
+          setTimeout((e) => {
+            if (
+              this.$route.query.level &&
+              this.$route.query.level === "departement"
+            ) {
+              this.mousePosition.dep.code = this.$route.query.code;
+              this.mousePosition.dep.nom =
+                CenterDeps[this.$route.query.code]["nom"];
+              this.changeDep = true;
+            }
+            if (
+              this.$route.query.level &&
+              this.$route.query.level === "commune"
+            ) {
+              this.mousePosition.com.code = this.$route.query.code;
+              this.mousePosition.com.nom = this.$route.query.code;
+              this.changeCom = true;
+            }
+            if (
+              this.$route.query.level &&
+              this.$route.query.level === "section"
+            ) {
+              this.mousePosition.section.code = this.$route.query.code;
+              this.mousePosition.section.nom = this.$route.query.code;
+            }
+            if (
+              this.$route.query.level &&
+              this.$route.query.level === "parcelle"
+            ) {
+              this.mousePosition.parcelle.code = this.$route.query.code;
+              this.mousePosition.parcelle.nom = this.$route.query.code;
+              this.changeLocation(
+                "changeUserLocation",
+                "parcelle",
+                this.$route.query.code,
+                this.$route.query.code
+              );
+
+              let matchExpression = ["match", ["get", "id"]];
+              matchExpression.push(
+                this.$route.query.code,
+                "rgba(255, 0, 0, 0.5)"
+              );
+              matchExpression.push("rgba(0, 0, 255, 0.2)");
+              this.map.setPaintProperty(
+                "parcelles_fill",
+                "fill-color",
+                matchExpression
+              );
+              this.map.setLayoutProperty(
+                "departements_fill",
+                "visibility",
+                "none"
+              );
+              this.map.setLayoutProperty("epcis_fill", "visibility", "none");
+              this.waitZoom = true;
+            }
+            if (
+              this.$route.query.lat &&
+              this.$route.query.lng &&
+              this.$route.query.zoom
+            ) {
+              this.map.flyTo({
+                center: [this.$route.query.lng, this.$route.query.lat],
+                zoom: this.$route.query.zoom,
+              });
+            }
+          }, 500);
         });
 
         this.map.addControl(
@@ -1182,65 +1221,79 @@ export default {
       });
     },
     zoomLevel() {
-      if (this.zoomLevel < 8) {
-        if (this.level != "fra") {
-          this.map.setLayoutProperty("epcis_fill", "visibility", "visible");
-          this.map.setLayoutProperty(
-            "departements_fill",
-            "visibility",
-            "visible"
-          );
-          this.changeLocation("changeUserLocation", "fra", null, "France");
-          this.changeLocation("changeMouseLocation", "fra", null, "France");
-          this.manageChloroplethColors();
+      if (this.waitZoom === false) {
+        if (this.zoomLevel < 8) {
+          if (this.level != "fra") {
+            this.map.setLayoutProperty("epcis_fill", "visibility", "visible");
+            this.map.setLayoutProperty(
+              "departements_fill",
+              "visibility",
+              "visible"
+            );
+            this.changeLocation("changeUserLocation", "fra", null, "France");
+            this.changeLocation("changeMouseLocation", "fra", null, "France");
+            this.manageChloroplethColors();
+          }
         }
-      }
-      if (this.zoomLevel >= 8 && this.zoomLevel < 12) {
-        if (this.level != "departement" || this.changeDep) {
-          this.map.setLayoutProperty("epcis_fill", "visibility", "none");
-          this.map.setLayoutProperty("communes_fill", "visibility", "visible");
-          this.changeLocation(
-            "changeUserLocation",
-            "departement",
-            this.mousePosition.dep.code,
-            this.mousePosition.dep.nom
-          );
-          this.displayCommunes(this.mousePosition.dep.code);
-          this.changeDep = false;
-          this.manageChloroplethColors();
+        if (this.zoomLevel >= 8 && this.zoomLevel < 12) {
+          if (this.level != "departement" || this.changeDep) {
+            this.map.setLayoutProperty("epcis_fill", "visibility", "none");
+            this.map.setLayoutProperty(
+              "communes_fill",
+              "visibility",
+              "visible"
+            );
+            this.changeLocation(
+              "changeUserLocation",
+              "departement",
+              this.mousePosition.dep.code,
+              this.mousePosition.dep.nom
+            );
+            this.displayCommunes(this.mousePosition.dep.code);
+            this.changeDep = false;
+            this.manageChloroplethColors();
+          }
         }
-      }
-      if (this.zoomLevel >= 12 && this.zoomLevel < 14) {
-        if (this.level != "commune" || this.changeCom) {
-          this.map.setLayoutProperty(
-            "departements_fill",
-            "visibility",
-            "visible"
-          );
-          this.map.setPaintProperty("departements_fill", "fill-opacity", 0);
-          this.map.setLayoutProperty("epcis_fill", "visibility", "none");
-          this.map.setLayoutProperty("sections_fill", "visibility", "visible");
-          this.displaySections(this.mousePosition.com.code);
-          this.changeLocation(
-            "changeUserLocation",
-            "commune",
-            this.mousePosition.com.code,
-            this.mousePosition.com.nom
-          );
-          this.manageChloroplethColors();
-          this.changeCom = false;
+        if (this.zoomLevel >= 12 && this.zoomLevel < 14) {
+          if (this.level != "commune" || this.changeCom) {
+            this.map.setLayoutProperty(
+              "departements_fill",
+              "visibility",
+              "visible"
+            );
+            this.map.setPaintProperty("departements_fill", "fill-opacity", 0);
+            this.map.setLayoutProperty("epcis_fill", "visibility", "none");
+            this.map.setLayoutProperty(
+              "sections_fill",
+              "visibility",
+              "visible"
+            );
+            this.displaySections(this.mousePosition.com.code);
+            this.changeLocation(
+              "changeUserLocation",
+              "commune",
+              this.mousePosition.com.code,
+              this.mousePosition.com.nom
+            );
+            this.manageChloroplethColors();
+            this.changeCom = false;
+          }
         }
-      }
-      if (this.zoomLevel >= 14) {
-        if (this.level != "section" && this.parcelle === null) {
-          this.map.setLayoutProperty("departements_fill", "visibility", "none");
-          this.map.setLayoutProperty("epcis_fill", "visibility", "none");
-          this.changeLocation(
-            "changeUserLocation",
-            "section",
-            this.mousePosition.section.code,
-            this.mousePosition.section.nom
-          );
+        if (this.zoomLevel >= 14) {
+          if (this.level != "section" && this.parcelle === null) {
+            this.map.setLayoutProperty(
+              "departements_fill",
+              "visibility",
+              "none"
+            );
+            this.map.setLayoutProperty("epcis_fill", "visibility", "none");
+            this.changeLocation(
+              "changeUserLocation",
+              "section",
+              this.mousePosition.section.code,
+              this.mousePosition.section.nom
+            );
+          }
         }
       }
     },
