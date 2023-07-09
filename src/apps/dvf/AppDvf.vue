@@ -97,6 +97,12 @@ export default {
     lng: function () {
       return appStore.state.mapProperties.lng;
     },
+    centerLat: function () {
+      return appStore.state.mapProperties.centerLat;
+    },
+    centerLng: function () {
+      return appStore.state.mapProperties.centerLng;
+    },
     level: function () {
       return appStore.state.userLocation.level;
     },
@@ -144,14 +150,6 @@ export default {
     } else {
       this.changeActivePanel("carte");
     }
-
-    /* if(this.$route.query.filtre){
-      if(this.$route.query.filtre != this.activeFilter){
-        this.updateActiveFilter(this.$route.query.filtre) 
-      }
-    }else{
-      this.updateActiveFilter("tous")
-    } */
   },
   methods: {
     changeActivePanel(id) {
@@ -186,6 +184,19 @@ export default {
     //     this.$router.push({path: this.$route.path, query: { ...this.$route.query, zoom: zoomLevel }})
     //   }
     // },
+    updateActiveLatLng() {
+      this.$router
+        .push({
+          path: this.$route.path,
+          query: {
+            ...this.$route.query,
+            lat: this.centerLat.toFixed(5),
+            lng: this.centerLng.toFixed(5),
+            zoom: this.zoomLevel.toFixed(2),
+          },
+        })
+        .catch(() => {});
+    },
     updateActivePosition() {
       let level = this.level;
       if (level == "departement") {
@@ -267,6 +278,12 @@ export default {
     },
     userLocation() {
       this.updateActivePosition();
+    },
+    centerLat() {
+      this.updateActiveLatLng();
+    },
+    centerLng() {
+      this.updateActiveLatLng();
     },
   },
 };
