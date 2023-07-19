@@ -235,11 +235,15 @@
 
         <div class="global_numbers_container">
           <div class="global_number_wrapper">
-            <div class="global_number_title">Nombre total de ventes</div>
+            <div class="global_number_title">Nombre total de ventes<div class="info_btn" @mouseover="hoveredInfo='ventes'" @mouseleave="hoveredInfo=''"><div>?</div></div></div>
+
+            <div class="info_bulle" v-if="hoveredInfo=='ventes'">Nombre total de ventes immobilières pendant les 5 dernières années</div>
+
             <div class="global_number_value">{{clientData["totalVentes"]}}</div>
           </div>
           <div class="global_number_wrapper">
-            <div class="global_number_title">Prix de vente médian au m²</div>
+            <div class="global_number_title">Prix de vente médian au m²<div class="info_btn" @mouseover="hoveredInfo='prix'" @mouseleave="hoveredInfo=''"><div>?</div></div></div>
+             <div class="info_bulle" v-if="hoveredInfo=='prix'">Prix médian du m² de l'ensemble des ventes immobilières des 5 dernières années</div>
             <div class="global_number_value">{{clientData["totalAverage"]}}</div>
           </div>
         </div>
@@ -374,6 +378,7 @@ export default {
       parcellesDpeNb: 0,
       parcellesDpeId: null,
       leftColOpening: "semiopen",
+      hoveredInfo:"",
       hoveredBulle: "",
       openLinks: false,
       openDpe: false,
@@ -1111,6 +1116,7 @@ export default {
 .global_number_wrapper {
   width: 50%;
   display: inline-block;
+  position: relative;
 }
 
 .global_number_title {
@@ -1118,6 +1124,38 @@ export default {
   font-size: 12px;
   color: #3a3a3a;
   line-height: 16px;
+  position: relative;
+}
+
+.global_number_title .info_btn{
+  display: inline-block;
+  margin-left: 5px;
+  position: relative;
+  top: 0px;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background-color: #e6eefe;
+  cursor: pointer;
+  padding-left: 4px;
+}
+
+.info_bulle{
+  position: absolute;
+  width: 100%;
+  font-size: 12px;
+  font-weight: 400;
+  background-color: white;
+  left: 50%;
+  top: 18px;
+  transform: translate(-50%, 0);
+  padding: 10px;
+  line-height: 16px;
+  border-radius: 5px;
+  display: block;
+  z-index: 999;
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.16),
+    0px 1px 0px -2px rgba(0, 0, 0, 0.16), 0px 1px 4px rgba(0, 0, 0, 0.23);
 }
 
 .global_number_value {

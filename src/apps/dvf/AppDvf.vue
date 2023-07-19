@@ -130,14 +130,12 @@ export default {
       }
     },
     appLink: function () {
-      return window.location.origin + "/dvf?onglet=carte&filtre=tous";
+      return window.location.origin + "/immobilier?onglet=carte&filtre=tous";
     },
     isMobile: function () {
       if (window.innerWidth < 768) {
-        console.log("is mobile");
         return true;
       } else {
-        console.log("is not mobile");
         return false;
       }
     },

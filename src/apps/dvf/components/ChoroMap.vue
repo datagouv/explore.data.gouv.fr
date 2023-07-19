@@ -11,7 +11,7 @@
       <div class="tooltip_body">
         <b>{{ tooltip.place }}</b>
         <div
-          v-if="tooltip.value && tooltip.value != 'nodata'"
+          v-if="tooltip.value && tooltip.value != 'nodata' && tooltip.value !='smalldata'"
           class="tooltip_place"
         >
           <b>{{ tooltip.value }}</b> par m²
@@ -23,6 +23,12 @@
           Pas de données disponible<br /><b
             >Consultez notre FAQ pour en savoir plus</b
           >
+        </div>
+        <div
+          v-if="tooltip.value && tooltip.value == 'smalldata'"
+          class="tooltip_place"
+        >
+          Pas assez de données pour faire une visualisation
         </div>
       </div>
     </div>
@@ -1158,7 +1164,11 @@ export default {
       }
 
       if (result[this.actualPropertyPrix] === null) {
-        this.tooltip.value = "nodata";
+        if(code==57||code==67||code==68){
+          this.tooltip.value = "nodata";
+        }else{
+          this.tooltip.value = "smalldata";
+        }
       } else {
         this.tooltip.value =
           Math.round(result[this.actualPropertyPrix]).toLocaleString() + "€";
