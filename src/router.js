@@ -32,7 +32,7 @@ export default new Router({
       component: AppDvf
     },
     {
-      path: '/immobilier',
+      path: '/dvf',
       name: 'AppDvf',
       component: AppDvf
     },
