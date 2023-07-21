@@ -52,36 +52,28 @@
       <div class="links_container" v-if="level != 'fra'" :data-open="(openLinks)?'open':''">
           <div class="links_title" @click="toggleLinks()">Liens utiles <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M4.99999 2.21917L1.69999 5.51916L0.757324 4.5765L4.99999 0.333832L9.24266 4.5765L8.29999 5.51916L4.99999 2.21917Z" fill="#161616"/></svg></div>
           <div class="cardPartner" @click="goToPartner('arcep')">
-            <!-- <div class="logoPartner">
-              <img src="../assets/logos/arcep.png" width="100" />
-            </div> -->
+            
             <div class="textPartner">
               <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M4 2V3H1.5V8.5H7V6H8V9C8 9.27614 7.77614 9.5 7.5 9.5H1C0.723858 9.5 0.5 9.27614 0.5 9V2.5C0.5 2.22386 0.723858 2 1 2H4ZM9.5 0.5V5L7.603 3.1035L4.6035 6.1035L3.8965 5.3965L6.896 2.3965L5 0.5H9.5Z" fill="#3558A2"/></svg>
               Voir la couverture réseaux sur maconnexioninternet.arcep.fr
             </div>
           </div>
           <div class="cardPartner" @click="goToPartner('brgm')" v-if="this.userLocation.level != 'departement'">
-            <!-- <div class="logoPartner">
-              <img src="../assets/logos/logo_GR.png" width="100" />
-            </div> -->
+            
             <div class="textPartner">
               <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M4 2V3H1.5V8.5H7V6H8V9C8 9.27614 7.77614 9.5 7.5 9.5H1C0.723858 9.5 0.5 9.27614 0.5 9V2.5C0.5 2.22386 0.723858 2 1 2H4ZM9.5 0.5V5L7.603 3.1035L4.6035 6.1035L3.8965 5.3965L6.896 2.3965L5 0.5H9.5Z" fill="#3558A2"/></svg>
               Voir les risques sur georisques.gouv.fr
             </div>
           </div>
           <div class="cardPartner" @click="goToPartner('acceslibre')">
-            <!-- <div class="logoPartner">
-              <img src="../assets/logos/acceslibre.svg" width="100" />
-            </div> -->
+            
             <div class="textPartner">
               <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M4 2V3H1.5V8.5H7V6H8V9C8 9.27614 7.77614 9.5 7.5 9.5H1C0.723858 9.5 0.5 9.27614 0.5 9V2.5C0.5 2.22386 0.723858 2 1 2H4ZM9.5 0.5V5L7.603 3.1035L4.6035 6.1035L3.8965 5.3965L6.896 2.3965L5 0.5H9.5Z" fill="#3558A2"/></svg>
               Voir l’accessibilité sur acceslibre.beta.gouv.fr
             </div>
           </div>
           <div class="cardPartner" @click="goToPartner('ign')">
-            <!--  <div class="logoPartner">
-              <img src="../assets/logos/logo-geoportail.svg" width="100" />
-            </div> -->
+            
             <div class="textPartner">
               <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M4 2V3H1.5V8.5H7V6H8V9C8 9.27614 7.77614 9.5 7.5 9.5H1C0.723858 9.5 0.5 9.27614 0.5 9V2.5C0.5 2.22386 0.723858 2 1 2H4ZM9.5 0.5V5L7.603 3.1035L4.6035 6.1035L3.8965 5.3965L6.896 2.3965L5 0.5H9.5Z" fill="#3558A2"/></svg>
               Voir les informations d’urbanisme sur geoportail-urbanisme.gouv.fr
@@ -986,17 +978,11 @@ export default {
     },
   },
   watch: {
-    // level: {
-    //   handler(value) {
-    //     this.fetchHistoricalData(value)
-    //   }
-    // },
     level() {
       this.fetchHistoricalData(this.level);
       if (this.leftColOpening == "close") {
         this.leftColOpening = "semiopen";
       }
-      //this.buildClientData()
     },
     dep() {
       this.fetchHistoricalData(this.level);
