@@ -168,20 +168,6 @@ export default {
         })
         .catch(() => {});
     },
-    // updateActiveLatLng(){
-    //   let lat = parseFloat(this.lat).toFixed(2)
-    //   let lng = parseFloat(this.lng).toFixed(2)
-    //   let zoomLevel = parseFloat(this.zoomLevel).toFixed(2)
-    //   if (lat != this.$route.query.lat) {
-    //     this.$router.push({path: this.$route.path, query: { ...this.$route.query, lat: lat }})
-    //   }
-    //   if (lng != this.$route.query.lng) {
-    //     this.$router.push({path: this.$route.path, query: { ...this.$route.query, lng: lng }})
-    //   }
-    //   if (zoomLevel != this.$route.query.zoom) {
-    //     this.$router.push({path: this.$route.path, query: { ...this.$route.query, zoom: zoomLevel }})
-    //   }
-    // },
     updateActiveLatLng() {
       this.$router
         .push({
@@ -262,15 +248,6 @@ export default {
     },
   },
   watch: {
-    // zoomLevel(){
-    //   this.updateActiveLatLng()
-    // },
-    // lat(){
-    //   this.updateActiveLatLng()
-    // },
-    // lng(){
-    //   this.updateActiveLatLng()
-    // },
     level() {
       this.updateActivePosition();
     },

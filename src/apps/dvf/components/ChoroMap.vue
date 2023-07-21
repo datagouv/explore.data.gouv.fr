@@ -412,9 +412,6 @@ export default {
               this.userLocation.dep == this.mouseLocation.dep
             ) {
               let zoom = 12;
-              // if (parseInt(this.userLocation.dep.substring(0, 2)) >= 97) {
-              //   zoom = 14;
-              // }
               this.changeCom = true;
               let comToChange = ["751", "132", "693"];
               let littleDep = ["92", "93", "94"];
@@ -574,8 +571,6 @@ export default {
                   0
                 );
               } else {
-                /* this.tooltip.value = null */
-                /* this.tooltip.place = "Changer de département" */
                 this.tooltip.visibility = false;
               }
             }
@@ -589,8 +584,6 @@ export default {
               this.displayTooltip(e);
             }
             if (sectionId.substring(0, 5) != this.userLocation.com) {
-              //this.tooltip.value = null
-              //this.tooltip.place = "Changer de commune"
               this.tooltip.visibility = false;
             }
             this.changeLocation(
@@ -622,8 +615,6 @@ export default {
 
         this.map.on("click", "sections_fill", (e) => {
           let sectionId = e.features[0]["properties"]["id"];
-          // appStore.commit("changeLocationSection", sectionId)
-          // appStore.commit("changeLocationLevel", "section")
           if (
             this.userLocation.level == "commune" &&
             this.userLocation.com == this.mouseLocation.com
@@ -646,7 +637,6 @@ export default {
                 center: [e.lngLat.lng, e.lngLat.lat],
                 zoom: zoom,
               });
-              //this.changeLocation("changeUserLocation", "section", sectionId)
             }
           }
         });
@@ -1106,7 +1096,6 @@ export default {
       } else {
         this.tooltip.visibility = "visible";
       }
-      //const containerRect = e.target.getBoundingClientRect()
       let tooltipX = e.point.x + 350;
       let tooltipY = e.point.y + 150;
       this.tooltip.top = tooltipY + "px";
