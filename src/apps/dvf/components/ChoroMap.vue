@@ -1153,7 +1153,7 @@ export default {
       }
 
       if (result[this.actualPropertyPrix] === null) {
-        if(code==57||code==67||code==68){
+        if(code==57||code==67||code==68||code.slice(0,2)==57||code.slice(0,2)==67||code.slice(0,2)==68){
           this.tooltip.value = "nodata";
         }else{
           this.tooltip.value = "smalldata";

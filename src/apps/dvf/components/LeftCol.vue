@@ -223,7 +223,7 @@
           </div>
         </div>
 
-      <div class="stats_container" v-if="level != 'parcelle'">
+      <div class="stats_container" v-if="level != 'parcelle'&&nodata==false">
 
         <div class="global_numbers_container">
           <div class="global_number_wrapper">
@@ -375,6 +375,7 @@ export default {
       openLinks: false,
       openDpe: false,
       openCopro: false,
+      nodata:false
     };
   },
   computed: {
@@ -525,72 +526,79 @@ export default {
 
     manageClientData(data) {
       var levelData;
-      if (this.apiLevel == "nation") {
-        levelData = data["data"][0];
-      } else {
-        levelData = data["data"].find((obj) => {
-          return obj.code_geo === this.apiCode;
-        });
-      }
-      if (this.activeFilter === "tous") {
-        this.clientData.totalVentes =
-          levelData["nb_ventes_whole_apt_maison"].toLocaleString();
-        this.clientData.totalAverage =
-          Math.round(
-            levelData["med_prix_m2_whole_apt_maison"]
-          ).toLocaleString() + "€";
-      } else if (this.activeFilter === "maison") {
-        this.clientData.totalVentes =
-          levelData["nb_ventes_whole_maison"].toLocaleString();
-        this.clientData.totalAverage =
-          Math.round(levelData["med_prix_m2_whole_maison"]).toLocaleString() +
-          "€";
-      } else if (this.activeFilter === "appartement") {
-        this.clientData.totalVentes =
-          levelData["nb_ventes_whole_appartement"].toLocaleString();
-        this.clientData.totalAverage =
-          Math.round(
-            levelData["med_prix_m2_whole_appartement"]
-          ).toLocaleString() + "€";
-      } else if (this.activeFilter === "local") {
-        this.clientData.totalVentes =
-          levelData["nb_ventes_whole_local"].toLocaleString();
-        this.clientData.totalAverage =
-          Math.round(levelData["med_prix_m2_whole_local"]).toLocaleString() +
-          "€";
-      }
-      this.clientData.appVentes =
-        levelData["nb_ventes_whole_appartement"].toLocaleString();
+      if(this.apiCode){
+        if(this.apiCode!=57&&this.apiCode!=67&&this.apiCode!=68&&this.apiCode.slice(0,2)!=57&&this.apiCode.slice(0,2)!=67&&this.apiCode.slice(0,2)!=68){
+          this.nodata=false
+          if (this.apiLevel == "nation") {
+            levelData = data["data"][0];
+          } else {
+            levelData = data["data"].find((obj) => {
+              return obj.code_geo === this.apiCode;
+            });
+          }
+          if (this.activeFilter === "tous") {
+            this.clientData.totalVentes =
+              levelData["nb_ventes_whole_apt_maison"].toLocaleString();
+            this.clientData.totalAverage =
+              Math.round(
+                levelData["med_prix_m2_whole_apt_maison"]
+              ).toLocaleString() + "€";
+          } else if (this.activeFilter === "maison") {
+            this.clientData.totalVentes =
+              levelData["nb_ventes_whole_maison"].toLocaleString();
+            this.clientData.totalAverage =
+              Math.round(levelData["med_prix_m2_whole_maison"]).toLocaleString() +
+              "€";
+          } else if (this.activeFilter === "appartement") {
+            this.clientData.totalVentes =
+              levelData["nb_ventes_whole_appartement"].toLocaleString();
+            this.clientData.totalAverage =
+              Math.round(
+                levelData["med_prix_m2_whole_appartement"]
+              ).toLocaleString() + "€";
+          } else if (this.activeFilter === "local") {
+            this.clientData.totalVentes =
+              levelData["nb_ventes_whole_local"].toLocaleString();
+            this.clientData.totalAverage =
+              Math.round(levelData["med_prix_m2_whole_local"]).toLocaleString() +
+              "€";
+          }
+          this.clientData.appVentes =
+            levelData["nb_ventes_whole_appartement"].toLocaleString();
 
-      if (levelData["med_prix_m2_whole_appartement"] === null) {
-        this.clientData.appPrice = "indisponible";
-      } else {
-        this.clientData.appPrice =
-          Math.round(
-            levelData["med_prix_m2_whole_appartement"]
-          ).toLocaleString() + "€";
-      }
+          if (levelData["med_prix_m2_whole_appartement"] === null) {
+            this.clientData.appPrice = "indisponible";
+          } else {
+            this.clientData.appPrice =
+              Math.round(
+                levelData["med_prix_m2_whole_appartement"]
+              ).toLocaleString() + "€";
+          }
 
-      this.clientData.houseVentes =
-        levelData["nb_ventes_whole_maison"].toLocaleString();
+          this.clientData.houseVentes =
+            levelData["nb_ventes_whole_maison"].toLocaleString();
 
-      if (levelData["med_prix_m2_whole_maison"] === null) {
-        this.clientData.housePrice = "indisponible";
-      } else {
-        this.clientData.housePrice =
-          Math.round(levelData["med_prix_m2_whole_maison"]).toLocaleString() +
-          "€";
-      }
+          if (levelData["med_prix_m2_whole_maison"] === null) {
+            this.clientData.housePrice = "indisponible";
+          } else {
+            this.clientData.housePrice =
+              Math.round(levelData["med_prix_m2_whole_maison"]).toLocaleString() +
+              "€";
+          }
 
-      this.clientData.localVentes =
-        levelData["nb_ventes_whole_local"].toLocaleString();
+          this.clientData.localVentes =
+            levelData["nb_ventes_whole_local"].toLocaleString();
 
-      if (levelData["med_prix_m2_whole_local"] === null) {
-        this.clientData.localPrice = "indisponible";
-      } else {
-        this.clientData.localPrice =
-          Math.round(levelData["med_prix_m2_whole_local"]).toLocaleString() +
-          "€";
+          if (levelData["med_prix_m2_whole_local"] === null) {
+            this.clientData.localPrice = "indisponible";
+          } else {
+            this.clientData.localPrice =
+              Math.round(levelData["med_prix_m2_whole_local"]).toLocaleString() +
+              "€";
+          }
+        }else{
+          this.nodata=true
+        }
       }
     },
     manageCoproDpeData(data) {
