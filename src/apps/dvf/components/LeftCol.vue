@@ -52,36 +52,28 @@
       <div class="links_container" v-if="level != 'fra'" :data-open="(openLinks)?'open':''">
           <div class="links_title" @click="toggleLinks()">Liens utiles <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M4.99999 2.21917L1.69999 5.51916L0.757324 4.5765L4.99999 0.333832L9.24266 4.5765L8.29999 5.51916L4.99999 2.21917Z" fill="#161616"/></svg></div>
           <div class="cardPartner" @click="goToPartner('arcep')">
-            <!-- <div class="logoPartner">
-              <img src="../assets/logos/arcep.png" width="100" />
-            </div> -->
+            
             <div class="textPartner">
               <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M4 2V3H1.5V8.5H7V6H8V9C8 9.27614 7.77614 9.5 7.5 9.5H1C0.723858 9.5 0.5 9.27614 0.5 9V2.5C0.5 2.22386 0.723858 2 1 2H4ZM9.5 0.5V5L7.603 3.1035L4.6035 6.1035L3.8965 5.3965L6.896 2.3965L5 0.5H9.5Z" fill="#3558A2"/></svg>
               Voir la couverture réseaux sur maconnexioninternet.arcep.fr
             </div>
           </div>
           <div class="cardPartner" @click="goToPartner('brgm')" v-if="this.userLocation.level != 'departement'">
-            <!-- <div class="logoPartner">
-              <img src="../assets/logos/logo_GR.png" width="100" />
-            </div> -->
+            
             <div class="textPartner">
               <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M4 2V3H1.5V8.5H7V6H8V9C8 9.27614 7.77614 9.5 7.5 9.5H1C0.723858 9.5 0.5 9.27614 0.5 9V2.5C0.5 2.22386 0.723858 2 1 2H4ZM9.5 0.5V5L7.603 3.1035L4.6035 6.1035L3.8965 5.3965L6.896 2.3965L5 0.5H9.5Z" fill="#3558A2"/></svg>
               Voir les risques sur georisques.gouv.fr
             </div>
           </div>
           <div class="cardPartner" @click="goToPartner('acceslibre')">
-            <!-- <div class="logoPartner">
-              <img src="../assets/logos/acceslibre.svg" width="100" />
-            </div> -->
+            
             <div class="textPartner">
               <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M4 2V3H1.5V8.5H7V6H8V9C8 9.27614 7.77614 9.5 7.5 9.5H1C0.723858 9.5 0.5 9.27614 0.5 9V2.5C0.5 2.22386 0.723858 2 1 2H4ZM9.5 0.5V5L7.603 3.1035L4.6035 6.1035L3.8965 5.3965L6.896 2.3965L5 0.5H9.5Z" fill="#3558A2"/></svg>
               Voir l’accessibilité sur acceslibre.beta.gouv.fr
             </div>
           </div>
           <div class="cardPartner" @click="goToPartner('ign')">
-            <!--  <div class="logoPartner">
-              <img src="../assets/logos/logo-geoportail.svg" width="100" />
-            </div> -->
+            
             <div class="textPartner">
               <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M4 2V3H1.5V8.5H7V6H8V9C8 9.27614 7.77614 9.5 7.5 9.5H1C0.723858 9.5 0.5 9.27614 0.5 9V2.5C0.5 2.22386 0.723858 2 1 2H4ZM9.5 0.5V5L7.603 3.1035L4.6035 6.1035L3.8965 5.3965L6.896 2.3965L5 0.5H9.5Z" fill="#3558A2"/></svg>
               Voir les informations d’urbanisme sur geoportail-urbanisme.gouv.fr
@@ -231,15 +223,19 @@
           </div>
         </div>
 
-      <div class="stats_container" v-if="level != 'parcelle'">
+      <div class="stats_container" v-if="level != 'parcelle'&&nodata==false">
 
         <div class="global_numbers_container">
           <div class="global_number_wrapper">
-            <div class="global_number_title">Nombre total de ventes</div>
+            <div class="global_number_title">Nombre total de ventes<div class="info_btn" @mouseover="hoveredInfo='ventes'" @mouseleave="hoveredInfo=''"><div>?</div></div></div>
+
+            <div class="info_bulle" v-if="hoveredInfo=='ventes'">Nombre total de ventes immobilières pendant les 5 dernières années</div>
+
             <div class="global_number_value">{{clientData["totalVentes"]}}</div>
           </div>
           <div class="global_number_wrapper">
-            <div class="global_number_title">Prix de vente médian au m²</div>
+            <div class="global_number_title">Prix de vente médian au m²<div class="info_btn" @mouseover="hoveredInfo='prix'" @mouseleave="hoveredInfo=''"><div>?</div></div></div>
+             <div class="info_bulle" v-if="hoveredInfo=='prix'">Prix médian du m² de l'ensemble des ventes immobilières des 5 dernières années</div>
             <div class="global_number_value">{{clientData["totalAverage"]}}</div>
           </div>
         </div>
@@ -374,10 +370,12 @@ export default {
       parcellesDpeNb: 0,
       parcellesDpeId: null,
       leftColOpening: "semiopen",
+      hoveredInfo:"",
       hoveredBulle: "",
       openLinks: false,
       openDpe: false,
       openCopro: false,
+      nodata:false
     };
   },
   computed: {
@@ -528,72 +526,79 @@ export default {
 
     manageClientData(data) {
       var levelData;
-      if (this.apiLevel == "nation") {
-        levelData = data["data"][0];
-      } else {
-        levelData = data["data"].find((obj) => {
-          return obj.code_geo === this.apiCode;
-        });
-      }
-      if (this.activeFilter === "tous") {
-        this.clientData.totalVentes =
-          levelData["nb_ventes_whole_apt_maison"].toLocaleString();
-        this.clientData.totalAverage =
-          Math.round(
-            levelData["med_prix_m2_whole_apt_maison"]
-          ).toLocaleString() + "€";
-      } else if (this.activeFilter === "maison") {
-        this.clientData.totalVentes =
-          levelData["nb_ventes_whole_maison"].toLocaleString();
-        this.clientData.totalAverage =
-          Math.round(levelData["med_prix_m2_whole_maison"]).toLocaleString() +
-          "€";
-      } else if (this.activeFilter === "appartement") {
-        this.clientData.totalVentes =
-          levelData["nb_ventes_whole_appartement"].toLocaleString();
-        this.clientData.totalAverage =
-          Math.round(
-            levelData["med_prix_m2_whole_appartement"]
-          ).toLocaleString() + "€";
-      } else if (this.activeFilter === "local") {
-        this.clientData.totalVentes =
-          levelData["nb_ventes_whole_local"].toLocaleString();
-        this.clientData.totalAverage =
-          Math.round(levelData["med_prix_m2_whole_local"]).toLocaleString() +
-          "€";
-      }
-      this.clientData.appVentes =
-        levelData["nb_ventes_whole_appartement"].toLocaleString();
+      if(this.apiCode){
+        if(this.apiCode!=57&&this.apiCode!=67&&this.apiCode!=68&&this.apiCode.slice(0,2)!=57&&this.apiCode.slice(0,2)!=67&&this.apiCode.slice(0,2)!=68){
+          this.nodata=false
+          if (this.apiLevel == "nation") {
+            levelData = data["data"][0];
+          } else {
+            levelData = data["data"].find((obj) => {
+              return obj.code_geo === this.apiCode;
+            });
+          }
+          if (this.activeFilter === "tous") {
+            this.clientData.totalVentes =
+              levelData["nb_ventes_whole_apt_maison"].toLocaleString();
+            this.clientData.totalAverage =
+              Math.round(
+                levelData["med_prix_m2_whole_apt_maison"]
+              ).toLocaleString() + "€";
+          } else if (this.activeFilter === "maison") {
+            this.clientData.totalVentes =
+              levelData["nb_ventes_whole_maison"].toLocaleString();
+            this.clientData.totalAverage =
+              Math.round(levelData["med_prix_m2_whole_maison"]).toLocaleString() +
+              "€";
+          } else if (this.activeFilter === "appartement") {
+            this.clientData.totalVentes =
+              levelData["nb_ventes_whole_appartement"].toLocaleString();
+            this.clientData.totalAverage =
+              Math.round(
+                levelData["med_prix_m2_whole_appartement"]
+              ).toLocaleString() + "€";
+          } else if (this.activeFilter === "local") {
+            this.clientData.totalVentes =
+              levelData["nb_ventes_whole_local"].toLocaleString();
+            this.clientData.totalAverage =
+              Math.round(levelData["med_prix_m2_whole_local"]).toLocaleString() +
+              "€";
+          }
+          this.clientData.appVentes =
+            levelData["nb_ventes_whole_appartement"].toLocaleString();
 
-      if (levelData["med_prix_m2_whole_appartement"] === null) {
-        this.clientData.appPrice = "indisponible";
-      } else {
-        this.clientData.appPrice =
-          Math.round(
-            levelData["med_prix_m2_whole_appartement"]
-          ).toLocaleString() + "€";
-      }
+          if (levelData["med_prix_m2_whole_appartement"] === null) {
+            this.clientData.appPrice = "indisponible";
+          } else {
+            this.clientData.appPrice =
+              Math.round(
+                levelData["med_prix_m2_whole_appartement"]
+              ).toLocaleString() + "€";
+          }
 
-      this.clientData.houseVentes =
-        levelData["nb_ventes_whole_maison"].toLocaleString();
+          this.clientData.houseVentes =
+            levelData["nb_ventes_whole_maison"].toLocaleString();
 
-      if (levelData["med_prix_m2_whole_maison"] === null) {
-        this.clientData.housePrice = "indisponible";
-      } else {
-        this.clientData.housePrice =
-          Math.round(levelData["med_prix_m2_whole_maison"]).toLocaleString() +
-          "€";
-      }
+          if (levelData["med_prix_m2_whole_maison"] === null) {
+            this.clientData.housePrice = "indisponible";
+          } else {
+            this.clientData.housePrice =
+              Math.round(levelData["med_prix_m2_whole_maison"]).toLocaleString() +
+              "€";
+          }
 
-      this.clientData.localVentes =
-        levelData["nb_ventes_whole_local"].toLocaleString();
+          this.clientData.localVentes =
+            levelData["nb_ventes_whole_local"].toLocaleString();
 
-      if (levelData["med_prix_m2_whole_local"] === null) {
-        this.clientData.localPrice = "indisponible";
-      } else {
-        this.clientData.localPrice =
-          Math.round(levelData["med_prix_m2_whole_local"]).toLocaleString() +
-          "€";
+          if (levelData["med_prix_m2_whole_local"] === null) {
+            this.clientData.localPrice = "indisponible";
+          } else {
+            this.clientData.localPrice =
+              Math.round(levelData["med_prix_m2_whole_local"]).toLocaleString() +
+              "€";
+          }
+        }else{
+          this.nodata=true
+        }
       }
     },
     manageCoproDpeData(data) {
@@ -981,17 +986,11 @@ export default {
     },
   },
   watch: {
-    // level: {
-    //   handler(value) {
-    //     this.fetchHistoricalData(value)
-    //   }
-    // },
     level() {
       this.fetchHistoricalData(this.level);
       if (this.leftColOpening == "close") {
         this.leftColOpening = "semiopen";
       }
-      //this.buildClientData()
     },
     dep() {
       this.fetchHistoricalData(this.level);
@@ -1111,6 +1110,7 @@ export default {
 .global_number_wrapper {
   width: 50%;
   display: inline-block;
+  position: relative;
 }
 
 .global_number_title {
@@ -1118,6 +1118,38 @@ export default {
   font-size: 12px;
   color: #3a3a3a;
   line-height: 16px;
+  position: relative;
+}
+
+.global_number_title .info_btn{
+  display: inline-block;
+  margin-left: 5px;
+  position: relative;
+  top: 0px;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background-color: #e6eefe;
+  cursor: pointer;
+  padding-left: 4px;
+}
+
+.info_bulle{
+  position: absolute;
+  width: 100%;
+  font-size: 12px;
+  font-weight: 400;
+  background-color: white;
+  left: 50%;
+  top: 18px;
+  transform: translate(-50%, 0);
+  padding: 10px;
+  line-height: 16px;
+  border-radius: 5px;
+  display: block;
+  z-index: 999;
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.16),
+    0px 1px 0px -2px rgba(0, 0, 0, 0.16), 0px 1px 4px rgba(0, 0, 0, 0.23);
 }
 
 .global_number_value {

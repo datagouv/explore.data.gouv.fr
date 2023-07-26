@@ -71,7 +71,6 @@ export default {
         .then((data) => {
           this.resultsAdresses = data;
           this.firstResult = data.features[0];
-          //this.moveTo(data.features[0].geometry.coordinates, 13)
         });
     },
     autoComplete() {

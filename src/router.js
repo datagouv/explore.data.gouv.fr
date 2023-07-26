@@ -30,11 +30,6 @@ export default new Router({
       path: '/immobilier',
       name: 'AppDvf',
       component: AppDvf
-    },
-    {
-      path: '/dvf',
-      name: 'AppDvf',
-      component: AppDvf
-    },
+    }
   ]
 })
