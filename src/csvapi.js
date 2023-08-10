@@ -144,3 +144,19 @@ export function apify(url) {
         return json;
     })
 }
+
+export function apifyWithoutAnalysis(url) {
+    if (!config.csvapiUrl) {
+        throw Error("No csvapiUrl configured. Use configure() before to add it.")
+    }
+    const apiUrl = new URL(config.csvapiUrl)
+    apiUrl.pathname = '/apify'
+    apiUrl.searchParams.set('url', encodeURI(url))
+    return fetch(apiUrl.toString()).then(res => {
+        const json = res.json()
+        if (!res.ok) {
+            Promise.reject(json)
+        }
+        return json;
+    })
+}
