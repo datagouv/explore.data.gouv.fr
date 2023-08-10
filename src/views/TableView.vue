@@ -1,148 +1,191 @@
 <template>
   <!-- url field if no url provided -->
   <div>
-  <header-app></header-app>
-  <infos-resource></infos-resource>
-  <div class="fr-mt-4w fr-container" v-if="!csvUrl">
-    <h2>Bienvenue sur le prototype d'exploration des données de data.gouv.fr</h2>
-    <p>Ce prototype vise à permettre d’explorer plus facilement les données référencées sur data.gouv.fr.<br />
-      Sélectionnez un fichier de moins de 100Mo qui vous intéresse sur data.gouv.fr et collez le lien dans la barre ci-dessous pour l’explorer.</p>
-    <!-- <div class="fr-callout">
+    <header-app></header-app>
+    <infos-resource></infos-resource>
+    <div class="fr-mt-4w fr-container" v-if="!csvUrl">
+      {{ dgvInfos }}
+      <h2>
+        Bienvenue sur le prototype d'exploration des données de data.gouv.fr
+      </h2>
+      <p>
+        Ce prototype vise à permettre d’explorer plus facilement les données
+        référencées sur data.gouv.fr.<br />
+        Sélectionnez un fichier de moins de 100Mo qui vous intéresse sur
+        data.gouv.fr et collez le lien dans la barre ci-dessous pour l’explorer.
+      </p>
+      <!-- <div class="fr-callout">
       <h3 class="fr-callout__title">Précautions d'usages</h3>
       <p class="fr-callout__text">
         Si l'explorateur est utilisé sur un jeu de données pour la première fois, le chargement peut prendre un certain temps.
         Ce prototype ne permet pas d’explorer les fichiers de plus de 100 Mo.
       </p>
     </div> -->
-    <form class="fr-mt-4w">
-      <label class="fr-label" for="text-input-text">URL du fichier à visualiser au format CSV
-        <span class="fr-hint-text">Il s’agit du lien vers un fichier et non d’une page de jeu de données</span>
-      </label>
-      <input class="fr-input fr-mb-2w" type="text" v-model="csvUrlFieldValue" id="text-input-text" name="text-input-text" />
-      <div class="fr-grid-row fr-grid-row--center">
-        <button class="fr-btn fr-btn--icon-left fr-icon-test-tube-line" @click="redirect">
-          Explorer les données
-        </button>
-      </div>
-    </form>
-    <br /><br />
-    <p>Si vous ne savez pas par quoi commencer à explorer, nous vous proposons ci-dessous une sélection de quelques jeux de données.</p>
-    <CardLink v-for="item in listResources" :key="item.resource_id" :did="item.dataset_id" :rid="item.resource_id"></CardLink>
-    <br /><br />
-  </div>
-  <!-- error block -->
-  <Error v-else-if="hasError" :error="error" :csvUrl="csvUrl"></Error>
-  <!-- loader block -->
-  <Loader v-else-if="!hasLoaded"></Loader>
-  <!-- table block, fed by store -->
-  <Table class="fr-pt-0" v-else-if="csvUrl && !hasError"></Table>
+      <form class="fr-mt-4w">
+        <label class="fr-label" for="text-input-text"
+          >URL du fichier à visualiser au format CSV
+          <span class="fr-hint-text"
+            >Il s’agit du lien vers un fichier et non d’une page de jeu de
+            données</span
+          >
+        </label>
+        <input
+          class="fr-input fr-mb-2w"
+          type="text"
+          v-model="csvUrlFieldValue"
+          id="text-input-text"
+          name="text-input-text"
+        />
+        <div class="fr-grid-row fr-grid-row--center">
+          <button
+            class="fr-btn fr-btn--icon-left fr-icon-test-tube-line"
+            @click="redirect"
+          >
+            Explorer les données
+          </button>
+        </div>
+      </form>
+      <br /><br />
+      <p>
+        Si vous ne savez pas par quoi commencer à explorer, nous vous proposons
+        ci-dessous une sélection de quelques jeux de données.
+      </p>
+      <CardLink
+        v-for="item in listResources"
+        :key="item.resource_id"
+        :did="item.dataset_id"
+        :rid="item.resource_id"
+      ></CardLink>
+      <br /><br />
+    </div>
+    <!-- error block -->
+    <Error v-else-if="hasError" :error="error" :csvUrl="csvUrl"></Error>
+    <!-- loader block -->
+    <Loader v-else-if="!hasLoaded"></Loader>
+    <!-- table block, fed by store -->
+    <Table class="fr-pt-0" v-else-if="csvUrl && !hasError"></Table>
   </div>
 </template>
 
 <script>
-import Table from '@/components/Table'
-import Error from '@/components/Error'
-import Loader from '@/components/Loader'
-import CardLink from '@/components/CardLink'
-import HeaderApp from '@/views/HeaderApp'
-import InfosResource from '@/views/InfosResource'
+import Table from "@/components/Table";
+import Error from "@/components/Error";
+import Loader from "@/components/Loader";
+import CardLink from "@/components/CardLink";
+import HeaderApp from "@/views/HeaderApp";
+import InfosResource from "@/views/InfosResource";
 
 export default {
-  name: 'TableView',
-  components: {Table, Error, Loader, CardLink, HeaderApp, InfosResource},
+  name: "TableView",
+  components: { Table, Error, Loader, CardLink, HeaderApp, InfosResource },
   data() {
     return {
-      csvUrl: '',
-      csvUrlFieldValue: '',
+      rid: null,
+      resourceMeta: null,
+      csvUrl: "",
+      csvUrlFieldValue: "",
       listResources: [
         {
-          'dataset_id': '6311c164ebfb165ddc828ded',
-          'resource_id': '1c5075ec-7ce1-49cb-ab89-94f507812daf',
+          dataset_id: "6311c164ebfb165ddc828ded",
+          resource_id: "1c5075ec-7ce1-49cb-ab89-94f507812daf",
         },
         {
-          'dataset_id': '54101458a3a72937cb2c703c',
-          'resource_id': '64e02cff-9e53-4cb2-adfd-5fcc88b2dc09'
+          dataset_id: "54101458a3a72937cb2c703c",
+          resource_id: "64e02cff-9e53-4cb2-adfd-5fcc88b2dc09",
         },
         {
-          'dataset_id': '60190d00a7273a8100dd4d38',
-          'resource_id': '5c4e1452-3850-4b59-b11c-3dd51d7fb8b5'
+          dataset_id: "60190d00a7273a8100dd4d38",
+          resource_id: "5c4e1452-3850-4b59-b11c-3dd51d7fb8b5",
         },
         {
-          'dataset_id': '5448d3e0c751df01f85d0572',
-          'resource_id': '8d9398ae-3037-48b2-be19-412c24561fbb',
+          dataset_id: "5448d3e0c751df01f85d0572",
+          resource_id: "8d9398ae-3037-48b2-be19-412c24561fbb",
         },
-      ]
-    }
+      ],
+    };
   },
   computed: {
-    error () {
-      return this.$store.state.error
+    dgvInfos() {
+      return this.$store.state.dgv_infos;
     },
-    hasError () {
-      return this.$store.state.hasError
+    error() {
+      return this.$store.state.error;
     },
-    hasLoaded () {
-      return this.$store.state.hasLoaded
+    hasError() {
+      return this.$store.state.hasError;
+    },
+    hasLoaded() {
+      return this.$store.state.hasLoaded;
+    },
+    filters() {
+      return this.$store.state.filters;
     },
   },
   created() {
-    const params = new URLSearchParams(document.location.search)
+    const params = new URLSearchParams(document.location.search);
     // set filters from query string (before setting url and fetching data)
-    this.setFiltersFromQueryString(params)
-    const url = params.get('url')
-    if (url) {
-      if(url.includes('data.gouv.fr')){
-        var urlProps = url.split('/')
-        let rid = urlProps[urlProps.length - 1]
-        let domaineName = urlProps[2]
-        fetch(('https://'+domaineName+'/api/2/datasets/resources/' + rid + '/'))
-        .then((response) => {
-            return response.json()
-        })
-        .then((data) => {
-          this.csvUrl = data.resource.url
-        })
-        .catch((err) => {
-          this.csvUrl = url
-        })
-      } else {
-        this.csvUrl = url  
-      }
-    }
+    this.setFiltersFromQueryString(params);
+    this.rid = params.get("id");
+    // if (this.rid) {
+    //   fetch(
+    //     "https://www.data.gouv.fr/api/2/datasets/resources/" + this.rid + "/"
+    //   )
+    //     .then((response) => {
+    //       return response.json();
+    //     })
+    //     .then((data) => {
+    //       this.resourceMeta = data;
+    //       console.log(data);
+    //     })
+    //     .catch((err) => {
+    //       console.log(err);
+    //     });
+    // }
   },
   methods: {
-    setFiltersFromQueryString (params) {
-      [...params.entries()].filter(([k, v]) => {
-        return k.indexOf('__') !== -1 && k.indexOf('_') !== 0
-      }).forEach(([k, v]) => {
-        this.$store.commit('addFilter', {
-          field: k.split('__')[0],
-          value: v,
-          comp: k.split('__')[1],
+    setFiltersFromQueryString(params) {
+      [...params.entries()]
+        .filter(([k, v]) => {
+          return k.indexOf("__") !== -1 && k.indexOf("_") !== 0;
         })
-      })
+        .forEach(([k, v]) => {
+          this.$store.commit("addFilter", {
+            field: k.split("__")[0],
+            value: v,
+            comp: k.split("__")[1],
+          });
+        });
     },
-    changePage (page) {
-      this.$store.dispatch('changePage')
+    changePage(page) {
+      this.$store.dispatch("changePage");
     },
-    sort (ctx) {
-      this.$store.dispatch('sort', ctx)
+    sort(ctx) {
+      this.$store.dispatch("sort", ctx);
     },
     apify(url) {
-      this.$store.dispatch('apify', url)
+      this.$store.dispatch("apify", url);
     },
     redirect() {
-      this.csvUrl = this.csvUrlFieldValue
-      window.location.href = window.location.origin + '/?url=' + this.csvUrl
-    }
+      this.csvUrl = this.csvUrlFieldValue;
+      window.location.href = window.location.origin + "/?url=" + this.csvUrl;
+    },
   },
   watch: {
-    csvUrl (value) {
-      if(value){ document.querySelectorAll('body')[0].style.overflow = 'hidden' }
-      if (!value) return
-      this.$store.dispatch('apify', this.csvUrl).finally(() => {
-      })
-    }
-  }
-}
+    rid(value) {
+      console.log(value);
+      if (value) {
+        document.querySelectorAll("body")[0].style.overflow = "hidden";
+        this.$store.dispatch("getResourceData", this.rid).finally(() => {});
+      }
+      if (!value) return;
+    },
+    csvUrl(value) {
+      if (value) {
+        document.querySelectorAll("body")[0].style.overflow = "hidden";
+      }
+      if (!value) return;
+      this.$store.dispatch("apify", this.csvUrl).finally(() => {});
+    },
+  },
+};
 </script>

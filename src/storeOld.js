@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 import { csvapiUrl, pageSize } from '@/config'
-import { apify, apifyWithoutAnalysis, configure, getData, makeDataUrl } from './csvapi'
+import { apify, apifyWithoutAnalysis, configure, getData } from './csvapi'
 
 Vue.use(Vuex)
 
@@ -19,18 +19,21 @@ export default new Vuex.Store({
     /** @type {Array} */
     rows: [],
     columns: [],
-    columnsInfos: [],
+    generalInfos: {},
+    columnsInfos: {},
     colorsCat: {},
     fields: [],
+    /** @type {Array<import('./csvapi').CsvapiFilter>} */
     filters: [],
-    pageSize: 20,
-    nextRowsUrl: null,
-    sortBy: undefined,
-    sortDesc: undefined,
-    totalRows: undefined,
+    page: 1,
+    pageSize: pageSize,
     dataEndpoint: undefined,
     profileEndpoint: undefined,
-    page: 1,
+    sortBy: undefined,
+    sortDesc: undefined,
+    totalRows: 0,
+    error: undefined,
+    hasError: false,
     dgv_infos: {
       resource: undefined,
       dataset_id: undefined,
@@ -39,26 +42,21 @@ export default new Vuex.Store({
       organization_name: undefined,
       other_resources: [],
     },
+    hasLoaded: false,
   },
   getters: {
     color(state) {
       return (col, value) => getColor(col, value, state.colorsCat)
     },
     fields(state) {
-      if (state.columns) {
-        return state.columns.map(c => {
-          return {
-            key: c,
-            label: c,
-            sortable: true,
-          }
-        })
-      } else {
-        return
-      }
+      return state.columns.map(c => {
+        return {
+          key: c,
+          label: c,
+          sortable: true,
+        }
+      })
     },
-  },
-  methods: {
   },
   actions: {
     handleError({ commit }, res) {
@@ -68,98 +66,96 @@ export default new Vuex.Store({
         id: res.body.error_id,
       })
     },
-    changePage({ commit, dispatch, state }) {
-      if (state.nextRowsUrl) {
-        fetch(state.nextRowsUrl).then((response) => {
-          return response.json()
-        }).then((data) => {
-          commit('setRows', state.rows.concat(data.data))
-          commit('setNextRowsUrl', data["links"].next)
-        })
+    changePage({ dispatch, state }) {
+      if ((state.page - 1) <= state.totalRows / state.pageSize) {
+        return dispatch('getData', 'page')
       }
     },
-    filterPage({ commit, dispatch, state }) {
-      dispatch('retrieveData')
-    },
-    sort({ commit, dispatch, state }, ctx) {
+    sort({ commit, dispatch }, ctx) {
       commit('setSort', { by: ctx.sortBy, desc: ctx.sortDesc })
-      dispatch('retrieveData')
+      return dispatch("getData", "sort")
+    }, configconfig
+    getData({ commit, dispatch, state }, action) {
+      return getData(action).then(response => {
+        if (response.ok) {
+          if (action == 'page') {
+            commit('setRows', state.rows.concat(response.rows))
+          } else {
+            commit('setRows', response.rows)
+            commit('setPage', 1)
+          }
+          if (!state.columns.length) {
+            commit('setColumns', response.columns)
+          }
+          commit('setTotalRows', response.total)
+          commit('setGeneralInfos', response.general_infos)
+          commit('setColumnsInfos', response.columns_infos)
+        } else {
+          dispatch('handleError', response)
+        }
+      }).catch(res => dispatch('handleError', res))
     },
-    getProfile({ commit, dispatch, state }) {
-      const apiProfileUrl = new URL("https://api-tabular.preprod.data.gouv.fr/api/resources/" + state.dgv_infos.resource.id + "/profile/")
+    getResourceData({ commit, dispatch }, id) {
+      console.log(id)
+      const apiDataUrl = new URL("https://api-tabular.preprod.data.gouv.fr/api/resources/" + id + "/data/")
+      const apiProfileUrl = new URL("https://api-tabular.preprod.data.gouv.fr/api/resources/" + id + "/profile/")
+      let completeData = null
+      let apiData = null
       let apiProfile = null
+      // fetch data
+      fetch(apiDataUrl.toString()).then(response => {
+        return response.json()
+      })
+        .then((data) => {
+          apiData = data
+        })
       // fetch profile
       fetch(apiProfileUrl.toString()).then(response2 => {
         return response2.json()
       })
         .then((profile) => {
-
-          commit('setProfile', profile.profile)
-          commit(
-            "setColumns",
-            profile.profile.header.map((c) => {
-              return c.replaceAll('"', "");
-            })
-          );
-          let obj = {};
-          obj = {};
-          for (const [key, value] of Object.entries(profile.profile.columns)) {
-            let subobj = {};
-            subobj = { ...value, ...profile.profile.profile[key] };
-            obj[key] = subobj;
-          }
-          commit("setColumnsInfos", obj);
+          apiProfile = profile
         })
+
     },
-    retrieveData({ commit, dispatch, state }) {
-      commit(
-        'setEndpoints',
-        {
-          "endpoint": "https://api-tabular.preprod.data.gouv.fr/api/resources/" + state.dgv_infos.resource.id + "/data/",
-          "profile_endpoint": "https://api-tabular.preprod.data.gouv.fr/api/resources/" + state.dgv_infos.resource.id + "/profile/"
+    apify({ commit, dispatch }, url) {
+      configure({ csvapiUrl })
+      return apify(url).then(res => {
+        if (res.ok && res.endpoint) {
+          commit('setEndpoints', res)
+          commit('updateLoadingState', true)
+          return dispatch("getData", "apify")
+        } else {
+          commit('updateLoadingState', true)
+          return dispatch('showError', res)
         }
-      )
-      console.log(state)
-      const dataUrl = new URL("https://api-tabular.preprod.data.gouv.fr/api/resources/" + state.dgv_infos.resource.id + "/data/")
-      dataUrl.searchParams.set('page_size', state.pageSize.toString())
-      dataUrl.searchParams.set('page', 1)
-      state.filters.forEach(({ field, value, comp }) => {
-        dataUrl.searchParams.set(`${field}__${comp}`, value)
-      })
-      if (state.sortBy) {
-        const valSort = state.sortDesc ? 'asc' : 'desc'
-        dataUrl.searchParams.set(state.sortBy + '__sort', valSort)
-      }
-      fetch(dataUrl).then((response) => {
-        return response.json()
-      }).then((data) => {
-        commit('setRows', data.data)
-        commit('setNextRowsUrl', data["links"].next)
-        commit('setTotalRows', data["meta"].total)
-      })
+      }).catch(res => dispatch('handleError', res))
     },
-    manageDgvInfos({ commit, dispatch, state }, data) {
-      commit('setDgvInfos', data)
-      dispatch("retrieveData")
-      dispatch("getProfile")
-    }
+    apifyWithoutAnalysis({ commit, dispatch }, url) {
+      configure({ csvapiUrl })
+      return apifyWithoutAnalysis(url).then(res => {
+        if (res.ok && res.endpoint) {
+          commit('setEndpoints', res)
+          commit('updateLoadingState', true)
+          return dispatch("getData", "apify")
+        } else {
+          commit('updateLoadingState', true)
+          return dispatch('showError', res)
+        }
+      }).catch(res => dispatch('handleError', res))
+    },
   },
   mutations: {
     updateLoadingState(state, data) {
       state.hasLoaded = data
     },
     setEndpoints(state, data) {
+      configure({ dataEndpoint: data.endpoint })
       state.dataEndpoint = data.endpoint
       state.profileEndpoint = data.profile_endpoint
     },
     setRows(state, rows) {
       state.rows = rows
-    },
-    setNextRowsUrl(state, url) {
-      state.nextRowsUrl = url
-    },
-    setProfile(state, profile) {
-      state.profile = profile
     },
     setGeneralInfos(state, generalInfos) {
       state.generalInfos = generalInfos
@@ -168,11 +164,11 @@ export default new Vuex.Store({
       state.columnsInfos = columnsInfos
       for (let column in columnsInfos) {
         let infos = columnsInfos[column]
-        if (infos.nb_distinct < 10) {
+        if (infos.categorical_infos) {
           const colorCat = {}
           let cpt = 0
-          if (Array.isArray(infos.tops)) {
-            for (let category of infos.tops) {
+          if (Array.isArray(infos.categorical_infos)) {
+            for (let category of infos.categorical_infos) {
               if (category.value) {
                 cpt = cpt + 1
                 colorCat[category.value] = cpt
@@ -191,6 +187,7 @@ export default new Vuex.Store({
       state.columns = columns
     },
     setTotalRows(state, totalRows) {
+      configure({ totalRows })
       state.totalRows = totalRows
     },
     setError(state, error) {
@@ -198,6 +195,7 @@ export default new Vuex.Store({
       state.hasError = true
     },
     setSort(state, sort) {
+      configure({ sortBy: sort.by, sortDesc: sort.desc })
       state.sortBy = sort.by
       state.sortDesc = sort.desc
     },
@@ -208,7 +206,6 @@ export default new Vuex.Store({
       state.dgv_infos.organization_id = data.organization_id
       state.dgv_infos.organization_name = data.organization_name
       state.dgv_infos.other_resources = data.other_resources.filter(res => (res.format.includes('csv') | res.format.includes('xls')))
-      console.log(state)
     },
     addFilter(state, filter) {
       state.filters.push(filter)
@@ -222,6 +219,7 @@ export default new Vuex.Store({
       state.filters = state.filters.filter((obj) => {
         return obj.field !== field
       })
+      configure({ filters: state.filters })
     }
   }
 })
