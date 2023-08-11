@@ -4,6 +4,7 @@ import TableView from './views/TableView.vue'
 import AppRuptureCarburant from './views/AppRuptureCarburant.vue'
 import AppCarburant from './apps/carburants/AppCarburant.vue'
 import AppDvf from './apps/dvf/AppDvf.vue'
+import AppInclusion from './apps/inclusion/AppInclusion.vue'
 
 Vue.use(Router)
 
@@ -30,6 +31,11 @@ export default new Router({
       path: '/immobilier',
       name: 'AppDvf',
       component: AppDvf
-    }
+    },
+    {
+      path: '/inclusion',
+      name: 'AppInclusion',
+      component: AppInclusion
+    },
   ]
 })

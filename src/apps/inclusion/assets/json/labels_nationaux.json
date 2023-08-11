@@ -1,0 +1,412 @@
+[
+    {
+        "value": "60000-rebonds",
+        "label": "60 000 rebonds",
+        "description": null
+    },
+    {
+        "value": "action-logement",
+        "label": "Action logement",
+        "description": null
+    },
+    {
+        "value": "adie",
+        "label": "Adie",
+        "description": null
+    },
+    {
+        "value": "afpa",
+        "label": "AFPA",
+        "description": null
+    },
+    {
+        "value": "agefiph",
+        "label": "AGEFIPH",
+        "description": null
+    },
+    {
+        "value": "aidants-connect",
+        "label": "Aidants Connect",
+        "description": null
+    },
+    {
+        "value": "alliance-villes-emploi",
+        "label": "Alliance villes emploi",
+        "description": null
+    },
+    {
+        "value": "anlci",
+        "label": "ANLCI",
+        "description": null
+    },
+    {
+        "value": "apec",
+        "label": "APEC",
+        "description": null
+    },
+    {
+        "value": "apels",
+        "label": "APELS Agence Pour l’Education par Le Sport",
+        "description": null
+    },
+    {
+        "value": "apprentis-dauteuil",
+        "label": "Apprentis d’Auteuil",
+        "description": null
+    },
+    {
+        "value": "aptic",
+        "label": "APTIC",
+        "description": null
+    },
+    {
+        "value": "banques-alimentaires",
+        "label": "Banques alimentaires",
+        "description": null
+    },
+    {
+        "value": "bge",
+        "label": "BGE",
+        "description": null
+    },
+    {
+        "value": "caf",
+        "label": "CAF",
+        "description": null
+    },
+    {
+        "value": "campus-connecte",
+        "label": "Campus connecté",
+        "description": null
+    },
+    {
+        "value": "cap-emploi-reseau-cheops",
+        "label": "CAP Emploi - Réseau CHEOPS",
+        "description": null
+    },
+    {
+        "value": "cci",
+        "label": "CCI",
+        "description": null
+    },
+    {
+        "value": "chantier-ecole",
+        "label": "Chantier école",
+        "description": null
+    },
+    {
+        "value": "cidff",
+        "label": "CIDFF",
+        "description": null
+    },
+    {
+        "value": "cnam",
+        "label": "CNAM",
+        "description": null
+    },
+    {
+        "value": "collectif-emploi",
+        "label": "Collectif emploi",
+        "description": null
+    },
+    {
+        "value": "conseiller-numerique",
+        "label": "Conseiller numérique",
+        "description": null
+    },
+    {
+        "value": "coorace",
+        "label": "Coorace",
+        "description": null
+    },
+    {
+        "value": "crepi",
+        "label": "CREPI",
+        "description": null
+    },
+    {
+        "value": "cresus",
+        "label": "Crésus",
+        "description": null
+    },
+    {
+        "value": "croix-rouge",
+        "label": "Croix rouge",
+        "description": null
+    },
+    {
+        "value": "dihal",
+        "label": "DIHAL",
+        "description": null
+    },
+    {
+        "value": "duo-for-a-job",
+        "label": "Duo for a job",
+        "description": null
+    },
+    {
+        "value": "ecoles-de-la-deuxieme-chance",
+        "label": "Ecoles de la deuxième chance",
+        "description": null
+    },
+    {
+        "value": "egee",
+        "label": "EGEE",
+        "description": null
+    },
+    {
+        "value": "emmaus",
+        "label": "Emmaus",
+        "description": null
+    },
+    {
+        "value": "envie",
+        "label": "Envie",
+        "description": null
+    },
+    {
+        "value": "epide",
+        "label": "EPIDE",
+        "description": null
+    },
+    {
+        "value": "espace-emploi-agric-arrco",
+        "label": "Espace Emploi Agirc Arrco",
+        "description": null
+    },
+    {
+        "value": "fabrique-de-territoire",
+        "label": "Fabrique de Territoire",
+        "description": null
+    },
+    {
+        "value": "face",
+        "label": "Fondation FACE",
+        "description": null
+    },
+    {
+        "value": "fede-pro-fem",
+        "label": "Federation Professionnelle Pour les Femmes",
+        "description": null
+    },
+    {
+        "value": "federation-des-acteurs-de-la-solidarite",
+        "label": "Fédération des acteurs de la solidarité",
+        "description": null
+    },
+    {
+        "value": "federation-des-entreprises-dinsertion",
+        "label": "Fédération des entreprises d’insertion",
+        "description": null
+    },
+    {
+        "value": "force-femmes",
+        "label": "Force Femmes",
+        "description": null
+    },
+    {
+        "value": "france-active",
+        "label": "France Active",
+        "description": null
+    },
+    {
+        "value": "france-service",
+        "label": "France service",
+        "description": null
+    },
+    {
+        "value": "french-tech",
+        "label": "French Tech",
+        "description": null
+    },
+    {
+        "value": "geiq",
+        "label": "GEIQ",
+        "description": null
+    },
+    {
+        "value": "grand-test-couveuse-dentreprise",
+        "label": "Grandes écoles du numérique",
+        "description": null
+    },
+    {
+        "value": "grandes-ecoles-du-numerique",
+        "label": "Grand Test Couveuse d’entreprise",
+        "description": null
+    },
+    {
+        "value": "hup",
+        "label": "H’UP",
+        "description": null
+    },
+    {
+        "value": "inae",
+        "label": "INAE",
+        "description": null
+    },
+    {
+        "value": "initiative-france",
+        "label": "Initiative France",
+        "description": null
+    },
+    {
+        "value": "konexio",
+        "label": "Konexio",
+        "description": null
+    },
+    {
+        "value": "la-cravate-solidaire",
+        "label": "La Cravate Solidaire",
+        "description": null
+    },
+    {
+        "value": "la-ressourcerie",
+        "label": "La ressourcerie",
+        "description": null
+    },
+    {
+        "value": "les-premieres",
+        "label": "Les Premières",
+        "description": null
+    },
+    {
+        "value": "linklusion",
+        "label": "Linklusion",
+        "description": null
+    },
+    {
+        "value": "maisons-de-lemploi",
+        "label": "Maisons de l’Emploi",
+        "description": null
+    },
+    {
+        "value": "mdph",
+        "label": "MDPH",
+        "description": null
+    },
+    {
+        "value": "mission-locale",
+        "label": "Mission Locale",
+        "description": null
+    },
+    {
+        "value": "mobin",
+        "label": "Mobin",
+        "description": null
+    },
+    {
+        "value": "nqt",
+        "label": "NQT",
+        "description": null
+    },
+    {
+        "value": "point-conseil-budget",
+        "label": "Point conseil budget",
+        "description": null
+    },
+    {
+        "value": "point-justice",
+        "label": "Points Justice",
+        "description": null
+    },
+    {
+        "value": "pole-emploi",
+        "label": "Pôle emploi",
+        "description": null
+    },
+    {
+        "value": "positive-planet",
+        "label": "Positive Planet",
+        "description": null
+    },
+    {
+        "value": "proxite",
+        "label": "Proxité",
+        "description": null
+    },
+    {
+        "value": "reseau-entreprendre",
+        "label": "Réseau Entreprendre",
+        "description": null
+    },
+    {
+        "value": "ressourceries",
+        "label": "Ressourceries",
+        "description": null
+    },
+    {
+        "value": "restos-du-coeur",
+        "label": "Restos du coeur",
+        "description": null
+    },
+    {
+        "value": "scconseil",
+        "label": "SC Conseil",
+        "description": null
+    },
+    {
+        "value": "secours-populaire",
+        "label": "Secours populaire",
+        "description": null
+    },
+    {
+        "value": "siao",
+        "label": "SIAO",
+        "description": null
+    },
+    {
+        "value": "simplon",
+        "label": "Simplon",
+        "description": null
+    },
+    {
+        "value": "sinca",
+        "label": "SINGA",
+        "description": null
+    },
+    {
+        "value": "snc",
+        "label": "SNC - Solidarité Nouvelle Face au Chômage",
+        "description": null
+    },
+    {
+        "value": "sport-dans-la-ville",
+        "label": "Sport Dans La Ville",
+        "description": null
+    },
+    {
+        "value": "tous-tes-possible",
+        "label": "Tous Tes Possibles",
+        "description": null
+    },
+    {
+        "value": "tzcld",
+        "label": "TZCLD - Territoire Zero Chomeur Longue Durée",
+        "description": null
+    },
+    {
+        "value": "unaf",
+        "label": "Union nationale de l’aide aux familles",
+        "description": null
+    },
+    {
+        "value": "unai",
+        "label": "UNAI",
+        "description": null
+    },
+    {
+        "value": "unccas",
+        "label": "Union nationale des centres communaux d’action sociale",
+        "description": null
+    },
+    {
+        "value": "unea",
+        "label": "UNEA",
+        "description": null
+    },
+    {
+        "value": "unis-cite",
+        "label": "Unis-Cité",
+        "description": null
+    }
+]

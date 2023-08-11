@@ -1,0 +1,362 @@
+[
+    {
+        "value": "ACI",
+        "label": "Structures porteuses d’ateliers et chantiers d’insertion (ACI)",
+        "description": null
+    },
+    {
+        "value": "ACIPHC",
+        "label": "SIAE — Atelier chantier d’insertion premières heures en chantier",
+        "description": null
+    },
+    {
+        "value": "AFPA",
+        "label": "Agence nationale pour la formation professionnelle des adultes (AFPA)",
+        "description": null
+    },
+    {
+        "value": "AI",
+        "label": "Associations intermédiaires (AI)",
+        "description": null
+    },
+    {
+        "value": "ASE",
+        "label": "Aide sociale à l’enfance (ASE)",
+        "description": null
+    },
+    {
+        "value": "ASSO",
+        "label": "Associations",
+        "description": null
+    },
+    {
+        "value": "ASSO_CHOMEUR",
+        "label": "Associations de chômeurs",
+        "description": null
+    },
+    {
+        "value": "AVIP",
+        "label": "Crèche À Vocation d’Insertion Professionnelle (AVIP)",
+        "description": null
+    },
+    {
+        "value": "Autre",
+        "label": "Autre",
+        "description": null
+    },
+    {
+        "value": "BIB",
+        "label": "Bibliothèque / Médiathèque",
+        "description": null
+    },
+    {
+        "value": "CAARUD",
+        "label": "CAARUD - Centre d’accueil et d’accompagnement à la réduction de risques pour usagers de drogues",
+        "description": null
+    },
+    {
+        "value": "CADA",
+        "label": "Centres d’accueil de demandeurs d’asile (CADA)",
+        "description": null
+    },
+    {
+        "value": "CAF",
+        "label": "Caisses d’allocation familiale (CAF)",
+        "description": null
+    },
+    {
+        "value": "CAP_EMPLOI",
+        "label": "Cap Emploi",
+        "description": null
+    },
+    {
+        "value": "CAVA",
+        "label": "Centres d’adaptation à la vie active (CAVA)",
+        "description": null
+    },
+    {
+        "value": "CC",
+        "label": "Communautés de Commune",
+        "description": null
+    },
+    {
+        "value": "CCAS",
+        "label": "Centres communaux d’action sociale (CCAS)",
+        "description": null
+    },
+    {
+        "value": "CCONS",
+        "label": "Chambres consulaires (CCI, CMA, CA)",
+        "description": null
+    },
+    {
+        "value": "CD",
+        "label": "Conseils Départementaux (CD)",
+        "description": null
+    },
+    {
+        "value": "CHRS",
+        "label": "Centres d’hébergement et de réinsertion sociale (CHRS)",
+        "description": null
+    },
+    {
+        "value": "CHU",
+        "label": "Centres d’hébergement d’urgence (CHU)",
+        "description": null
+    },
+    {
+        "value": "CIAS",
+        "label": "Centres intercommunaux d’action sociale (CIAS)",
+        "description": null
+    },
+    {
+        "value": "CIDFF",
+        "label": "Centres d’information sur les droits des femmes et des familles (CIDFF)",
+        "description": null
+    },
+    {
+        "value": "CITMET",
+        "label": "Cité des métiers",
+        "description": null
+    },
+    {
+        "value": "CPH",
+        "label": "Centres provisoires d’hébergement (CPH)",
+        "description": null
+    },
+    {
+        "value": "CS",
+        "label": "Centre social",
+        "description": null
+    },
+    {
+        "value": "CSAPA",
+        "label": "CSAPA - Centre de soins, d’accompagnement et de prévention en addictologie",
+        "description": null
+    },
+    {
+        "value": "DEETS",
+        "label": "Directions de l’Economie, de l’Emploi, du Travail et des Solidarités (DEETS)",
+        "description": null
+    },
+    {
+        "value": "DEPT",
+        "label": "Services sociaux du Conseil départemental",
+        "description": null
+    },
+    {
+        "value": "DIPLP",
+        "label": "Délégation interministérielles à la prévention et à la lutte contre la pauvreté",
+        "description": null
+    },
+    {
+        "value": "E2C",
+        "label": "E2C - École de la deuxième chance",
+        "description": null
+    },
+    {
+        "value": "EA",
+        "label": "Entreprise adaptée (EA)",
+        "description": null
+    },
+    {
+        "value": "EATT",
+        "label": "Entreprise Adaptée (EATT)",
+        "description": null
+    },
+    {
+        "value": "EI",
+        "label": "Entreprises d’insertion (EI)",
+        "description": null
+    },
+    {
+        "value": "EITI",
+        "label": "Entreprises d’insertion par le travail indépendant (EITI)",
+        "description": null
+    },
+    {
+        "value": "EPCI",
+        "label": "Intercommunalité (EPCI)",
+        "description": null
+    },
+    {
+        "value": "EPIDE",
+        "label": "EPIDE - Établissement pour l’insertion dans l’emploi",
+        "description": null
+    },
+    {
+        "value": "ESS",
+        "label": "Entreprise de l’Économie Sociale et Solidaire",
+        "description": null
+    },
+    {
+        "value": "ETTI",
+        "label": "Entreprises de travail temporaire d’insertion (ETTI)",
+        "description": null
+    },
+    {
+        "value": "FAIS",
+        "label": "Fédérations d’acteurs de l’insertion et de la solidarité",
+        "description": null
+    },
+    {
+        "value": "GEIQ",
+        "label": "Groupements d’employeurs pour l’insertion et la qualification (GEIQ)",
+        "description": null
+    },
+    {
+        "value": "HUDA",
+        "label": "HUDA - Hébergement d’urgence pour demandeurs d’asile",
+        "description": null
+    },
+    {
+        "value": "MDE",
+        "label": "Maison de l’emploi",
+        "description": null
+    },
+    {
+        "value": "MDEF",
+        "label": "Maison de l’emploi et de la formation",
+        "description": null
+    },
+    {
+        "value": "MDPH",
+        "label": "Maison Départementale des Personnes Handicapées",
+        "description": null
+    },
+    {
+        "value": "MDS",
+        "label": "Maison Départementale des Solidarités",
+        "description": null
+    },
+    {
+        "value": "MJC",
+        "label": "Maison des jeunes et de la culture",
+        "description": null
+    },
+    {
+        "value": "ML",
+        "label": "Mission Locale",
+        "description": null
+    },
+    {
+        "value": "MQ",
+        "label": "Maison de quartier",
+        "description": null
+    },
+    {
+        "value": "MSA",
+        "label": "Mutualité Sociale Agricole",
+        "description": null
+    },
+    {
+        "value": "MUNI",
+        "label": "Municipalités",
+        "description": null
+    },
+    {
+        "value": "OACAS",
+        "label": "Structures agréées Organisme d’accueil communautaire et d’activité solidaire (OACAS)",
+        "description": null
+    },
+    {
+        "value": "ODC",
+        "label": "Organisation délégataire d’un CD",
+        "description": null
+    },
+    {
+        "value": "OF",
+        "label": "Organisme de formations",
+        "description": null
+    },
+    {
+        "value": "OIL",
+        "label": "Opérateur d’intermédiation locative",
+        "description": null
+    },
+    {
+        "value": "OPCS",
+        "label": "Organisation porteuse de la clause sociale",
+        "description": null
+    },
+    {
+        "value": "PAD",
+        "label": "Point d’Accès au Droit",
+        "description": null
+    },
+    {
+        "value": "PE",
+        "label": "Pôle emploi",
+        "description": null
+    },
+    {
+        "value": "PENSION",
+        "label": "Pension de famille / résidence accueil",
+        "description": null
+    },
+    {
+        "value": "PIJ_BIJ",
+        "label": "Points et bureaux information jeunesse (PIJ/BIJ)",
+        "description": null
+    },
+    {
+        "value": "PIMMS",
+        "label": "Point Information Médiation Multi Services (PIMMS)",
+        "description": null
+    },
+    {
+        "value": "PJJ",
+        "label": "Protection judiciaire de la jeunesse (PJJ)",
+        "description": null
+    },
+    {
+        "value": "PLIE",
+        "label": "Plans locaux pour l’insertion et l’emploi (PLIE)",
+        "description": null
+    },
+    {
+        "value": "PREF",
+        "label": "Préfecture, Sous-Préfecture",
+        "description": null
+    },
+    {
+        "value": "PREVENTION",
+        "label": "Service ou club de prévention",
+        "description": null
+    },
+    {
+        "value": "REG",
+        "label": "Région",
+        "description": null
+    },
+    {
+        "value": "RFS",
+        "label": "Réseau France Services",
+        "description": null
+    },
+    {
+        "value": "RS_FJT",
+        "label": "Résidence sociale / FJT - Foyer de Jeunes Travailleurs",
+        "description": null
+    },
+    {
+        "value": "SCP",
+        "label": "Services et clubs de prévention",
+        "description": null
+    },
+    {
+        "value": "SPIP",
+        "label": "Services pénitentiaires d’insertion et de probation (SPIP)",
+        "description": null
+    },
+    {
+        "value": "TIERS_LIEUX",
+        "label": "Tiers lieu & coworking",
+        "description": null
+    },
+    {
+        "value": "UDAF",
+        "label": "Union Départementale d’Aide aux Familles (UDAF)",
+        "description": null
+    }
+]
