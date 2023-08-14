@@ -45,7 +45,7 @@
 
         <div class="question_box"  data-question="6" :class="(question6)?'open':''" @click="(question6)?question6=false:question6=true">
           <span class="title">J’ai constaté une erreur</span>
-          <span class="reponse">Pour toute demande d’information ou toute erreur détectée dans les données vous pouvez écrire aux producteurs des données sur <a href="https://www.data.gouv.fr/fr/datasets/demandes-de-valeurs-foncieres-geolocalisees/">la page dédiée</a> ou contacter le bureau CL2A de la DGFIP à l’adresse suivante : bureau.cl2a-dvf@dgfip.finances.gouv.fr</span>
+          <span class="reponse">Pour toute demande d’information ou toute erreur détectée dans les données vous pouvez écrire aux producteurs des données sur <a href="https://www.data.gouv.fr/fr/datasets/demandes-de-valeurs-foncieres/">la page dédiée</a> ou contacter le bureau CL2A de la DGFIP à l’adresse suivante : bureau.cl2a-dvf@dgfip.finances.gouv.fr</span>
         </div>
 
         <div class="question_box"  data-question="7" :class="(question7)?'open':''" @click="(question7)?question7=false:question7=true">
