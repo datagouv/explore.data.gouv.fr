@@ -78,6 +78,12 @@
               <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M4 2V3H1.5V8.5H7V6H8V9C8 9.27614 7.77614 9.5 7.5 9.5H1C0.723858 9.5 0.5 9.27614 0.5 9V2.5C0.5 2.22386 0.723858 2 1 2H4ZM9.5 0.5V5L7.603 3.1035L4.6035 6.1035L3.8965 5.3965L6.896 2.3965L5 0.5H9.5Z" fill="#3558A2"/></svg>
               Voir les informations d’urbanisme sur geoportail-urbanisme.gouv.fr
             </div>
+          <div class="cardPartner" @click="goToPartner('dynmark')" v-if="this.userLocation.level == 'commune' || this.userLocation.level == 'departement'">
+            
+            <div class="textPartner">
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M4 2V3H1.5V8.5H7V6H8V9C8 9.27614 7.77614 9.5 7.5 9.5H1C0.723858 9.5 0.5 9.27614 0.5 9V2.5C0.5 2.22386 0.723858 2 1 2H4ZM9.5 0.5V5L7.603 3.1035L4.6035 6.1035L3.8965 5.3965L6.896 2.3965L5 0.5H9.5Z" fill="#3558A2"/></svg>
+              Voir les indicateurs de prix de l’immobilier du Cerema sur l’application Dynmark
+            </div>
           </div>
         </div>
         
@@ -921,6 +927,19 @@ export default {
                   "&mlat=" +
                   data[0]["centre"]["coordinates"][1]
               );
+            }
+            if (partner == "dynmark") {
+              if (this.userLocation.level == 'commune'){
+                window.open(
+                  "https://dataviz.cerema.fr/dynmark/?perimetre=comm&codeinsee=" +
+                  this.userLocation.com
+                );
+              } else if (this.userLocation.level == 'departement') {
+                window.open(
+                  "https://dataviz.cerema.fr/dynmark/?perimetre=dep&codeinsee=" +
+                  this.userLocation.dep
+                );
+              }
             }
           });
       }
