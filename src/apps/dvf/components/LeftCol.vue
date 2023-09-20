@@ -1,340 +1,749 @@
 <template>
-    <div class="leftCol" :class="leftColOpening">
-
-      <div class="leftColOpener" @click="changeLeftColOpening()"><svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M4.99999 2.21917L1.69999 5.51916L0.757324 4.5765L4.99999 0.333832L9.24266 4.5765L8.29999 5.51916L4.99999 2.21917Z" fill="#161616"/></svg></div>
-
-      <div class="header_container" v-if="level === 'fra'">
-        <h2 class="intro_title">Bonjour !<br>Bienvenue</h2>
-        <span class="intro_text">Suivez l'évolution des prix de l'immobilier et trouver le prix des ventes immobilières sur les 5 dernières années.</span>
-      </div>
-
-      <div class="header_container" v-if="level != 'fra'">
-
-        <div class="ariane_container">
-          <div><span>France</span></div>
-          <div v-if="userLocation.depName"><span>{{ userLocation.depName}} ({{ userLocation.dep }})</span></div>
-          <div v-if="userLocation.comName"><span>{{ userLocation.comName }} ({{ userLocation.com }})</span></div>
-          <div v-if="userLocation.sectionName"><span>Section {{ userLocation.sectionName }}</span></div>
-          <div v-if="userLocation.parcelleName"><span>Parcelle {{ userLocation.parcelleName }}</span></div>
-        </div>
-
-        <div class="location_container">
-
-          <div v-if="level === 'fra'">
-           <div><span class="location_title">PAYS</span></div>
-           <div><span class="location_label">France entière</span></div>
-          </div>
-
-          <div v-if="level === 'departement'">
-           <div><span class="location_title">DÉPARTEMENT</span></div>
-           <div><span class="location_label">{{ userLocation.depName }} ({{ userLocation.dep }})</span></div>
-          </div>
-
-          <div v-if="level === 'commune'">
-           <div><span class="location_title">COMMUNE</span></div>
-           <div><span class="location_label">{{ userLocation.comName }} ({{ userLocation.com }})</span></div>
-          </div>
-
-          <div v-if="level === 'section'">
-           <div><span class="location_title">SECTION CADASTRALE</span></div>
-           <div><span class="location_label">{{ userLocation.section }}</span></div>
-          </div>
-
-          <div v-if="level === 'parcelle'">
-           <div><span class="location_title">PARCELLE CADASTRALE</span></div>
-           <div><span class="location_label">{{ userLocation.parcelle }}</span></div>
-          </div>
-
-        </div>
-
-      </div>
-
-      <div class="links_container" v-if="level != 'fra'" :data-open="(openLinks)?'open':''">
-          <div class="links_title" @click="toggleLinks()">Liens utiles <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M4.99999 2.21917L1.69999 5.51916L0.757324 4.5765L4.99999 0.333832L9.24266 4.5765L8.29999 5.51916L4.99999 2.21917Z" fill="#161616"/></svg></div>
-          <div class="cardPartner" @click="goToPartner('arcep')">
-            
-            <div class="textPartner">
-              <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M4 2V3H1.5V8.5H7V6H8V9C8 9.27614 7.77614 9.5 7.5 9.5H1C0.723858 9.5 0.5 9.27614 0.5 9V2.5C0.5 2.22386 0.723858 2 1 2H4ZM9.5 0.5V5L7.603 3.1035L4.6035 6.1035L3.8965 5.3965L6.896 2.3965L5 0.5H9.5Z" fill="#3558A2"/></svg>
-              Voir la couverture réseaux sur maconnexioninternet.arcep.fr
-            </div>
-          </div>
-          <div class="cardPartner" @click="goToPartner('brgm')" v-if="this.userLocation.level != 'departement'">
-            
-            <div class="textPartner">
-              <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M4 2V3H1.5V8.5H7V6H8V9C8 9.27614 7.77614 9.5 7.5 9.5H1C0.723858 9.5 0.5 9.27614 0.5 9V2.5C0.5 2.22386 0.723858 2 1 2H4ZM9.5 0.5V5L7.603 3.1035L4.6035 6.1035L3.8965 5.3965L6.896 2.3965L5 0.5H9.5Z" fill="#3558A2"/></svg>
-              Voir les risques sur georisques.gouv.fr
-            </div>
-          </div>
-          <div class="cardPartner" @click="goToPartner('acceslibre')">
-            
-            <div class="textPartner">
-              <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M4 2V3H1.5V8.5H7V6H8V9C8 9.27614 7.77614 9.5 7.5 9.5H1C0.723858 9.5 0.5 9.27614 0.5 9V2.5C0.5 2.22386 0.723858 2 1 2H4ZM9.5 0.5V5L7.603 3.1035L4.6035 6.1035L3.8965 5.3965L6.896 2.3965L5 0.5H9.5Z" fill="#3558A2"/></svg>
-              Voir l’accessibilité sur acceslibre.beta.gouv.fr
-            </div>
-          </div>
-          <div class="cardPartner" @click="goToPartner('ign')">
-            
-            <div class="textPartner">
-              <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M4 2V3H1.5V8.5H7V6H8V9C8 9.27614 7.77614 9.5 7.5 9.5H1C0.723858 9.5 0.5 9.27614 0.5 9V2.5C0.5 2.22386 0.723858 2 1 2H4ZM9.5 0.5V5L7.603 3.1035L4.6035 6.1035L3.8965 5.3965L6.896 2.3965L5 0.5H9.5Z" fill="#3558A2"/></svg>
-              Voir les informations d’urbanisme sur geoportail-urbanisme.gouv.fr
-            </div>
-          <div class="cardPartner" @click="goToPartner('dynmark')" v-if="this.userLocation.level == 'commune' || this.userLocation.level == 'departement'">
-            
-            <div class="textPartner">
-              <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M4 2V3H1.5V8.5H7V6H8V9C8 9.27614 7.77614 9.5 7.5 9.5H1C0.723858 9.5 0.5 9.27614 0.5 9V2.5C0.5 2.22386 0.723858 2 1 2H4ZM9.5 0.5V5L7.603 3.1035L4.6035 6.1035L3.8965 5.3965L6.896 2.3965L5 0.5H9.5Z" fill="#3558A2"/></svg>
-              Voir les indicateurs de prix de l’immobilier du Cerema sur l’application Dynmark
-            </div>
-          </div>
-        </div>
-        
-      <div class="links_container" v-if="level != 'fra' && parcellesDpeNb > 0" :data-open="(openDpe)?'open':''">
-          <div class="links_title" @click="toggleDpe()">Diagnostics de Performance Energétique (DPE) <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M4.99999 2.21917L1.69999 5.51916L0.757324 4.5765L4.99999 0.333832L9.24266 4.5765L8.29999 5.51916L4.99999 2.21917Z" fill="#161616"/></svg></div>
-          <div class="content-dpe">
-            <span v-if="parcellesDpeNb > 1">
-              Il semble qu'il y ait plusieurs bâtiments sur cette parcelle. Il y a donc plusieurs résultats DPE.<br />
-            </span>
-            <div v-for="item in parcellesDpe" v-bind:key="item['batiment_groupe_id']">
-              <span v-if="item['classe_bilan_dpe'] != null">
-                <div class="etiquette-dpe">
-                  <div>
-                    <span v-if="item['classe_bilan_dpe'] == 'A'">
-                      <div _ngcontent-lto-c101="" class="dpe-tag dpe-color-a">A</div>
-                    </span>
-                    <span v-if="item['classe_bilan_dpe'] == 'B'">
-                      <div _ngcontent-lto-c101="" class="dpe-tag dpe-color-b">B</div>
-                    </span>
-                    <span v-if="item['classe_bilan_dpe'] == 'C'">
-                      <div _ngcontent-lto-c101="" class="dpe-tag dpe-color-c">C</div>
-                    </span>
-                    <span v-if="item['classe_bilan_dpe'] == 'D'">
-                      <div _ngcontent-lto-c101="" class="dpe-tag dpe-color-d">D</div>
-                    </span>
-                    <span v-if="item['classe_bilan_dpe'] == 'E'">
-                      <div _ngcontent-lto-c101="" class="dpe-tag dpe-color-e">E</div>
-                    </span>
-                    <span v-if="item['classe_bilan_dpe'] == 'F'">
-                      <div _ngcontent-lto-c101="" class="dpe-tag dpe-color-f">F</div>
-                    </span>
-                    <span v-if="item['classe_bilan_dpe'] == 'G'">
-                      <div _ngcontent-lto-c101="" class="dpe-tag dpe-color-g">G</div>
-                    </span>
-                  </div>
-                  <div class="title-etiquette"><b>Consommation d'énergie</b></div>
-                </div>
-                <div class="etiquette-dpe">
-                  <div>
-                    <span v-if="item['classe_emission_ges'] == 'A'">
-                      <div _ngcontent-lto-c101="" class="dpe-tag dpe-color-a">A</div>
-                    </span>
-                    <span v-if="item['classe_emission_ges'] == 'B'">
-                      <div _ngcontent-lto-c101="" class="dpe-tag dpe-color-b">B</div>
-                    </span>
-                    <span v-if="item['classe_emission_ges'] == 'C'">
-                      <div _ngcontent-lto-c101="" class="dpe-tag dpe-color-c">C</div>
-                    </span>
-                    <span v-if="item['classe_emission_ges'] == 'D'">
-                      <div _ngcontent-lto-c101="" class="dpe-tag dpe-color-d">D</div>
-                    </span>
-                    <span v-if="item['classe_emission_ges'] == 'E'">
-                      <div _ngcontent-lto-c101="" class="dpe-tag dpe-color-e">E</div>
-                    </span>
-                    <span v-if="item['classe_emission_ges'] == 'F'">
-                      <div _ngcontent-lto-c101="" class="dpe-tag dpe-color-f">F</div>
-                    </span>
-                    <span v-if="item['classe_emission_ges'] == 'G'">
-                      <div _ngcontent-lto-c101="" class="dpe-tag dpe-color-g">G</div>
-                    </span>
-                  </div>
-                  <div class="title-etiquette"><b>Emission de gaz à effet de serre</b></div>
-                </div>
-                <div v-if="item['periode_construction_dpe'] != null">
-                  Période de construction : <b>{{ item['periode_construction_dpe'] }}</b>
-                </div>
-                <div v-if="item['nombre_niveau_immeuble'] != null">
-                  Immeuble sur <b>{{ item['nombre_niveau_immeuble'] }}</b> niveaux
-                </div>
-                <div v-if="item['surface_habitable_immeuble'] != null">
-                  Immeuble d'une superficie de <b>{{ item['surface_habitable_immeuble'] }}</b> m2
-                </div>
-              </span>
-              <div class="one-dpe"></div>
-            </div>
-            <div class="textPartner dpe-final" @click="goToPartner('cstb')">
-              <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M4 2V3H1.5V8.5H7V6H8V9C8 9.27614 7.77614 9.5 7.5 9.5H1C0.723858 9.5 0.5 9.27614 0.5 9V2.5C0.5 2.22386 0.723858 2 1 2H4ZM9.5 0.5V5L7.603 3.1035L4.6035 6.1035L3.8965 5.3965L6.896 2.3965L5 0.5H9.5Z" fill="#3558A2"/></svg>Voir des infos complémentaires autour de la rénovation
-            </div>            
-            <div>Sources : <span class="textPartner" @click="goToPartner('bdnb')">BDNB</span></div>
-
-          </div>
-        </div>
-
-      <div class="links_container" v-if="level != 'fra' && parcellesCoproNb > 0" :data-open="(openCopro)?'open':''">
-          <div class="links_title" @click="toggleCopro()">Informations sur la Copropriété <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M4.99999 2.21917L1.69999 5.51916L0.757324 4.5765L4.99999 0.333832L9.24266 4.5765L8.29999 5.51916L4.99999 2.21917Z" fill="#161616"/></svg></div>
-          <div class="content-copro">
-            <span v-if="parcellesCoproNb > 1">
-              Il semble qu'il y ait plusieurs copropriétés référencés sur cette parcelle.
-            </span>
-            <div v-for="item in parcellesCopro" v-bind:key="item['numero_immatriculation']">
-              <div v-if="item['syndicat_principal_ou_secondaire'] != null && parcellesCoproNb > 1">
-                Syndicat principal : <b>{{ item['syndicat_principal_ou_secondaire'] }}</b>
-              </div>
-              <div v-if="item['syndicat_cooperatif'] != null">
-                Syndicat coopératif : <b>{{ item['syndicat_cooperatif'] }}</b>
-              </div>
-              <div v-if="item['identification_representant_legal'] != null">
-                Représentant légal : 
-                <span 
-                  class="textPartner dpe-final"
-                  v-if="item['siret_representant_legal'] != null"
-                  @click="goToPartner('annuaire', item['siret_representant_legal'])">
-                    {{ item['identification_representant_legal'] }}
-                </span>
-                <span v-else>
-                  <b>{{ item['identification_representant_legal'] }}</b>
-                </span>
-              </div>
-              <div v-if="item['nom_usage_copropriete'] != null">
-                Nom d'usage de la copropriété : <b>{{ item['nom_usage_copropriete'] }}</b>
-              </div>
-              <div v-if="item['numero_immatriculation'] != null">
-                Numéro d'immatriculation de la copropriété : <b>{{ item['numero_immatriculation'] }}</b>
-              </div>
-              <div v-if="item['nombre_total_lots'] != null">
-                Nombre total de lots : <b>{{ item['nombre_total_lots'] }}</b>
-              </div>
-              <div v-if="item['nombre_lots_usage_habitation'] != null">
-                Nombre de lots à usage d'habitation : <b>{{ item['nombre_lots_usage_habitation'] }}</b>
-              </div>
-              <div v-if="item['nombre_lots_stationnement'] != null">
-                Nombre de lots de stationnement : <b>{{ item['nombre_lots_stationnement'] }}</b>
-              </div>
-              <div v-if="item['mandat_en_cours_copropriete'] != null">
-                Mandat sur la propriété : <b>{{ item['mandat_en_cours_copropriete'] }}</b>
-              </div>
-              <div v-if="item['nombre_arretes_code_sante_publique_en_cours'] != null">
-                Arrêtés relevant du code de la santé publique en cours : <b>{{ item['nombre_arretes_code_sante_publique_en_cours'] }}</b>
-              </div>
-              <div v-if="item['nombre_arretes_peril_parties_communes_en_cours'] != null">
-                Arrêtés de péril sur les parties communes en cours : <b>{{ item['nombre_arretes_peril_parties_communes_en_cours'] }}</b>
-              </div>
-              <div v-if="item['nombre_arretes_equipements_communs_en_cours'] != null">
-                Arrêtés sur les équipements communs en cours : <b>{{ item['nombre_arretes_equipements_communs_en_cours'] }}</b>
-              </div>
-              <div class="one-copro"></div>
-            </div>
-            <div class="textPartner dpe-final" @click="goToPartner('anah')">
-              <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M4 2V3H1.5V8.5H7V6H8V9C8 9.27614 7.77614 9.5 7.5 9.5H1C0.723858 9.5 0.5 9.27614 0.5 9V2.5C0.5 2.22386 0.723858 2 1 2H4ZM9.5 0.5V5L7.603 3.1035L4.6035 6.1035L3.8965 5.3965L6.896 2.3965L5 0.5H9.5Z" fill="#3558A2"/></svg>Consulter l'annuaire des copropriétés
-            </div>            
-            <div>Sources : <span class="textPartner" @click="goToPartner('copro')">Registre d'Immatriculation des Copropriétés</span></div>
-
-          </div>
-        </div>
-
-      <div class="stats_container" v-if="level != 'parcelle'&&nodata==false">
-
-        <div class="global_numbers_container">
-          <div class="global_number_wrapper">
-            <div class="global_number_title">Nombre total de ventes<div class="info_btn" @mouseover="hoveredInfo='ventes'" @mouseleave="hoveredInfo=''"><div>?</div></div></div>
-
-            <div class="info_bulle" v-if="hoveredInfo=='ventes'">Nombre total de ventes immobilières pendant les 5 dernières années</div>
-
-            <div class="global_number_value">{{clientData["totalVentes"]}}</div>
-          </div>
-          <div class="global_number_wrapper">
-            <div class="global_number_title">Prix de vente médian au m²<div class="info_btn" @mouseover="hoveredInfo='prix'" @mouseleave="hoveredInfo=''"><div>?</div></div></div>
-             <div class="info_bulle" v-if="hoveredInfo=='prix'">Prix médian du m² de l'ensemble des ventes immobilières des 5 dernières années</div>
-            <div class="global_number_value">{{clientData["totalAverage"]}}</div>
-          </div>
-        </div>
-
-        <div class="tab_container">
-          <table>
-            <tr>
-              <th></th>
-              <th :class="activeFilter=='maison'||activeFilter=='local'?'hide':''"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22 21H2V19H3V4C3 3.44772 3.44772 3 4 3H18C18.5523 3 19 3.44772 19 4V9H21V19H22V21ZM17 19H19V11H13V19H15V13H17V19ZM17 9V5H5V19H11V9H17ZM7 11H9V13H7V11ZM7 15H9V17H7V15ZM7 7H9V9H7V7Z"></path></svg> Appt.</th>
-              <th :class="activeFilter=='appartement'||activeFilter=='local'?'hide':''"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 21.0001H5C4.44772 21.0001 4 20.5524 4 20.0001V11.0001L1 11.0001L11.3273 1.61162C11.7087 1.26488 12.2913 1.26488 12.6727 1.61162L23 11.0001L20 11.0001V20.0001C20 20.5524 19.5523 21.0001 19 21.0001ZM13 19.0001H18V9.15757L12 3.70302L6 9.15757V19.0001H11V13.0001H13V19.0001Z"></path></svg> Maisons </th>
-              <th :class="activeFilter!='local'?'hide':''"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.2422V20H22V22H2V20H3V13.2422C1.79401 12.435 1 11.0602 1 9.5C1 8.67286 1.22443 7.87621 1.63322 7.19746L4.3453 2.5C4.52393 2.1906 4.85406 2 5.21132 2H18.7887C19.1459 2 19.4761 2.1906 19.6547 2.5L22.3575 7.18172C22.7756 7.87621 23 8.67286 23 9.5C23 11.0602 22.206 12.435 21 13.2422ZM19 13.9725C18.8358 13.9907 18.669 14 18.5 14C17.2409 14 16.0789 13.478 15.25 12.6132C14.4211 13.478 13.2591 14 12 14C10.7409 14 9.5789 13.478 8.75 12.6132C7.9211 13.478 6.75911 14 5.5 14C5.331 14 5.16417 13.9907 5 13.9725V20H19V13.9725ZM5.78865 4L3.35598 8.21321C3.12409 8.59843 3 9.0389 3 9.5C3 10.8807 4.11929 12 5.5 12C6.53096 12 7.44467 11.3703 7.82179 10.4295C8.1574 9.59223 9.3426 9.59223 9.67821 10.4295C10.0553 11.3703 10.969 12 12 12C13.031 12 13.9447 11.3703 14.3218 10.4295C14.6574 9.59223 15.8426 9.59223 16.1782 10.4295C16.5553 11.3703 17.469 12 18.5 12C19.8807 12 21 10.8807 21 9.5C21 9.0389 20.8759 8.59843 20.6347 8.19746L18.2113 4H5.78865Z"></path></svg> Locaux</th>
-            </tr>
-            <tr>
-              <th class='left'>Ventes :</th>
-              <td :class="activeFilter=='maison'||activeFilter=='local'?'hide':''">{{clientData["appVentes"]}}</td>
-              <td :class="activeFilter=='appartement'||activeFilter=='local'?'hide':''">{{clientData["houseVentes"]}}</td>
-              <td :class="activeFilter!='local'?'hide':''">{{clientData["localVentes"]}}</td>
-            </tr>
-            <tr>
-              <th class='left'>Prix median m² :</th>
-              <td :class="activeFilter=='maison'||activeFilter=='local'?'hide':''">{{clientData["appPrice"]}}</td>
-              <td :class="activeFilter=='appartement'||activeFilter=='local'?'hide':''">{{clientData["housePrice"]}}</td>
-              <td :class="activeFilter!='local'?'hide':''">{{clientData["localPrice"]}}</td>
-            </tr>
-          </table>
-        </div>
-
-        <div class="chart_container">
-          <span class="chart_title">Evolution du prix de vente median au m²</span>
-          <span class="chart_geo">{{chartGeoLabel}}</span>
-          <div class="chart_info_btn line_chart_info" @mouseover="hoveredBulle='line'" @mouseleave="hoveredBulle=''"><div>?</div></div>
-          <div class="chart_info_bulle" v-if="hoveredBulle=='line'">Ce graphique indique l'évolution du prix au m² pour le type de biens sélectionné et l'échelle sélectionnée. Les prix au m² sont obtenus en divisant la valeur foncière du bien par sa surface au sol.</div>
-          <line-chart></line-chart>
-        </div>
-
-        <div class="chart_container">
-          <span class="chart_title">Distribution du prix de vente au m²</span>
-          <span class="chart_geo">{{chartGeoLabel}}</span>
-          <div class="chart_info_btn bar_chart_info" @mouseover="hoveredBulle='bar'" @mouseleave="hoveredBulle=''"><div>?</div></div>
-          <div class="chart_info_bulle" v-if="hoveredBulle=='bar'">Ce graphique montre la répartition des prix des ventes à l'échelle sélectionnée, pour le type de biens sélectionné. En survolant chaque barre, vous pouvez voir combien de ventes se sont faites à un montant compris dans la tranche de prix affichée.</div>
-          <bar-chart></bar-chart>
-        </div>
-
-
-      </div>
-
-      <div class="mutations_container" v-if="level === 'parcelle'">
-        <div class="title_mutations">Liste des mutations immobilières</div>
-        <div class="mutations_total">{{Object.keys(parcellesMutations).length}} mutations</div>
-        <div class="mutation_box" v-bind:key="p['id']" v-for="p in parcellesMutations">
-          <div class="content">
-            <div class="nature">{{ p["nature_mutation"] }}</div>
-            <span class="price">{{ p["price"] }}</span>
-            <div class="infos">
-              <span class="topinfo adresse" v-if="p['adresse_nom_voie'] != null">
-                <img src="../assets/images/pin.svg"/>
-                {{p["adresse_numero"]}} {{p["adresse_nom_voie"].toLowerCase()}}
-              </span>
-              <span class="topinfo id" v-if="p['id'] != null"><img src="../assets/images/id.svg"/> {{ p["id"] }}</span>
-              <span class="topinfo date" v-if="p['date'] != null"><img src="../assets/images/date.svg"/> {{ p["date"] }}</span>
-              
-              <span v-for="item in p['assets']" class="infos_item">
-                <span class="title" v-if="item['type'] != null">
-                  <img v-if="item['type'].substring(0,4) === 'Dépe'" src="../assets/images/dependance.svg"/>
-                  <img v-if="item['type'].substring(0,4) === 'Mais'" src="../assets/images/maison.svg"/>
-                  <img v-if="item['type'].substring(0,4) === 'Loca'" src="../assets/images/local.svg"/>
-                  <img v-if="item['type'].substring(0,4) === 'Appa'" src="../assets/images/appartement.svg"/>
-                  <img v-if="item['type'].substring(0,4) != 'Dépe' && item['type'].substring(0,4) != 'Mais' && item['type'].substring(0,4) != 'Loca' && item['type'].substring(0,4) != 'Appa' " src="../assets/images/terrain.svg"/>
-                  {{ item["type"] }}
-                </span>
-                <div class="filet" v-if="item['surface']"></div>
-                <span class="value" v-if="item['surface'] != null">{{ item["surface"] }}</span>
-              </span>
-
-              <span 
-                class="complInfo" 
-                v-if="parcellesAdjacentes &&
-                parcellesAdjacentes.hasOwnProperty(p['id'])&&
-                parcellesAdjacentes[p['id']].length != 0"
-              >
-                Cette vente s'est effectuée sur plusieurs parcelles.<br />
-                Liste des parcelles complémentaires :<br />
-                {{ parcellesAdjacentes[p['id']].join(', ') }}
-              </span>
-            </div>  
-            </div>
-          </div>
-        </div>
-        
-
-      </div>
-
+  <div class="leftCol" :class="leftColOpening">
+    <div class="leftColOpener" @click="changeLeftColOpening()">
+      <svg
+        width="10"
+        height="6"
+        viewBox="0 0 10 6"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M4.99999 2.21917L1.69999 5.51916L0.757324 4.5765L4.99999 0.333832L9.24266 4.5765L8.29999 5.51916L4.99999 2.21917Z"
+          fill="#161616"
+        />
+      </svg>
     </div>
+
+    <div class="header_container" v-if="level === 'fra'">
+      <h2 class="intro_title">Bonjour !<br />Bienvenue</h2>
+      <span class="intro_text"
+        >Suivez l'évolution des prix de l'immobilier et trouver le prix des
+        ventes immobilières sur les 5 dernières années.</span
+      >
+    </div>
+    <div class="header_container" v-if="level != 'fra'">
+      <div class="ariane_container">
+        <div><span>France</span></div>
+        <div v-if="userLocation.depName">
+          <span>{{ userLocation.depName }} ({{ userLocation.dep }})</span>
+        </div>
+        <div v-if="userLocation.comName">
+          <span>{{ userLocation.comName }} ({{ userLocation.com }})</span>
+        </div>
+        <div v-if="userLocation.sectionName">
+          <span>Section {{ userLocation.sectionName }}</span>
+        </div>
+        <div v-if="userLocation.parcelleName">
+          <span>Parcelle {{ userLocation.parcelleName }}</span>
+        </div>
+      </div>
+
+      <div class="location_container">
+        <div v-if="level === 'fra'">
+          <div><span class="location_title">PAYS</span></div>
+          <div><span class="location_label">France entière</span></div>
+        </div>
+
+        <div v-if="level === 'departement'">
+          <div><span class="location_title">DÉPARTEMENT</span></div>
+          <div>
+            <span class="location_label"
+              >{{ userLocation.depName }} ({{ userLocation.dep }})</span
+            >
+          </div>
+        </div>
+
+        <div v-if="level === 'commune'">
+          <div><span class="location_title">COMMUNE</span></div>
+          <div>
+            <span class="location_label"
+              >{{ userLocation.comName }} ({{ userLocation.com }})</span
+            >
+          </div>
+        </div>
+
+        <div v-if="level === 'section'">
+          <div><span class="location_title">SECTION CADASTRALE</span></div>
+          <div>
+            <span class="location_label">{{ userLocation.section }}</span>
+          </div>
+        </div>
+
+        <div v-if="level === 'parcelle'">
+          <div><span class="location_title">PARCELLE CADASTRALE</span></div>
+          <div>
+            <span class="location_label">{{ userLocation.parcelle }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="links_container"
+      v-if="level != 'fra'"
+      :data-open="openLinks ? 'open' : ''"
+    >
+      <div class="links_title" @click="toggleLinks()">
+        Liens utiles
+        <svg
+          width="10"
+          height="6"
+          viewBox="0 0 10 6"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M4.99999 2.21917L1.69999 5.51916L0.757324 4.5765L4.99999 0.333832L9.24266 4.5765L8.29999 5.51916L4.99999 2.21917Z"
+            fill="#161616"
+          />
+        </svg>
+      </div>
+      <div class="cardPartner" @click="goToPartner('arcep')">
+        <div class="textPartner">
+          <svg
+            width="10"
+            height="10"
+            viewBox="0 0 10 10"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M4 2V3H1.5V8.5H7V6H8V9C8 9.27614 7.77614 9.5 7.5 9.5H1C0.723858 9.5 0.5 9.27614 0.5 9V2.5C0.5 2.22386 0.723858 2 1 2H4ZM9.5 0.5V5L7.603 3.1035L4.6035 6.1035L3.8965 5.3965L6.896 2.3965L5 0.5H9.5Z"
+              fill="#3558A2"
+            />
+          </svg>
+          Voir la couverture réseaux sur maconnexioninternet.arcep.fr
+        </div>
+      </div>
+      <div
+        class="cardPartner"
+        @click="goToPartner('brgm')"
+        v-if="this.userLocation.level != 'departement'"
+      >
+        <div class="textPartner">
+          <svg
+            width="10"
+            height="10"
+            viewBox="0 0 10 10"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M4 2V3H1.5V8.5H7V6H8V9C8 9.27614 7.77614 9.5 7.5 9.5H1C0.723858 9.5 0.5 9.27614 0.5 9V2.5C0.5 2.22386 0.723858 2 1 2H4ZM9.5 0.5V5L7.603 3.1035L4.6035 6.1035L3.8965 5.3965L6.896 2.3965L5 0.5H9.5Z"
+              fill="#3558A2"
+            />
+          </svg>
+          Voir les risques sur georisques.gouv.fr
+        </div>
+      </div>
+      <div class="cardPartner" @click="goToPartner('acceslibre')">
+        <div class="textPartner">
+          <svg
+            width="10"
+            height="10"
+            viewBox="0 0 10 10"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M4 2V3H1.5V8.5H7V6H8V9C8 9.27614 7.77614 9.5 7.5 9.5H1C0.723858 9.5 0.5 9.27614 0.5 9V2.5C0.5 2.22386 0.723858 2 1 2H4ZM9.5 0.5V5L7.603 3.1035L4.6035 6.1035L3.8965 5.3965L6.896 2.3965L5 0.5H9.5Z"
+              fill="#3558A2"
+            />
+          </svg>
+          Voir l’accessibilité sur acceslibre.beta.gouv.fr
+        </div>
+      </div>
+      <div class="cardPartner" @click="goToPartner('ign')">
+        <div class="textPartner">
+          <svg
+            width="10"
+            height="10"
+            viewBox="0 0 10 10"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M4 2V3H1.5V8.5H7V6H8V9C8 9.27614 7.77614 9.5 7.5 9.5H1C0.723858 9.5 0.5 9.27614 0.5 9V2.5C0.5 2.22386 0.723858 2 1 2H4ZM9.5 0.5V5L7.603 3.1035L4.6035 6.1035L3.8965 5.3965L6.896 2.3965L5 0.5H9.5Z"
+              fill="#3558A2"
+            />
+          </svg>
+          Voir les informations d’urbanisme sur geoportail-urbanisme.gouv.fr
+        </div>
+        <div
+          class="cardPartner"
+          @click="goToPartner('dynmark')"
+          v-if="
+            this.userLocation.level == 'commune' ||
+            this.userLocation.level == 'departement'
+          "
+        >
+          <div class="textPartner">
+            <svg
+              width="10"
+              height="10"
+              viewBox="0 0 10 10"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M4 2V3H1.5V8.5H7V6H8V9C8 9.27614 7.77614 9.5 7.5 9.5H1C0.723858 9.5 0.5 9.27614 0.5 9V2.5C0.5 2.22386 0.723858 2 1 2H4ZM9.5 0.5V5L7.603 3.1035L4.6035 6.1035L3.8965 5.3965L6.896 2.3965L5 0.5H9.5Z"
+                fill="#3558A2"
+              />
+            </svg>
+            Voir les indicateurs de prix de l’immobilier du Cerema sur
+            l’application Dynmark
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="links_container"
+        v-if="level != 'fra' && parcellesDpeNb > 0"
+        :data-open="openDpe ? 'open' : ''"
+      >
+        <div class="links_title" @click="toggleDpe()">
+          Diagnostics de Performance Energétique (DPE)
+          <svg
+            width="10"
+            height="6"
+            viewBox="0 0 10 6"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M4.99999 2.21917L1.69999 5.51916L0.757324 4.5765L4.99999 0.333832L9.24266 4.5765L8.29999 5.51916L4.99999 2.21917Z"
+              fill="#161616"
+            />
+          </svg>
+        </div>
+        <div class="content-dpe">
+          <span v-if="parcellesDpeNb > 1">
+            Il semble qu'il y ait plusieurs bâtiments sur cette parcelle. Il y a
+            donc plusieurs résultats DPE.<br />
+          </span>
+          <div
+            v-for="item in parcellesDpe"
+            v-bind:key="item['batiment_groupe_id']"
+          >
+            <span v-if="item['classe_bilan_dpe'] != null">
+              <div class="etiquette-dpe">
+                <div>
+                  <span v-if="item['classe_bilan_dpe'] == 'A'">
+                    <div _ngcontent-lto-c101="" class="dpe-tag dpe-color-a">
+                      A
+                    </div>
+                  </span>
+                  <span v-if="item['classe_bilan_dpe'] == 'B'">
+                    <div _ngcontent-lto-c101="" class="dpe-tag dpe-color-b">
+                      B
+                    </div>
+                  </span>
+                  <span v-if="item['classe_bilan_dpe'] == 'C'">
+                    <div _ngcontent-lto-c101="" class="dpe-tag dpe-color-c">
+                      C
+                    </div>
+                  </span>
+                  <span v-if="item['classe_bilan_dpe'] == 'D'">
+                    <div _ngcontent-lto-c101="" class="dpe-tag dpe-color-d">
+                      D
+                    </div>
+                  </span>
+                  <span v-if="item['classe_bilan_dpe'] == 'E'">
+                    <div _ngcontent-lto-c101="" class="dpe-tag dpe-color-e">
+                      E
+                    </div>
+                  </span>
+                  <span v-if="item['classe_bilan_dpe'] == 'F'">
+                    <div _ngcontent-lto-c101="" class="dpe-tag dpe-color-f">
+                      F
+                    </div>
+                  </span>
+                  <span v-if="item['classe_bilan_dpe'] == 'G'">
+                    <div _ngcontent-lto-c101="" class="dpe-tag dpe-color-g">
+                      G
+                    </div>
+                  </span>
+                </div>
+                <div class="title-etiquette"><b>Consommation d'énergie</b></div>
+              </div>
+              <div class="etiquette-dpe">
+                <div>
+                  <span v-if="item['classe_emission_ges'] == 'A'">
+                    <div _ngcontent-lto-c101="" class="dpe-tag dpe-color-a">
+                      A
+                    </div>
+                  </span>
+                  <span v-if="item['classe_emission_ges'] == 'B'">
+                    <div _ngcontent-lto-c101="" class="dpe-tag dpe-color-b">
+                      B
+                    </div>
+                  </span>
+                  <span v-if="item['classe_emission_ges'] == 'C'">
+                    <div _ngcontent-lto-c101="" class="dpe-tag dpe-color-c">
+                      C
+                    </div>
+                  </span>
+                  <span v-if="item['classe_emission_ges'] == 'D'">
+                    <div _ngcontent-lto-c101="" class="dpe-tag dpe-color-d">
+                      D
+                    </div>
+                  </span>
+                  <span v-if="item['classe_emission_ges'] == 'E'">
+                    <div _ngcontent-lto-c101="" class="dpe-tag dpe-color-e">
+                      E
+                    </div>
+                  </span>
+                  <span v-if="item['classe_emission_ges'] == 'F'">
+                    <div _ngcontent-lto-c101="" class="dpe-tag dpe-color-f">
+                      F
+                    </div>
+                  </span>
+                  <span v-if="item['classe_emission_ges'] == 'G'">
+                    <div _ngcontent-lto-c101="" class="dpe-tag dpe-color-g">
+                      G
+                    </div>
+                  </span>
+                </div>
+                <div class="title-etiquette">
+                  <b>Emission de gaz à effet de serre</b>
+                </div>
+              </div>
+              <div v-if="item['periode_construction_dpe'] != null">
+                Période de construction :
+                <b>{{ item["periode_construction_dpe"] }}</b>
+              </div>
+              <div v-if="item['nombre_niveau_immeuble'] != null">
+                Immeuble sur <b>{{ item["nombre_niveau_immeuble"] }}</b> niveaux
+              </div>
+              <div v-if="item['surface_habitable_immeuble'] != null">
+                Immeuble d'une superficie de
+                <b>{{ item["surface_habitable_immeuble"] }}</b> m2
+              </div>
+            </span>
+            <div class="one-dpe"></div>
+          </div>
+          <div class="textPartner dpe-final" @click="goToPartner('cstb')">
+            <svg
+              width="10"
+              height="10"
+              viewBox="0 0 10 10"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M4 2V3H1.5V8.5H7V6H8V9C8 9.27614 7.77614 9.5 7.5 9.5H1C0.723858 9.5 0.5 9.27614 0.5 9V2.5C0.5 2.22386 0.723858 2 1 2H4ZM9.5 0.5V5L7.603 3.1035L4.6035 6.1035L3.8965 5.3965L6.896 2.3965L5 0.5H9.5Z"
+                fill="#3558A2"
+              /></svg
+            >Voir des infos complémentaires autour de la rénovation
+          </div>
+          <div>
+            Sources :
+            <span class="textPartner" @click="goToPartner('bdnb')">BDNB</span>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="links_container"
+        v-if="level != 'fra' && parcellesCoproNb > 0"
+        :data-open="openCopro ? 'open' : ''"
+      >
+        <div class="links_title" @click="toggleCopro()">
+          Informations sur la Copropriété
+          <svg
+            width="10"
+            height="6"
+            viewBox="0 0 10 6"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M4.99999 2.21917L1.69999 5.51916L0.757324 4.5765L4.99999 0.333832L9.24266 4.5765L8.29999 5.51916L4.99999 2.21917Z"
+              fill="#161616"
+            />
+          </svg>
+        </div>
+        <div class="content-copro">
+          <span v-if="parcellesCoproNb > 1">
+            Il semble qu'il y ait plusieurs copropriétés référencés sur cette
+            parcelle.
+          </span>
+          <div
+            v-for="item in parcellesCopro"
+            v-bind:key="item['numero_immatriculation']"
+          >
+            <div
+              v-if="
+                item['syndicat_principal_ou_secondaire'] != null &&
+                parcellesCoproNb > 1
+              "
+            >
+              Syndicat principal :
+              <b>{{ item["syndicat_principal_ou_secondaire"] }}</b>
+            </div>
+            <div v-if="item['syndicat_cooperatif'] != null">
+              Syndicat coopératif : <b>{{ item["syndicat_cooperatif"] }}</b>
+            </div>
+            <div v-if="item['identification_representant_legal'] != null">
+              Représentant légal :
+              <span
+                class="textPartner dpe-final"
+                v-if="item['siret_representant_legal'] != null"
+                @click="
+                  goToPartner('annuaire', item['siret_representant_legal'])
+                "
+              >
+                {{ item["identification_representant_legal"] }}
+              </span>
+              <span v-else>
+                <b>{{ item["identification_representant_legal"] }}</b>
+              </span>
+            </div>
+            <div v-if="item['nom_usage_copropriete'] != null">
+              Nom d'usage de la copropriété :
+              <b>{{ item["nom_usage_copropriete"] }}</b>
+            </div>
+            <div v-if="item['numero_immatriculation'] != null">
+              Numéro d'immatriculation de la copropriété :
+              <b>{{ item["numero_immatriculation"] }}</b>
+            </div>
+            <div v-if="item['nombre_total_lots'] != null">
+              Nombre total de lots : <b>{{ item["nombre_total_lots"] }}</b>
+            </div>
+            <div v-if="item['nombre_lots_usage_habitation'] != null">
+              Nombre de lots à usage d'habitation :
+              <b>{{ item["nombre_lots_usage_habitation"] }}</b>
+            </div>
+            <div v-if="item['nombre_lots_stationnement'] != null">
+              Nombre de lots de stationnement :
+              <b>{{ item["nombre_lots_stationnement"] }}</b>
+            </div>
+            <div v-if="item['mandat_en_cours_copropriete'] != null">
+              Mandat sur la propriété :
+              <b>{{ item["mandat_en_cours_copropriete"] }}</b>
+            </div>
+            <div
+              v-if="item['nombre_arretes_code_sante_publique_en_cours'] != null"
+            >
+              Arrêtés relevant du code de la santé publique en cours :
+              <b>{{ item["nombre_arretes_code_sante_publique_en_cours"] }}</b>
+            </div>
+            <div
+              v-if="
+                item['nombre_arretes_peril_parties_communes_en_cours'] != null
+              "
+            >
+              Arrêtés de péril sur les parties communes en cours :
+              <b>{{
+                item["nombre_arretes_peril_parties_communes_en_cours"]
+              }}</b>
+            </div>
+            <div
+              v-if="item['nombre_arretes_equipements_communs_en_cours'] != null"
+            >
+              Arrêtés sur les équipements communs en cours :
+              <b>{{ item["nombre_arretes_equipements_communs_en_cours"] }}</b>
+            </div>
+            <div class="one-copro"></div>
+          </div>
+          <div class="textPartner dpe-final" @click="goToPartner('anah')">
+            <svg
+              width="10"
+              height="10"
+              viewBox="0 0 10 10"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M4 2V3H1.5V8.5H7V6H8V9C8 9.27614 7.77614 9.5 7.5 9.5H1C0.723858 9.5 0.5 9.27614 0.5 9V2.5C0.5 2.22386 0.723858 2 1 2H4ZM9.5 0.5V5L7.603 3.1035L4.6035 6.1035L3.8965 5.3965L6.896 2.3965L5 0.5H9.5Z"
+                fill="#3558A2"
+              /></svg
+            >Consulter l'annuaire des copropriétés
+          </div>
+          <div>
+            Sources :
+            <span class="textPartner" @click="goToPartner('copro')"
+              >Registre d'Immatriculation des Copropriétés</span
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stats_container" v-if="level != 'parcelle' && nodata == false">
+      <div class="global_numbers_container">
+        <div class="global_number_wrapper">
+          <div class="global_number_title">
+            Nombre total de ventes
+            <div
+              class="info_btn"
+              @mouseover="hoveredInfo = 'ventes'"
+              @mouseleave="hoveredInfo = ''"
+            >
+              <div>?</div>
+            </div>
+          </div>
+
+          <div class="info_bulle" v-if="hoveredInfo == 'ventes'">
+            Nombre total de ventes immobilières pendant les 5 dernières années
+          </div>
+
+          <div class="global_number_value">
+            {{ clientData["totalVentes"] }}
+          </div>
+        </div>
+        <div class="global_number_wrapper">
+          <div class="global_number_title">
+            Prix de vente médian au m²
+            <div
+              class="info_btn"
+              @mouseover="hoveredInfo = 'prix'"
+              @mouseleave="hoveredInfo = ''"
+            >
+              <div>?</div>
+            </div>
+          </div>
+          <div class="info_bulle" v-if="hoveredInfo == 'prix'">
+            Prix médian du m² de l'ensemble des ventes immobilières des 5
+            dernières années
+          </div>
+          <div class="global_number_value">
+            {{ clientData["totalAverage"] }}
+          </div>
+        </div>
+      </div>
+
+      <div class="tab_container">
+        <table>
+          <tr>
+            <th></th>
+            <th
+              :class="
+                activeFilter == 'maison' || activeFilter == 'local'
+                  ? 'hide'
+                  : ''
+              "
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path
+                  d="M22 21H2V19H3V4C3 3.44772 3.44772 3 4 3H18C18.5523 3 19 3.44772 19 4V9H21V19H22V21ZM17 19H19V11H13V19H15V13H17V19ZM17 9V5H5V19H11V9H17ZM7 11H9V13H7V11ZM7 15H9V17H7V15ZM7 7H9V9H7V7Z"
+                ></path>
+              </svg>
+              Appt.
+            </th>
+            <th
+              :class="
+                activeFilter == 'appartement' || activeFilter == 'local'
+                  ? 'hide'
+                  : ''
+              "
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path
+                  d="M19 21.0001H5C4.44772 21.0001 4 20.5524 4 20.0001V11.0001L1 11.0001L11.3273 1.61162C11.7087 1.26488 12.2913 1.26488 12.6727 1.61162L23 11.0001L20 11.0001V20.0001C20 20.5524 19.5523 21.0001 19 21.0001ZM13 19.0001H18V9.15757L12 3.70302L6 9.15757V19.0001H11V13.0001H13V19.0001Z"
+                ></path>
+              </svg>
+              Maisons
+            </th>
+            <th :class="activeFilter != 'local' ? 'hide' : ''">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path
+                  d="M21 13.2422V20H22V22H2V20H3V13.2422C1.79401 12.435 1 11.0602 1 9.5C1 8.67286 1.22443 7.87621 1.63322 7.19746L4.3453 2.5C4.52393 2.1906 4.85406 2 5.21132 2H18.7887C19.1459 2 19.4761 2.1906 19.6547 2.5L22.3575 7.18172C22.7756 7.87621 23 8.67286 23 9.5C23 11.0602 22.206 12.435 21 13.2422ZM19 13.9725C18.8358 13.9907 18.669 14 18.5 14C17.2409 14 16.0789 13.478 15.25 12.6132C14.4211 13.478 13.2591 14 12 14C10.7409 14 9.5789 13.478 8.75 12.6132C7.9211 13.478 6.75911 14 5.5 14C5.331 14 5.16417 13.9907 5 13.9725V20H19V13.9725ZM5.78865 4L3.35598 8.21321C3.12409 8.59843 3 9.0389 3 9.5C3 10.8807 4.11929 12 5.5 12C6.53096 12 7.44467 11.3703 7.82179 10.4295C8.1574 9.59223 9.3426 9.59223 9.67821 10.4295C10.0553 11.3703 10.969 12 12 12C13.031 12 13.9447 11.3703 14.3218 10.4295C14.6574 9.59223 15.8426 9.59223 16.1782 10.4295C16.5553 11.3703 17.469 12 18.5 12C19.8807 12 21 10.8807 21 9.5C21 9.0389 20.8759 8.59843 20.6347 8.19746L18.2113 4H5.78865Z"
+                ></path>
+              </svg>
+              Locaux
+            </th>
+          </tr>
+          <tr>
+            <th class="left">Ventes :</th>
+            <td
+              :class="
+                activeFilter == 'maison' || activeFilter == 'local'
+                  ? 'hide'
+                  : ''
+              "
+            >
+              {{ clientData["appVentes"] }}
+            </td>
+            <td
+              :class="
+                activeFilter == 'appartement' || activeFilter == 'local'
+                  ? 'hide'
+                  : ''
+              "
+            >
+              {{ clientData["houseVentes"] }}
+            </td>
+            <td :class="activeFilter != 'local' ? 'hide' : ''">
+              {{ clientData["localVentes"] }}
+            </td>
+          </tr>
+          <tr>
+            <th class="left">Prix median m² :</th>
+            <td
+              :class="
+                activeFilter == 'maison' || activeFilter == 'local'
+                  ? 'hide'
+                  : ''
+              "
+            >
+              {{ clientData["appPrice"] }}
+            </td>
+            <td
+              :class="
+                activeFilter == 'appartement' || activeFilter == 'local'
+                  ? 'hide'
+                  : ''
+              "
+            >
+              {{ clientData["housePrice"] }}
+            </td>
+            <td :class="activeFilter != 'local' ? 'hide' : ''">
+              {{ clientData["localPrice"] }}
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="chart_container">
+        <span class="chart_title">Evolution du prix de vente median au m²</span>
+        <span class="chart_geo">{{ chartGeoLabel }}</span>
+        <div
+          class="chart_info_btn line_chart_info"
+          @mouseover="hoveredBulle = 'line'"
+          @mouseleave="hoveredBulle = ''"
+        >
+          <div>?</div>
+        </div>
+        <div class="chart_info_bulle" v-if="hoveredBulle == 'line'">
+          Ce graphique indique l'évolution du prix au m² pour le type de biens
+          sélectionné et l'échelle sélectionnée. Les prix au m² sont obtenus en
+          divisant la valeur foncière du bien par sa surface au sol.
+        </div>
+        <line-chart></line-chart>
+      </div>
+
+      <div class="chart_container">
+        <span class="chart_title">Distribution du prix de vente au m²</span>
+        <span class="chart_geo">{{ chartGeoLabel }}</span>
+        <div
+          class="chart_info_btn bar_chart_info"
+          @mouseover="hoveredBulle = 'bar'"
+          @mouseleave="hoveredBulle = ''"
+        >
+          <div>?</div>
+        </div>
+        <div class="chart_info_bulle" v-if="hoveredBulle == 'bar'">
+          Ce graphique montre la répartition des prix des ventes à l'échelle
+          sélectionnée, pour le type de biens sélectionné. En survolant chaque
+          barre, vous pouvez voir combien de ventes se sont faites à un montant
+          compris dans la tranche de prix affichée.
+        </div>
+        <bar-chart></bar-chart>
+      </div>
+    </div>
+
+    <div class="mutations_container" v-if="level === 'parcelle'">
+      <div class="title_mutations">Liste des mutations immobilières</div>
+      <div class="mutations_total">
+        {{ Object.keys(parcellesMutations).length }} mutations
+      </div>
+      <div
+        class="mutation_box"
+        v-bind:key="p['id']"
+        v-for="p in parcellesMutations"
+      >
+        <div class="content">
+          <div class="nature">{{ p["nature_mutation"] }}</div>
+          <span class="price">{{ p["price"] }}</span>
+          <div class="infos">
+            <span class="topinfo adresse" v-if="p['adresse_nom_voie'] != null">
+              <img src="../assets/images/pin.svg" />
+              {{ p["adresse_numero"] }}
+              {{ p["adresse_nom_voie"].toLowerCase() }}
+            </span>
+            <span class="topinfo id" v-if="p['id'] != null"
+              ><img src="../assets/images/id.svg" /> {{ p["id"] }}</span
+            >
+            <span class="topinfo date" v-if="p['date'] != null"
+              ><img src="../assets/images/date.svg" /> {{ p["date"] }}</span
+            >
+
+            <span v-for="item in p['assets']" class="infos_item">
+              <span class="title" v-if="item['type'] != null">
+                <img
+                  v-if="item['type'].substring(0, 4) === 'Dépe'"
+                  src="../assets/images/dependance.svg"
+                />
+                <img
+                  v-if="item['type'].substring(0, 4) === 'Mais'"
+                  src="../assets/images/maison.svg"
+                />
+                <img
+                  v-if="item['type'].substring(0, 4) === 'Loca'"
+                  src="../assets/images/local.svg"
+                />
+                <img
+                  v-if="item['type'].substring(0, 4) === 'Appa'"
+                  src="../assets/images/appartement.svg"
+                />
+                <img
+                  v-if="
+                    item['type'].substring(0, 4) != 'Dépe' &&
+                    item['type'].substring(0, 4) != 'Mais' &&
+                    item['type'].substring(0, 4) != 'Loca' &&
+                    item['type'].substring(0, 4) != 'Appa'
+                  "
+                  src="../assets/images/terrain.svg"
+                />
+                {{ item["type"] }}
+              </span>
+              <div class="filet" v-if="item['surface']"></div>
+              <span class="value" v-if="item['surface'] != null">{{
+                item["surface"]
+              }}</span>
+            </span>
+
+            <span
+              class="complInfo"
+              v-if="
+                parcellesAdjacentes &&
+                parcellesAdjacentes.hasOwnProperty(p['id']) &&
+                parcellesAdjacentes[p['id']].length != 0
+              "
+            >
+              Cette vente s'est effectuée sur plusieurs parcelles.<br />
+              Liste des parcelles complémentaires :<br />
+              {{ parcellesAdjacentes[p["id"]].join(", ") }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -376,12 +785,12 @@ export default {
       parcellesDpeNb: 0,
       parcellesDpeId: null,
       leftColOpening: "semiopen",
-      hoveredInfo:"",
+      hoveredInfo: "",
       hoveredBulle: "",
       openLinks: false,
       openDpe: false,
       openCopro: false,
-      nodata:false
+      nodata: false,
     };
   },
   computed: {
@@ -532,9 +941,16 @@ export default {
 
     manageClientData(data) {
       var levelData;
-      if(this.apiCode){
-        if(this.apiCode!=57&&this.apiCode!=67&&this.apiCode!=68&&this.apiCode.slice(0,2)!=57&&this.apiCode.slice(0,2)!=67&&this.apiCode.slice(0,2)!=68){
-          this.nodata=false
+      if (this.apiCode) {
+        if (
+          this.apiCode != 57 &&
+          this.apiCode != 67 &&
+          this.apiCode != 68 &&
+          this.apiCode.slice(0, 2) != 57 &&
+          this.apiCode.slice(0, 2) != 67 &&
+          this.apiCode.slice(0, 2) != 68
+        ) {
+          this.nodata = false;
           if (this.apiLevel == "nation") {
             levelData = data["data"][0];
           } else {
@@ -553,8 +969,9 @@ export default {
             this.clientData.totalVentes =
               levelData["nb_ventes_whole_maison"].toLocaleString();
             this.clientData.totalAverage =
-              Math.round(levelData["med_prix_m2_whole_maison"]).toLocaleString() +
-              "€";
+              Math.round(
+                levelData["med_prix_m2_whole_maison"]
+              ).toLocaleString() + "€";
           } else if (this.activeFilter === "appartement") {
             this.clientData.totalVentes =
               levelData["nb_ventes_whole_appartement"].toLocaleString();
@@ -566,8 +983,9 @@ export default {
             this.clientData.totalVentes =
               levelData["nb_ventes_whole_local"].toLocaleString();
             this.clientData.totalAverage =
-              Math.round(levelData["med_prix_m2_whole_local"]).toLocaleString() +
-              "€";
+              Math.round(
+                levelData["med_prix_m2_whole_local"]
+              ).toLocaleString() + "€";
           }
           this.clientData.appVentes =
             levelData["nb_ventes_whole_appartement"].toLocaleString();
@@ -588,8 +1006,9 @@ export default {
             this.clientData.housePrice = "indisponible";
           } else {
             this.clientData.housePrice =
-              Math.round(levelData["med_prix_m2_whole_maison"]).toLocaleString() +
-              "€";
+              Math.round(
+                levelData["med_prix_m2_whole_maison"]
+              ).toLocaleString() + "€";
           }
 
           this.clientData.localVentes =
@@ -599,11 +1018,12 @@ export default {
             this.clientData.localPrice = "indisponible";
           } else {
             this.clientData.localPrice =
-              Math.round(levelData["med_prix_m2_whole_local"]).toLocaleString() +
-              "€";
+              Math.round(
+                levelData["med_prix_m2_whole_local"]
+              ).toLocaleString() + "€";
           }
-        }else{
-          this.nodata=true
+        } else {
+          this.nodata = true;
         }
       }
     },
@@ -929,15 +1349,15 @@ export default {
               );
             }
             if (partner == "dynmark") {
-              if (this.userLocation.level == 'commune'){
+              if (this.userLocation.level == "commune") {
                 window.open(
                   "https://dataviz.cerema.fr/dynmark/?perimetre=comm&codeinsee=" +
-                  this.userLocation.com
+                    this.userLocation.com
                 );
-              } else if (this.userLocation.level == 'departement') {
+              } else if (this.userLocation.level == "departement") {
                 window.open(
                   "https://dataviz.cerema.fr/dynmark/?perimetre=dep&codeinsee=" +
-                  this.userLocation.dep
+                    this.userLocation.dep
                 );
               }
             }
@@ -1140,7 +1560,7 @@ export default {
   position: relative;
 }
 
-.global_number_title .info_btn{
+.global_number_title .info_btn {
   display: inline-block;
   margin-left: 5px;
   position: relative;
@@ -1153,7 +1573,7 @@ export default {
   padding-left: 4px;
 }
 
-.info_bulle{
+.info_bulle {
   position: absolute;
   width: 100%;
   font-size: 12px;
