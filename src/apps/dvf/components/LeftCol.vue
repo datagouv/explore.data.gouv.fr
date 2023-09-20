@@ -1,185 +1,187 @@
 <template>
-    <div class="leftCol" :class="{[leftColOpening]: true}">
+    <div class="leftCol" :class="{[leftColOpening]: true}" :style="{ width: left_col_open ? '40%' : '5%' }">
+      <button class="overlay-button" @click="toggleSidebar()">
+        <span v-if="this.left_col_open" class="fr-icon-arrow-left-s-line-double" aria-hidden="true"></span>
+        <span v-if="!this.left_col_open" class="fr-icon-arrow-right-s-line-double" aria-hidden="true"></span>
+      </button>
+      <div class="whole_left_col" v-if="left_col_open">
+        <div class="leftColOpener" @click="changeLeftColOpening()"><span>^</span></div>
 
-      <div class="leftColOpener" @click="changeLeftColOpening()"><span>^</span></div>
-
-      <div class="header_container" v-if="level === 'fra'">
-        <h2 class="intro_title">Bonjour !<br>Bienvenue</h2>
-        <span class="intro_text">Suivez l'évolution des prix de l'immobilier et trouver le prix des ventes immobilières sur les 5 dernières années.</span>
-      </div>
-
-      <div class="header_container" v-if="level != 'fra'">
-
-        <div class="ariane_container">
-          <div><span>France</span></div>
-          <div v-if="userLocation.depName"><span>{{ userLocation.depName}} ({{ userLocation.dep }})</span></div>
-          <div v-if="userLocation.comName"><span>{{ userLocation.comName }} ({{ userLocation.com }})</span></div>
-          <div v-if="userLocation.sectionName"><span>Section {{ userLocation.sectionName }}</span></div>
-          <div v-if="userLocation.parcelleName"><span>Parcelle {{ userLocation.parcelleName }}</span></div>
+        <div class="header_container" v-if="level === 'fra'">
+          <h2 class="intro_title">Bonjour !<br>Bienvenue</h2>
+          <span class="intro_text">Suivez l'évolution des prix de l'immobilier et trouver le prix des ventes immobilières sur les 5 dernières années.</span>
         </div>
 
-        <div class="location_container">
+        <div class="header_container" v-if="level != 'fra'">
 
-          <div v-if="level === 'fra'">
-           <div><span class="location_title">PAYS</span></div>
-           <div><span class="location_label">France entière</span></div>
+          <div class="ariane_container">
+            <div><span>France</span></div>
+            <div v-if="userLocation.depName"><span>{{ userLocation.depName}} ({{ userLocation.dep }})</span></div>
+            <div v-if="userLocation.comName"><span>{{ userLocation.comName }} ({{ userLocation.com }})</span></div>
+            <div v-if="userLocation.sectionName"><span>Section {{ userLocation.sectionName }}</span></div>
+            <div v-if="userLocation.parcelleName"><span>Parcelle {{ userLocation.parcelleName }}</span></div>
           </div>
 
-          <div v-if="level === 'departement'">
-           <div><span class="location_title">DÉPARTEMENT</span></div>
-           <div><span class="location_label">{{ userLocation.depName }} ({{ userLocation.dep }})</span></div>
-          </div>
+          <div class="location_container">
 
-          <div v-if="level === 'commune'">
-           <div><span class="location_title">COMMUNE</span></div>
-           <div><span class="location_label">{{ userLocation.comName }} ({{ userLocation.com }})</span></div>
-          </div>
-
-          <div v-if="level === 'section'">
-           <div><span class="location_title">SECTION CADASTRALE</span></div>
-           <div><span class="location_label">{{ userLocation.section }}</span></div>
-          </div>
-
-          <div v-if="level === 'parcelle'">
-           <div><span class="location_title">PARCELLE CADASTRALE</span></div>
-           <div><span class="location_label">{{ userLocation.parcelle }}</span></div>
-          </div>
-
-        </div>
-
-      </div>
-
-      <div class="links_container" v-if="level != 'fra'">
-          <div class="cardPartner" @click="goToPartner('arcep')">
-            <!-- <div class="logoPartner">
-              <img src="../assets/logos/arcep.png" width="100" />
-            </div> -->
-            <div class="textPartner">
-              <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M4 2V3H1.5V8.5H7V6H8V9C8 9.27614 7.77614 9.5 7.5 9.5H1C0.723858 9.5 0.5 9.27614 0.5 9V2.5C0.5 2.22386 0.723858 2 1 2H4ZM9.5 0.5V5L7.603 3.1035L4.6035 6.1035L3.8965 5.3965L6.896 2.3965L5 0.5H9.5Z" fill="#3558A2"/></svg>
-              Voir la couverture réseaux sur maconnexioninternet.arcep.fr
+            <div v-if="level === 'fra'">
+            <div><span class="location_title">PAYS</span></div>
+            <div><span class="location_label">France entière</span></div>
             </div>
-          </div>
-          <div class="cardPartner" @click="goToPartner('brgm')" v-if="this.userLocation.level != 'departement'">
-            <!-- <div class="logoPartner">
-              <img src="../assets/logos/logo_GR.png" width="100" />
-            </div> -->
-            <div class="textPartner">
-              <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M4 2V3H1.5V8.5H7V6H8V9C8 9.27614 7.77614 9.5 7.5 9.5H1C0.723858 9.5 0.5 9.27614 0.5 9V2.5C0.5 2.22386 0.723858 2 1 2H4ZM9.5 0.5V5L7.603 3.1035L4.6035 6.1035L3.8965 5.3965L6.896 2.3965L5 0.5H9.5Z" fill="#3558A2"/></svg>
-              Voir les risques sur georisques.gouv.fr
+
+            <div v-if="level === 'departement'">
+            <div><span class="location_title">DÉPARTEMENT</span></div>
+            <div><span class="location_label">{{ userLocation.depName }} ({{ userLocation.dep }})</span></div>
             </div>
-          </div>
-          <div class="cardPartner" @click="goToPartner('acceslibre')">
-            <!-- <div class="logoPartner">
-              <img src="../assets/logos/acceslibre.svg" width="100" />
-            </div> -->
-            <div class="textPartner">
-              <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M4 2V3H1.5V8.5H7V6H8V9C8 9.27614 7.77614 9.5 7.5 9.5H1C0.723858 9.5 0.5 9.27614 0.5 9V2.5C0.5 2.22386 0.723858 2 1 2H4ZM9.5 0.5V5L7.603 3.1035L4.6035 6.1035L3.8965 5.3965L6.896 2.3965L5 0.5H9.5Z" fill="#3558A2"/></svg>
-              Voir l’accessibilité sur acceslibre.beta.gouv.fr
+
+            <div v-if="level === 'commune'">
+            <div><span class="location_title">COMMUNE</span></div>
+            <div><span class="location_label">{{ userLocation.comName }} ({{ userLocation.com }})</span></div>
             </div>
-          </div>
-          <div class="cardPartner" @click="goToPartner('ign')">
-            <!--  <div class="logoPartner">
-              <img src="../assets/logos/logo-geoportail.svg" width="100" />
-            </div> -->
-            <div class="textPartner">
-              <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M4 2V3H1.5V8.5H7V6H8V9C8 9.27614 7.77614 9.5 7.5 9.5H1C0.723858 9.5 0.5 9.27614 0.5 9V2.5C0.5 2.22386 0.723858 2 1 2H4ZM9.5 0.5V5L7.603 3.1035L4.6035 6.1035L3.8965 5.3965L6.896 2.3965L5 0.5H9.5Z" fill="#3558A2"/></svg>
-              Voir les informations d’urbanisme sur geoportail-urbanisme.gouv.fr
+
+            <div v-if="level === 'section'">
+            <div><span class="location_title">SECTION CADASTRALE</span></div>
+            <div><span class="location_label">{{ userLocation.section }}</span></div>
             </div>
-          </div>
-          <div class="cardPartner" @click="goToPartner('dynmark')" v-if="this.userLocation.level == 'commune' || this.userLocation.level == 'departement'">
-            
-            <div class="textPartner">
-              <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M4 2V3H1.5V8.5H7V6H8V9C8 9.27614 7.77614 9.5 7.5 9.5H1C0.723858 9.5 0.5 9.27614 0.5 9V2.5C0.5 2.22386 0.723858 2 1 2H4ZM9.5 0.5V5L7.603 3.1035L4.6035 6.1035L3.8965 5.3965L6.896 2.3965L5 0.5H9.5Z" fill="#3558A2"/></svg>
-              Voir les indicateurs de prix de l’immobilier du Cerema sur l’application Dynmark
+
+            <div v-if="level === 'parcelle'">
+            <div><span class="location_title">PARCELLE CADASTRALE</span></div>
+            <div><span class="location_label">{{ userLocation.parcelle }}</span></div>
             </div>
+
           </div>
+
         </div>
 
-      <div class="stats_container" v-if="level != 'parcelle'">
-
-        <div class="global_numbers_container">
-          <div class="global_number_wrapper">
-            <div class="global_number_title">Nombre total de ventes</div>
-            <div class="global_number_value">{{clientData["totalVentes"]}}</div>
-          </div>
-          <div class="global_number_wrapper">
-            <div class="global_number_title">Prix de vente moyen au m²</div>
-            <div class="global_number_value">{{clientData["totalAverage"]}}</div>
-          </div>
-        </div>
-
-        <div class="tab_container">
-          <table>
-            <tr>
-              <th></th>
-              <th :class="activeFilter=='maison'||activeFilter=='local'?'hide':''"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22 21H2V19H3V4C3 3.44772 3.44772 3 4 3H18C18.5523 3 19 3.44772 19 4V9H21V19H22V21ZM17 19H19V11H13V19H15V13H17V19ZM17 9V5H5V19H11V9H17ZM7 11H9V13H7V11ZM7 15H9V17H7V15ZM7 7H9V9H7V7Z"></path></svg> Appt.</th>
-              <th :class="activeFilter=='appartement'||activeFilter=='local'?'hide':''"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 21.0001H5C4.44772 21.0001 4 20.5524 4 20.0001V11.0001L1 11.0001L11.3273 1.61162C11.7087 1.26488 12.2913 1.26488 12.6727 1.61162L23 11.0001L20 11.0001V20.0001C20 20.5524 19.5523 21.0001 19 21.0001ZM13 19.0001H18V9.15757L12 3.70302L6 9.15757V19.0001H11V13.0001H13V19.0001Z"></path></svg> Maisons </th>
-              <th :class="activeFilter!='local'?'hide':''"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.2422V20H22V22H2V20H3V13.2422C1.79401 12.435 1 11.0602 1 9.5C1 8.67286 1.22443 7.87621 1.63322 7.19746L4.3453 2.5C4.52393 2.1906 4.85406 2 5.21132 2H18.7887C19.1459 2 19.4761 2.1906 19.6547 2.5L22.3575 7.18172C22.7756 7.87621 23 8.67286 23 9.5C23 11.0602 22.206 12.435 21 13.2422ZM19 13.9725C18.8358 13.9907 18.669 14 18.5 14C17.2409 14 16.0789 13.478 15.25 12.6132C14.4211 13.478 13.2591 14 12 14C10.7409 14 9.5789 13.478 8.75 12.6132C7.9211 13.478 6.75911 14 5.5 14C5.331 14 5.16417 13.9907 5 13.9725V20H19V13.9725ZM5.78865 4L3.35598 8.21321C3.12409 8.59843 3 9.0389 3 9.5C3 10.8807 4.11929 12 5.5 12C6.53096 12 7.44467 11.3703 7.82179 10.4295C8.1574 9.59223 9.3426 9.59223 9.67821 10.4295C10.0553 11.3703 10.969 12 12 12C13.031 12 13.9447 11.3703 14.3218 10.4295C14.6574 9.59223 15.8426 9.59223 16.1782 10.4295C16.5553 11.3703 17.469 12 18.5 12C19.8807 12 21 10.8807 21 9.5C21 9.0389 20.8759 8.59843 20.6347 8.19746L18.2113 4H5.78865Z"></path></svg> Locaux</th>
-            </tr>
-            <tr>
-              <th class='left'>Ventes :</th>
-              <td :class="activeFilter=='maison'||activeFilter=='local'?'hide':''">{{clientData["appVentes"]}}</td>
-              <td :class="activeFilter=='appartement'||activeFilter=='local'?'hide':''">{{clientData["houseVentes"]}}</td>
-              <td :class="activeFilter!='local'?'hide':''">{{clientData["localVentes"]}}</td>
-            </tr>
-            <tr>
-              <th class='left'>Prix moyen m² :</th>
-              <td :class="activeFilter=='maison'||activeFilter=='local'?'hide':''">{{clientData["appPrice"]}}</td>
-              <td :class="activeFilter=='appartement'||activeFilter=='local'?'hide':''">{{clientData["housePrice"]}}</td>
-              <td :class="activeFilter!='local'?'hide':''">{{clientData["localPrice"]}}</td>
-            </tr>
-          </table>
-        </div>
-
-        <div class="chart_container">
-          <span class="chart_title">Evolution du prix de vente moyen au m²</span>
-          <span class="chart_geo">{{chartGeoLabel}}</span>
-          <div class="chart_info_btn line_chart_info" @mouseover="hoveredBulle='line'" @mouseleave="hoveredBulle=''"><div>?</div></div>
-          <div class="chart_info_bulle" v-if="hoveredBulle=='line'">Ce graphique indique l'évolution du prix au m² pour le type de biens sélectionné et l'échelle sélectionnée. Les prix au m² sont obtenus en divisant la valeur foncière du bien par sa surface au sol.</div>
-          <line-chart></line-chart>
-        </div>
-
-        <div class="chart_container">
-          <span class="chart_title">Distribution du prix de vente au m²</span>
-          <span class="chart_geo">{{chartGeoLabel}}</span>
-          <div class="chart_info_btn bar_chart_info" @mouseover="hoveredBulle='bar'" @mouseleave="hoveredBulle=''"><div>?</div></div>
-          <div class="chart_info_bulle" v-if="hoveredBulle=='bar'">Ce graphique montre la répartition des prix des ventes à l'échelle sélectionnée, pour le type de biens sélectionné. En survolant chaque barre, vous pouvez voir combien de ventes se sont faites à un montant compris dans la tranche de prix affichée.</div>
-          <bar-chart></bar-chart>
-        </div>
-
-
-      </div>
-
-      <div class="mutations_container" v-if="level === 'parcelle'">
-        <div class="mutation_box" v-bind:key="p['id']" v-for="p in parcellesMutations">
-          <div class="content">
-            <div class="nature">{{ p["nature_mutation"] }}</div>
-            <span class="price">{{ p["price"] }}</span>
-            <div class="infos">
-              <span class="topinfo adresse"><img src="../assets/images/pin.svg"/> {{p["adresse_numero"]}} {{p["adresse_nom_voie"].toLowerCase()}}</span>
-              <span class="topinfo id"><img src="../assets/images/id.svg"/> {{ p["id"] }}</span>
-              <span class="topinfo date"><img src="../assets/images/date.svg"/> {{ p["date"] }}</span>
+        <div class="links_container" v-if="level != 'fra'">
+            <div class="cardPartner" @click="goToPartner('arcep')">
+              <!-- <div class="logoPartner">
+                <img src="../assets/logos/arcep.png" width="100" />
+              </div> -->
+              <div class="textPartner">
+                <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M4 2V3H1.5V8.5H7V6H8V9C8 9.27614 7.77614 9.5 7.5 9.5H1C0.723858 9.5 0.5 9.27614 0.5 9V2.5C0.5 2.22386 0.723858 2 1 2H4ZM9.5 0.5V5L7.603 3.1035L4.6035 6.1035L3.8965 5.3965L6.896 2.3965L5 0.5H9.5Z" fill="#3558A2"/></svg>
+                Voir la couverture réseaux sur maconnexioninternet.arcep.fr
+              </div>
+            </div>
+            <div class="cardPartner" @click="goToPartner('brgm')" v-if="this.userLocation.level != 'departement'">
+              <!-- <div class="logoPartner">
+                <img src="../assets/logos/logo_GR.png" width="100" />
+              </div> -->
+              <div class="textPartner">
+                <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M4 2V3H1.5V8.5H7V6H8V9C8 9.27614 7.77614 9.5 7.5 9.5H1C0.723858 9.5 0.5 9.27614 0.5 9V2.5C0.5 2.22386 0.723858 2 1 2H4ZM9.5 0.5V5L7.603 3.1035L4.6035 6.1035L3.8965 5.3965L6.896 2.3965L5 0.5H9.5Z" fill="#3558A2"/></svg>
+                Voir les risques sur georisques.gouv.fr
+              </div>
+            </div>
+            <div class="cardPartner" @click="goToPartner('acceslibre')">
+              <!-- <div class="logoPartner">
+                <img src="../assets/logos/acceslibre.svg" width="100" />
+              </div> -->
+              <div class="textPartner">
+                <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M4 2V3H1.5V8.5H7V6H8V9C8 9.27614 7.77614 9.5 7.5 9.5H1C0.723858 9.5 0.5 9.27614 0.5 9V2.5C0.5 2.22386 0.723858 2 1 2H4ZM9.5 0.5V5L7.603 3.1035L4.6035 6.1035L3.8965 5.3965L6.896 2.3965L5 0.5H9.5Z" fill="#3558A2"/></svg>
+                Voir l’accessibilité sur acceslibre.beta.gouv.fr
+              </div>
+            </div>
+            <div class="cardPartner" @click="goToPartner('ign')">
+              <!--  <div class="logoPartner">
+                <img src="../assets/logos/logo-geoportail.svg" width="100" />
+              </div> -->
+              <div class="textPartner">
+                <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M4 2V3H1.5V8.5H7V6H8V9C8 9.27614 7.77614 9.5 7.5 9.5H1C0.723858 9.5 0.5 9.27614 0.5 9V2.5C0.5 2.22386 0.723858 2 1 2H4ZM9.5 0.5V5L7.603 3.1035L4.6035 6.1035L3.8965 5.3965L6.896 2.3965L5 0.5H9.5Z" fill="#3558A2"/></svg>
+                Voir les informations d’urbanisme sur geoportail-urbanisme.gouv.fr
+              </div>
+            </div>
+            <div class="cardPartner" @click="goToPartner('dynmark')" v-if="this.userLocation.level == 'commune' || this.userLocation.level == 'departement'">
               
-              <span v-for="item in p['assets']" class="infos_item">
-                <span class="title">
-                  <img v-if="item['type'].substring(0,4) === 'Dépe'" src="../assets/images/dependance.svg"/>
-                  <img v-if="item['type'].substring(0,4) === 'Mais'" src="../assets/images/maison.svg"/>
-                  <img v-if="item['type'].substring(0,4) === 'Loca'" src="../assets/images/local.svg"/>
-                  <img v-if="item['type'].substring(0,4) === 'Appa'" src="../assets/images/appartement.svg"/>
-                  <img v-if="item['type'].substring(0,4) != 'Dépe' && item['type'].substring(0,4) != 'Mais' && item['type'].substring(0,4) != 'Loca' && item['type'].substring(0,4) != 'Appa' " src="../assets/images/terrain.svg"/>
-                  {{ item["type"] }}
+              <div class="textPartner">
+                <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M4 2V3H1.5V8.5H7V6H8V9C8 9.27614 7.77614 9.5 7.5 9.5H1C0.723858 9.5 0.5 9.27614 0.5 9V2.5C0.5 2.22386 0.723858 2 1 2H4ZM9.5 0.5V5L7.603 3.1035L4.6035 6.1035L3.8965 5.3965L6.896 2.3965L5 0.5H9.5Z" fill="#3558A2"/></svg>
+                Voir les indicateurs de prix de l’immobilier du Cerema sur l’application Dynmark
+              </div>
+            </div>
+          </div>
+
+        <div class="stats_container" v-if="level != 'parcelle'">
+
+          <div class="global_numbers_container">
+            <div class="global_number_wrapper">
+              <div class="global_number_title">Nombre total de ventes</div>
+              <div class="global_number_value">{{clientData["totalVentes"]}}</div>
+            </div>
+            <div class="global_number_wrapper">
+              <div class="global_number_title">Prix de vente moyen au m²</div>
+              <div class="global_number_value">{{clientData["totalAverage"]}}</div>
+            </div>
+          </div>
+
+          <div class="tab_container">
+            <table>
+              <tr>
+                <th></th>
+                <th :class="activeFilter=='maison'||activeFilter=='local'?'hide':''"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22 21H2V19H3V4C3 3.44772 3.44772 3 4 3H18C18.5523 3 19 3.44772 19 4V9H21V19H22V21ZM17 19H19V11H13V19H15V13H17V19ZM17 9V5H5V19H11V9H17ZM7 11H9V13H7V11ZM7 15H9V17H7V15ZM7 7H9V9H7V7Z"></path></svg> Appt.</th>
+                <th :class="activeFilter=='appartement'||activeFilter=='local'?'hide':''"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 21.0001H5C4.44772 21.0001 4 20.5524 4 20.0001V11.0001L1 11.0001L11.3273 1.61162C11.7087 1.26488 12.2913 1.26488 12.6727 1.61162L23 11.0001L20 11.0001V20.0001C20 20.5524 19.5523 21.0001 19 21.0001ZM13 19.0001H18V9.15757L12 3.70302L6 9.15757V19.0001H11V13.0001H13V19.0001Z"></path></svg> Maisons </th>
+                <th :class="activeFilter!='local'?'hide':''"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.2422V20H22V22H2V20H3V13.2422C1.79401 12.435 1 11.0602 1 9.5C1 8.67286 1.22443 7.87621 1.63322 7.19746L4.3453 2.5C4.52393 2.1906 4.85406 2 5.21132 2H18.7887C19.1459 2 19.4761 2.1906 19.6547 2.5L22.3575 7.18172C22.7756 7.87621 23 8.67286 23 9.5C23 11.0602 22.206 12.435 21 13.2422ZM19 13.9725C18.8358 13.9907 18.669 14 18.5 14C17.2409 14 16.0789 13.478 15.25 12.6132C14.4211 13.478 13.2591 14 12 14C10.7409 14 9.5789 13.478 8.75 12.6132C7.9211 13.478 6.75911 14 5.5 14C5.331 14 5.16417 13.9907 5 13.9725V20H19V13.9725ZM5.78865 4L3.35598 8.21321C3.12409 8.59843 3 9.0389 3 9.5C3 10.8807 4.11929 12 5.5 12C6.53096 12 7.44467 11.3703 7.82179 10.4295C8.1574 9.59223 9.3426 9.59223 9.67821 10.4295C10.0553 11.3703 10.969 12 12 12C13.031 12 13.9447 11.3703 14.3218 10.4295C14.6574 9.59223 15.8426 9.59223 16.1782 10.4295C16.5553 11.3703 17.469 12 18.5 12C19.8807 12 21 10.8807 21 9.5C21 9.0389 20.8759 8.59843 20.6347 8.19746L18.2113 4H5.78865Z"></path></svg> Locaux</th>
+              </tr>
+              <tr>
+                <th class='left'>Ventes :</th>
+                <td :class="activeFilter=='maison'||activeFilter=='local'?'hide':''">{{clientData["appVentes"]}}</td>
+                <td :class="activeFilter=='appartement'||activeFilter=='local'?'hide':''">{{clientData["houseVentes"]}}</td>
+                <td :class="activeFilter!='local'?'hide':''">{{clientData["localVentes"]}}</td>
+              </tr>
+              <tr>
+                <th class='left'>Prix moyen m² :</th>
+                <td :class="activeFilter=='maison'||activeFilter=='local'?'hide':''">{{clientData["appPrice"]}}</td>
+                <td :class="activeFilter=='appartement'||activeFilter=='local'?'hide':''">{{clientData["housePrice"]}}</td>
+                <td :class="activeFilter!='local'?'hide':''">{{clientData["localPrice"]}}</td>
+              </tr>
+            </table>
+          </div>
+
+          <div class="chart_container">
+            <span class="chart_title">Evolution du prix de vente moyen au m²</span>
+            <span class="chart_geo">{{chartGeoLabel}}</span>
+            <div class="chart_info_btn line_chart_info" @mouseover="hoveredBulle='line'" @mouseleave="hoveredBulle=''"><div>?</div></div>
+            <div class="chart_info_bulle" v-if="hoveredBulle=='line'">Ce graphique indique l'évolution du prix au m² pour le type de biens sélectionné et l'échelle sélectionnée. Les prix au m² sont obtenus en divisant la valeur foncière du bien par sa surface au sol.</div>
+            <line-chart></line-chart>
+          </div>
+
+          <div class="chart_container">
+            <span class="chart_title">Distribution du prix de vente au m²</span>
+            <span class="chart_geo">{{chartGeoLabel}}</span>
+            <div class="chart_info_btn bar_chart_info" @mouseover="hoveredBulle='bar'" @mouseleave="hoveredBulle=''"><div>?</div></div>
+            <div class="chart_info_bulle" v-if="hoveredBulle=='bar'">Ce graphique montre la répartition des prix des ventes à l'échelle sélectionnée, pour le type de biens sélectionné. En survolant chaque barre, vous pouvez voir combien de ventes se sont faites à un montant compris dans la tranche de prix affichée.</div>
+            <bar-chart></bar-chart>
+          </div>
+
+
+        </div>
+
+        <div class="mutations_container" v-if="level === 'parcelle'">
+          <div class="mutation_box" v-bind:key="p['id']" v-for="p in parcellesMutations">
+            <div class="content">
+              <div class="nature">{{ p["nature_mutation"] }}</div>
+              <span class="price">{{ p["price"] }}</span>
+              <div class="infos">
+                <span class="topinfo adresse"><img src="../assets/images/pin.svg"/> {{p["adresse_numero"]}} {{p["adresse_nom_voie"].toLowerCase()}}</span>
+                <span class="topinfo id"><img src="../assets/images/id.svg"/> {{ p["id"] }}</span>
+                <span class="topinfo date"><img src="../assets/images/date.svg"/> {{ p["date"] }}</span>
+                
+                <span v-for="item in p['assets']" class="infos_item">
+                  <span class="title">
+                    <img v-if="item['type'].substring(0,4) === 'Dépe'" src="../assets/images/dependance.svg"/>
+                    <img v-if="item['type'].substring(0,4) === 'Mais'" src="../assets/images/maison.svg"/>
+                    <img v-if="item['type'].substring(0,4) === 'Loca'" src="../assets/images/local.svg"/>
+                    <img v-if="item['type'].substring(0,4) === 'Appa'" src="../assets/images/appartement.svg"/>
+                    <img v-if="item['type'].substring(0,4) != 'Dépe' && item['type'].substring(0,4) != 'Mais' && item['type'].substring(0,4) != 'Loca' && item['type'].substring(0,4) != 'Appa' " src="../assets/images/terrain.svg"/>
+                    {{ item["type"] }}
+                  </span>
+                  <div class="filet" v-if="item['surface']"></div>
+                  <span class="value">{{ item["surface"] }}</span>
                 </span>
-                <div class="filet" v-if="item['surface']"></div>
-                <span class="value">{{ item["surface"] }}</span>
-              </span>
-            </div>  
+              </div>  
+              </div>
             </div>
           </div>
         </div>
-        
-
       </div>
-
     </div>
 </template>
 
@@ -218,7 +220,8 @@ export default {
       },
       parcellesMutations:null,
       leftColOpening:"",
-      hoveredBulle:""
+      hoveredBulle:"",
+      left_col_open:true
     }
   },
   computed: {
@@ -607,7 +610,11 @@ export default {
       }else{
         this.leftColOpening = "close"
       } 
-    }
+    },
+
+    toggleSidebar(){
+      this.left_col_open = !this.left_col_open
+    },
   },
   watch: {
     
@@ -649,7 +656,7 @@ export default {
 .leftCol{
   position: relative;
   display: inline-block;
-  width: 25%;
+  /* width: 25%; */
   float:left;
   padding-left: 20px;
   padding-right: 20px;
@@ -950,6 +957,19 @@ export default {
   font-size: 12px;
   font-weight: 700;
   line-height: 12px;
+}
+
+.overlay-button {
+  position: absolute;
+  top: 10px; /* Ajustez la position verticale */
+  right: 10px; /* Ajustez la position horizontale */
+  z-index: 2; /* Met en avant le bouton par rapport à la carte (z-index de la carte généralement 1) */
+  background-color: white; /* Fond blanc */
+  border: none; /* Supprime le bord par défaut */
+  border-radius: 8px; /* Bords arrondis */
+  padding: 10px 15px; /* Espace interne autour du texte */
+  cursor: pointer; /* Curseur en pointeur au survol */
+  font-size: 14px;
 }
 
 @media screen and (max-width: 1279px){

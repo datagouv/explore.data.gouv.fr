@@ -13,9 +13,9 @@
     <div class="leg_container" v-if="userLocation.level != 'section' && userLocation.level != 'parcelle'">
       <div class="color_blocks">
         <span class="leg_title">Prix au m²</span>
-        <span class="leg_borne min">< {{legMin}} €</span>
-        <span class="leg_borne pivot">{{legPivot}} €</span>
-        <span class="leg_borne max">> {{legMax}} €</span>
+        <span class="leg_borne min"> {{legMin}} €</span>
+        <span class="leg_borne pivot"> {{legPivot}} €</span>
+        <span class="leg_borne max"> {{legMax}} €</span>
       </div>
     </div>
   </div>
