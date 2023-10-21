@@ -11,7 +11,7 @@
             type="search"
             id="search-540-input"
             name="search-540-input"
-            v-on:keyup.enter="goToFirstResult()"
+            v-on:keyup.enter="autoComplete()"
             @input="autoComplete()"
           />
           <button
@@ -26,7 +26,7 @@
     </div>
     <div v-if="resultsAdresses" class="autocomplete">
       <div
-        @click="moveTo(item.geometry.coordinates, 13)"
+        @click="moveTo(item.geometry.coordinates, item.properties.citycode, item.properties.city)"
         v-for="item in resultsAdresses.features"
         :key="item.properties.label"
       >
@@ -74,7 +74,6 @@ export default {
         });
     },
     autoComplete() {
-      console.log("autoComplete ?");
       if (this.searchAdress.length === 0) {
         this.resultsAdresses = null;
       }
@@ -85,9 +84,12 @@ export default {
         }
       }, 650);
     },
-    moveTo(coord, zoom) {
-      console.log("move to", coord);
-      appStore.commit("changeSearchBarCoordinates", coord);
+    moveTo(coord, citycode, cityname) {
+      let obj = {}
+      obj["coord"] = coord
+      obj["citycode"] = citycode
+      obj["cityname"] = cityname
+      appStore.commit("changeSearchBarCoordinates", obj);
       this.resultsAdresses = null;
     },
   },

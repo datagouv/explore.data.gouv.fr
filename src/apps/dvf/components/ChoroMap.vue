@@ -9,7 +9,8 @@
       :style="{ top: tooltip.top, left: tooltip.left }"
     >
       <div class="tooltip_body">
-        <b>{{ tooltip.place }}</b>
+        <b v-if="tooltip.place && tooltip.place != 'NaN'">{{ tooltip.place }}</b>
+        <b v-else>En cours de récupération</b>
         <div
           v-if="tooltip.value && tooltip.value != 'nodata' && tooltip.value !='smalldata'"
           class="tooltip_place"
@@ -132,6 +133,9 @@ export default {
     };
   },
   computed: {
+    searchZoomOngoing: function () {
+      return appStore.state.searchZoomOngoing
+    },
     saveApiUrl: function () {
       return appStore.state.saveApiUrl;
     },
@@ -189,6 +193,12 @@ export default {
     parcellesAdjacentes: function () {
       return appStore.state.parcellesAdjacentes;
     },
+    searchBarCityCode: function() {
+      return appStore.state.searchBarCityCode;
+    },
+    searchBarCityName: function() {
+      return appStore.state.searchBarCityName;
+    }
   },
   mounted() {
     appStore.commit("changeZoomLevel", 4.8);
@@ -586,6 +596,8 @@ export default {
             if (sectionId.substring(0, 5) != this.userLocation.com) {
               this.tooltip.visibility = false;
             }
+            this.mousePosition.section.code = sectionId
+            this.mousePosition.section.nom = sectionId
             this.changeLocation(
               "changeMouseLocation",
               "section",
@@ -805,6 +817,7 @@ export default {
       }
     },
     getCode(code) {
+      if(!code) { return }
       if (parseInt(code.substring(0, 2)) >= 97) {
         return code.substring(0, 3);
       } else {
@@ -812,6 +825,7 @@ export default {
       }
     },
     changeLocation(commitFunction, level, code, name) {
+      let searchingAddress = false
       this.fetching = false;
       let obj = {};
       if (level == "fra") {
@@ -825,7 +839,7 @@ export default {
         obj.parcelle = null;
         obj.parcelleName = null;
       }
-      if (level == "departement") {
+      if (level == "departement" && code) {
         obj.level = "departement";
         obj.dep = code;
         obj.depName = name;
@@ -836,7 +850,7 @@ export default {
         obj.parcelle = null;
         obj.parcelleName = null;
       }
-      if (level == "commune") {
+      if (level == "commune" && code) {
         let parse_code = this.getCode(code);
         obj.level = "commune";
         obj.dep = parse_code;
@@ -848,7 +862,7 @@ export default {
         obj.parcelle = null;
         obj.parcelleName = null;
       }
-      if (level == "section") {
+      if (level == "section" && code) {
         let parse_code = this.getCode(code);
         obj.level = "section";
         obj.dep = parse_code;
@@ -863,7 +877,7 @@ export default {
         obj.parcelle = null;
         obj.parcelleName = null;
       }
-      if (level == "parcelle") {
+      if (level == "parcelle" && code) {
         let parse_code = this.getCode(code);
         obj.level = "parcelle";
         obj.dep = parse_code;
@@ -881,7 +895,30 @@ export default {
           obj.parcelleName = obj.parcelleName.substring(1);
         }
       }
-      appStore.commit(commitFunction, obj);
+      if (commitFunction != "changeUserLocation" || level == "fra" || code) {
+        appStore.commit(commitFunction, obj);
+      }
+
+      // case when searching address
+      if (level == "section" && this.searchBarCityCode && this.searchBarCityName) {
+        let parse_code = this.getCode(this.searchBarCityCode);
+        obj.level = "section";
+        obj.dep = parse_code;
+        obj.depName = CenterDeps[parse_code]["nom"];
+        obj.com = this.searchBarCityCode;
+        obj.comName = this.searchBarCityName;
+        obj.section = null;
+        obj.sectionName = null;
+        obj.parcelle = null;
+        obj.parcelleName = null;
+        searchingAddress = true;
+        appStore.commit("changeUserLocation", obj);
+        this.mousePosition.dep.code = parse_code
+        this.mousePosition.dep.nom = CenterDeps[parse_code]["nom"];
+        this.mousePosition.com.code = this.searchBarCityCode
+        this.mousePosition.com.nom = this.searchBarCityName
+      }
+
     },
     sendApiResultToStore(url, data) {
       let obj = {};
@@ -1014,31 +1051,39 @@ export default {
             "code"
           );
           this.map.setPaintProperty("departements_fill", "fill-opacity", 0);
-          this.map.setPaintProperty(
-            "communes_fill",
-            "fill-color",
-            matchExpression
-          );
+          if (matchExpression.length > 3) {
+            this.map.setPaintProperty(
+              "communes_fill",
+              "fill-color",
+              matchExpression
+            );
+          }
           let {
             matchExpressionOpacity,
             matchExpressionColor,
             matchExpressionLineWidth,
           } = this.getMatchExpressionLine(data["data"], "code_geo", "code");
-          this.map.setPaintProperty(
-            "communes_line",
-            "line-opacity",
-            matchExpressionOpacity
-          );
-          this.map.setPaintProperty(
-            "communes_line",
-            "line-color",
-            matchExpressionColor
-          );
-          this.map.setPaintProperty(
-            "communes_line",
-            "line-width",
-            matchExpressionLineWidth
-          );
+          if (matchExpressionOpacity.length > 3) {
+            this.map.setPaintProperty(
+              "communes_line",
+              "line-opacity",
+              matchExpressionOpacity
+            );
+          }
+          if (matchExpressionColor.length > 3) {
+            this.map.setPaintProperty(
+              "communes_line",
+              "line-color",
+              matchExpressionColor
+            );
+          }
+          if (matchExpressionLineWidth.length > 3) {
+            this.map.setPaintProperty(
+              "communes_line",
+              "line-width",
+              matchExpressionLineWidth
+            );
+          }
         });
     },
     displaySections(code) {
@@ -1060,31 +1105,39 @@ export default {
             "id"
           );
           this.map.setPaintProperty("communes_fill2", "fill-opacity", 0);
-          this.map.setPaintProperty(
-            "sections_fill",
-            "fill-color",
-            matchExpression
-          );
+          if (matchExpression.length > 3) {
+            this.map.setPaintProperty(
+              "sections_fill",
+              "fill-color",
+              matchExpression
+            );
+          }
           let {
             matchExpressionOpacity,
             matchExpressionColor,
             matchExpressionLineWidth,
           } = this.getMatchExpressionLine(data["data"], "code_geo", "id");
-          this.map.setPaintProperty(
-            "sections_line",
-            "line-opacity",
-            matchExpressionOpacity
-          );
-          this.map.setPaintProperty(
-            "sections_line",
-            "line-color",
-            matchExpressionColor
-          );
-          this.map.setPaintProperty(
-            "sections_line",
-            "line-width",
-            matchExpressionLineWidth
-          );
+          if (matchExpressionOpacity.length > 3) {
+            this.map.setPaintProperty(
+              "sections_line",
+              "line-opacity",
+              matchExpressionOpacity
+            );
+          }
+          if (matchExpressionColor.length > 3) {
+            this.map.setPaintProperty(
+              "sections_line",
+              "line-color",
+              matchExpressionColor
+            );
+          }
+          if (matchExpressionLineWidth.length > 3) {
+            this.map.setPaintProperty(
+              "sections_line",
+              "line-width",
+              matchExpressionLineWidth
+            );
+          }
         });
     },
     displayTooltip(e) {
@@ -1147,12 +1200,18 @@ export default {
         return obj.code_geo === code;
       });
       if (level == "section") {
-        this.tooltip.place = "Section " + result.libelle_geo;
+        this.tooltip.place = "Section "
+        if (result && result.libelle_geo) {
+          this.tooltip.place += result.libelle_geo;
+        }
       } else {
-        this.tooltip.place = result.libelle_geo;
+        this.tooltip.place = ""
+        if (result && result.libelle_geo) {
+          this.tooltip.place += result.libelle_geo;
+        }
       }
 
-      if (result[this.actualPropertyPrix] === null) {
+      if (!result || !result[this.actualPropertyPrix] || result[this.actualPropertyPrix] === null) {
         if(code==57||code==67||code==68||code.slice(0,2)==57||code.slice(0,2)==67||code.slice(0,2)==68){
           this.tooltip.value = "nodata";
         }else{
@@ -1202,12 +1261,14 @@ export default {
           }
         });
       }
-      matchExpression.push("rgba(0, 0, 255, 0.2)");
-      this.map.setPaintProperty(
-        "parcelles_fill",
-        "fill-color",
-        matchExpression
-      );
+      if (matchExpression.length > 3) { 
+        matchExpression.push("rgba(0, 0, 255, 0.2)");
+        this.map.setPaintProperty(
+          "parcelles_fill",
+          "fill-color",
+          matchExpression
+        );
+      }
     },
     activeFilter() {
       this.manageChloroplethColors();
@@ -1234,7 +1295,7 @@ export default {
             this.manageChloroplethColors();
           }
         }
-        if (this.zoomLevel >= 8 && this.zoomLevel < 12) {
+        if (this.zoomLevel >= 8 && this.zoomLevel < 11) {
           if (this.level != "departement" || this.changeDep) {
             this.map.setLayoutProperty("epcis_fill", "visibility", "none");
             this.map.setLayoutProperty(
@@ -1253,7 +1314,7 @@ export default {
             this.manageChloroplethColors();
           }
         }
-        if (this.zoomLevel >= 12 && this.zoomLevel < 14) {
+        if (this.zoomLevel >= 11 && this.zoomLevel < 14) {
           if (this.level != "commune" || this.changeCom) {
             this.map.setLayoutProperty(
               "departements_fill",
@@ -1262,6 +1323,7 @@ export default {
             );
             this.map.setPaintProperty("departements_fill", "fill-opacity", 0);
             this.map.setLayoutProperty("epcis_fill", "visibility", "none");
+            this.map.setLayoutProperty("communes_fill", "visibility", "none");
             this.map.setLayoutProperty(
               "sections_fill",
               "visibility",
@@ -1285,6 +1347,7 @@ export default {
               "visibility",
               "none"
             );
+            this.map.setPaintProperty("departements_fill", "fill-opacity", 0);
             this.map.setLayoutProperty("epcis_fill", "visibility", "none");
             this.changeLocation(
               "changeUserLocation",

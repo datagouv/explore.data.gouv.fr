@@ -49,6 +49,9 @@ export default new Vuex.Store({
     },
     activeFilter: "tous",
     searchBarCoordinates: null,
+    searchBarCityCode: null,
+    searchBarCityName: null,
+    searchZoomOngoing: false,
     dvfCurrentSection: null,
   },
   mutations: {
@@ -60,7 +63,13 @@ export default new Vuex.Store({
       state.dvfCurrentSection = data
     },
     changeSearchBarCoordinates(state, data) {
-      state.searchBarCoordinates = data
+      state.searchBarCoordinates = data["coord"]
+      state.searchBarCityCode = data["citycode"]
+      state.searchBarCityName = data["cityname"]
+      state.searchZoomOngoing = true
+    },
+    changeSearchZoomOngoing(state, data){
+      state.searchZoomOngoing = data
     },
     changeActivePanel(state, data) {
       state.activePanel = data

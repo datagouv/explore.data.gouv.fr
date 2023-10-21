@@ -21,7 +21,6 @@
 		"@gouvfr/dsfr": "^1.9.2",
 		"@vue/cli-plugin-babel": "^3.12.1",
 		"@vue/cli-service": "^4.1.1",
-		"autoprefixer": "^10.4.14",
 		"bootstrap-vue": "^2.1.0",
 		"cache-loader": "^4.1.0",
 		"chart.js": "^3.9.1",

@@ -44,18 +44,20 @@ export default {
   methods: {
     updateData(code) {
       var self = this;
-      fetch(process.env.VUE_APP_DVF_API + "/distribution/" + code)
-        .then((response) => {
-          return response.json();
-        })
-        .then((data) => {
-          this.barData = data;
-          this.updateValues();
-        })
-        .catch(function (error) {
-          self.barData = {};
-          self.updateValues();
-        });
+      if (code) {
+        fetch(process.env.VUE_APP_DVF_API + "/distribution/" + code)
+          .then((response) => {
+            return response.json();
+          })
+          .then((data) => {
+            this.barData = data;
+            this.updateValues();
+          })
+          .catch(function (error) {
+            self.barData = {};
+            self.updateValues();
+          });
+      }
     },
     updateValues() {
       var self = this;
@@ -85,7 +87,7 @@ export default {
       }
 
       var filteredData = this.barData[filter];
-      if (filteredData["xaxis"]) {
+      if (filteredData && filteredData["xaxis"]) {
         filteredData["xaxis"].forEach(function (d) {
           self.labels.push(d[0]);
           self.fullLabels[d[0]] = [d[0], d[1]];

@@ -1,7 +1,7 @@
 <template>
   <div class="lineChart">
-    <canvas v-show="values.length == 60" id="linechart"></canvas>
-    <div v-show="values.length != 60">
+    <canvas v-show="values.length > 50" id="linechart"></canvas>
+    <div v-show="values.length <= 50">
       <span
         >Il n'y a pas suffisamment de ventes sur cette sélection pour que nous
         puissions faire un graphique pertinent.</span
@@ -39,9 +39,8 @@ export default {
       this.values = [];
       this.labels = [];
       this.apiData["data"].forEach(function (d, i) {
-        self.labels.push(self.rewriteAnneeMois(d["annee_mois"]));
         if (self.activeFilter == "tous") {
-          var medAllVentes = Math.round(d["med_prix_m2_appartement"]);
+          var medAllVentes = Math.round(d["med_prix_m2_apt_maison"]);
         } else if (self.activeFilter == "appartement") {
           var medAllVentes = Math.round(d["med_prix_m2_appartement"]);
         } else if (self.activeFilter == "maison") {
@@ -50,6 +49,7 @@ export default {
           var medAllVentes = Math.round(d["med_prix_m2_local"]);
         }
         if (!isNaN(medAllVentes) && medAllVentes != 0) {
+          self.labels.push(self.rewriteAnneeMois(d["annee_mois"]));
           self.values.push(medAllVentes);
         }
       });
