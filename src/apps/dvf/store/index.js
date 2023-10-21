@@ -53,6 +53,7 @@ export default new Vuex.Store({
     searchBarCityName: null,
     searchZoomOngoing: false,
     dvfCurrentSection: null,
+    leftColOpen: true,
   },
   mutations: {
     addApiResult(state, data) {
@@ -112,6 +113,9 @@ export default new Vuex.Store({
     },
     updateActiveFilter(state, filter) {
       state.activeFilter = filter
+    },
+    updateLeftColOpen(state) {
+      state.leftColOpen = !state.leftColOpen
     }
   },
 })
