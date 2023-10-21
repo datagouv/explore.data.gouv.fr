@@ -12,7 +12,11 @@
         <b v-if="tooltip.place && tooltip.place != 'NaN'">{{ tooltip.place }}</b>
         <b v-else>En cours de récupération</b>
         <div
-          v-if="tooltip.value && tooltip.value != 'nodata' && tooltip.value !='smalldata'"
+          v-if="
+            tooltip.value &&
+            tooltip.value != 'nodata' &&
+            tooltip.value != 'smalldata'
+          "
           class="tooltip_place"
         >
           <b>{{ tooltip.value }}</b> par m²
@@ -1214,7 +1218,7 @@ export default {
       if (!result || !result[this.actualPropertyPrix] || result[this.actualPropertyPrix] === null) {
         if(code==57||code==67||code==68||code.slice(0,2)==57||code.slice(0,2)==67||code.slice(0,2)==68){
           this.tooltip.value = "nodata";
-        }else{
+        } else {
           this.tooltip.value = "smalldata";
         }
       } else {
