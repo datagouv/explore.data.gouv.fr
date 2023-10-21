@@ -65,7 +65,7 @@
           </div>
         </div>
 
-        <div v-if="level === 'section'">
+        <div v-if="level === 'section' && userLocation.section">
           <div><span class="location_title">SECTION CADASTRALE</span></div>
           <div>
             <span class="location_label">{{ userLocation.section }}</span>
@@ -182,6 +182,7 @@
           </svg>
           Voir les informations d’urbanisme sur geoportail-urbanisme.gouv.fr
         </div>
+        </div>
         <div
           class="cardPartner"
           @click="goToPartner('dynmark')"
@@ -208,9 +209,8 @@
             Voir les indicateurs de prix de l’immobilier du Cerema sur
             l’application Dynmark
           </div>
-        </div>
       </div>
-
+    </div>
       <div
         class="links_container"
         v-if="level != 'fra' && parcellesDpeNb > 0"
@@ -491,9 +491,8 @@
           </div>
         </div>
       </div>
-    </div>
 
-    <div class="stats_container" v-if="level != 'parcelle' && nodata == false">
+    <div class="stats_container" v-if="level != 'parcelle' && level != 'section' && nodata == false">
       <div class="global_numbers_container">
         <div class="global_number_wrapper">
           <div class="global_number_title">
@@ -628,7 +627,7 @@
         </table>
       </div>
 
-      <div class="chart_container">
+      <div class="chart_container" v-if="this.apiLevel != 'section' && this.apiLevel != 'parcelle'">
         <span class="chart_title">Evolution du prix de vente median au m²</span>
         <span class="chart_geo">{{ chartGeoLabel }}</span>
         <div
@@ -646,7 +645,7 @@
         <line-chart></line-chart>
       </div>
 
-      <div class="chart_container">
+      <div class="chart_container" v-if="this.level != 'section' && this.level != 'parcelle'">
         <span class="chart_title">Distribution du prix de vente au m²</span>
         <span class="chart_geo">{{ chartGeoLabel }}</span>
         <div
@@ -666,9 +665,14 @@
       </div>
     </div>
 
+    <div class="chart_container" v-if="this.level == 'section'">
+      <div class="cta-parcelle">Sélectionnez une parcelle</div>
+    </div>
+    
+
     <div class="mutations_container" v-if="level === 'parcelle'">
       <div class="title_mutations">Liste des mutations immobilières</div>
-      <div class="mutations_total">
+      <div class="mutations_total" v-if="parcellesMutations && Object.keys(parcellesMutations).length">
         {{ Object.keys(parcellesMutations).length }} mutations
       </div>
       <div
@@ -891,16 +895,18 @@ export default {
             this.apiCode = code;
           }
         } else {
-          fetch(url)
-            .then((response) => {
-              return response.json();
-            })
-            .then((data) => {
-              this.sendApiResultToStore(url, data);
-              this.apiResult = data;
-              this.apiLevel = level;
-              this.apiCode = code;
-            });
+          if (url) {
+            fetch(url)
+              .then((response) => {
+                return response.json();
+              })
+              .then((data) => {
+                this.sendApiResultToStore(url, data);
+                this.apiResult = data;
+                this.apiLevel = level;
+                this.apiCode = code;
+              });
+          }
         }
       }
     },
@@ -938,17 +944,26 @@ export default {
           });
       }
     },
+    exceptNullValue(val){
+      if (val) {
+        return val.toLocaleString()
+      } else {
+        return null
+      }
+    },
 
     manageClientData(data) {
       var levelData;
-      if (this.apiCode) {
         if (
-          this.apiCode != 57 &&
-          this.apiCode != 67 &&
-          this.apiCode != 68 &&
-          this.apiCode.slice(0, 2) != 57 &&
-          this.apiCode.slice(0, 2) != 67 &&
-          this.apiCode.slice(0, 2) != 68
+          this.apiLevel == "nation" || (
+            this.apiCode &&
+            this.apiCode != 57 &&
+            this.apiCode != 67 &&
+            this.apiCode != 68 &&
+            this.apiCode.slice(0, 2) != 57 &&
+            this.apiCode.slice(0, 2) != 67 &&
+            this.apiCode.slice(0, 2) != 68
+          )
         ) {
           this.nodata = false;
           if (this.apiLevel == "nation") {
@@ -958,74 +973,59 @@ export default {
               return obj.code_geo === this.apiCode;
             });
           }
+          if (levelData) {
           if (this.activeFilter === "tous") {
-            this.clientData.totalVentes =
-              levelData["nb_ventes_whole_apt_maison"].toLocaleString();
-            this.clientData.totalAverage =
-              Math.round(
-                levelData["med_prix_m2_whole_apt_maison"]
-              ).toLocaleString() + "€";
+            this.clientData.totalVentes = this.exceptNullValue(levelData["nb_ventes_whole_apt_maison"])
+            this.clientData.totalAverage = this.exceptNullValue(Math.round(levelData["med_prix_m2_whole_apt_maison"])) + "€";
           } else if (this.activeFilter === "maison") {
-            this.clientData.totalVentes =
-              levelData["nb_ventes_whole_maison"].toLocaleString();
-            this.clientData.totalAverage =
-              Math.round(
-                levelData["med_prix_m2_whole_maison"]
-              ).toLocaleString() + "€";
+            this.clientData.totalVentes = this.exceptNullValue(levelData["nb_ventes_whole_maison"]);
+            this.clientData.totalAverage = this.exceptNullValue(Math.round(levelData["med_prix_m2_whole_maison"])) + "€";
           } else if (this.activeFilter === "appartement") {
-            this.clientData.totalVentes =
-              levelData["nb_ventes_whole_appartement"].toLocaleString();
-            this.clientData.totalAverage =
-              Math.round(
-                levelData["med_prix_m2_whole_appartement"]
-              ).toLocaleString() + "€";
+            this.clientData.totalVentes = this.exceptNullValue(levelData["nb_ventes_whole_appartement"]);
+            this.clientData.totalAverage = this.exceptNullValue(Math.round(levelData["med_prix_m2_whole_appartement"])) + "€";
           } else if (this.activeFilter === "local") {
-            this.clientData.totalVentes =
-              levelData["nb_ventes_whole_local"].toLocaleString();
-            this.clientData.totalAverage =
-              Math.round(
-                levelData["med_prix_m2_whole_local"]
-              ).toLocaleString() + "€";
+            this.clientData.totalVentes = this.exceptNullValue(levelData["nb_ventes_whole_local"]);
+            this.clientData.totalAverage = this.exceptNullValue(Math.round(levelData["med_prix_m2_whole_local"])) + "€";
           }
           this.clientData.appVentes =
-            levelData["nb_ventes_whole_appartement"].toLocaleString();
+            this.exceptNullValue(levelData["nb_ventes_whole_appartement"])
 
           if (levelData["med_prix_m2_whole_appartement"] === null) {
             this.clientData.appPrice = "indisponible";
           } else {
             this.clientData.appPrice =
-              Math.round(
+              this.exceptNullValue(Math.round(
                 levelData["med_prix_m2_whole_appartement"]
-              ).toLocaleString() + "€";
+              )) + "€";
           }
 
           this.clientData.houseVentes =
-            levelData["nb_ventes_whole_maison"].toLocaleString();
+            this.exceptNullValue(levelData["nb_ventes_whole_maison"]);
 
           if (levelData["med_prix_m2_whole_maison"] === null) {
             this.clientData.housePrice = "indisponible";
           } else {
             this.clientData.housePrice =
-              Math.round(
+              this.exceptNullValue(Math.round(
                 levelData["med_prix_m2_whole_maison"]
-              ).toLocaleString() + "€";
+              )) + "€";
           }
 
           this.clientData.localVentes =
-            levelData["nb_ventes_whole_local"].toLocaleString();
+            this.exceptNullValue(levelData["nb_ventes_whole_local"]);
 
           if (levelData["med_prix_m2_whole_local"] === null) {
             this.clientData.localPrice = "indisponible";
           } else {
             this.clientData.localPrice =
-              Math.round(
+              this.exceptNullValue(Math.round(
                 levelData["med_prix_m2_whole_local"]
-              ).toLocaleString() + "€";
+              )) + "€";
           }
+        }
         } else {
           this.nodata = true;
         }
-      }
     },
     manageCoproDpeData(data) {
       if (data) {
@@ -1275,7 +1275,8 @@ export default {
               "&lon=" +
               CenterDeps[this.userLocation.dep]["coordinates"][0] +
               "&code=" +
-              this.userLocation.dep
+              this.userLocation.dep +
+              "&search_type=municipality"
           );
         }
         if (partner == "ign") {
@@ -1331,7 +1332,8 @@ export default {
                   "&lon=" +
                   data[0]["centre"]["coordinates"][0] +
                   "&code=" +
-                  this.userLocation.com
+                  this.userLocation.com +
+                  "&search_type=municipality"
               );
             }
             if (partner == "ign") {
@@ -1936,6 +1938,14 @@ export default {
   background-color: #d7221f;
 }
 
+.cta-parcelle{
+  padding: 20px;
+  font-size: 14px;
+  margin: auto;
+  text-align: center;
+  border: 1px solid #ebebeb;
+}
+
 @media screen and (max-width: 1279px) {
   .leftCol {
     width: 40%;
@@ -1990,5 +2000,7 @@ export default {
   .leftCol.open .leftColOpener {
     transform: translate(-50%, 0) rotate(180deg);
   }
+
+
 }
 </style>
