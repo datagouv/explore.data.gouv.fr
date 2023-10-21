@@ -50,6 +50,7 @@ export default new Vuex.Store({
     activeFilter: "tous",
     searchBarCoordinates: null,
     dvfCurrentSection: null,
+    leftColOpen: true,
   },
   mutations: {
     addApiResult(state, data) {
@@ -103,6 +104,9 @@ export default new Vuex.Store({
     },
     updateActiveFilter(state, filter) {
       state.activeFilter = filter
+    },
+    updateLeftColOpen(state) {
+      state.leftColOpen = !state.leftColOpen
     }
   },
 })
