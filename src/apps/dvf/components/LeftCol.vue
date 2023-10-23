@@ -65,12 +65,6 @@
             </div>
           </div>
 
-          <div v-if="level === 'section'">
-            <div><span class="location_title">SECTION CADASTRALE</span></div>
-            <div>
-              <span class="location_label">{{ userLocation.section }}</span>
-            </div>
-          </div>
         <div v-if="level === 'section' && userLocation.section">
           <div><span class="location_title">SECTION CADASTRALE</span></div>
           <div>
@@ -368,140 +362,6 @@
         </div>
       </div>
 
-        <div
-          class="links_container"
-          v-if="level != 'fra' && parcellesCoproNb > 0"
-          :data-open="openCopro ? 'open' : ''"
-        >
-          <div class="links_title" @click="toggleCopro()">
-            Informations sur la Copropriété
-            <svg
-              width="10"
-              height="6"
-              viewBox="0 0 10 6"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
-                d="M4.99999 2.21917L1.69999 5.51916L0.757324 4.5765L4.99999 0.333832L9.24266 4.5765L8.29999 5.51916L4.99999 2.21917Z"
-                fill="#161616"
-              />
-            </svg>
-          </div>
-          <div class="content-copro">
-            <span v-if="parcellesCoproNb > 1">
-              Il semble qu'il y ait plusieurs copropriétés référencés sur cette
-              parcelle.
-            </span>
-            <div
-              v-for="item in parcellesCopro"
-              v-bind:key="item['numero_immatriculation']"
-            >
-              <div
-                v-if="
-                  item['syndicat_principal_ou_secondaire'] != null &&
-                  parcellesCoproNb > 1
-                "
-              >
-                Syndicat principal :
-                <b>{{ item["syndicat_principal_ou_secondaire"] }}</b>
-              </div>
-              <div v-if="item['syndicat_cooperatif'] != null">
-                Syndicat coopératif : <b>{{ item["syndicat_cooperatif"] }}</b>
-              </div>
-              <div v-if="item['identification_representant_legal'] != null">
-                Représentant légal :
-                <span
-                  class="textPartner dpe-final"
-                  v-if="item['siret_representant_legal'] != null"
-                  @click="
-                    goToPartner('annuaire', item['siret_representant_legal'])
-                  "
-                >
-                  {{ item["identification_representant_legal"] }}
-                </span>
-                <span v-else>
-                  <b>{{ item["identification_representant_legal"] }}</b>
-                </span>
-              </div>
-              <div v-if="item['nom_usage_copropriete'] != null">
-                Nom d'usage de la copropriété :
-                <b>{{ item["nom_usage_copropriete"] }}</b>
-              </div>
-              <div v-if="item['numero_immatriculation'] != null">
-                Numéro d'immatriculation de la copropriété :
-                <b>{{ item["numero_immatriculation"] }}</b>
-              </div>
-              <div v-if="item['nombre_total_lots'] != null">
-                Nombre total de lots : <b>{{ item["nombre_total_lots"] }}</b>
-              </div>
-              <div v-if="item['nombre_lots_usage_habitation'] != null">
-                Nombre de lots à usage d'habitation :
-                <b>{{ item["nombre_lots_usage_habitation"] }}</b>
-              </div>
-              <div v-if="item['nombre_lots_stationnement'] != null">
-                Nombre de lots de stationnement :
-                <b>{{ item["nombre_lots_stationnement"] }}</b>
-              </div>
-              <div v-if="item['mandat_en_cours_copropriete'] != null">
-                Mandat sur la propriété :
-                <b>{{ item["mandat_en_cours_copropriete"] }}</b>
-              </div>
-              <div
-                v-if="
-                  item['nombre_arretes_code_sante_publique_en_cours'] != null
-                "
-              >
-                Arrêtés relevant du code de la santé publique en cours :
-                <b>{{ item["nombre_arretes_code_sante_publique_en_cours"] }}</b>
-              </div>
-              <div
-                v-if="
-                  item['nombre_arretes_peril_parties_communes_en_cours'] != null
-                "
-              >
-                Arrêtés de péril sur les parties communes en cours :
-                <b>{{
-                  item["nombre_arretes_peril_parties_communes_en_cours"]
-                }}</b>
-              </div>
-              <div
-                v-if="
-                  item['nombre_arretes_equipements_communs_en_cours'] != null
-                "
-              >
-                Arrêtés sur les équipements communs en cours :
-                <b>{{ item["nombre_arretes_equipements_communs_en_cours"] }}</b>
-              </div>
-              <div class="one-copro"></div>
-            </div>
-            <div class="textPartner dpe-final" @click="goToPartner('anah')">
-              <svg
-                width="10"
-                height="10"
-                viewBox="0 0 10 10"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fill-rule="evenodd"
-                  clip-rule="evenodd"
-                  d="M4 2V3H1.5V8.5H7V6H8V9C8 9.27614 7.77614 9.5 7.5 9.5H1C0.723858 9.5 0.5 9.27614 0.5 9V2.5C0.5 2.22386 0.723858 2 1 2H4ZM9.5 0.5V5L7.603 3.1035L4.6035 6.1035L3.8965 5.3965L6.896 2.3965L5 0.5H9.5Z"
-                  fill="#3558A2"
-                /></svg
-              >Consulter l'annuaire des copropriétés
-            </div>
-            <div>
-              Sources :
-              <span class="textPartner" @click="goToPartner('copro')"
-                >Registre d'Immatriculation des Copropriétés</span
-              >
-            </div>
-          </div>
-        </div>
-      </div>
       <div
         class="links_container"
         v-if="level != 'fra' && parcellesCoproNb > 0"
@@ -887,7 +747,6 @@
           </div>
         </div>
       </div>
-    </div>
   </div>
 </template>
 
