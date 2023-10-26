@@ -104,11 +104,11 @@ export default {
   },
   methods: {
     exportData() {
-      return "https://api-dvf.preprod.data.gouv.fr/dvf/csv/?" + this.tableLevel + "=" + this.tableCode
+      return process.env.VUE_APP_DVF_API + "/dvf/csv/?" + this.tableLevel + "=" + this.tableCode
 
     },
     changePage () {
-      fetch("https://api-dvf.preprod.data.gouv.fr/dvf?" + this.tableLevel + "=" + this.tableCode + "&page=" + (this.page + 1).toString())
+      fetch(process.env.VUE_APP_DVF_API + "/dvf?" + this.tableLevel + "=" + this.tableCode + "&page=" + (this.page + 1).toString())
         .then((response) => {
             return response.json();
         })
