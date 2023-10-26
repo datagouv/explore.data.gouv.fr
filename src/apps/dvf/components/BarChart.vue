@@ -109,93 +109,95 @@ export default {
     },
     buildChart() {
       var self = this;
-      const ctx = document.getElementById("barchart").getContext("2d");
-      Chart.defaults.font.family = "Marianne";
-      this.chart = new Chart(ctx, {
-        type: "bar",
-        data: {
-          labels: this.labels,
-          datasets: [
-            {
-              data: this.values,
-              borderWidth: 0,
-              backgroundColor: "#B6CFFB",
-              barPercentage: 1.15,
-            },
-          ],
-        },
-        options: {
-          plugins: {
-            legend: {
-              display: false,
-            },
-            tooltip: {
-              backgroundColor: "rgba(74, 157, 247, 1)",
-              bodyColor: "rgba(255, 255, 255, 1)",
-              displayColors: false,
-              callbacks: {
-                label: function (tooltipItems) {
-                  return tooltipItems.formattedValue + " ventes";
-                },
-                title: function (tooltipItems) {
-                  var tab = [];
-                  for (var label in self.fullLabels) {
-                    tab.push(label);
-                  }
-                  var pos = tab.indexOf(
-                    self.fullLabels[tooltipItems[0]["label"]][0].toString()
-                  );
-                  var bornesLabel;
-                  if (pos === tab.length - 1) {
-                    bornesLabel =
-                      "plus de " +
-                      self.fullLabels[tooltipItems[0]["label"]][0] +
-                      "€";
-                  } else {
-                    bornesLabel =
-                      "entre " +
-                      self.fullLabels[tooltipItems[0]["label"]][0] +
-                      "€ et " +
-                      self.fullLabels[tooltipItems[0]["label"]][1] +
-                      "€";
-                  }
-                  return bornesLabel;
-                },
+      if (document.getElementById("barchart")) {
+        const ctx = document.getElementById("barchart").getContext("2d");
+        Chart.defaults.font.family = "Marianne";
+        this.chart = new Chart(ctx, {
+          type: "bar",
+          data: {
+            labels: this.labels,
+            datasets: [
+              {
+                data: this.values,
+                borderWidth: 0,
+                backgroundColor: "#B6CFFB",
+                barPercentage: 1.15,
               },
-            },
+            ],
           },
-          animation: {
-            easing: "easeInOutBack",
-          },
-          scales: {
-            x: {
-              grid: {
+          options: {
+            plugins: {
+              legend: {
                 display: false,
-                drawBorder: false,
               },
-              ticks: {
-                callback: function (value, index, ticks) {
-                  if (index == 0 || index == self.labels.length - 1) {
-                    return self.labels[index] + "€";
-                  }
+              tooltip: {
+                backgroundColor: "rgba(74, 157, 247, 1)",
+                bodyColor: "rgba(255, 255, 255, 1)",
+                displayColors: false,
+                callbacks: {
+                  label: function (tooltipItems) {
+                    return tooltipItems.formattedValue + " ventes";
+                  },
+                  title: function (tooltipItems) {
+                    var tab = [];
+                    for (var label in self.fullLabels) {
+                      tab.push(label);
+                    }
+                    var pos = tab.indexOf(
+                      self.fullLabels[tooltipItems[0]["label"]][0].toString()
+                    );
+                    var bornesLabel;
+                    if (pos === tab.length - 1) {
+                      bornesLabel =
+                        "plus de " +
+                        self.fullLabels[tooltipItems[0]["label"]][0] +
+                        "€";
+                    } else {
+                      bornesLabel =
+                        "entre " +
+                        self.fullLabels[tooltipItems[0]["label"]][0] +
+                        "€ et " +
+                        self.fullLabels[tooltipItems[0]["label"]][1] +
+                        "€";
+                    }
+                    return bornesLabel;
+                  },
                 },
               },
             },
-            y: {
-              beginAtZero: false,
-              grid: {
-                display: false,
-                drawBorder: false,
+            animation: {
+              easing: "easeInOutBack",
+            },
+            scales: {
+              x: {
+                grid: {
+                  display: false,
+                  drawBorder: false,
+                },
+                ticks: {
+                  callback: function (value, index, ticks) {
+                    if (index == 0 || index == self.labels.length - 1) {
+                      return self.labels[index] + "€";
+                    }
+                  },
+                },
               },
-              ticks: {
-                callback: function (value, index, ticks) {
-                  return "";
+              y: {
+                beginAtZero: false,
+                grid: {
+                  display: false,
+                  drawBorder: false,
+                },
+                ticks: {
+                  callback: function (value, index, ticks) {
+                    return "";
+                  },
                 },
               },
             },
           },
-        },
-      });
+        });
+      }
     },
   },
   watch: {

@@ -7,7 +7,7 @@
       class="map_tooltip"
       v-show="tooltip.visibility == 'visible'"
       :style="{ top: tooltip.top, left: tooltip.left }"
-    >
+  >
       <div class="tooltip_body">
         <b v-if="tooltip.place && tooltip.place != 'NaN'">{{ tooltip.place }}</b>
         <b v-else>En cours de récupération</b>
@@ -101,17 +101,17 @@ export default {
       fetching: false,
       fetchedCommunes: [],
       mappingPropertiesPrix: {
-        tous: "med_prix_m2_whole_apt_maison",
-        maison: "med_prix_m2_whole_maison",
-        appartement: "med_prix_m2_whole_appartement",
-        local: "med_prix_m2_whole_local",
+        tous: "m_am",
+        maison: "m_m",
+        appartement: "m_a",
+        local: "m_l",
       },
       mappingPropertiesFillLayer: {
         fra: "epcis_fill",
         departement: "communes_fill",
         commune: "sections_fill",
       },
-      actualPropertyPrix: "med_prix_m2_whole_apt_maison",
+      actualPropertyPrix: "m_am",
       mousePosition: {
         dep: {
           code: null,
@@ -229,7 +229,7 @@ export default {
         this.dataChloropleth["fra"] = data["data"];
         this.actualPropertyPrix = this.mappingPropertiesPrix[this.activeFilter];
         let matchExpression = this.changeChloroplethColors(
-          "code_geo",
+          "c",
           this.actualPropertyPrix,
           "code"
         );
@@ -418,13 +418,11 @@ export default {
           });
 
           this.map.on("click", "communes_fill", (e) => {
-            // si on est au niveau departement et que le userDep = mouseDep
-            // ou
-            // todo
             if (
               this.userLocation.level == "departement" &&
               this.userLocation.dep == this.mouseLocation.dep
             ) {
+
               let zoom = 12;
               this.changeCom = true;
               let comToChange = ["751", "132", "693"];
@@ -479,7 +477,7 @@ export default {
               // if we are on france level, we display the name of the departement
               if (this.userLocation.level == "fra") {
                 this.fetchTooltipData("departement", depId);
-                //this.tooltip.place = e.features[0]["properties"]["nom"]
+                this.tooltip.place = e.features[0]["properties"]["nom"]
               }
               // we display in light grey the background of departement mouseovered
               let matchExpression = 0;
@@ -528,16 +526,26 @@ export default {
           });
 
           this.map.on("click", "communes_fill2", (e) => {
-            let comId = e.features[0]["properties"]["code"];
+            let featureNb = 0
+            let comId = e.features[featureNb]["properties"]["code"];
+            let comId2 = null
+            if (e.features.length > 1) {
+              comId2 = e.features[1]["properties"]["code"];
+            }
             let comToChange = ["75056", "13055", "69123"];
             let zoom = 12;
-            if (comToChange.includes(comId)) {
-              comId = e.features[1]["properties"]["code"];
+            if (comToChange.includes(comId) || (comId2 && comToChange.includes(comId2))) {
+              if (comToChange.includes(comId)){
+                featureNb = 1
+                comId = e.features[featureNb]["properties"]["code"];
+              } else {
+                comId = e.features[featureNb]["properties"]["code"];
+              }
               zoom = 13.5;
             }
             if (this.userLocation.com != comId) {
               this.mousePosition.com.code = comId;
-              this.mousePosition.com.nom = e.features[0]["properties"]["nom"];
+              this.mousePosition.com.nom = e.features[featureNb]["properties"]["nom"];
               this.changeCom = true;
               if (this.map.getZoom() <= 14) {
                 this.map.flyTo({
@@ -616,6 +624,7 @@ export default {
         });
 
         this.map.on("mousemove", (e) => {
+          //this.displayTooltip(e)
           appStore.commit("changeMapLat", e.lngLat.wrap().lat);
           appStore.commit("changeMapLng", e.lngLat.wrap().lng);
         });
@@ -829,7 +838,6 @@ export default {
       }
     },
     changeLocation(commitFunction, level, code, name) {
-      let searchingAddress = false
       this.fetching = false;
       let obj = {};
       if (level == "fra") {
@@ -898,6 +906,10 @@ export default {
         while (obj.parcelleName.charAt(0) === "0") {
           obj.parcelleName = obj.parcelleName.substring(1);
         }
+        this.mousePosition.dep.code = parse_code
+        this.mousePosition.dep.nom = CenterDeps[parse_code]["nom"];
+        this.mousePosition.com.code = code.substring(0, 5);
+        this.mousePosition.com.nom = this.userLocation.comName;
       }
       if (commitFunction != "changeUserLocation" || level == "fra" || code) {
         appStore.commit(commitFunction, obj);
@@ -915,7 +927,6 @@ export default {
         obj.sectionName = null;
         obj.parcelle = null;
         obj.parcelleName = null;
-        searchingAddress = true;
         appStore.commit("changeUserLocation", obj);
         this.mousePosition.dep.code = parse_code
         this.mousePosition.dep.nom = CenterDeps[parse_code]["nom"];
@@ -1051,7 +1062,7 @@ export default {
             data["data"],
             x,
             this.actualPropertyPrix,
-            "code_geo",
+            "c",
             "code"
           );
           this.map.setPaintProperty("departements_fill", "fill-opacity", 0);
@@ -1066,7 +1077,7 @@ export default {
             matchExpressionOpacity,
             matchExpressionColor,
             matchExpressionLineWidth,
-          } = this.getMatchExpressionLine(data["data"], "code_geo", "code");
+          } = this.getMatchExpressionLine(data["data"], "c", "code");
           if (matchExpressionOpacity.length > 3) {
             this.map.setPaintProperty(
               "communes_line",
@@ -1105,7 +1116,7 @@ export default {
             data["data"],
             x,
             this.actualPropertyPrix,
-            "code_geo",
+            "c",
             "id"
           );
           this.map.setPaintProperty("communes_fill2", "fill-opacity", 0);
@@ -1120,7 +1131,7 @@ export default {
             matchExpressionOpacity,
             matchExpressionColor,
             matchExpressionLineWidth,
-          } = this.getMatchExpressionLine(data["data"], "code_geo", "id");
+          } = this.getMatchExpressionLine(data["data"], "c", "id");
           if (matchExpressionOpacity.length > 3) {
             this.map.setPaintProperty(
               "sections_line",
@@ -1153,8 +1164,8 @@ export default {
       } else {
         this.tooltip.visibility = "visible";
       }
-      let tooltipX = e.point.x + 350;
-      let tooltipY = e.point.y + 150;
+      let tooltipX = e.point.x;
+      let tooltipY = e.point.y;
       this.tooltip.top = tooltipY + "px";
       this.tooltip.left = tooltipX + "px";
     },
@@ -1201,24 +1212,24 @@ export default {
     },
     manageTooltipData(level, code, data) {
       var result = data["data"].find((obj) => {
-        return obj.code_geo === code;
+        return obj.c === code;
       });
       if (level == "section") {
         this.tooltip.place = "Section "
-        if (result && result.libelle_geo) {
-          this.tooltip.place += result.libelle_geo;
+        if (result && result.n) {
+          this.tooltip.place += result.n;
         }
       } else {
         this.tooltip.place = ""
-        if (result && result.libelle_geo) {
-          this.tooltip.place += result.libelle_geo;
+        if (result && result.n) {
+          this.tooltip.place += result.n;
         }
       }
 
       if (!result || !result[this.actualPropertyPrix] || result[this.actualPropertyPrix] === null) {
         if(code==57||code==67||code==68||code.slice(0,2)==57||code.slice(0,2)==67||code.slice(0,2)==68){
           this.tooltip.value = "nodata";
-        } else {
+        } else {        
           this.tooltip.value = "smalldata";
         }
       } else {
@@ -1234,7 +1245,7 @@ export default {
         }
         this.actualPropertyPrix = this.mappingPropertiesPrix[this.activeFilter];
         let matchExpression = this.changeChloroplethColors(
-          "code_geo",
+          "c",
           this.actualPropertyPrix,
           property_tile_code_geo
         );
@@ -1452,12 +1463,13 @@ export default {
   right: 0;
 }
 
+
 .map_tooltip {
   width: auto;
   min-width: 165px;
   height: auto;
   background-color: white;
-  position: fixed;
+  position: absolute;
   z-index: 999;
   border-radius: 4px;
   box-shadow: 0 8px 16px 0 rgba(22, 22, 22, 0.12),

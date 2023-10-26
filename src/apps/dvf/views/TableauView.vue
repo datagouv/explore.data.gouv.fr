@@ -1,75 +1,48 @@
 <template>
   <div class="mainView" id="tableauView">
-    <div class="filtersTable">
-      <div class="filterTable">
-        <div>Département</div>
+    <div v-if="showTable">
+      <div v-if="userLocation" class="ariane_container">
+        <div><span>France</span></div>
+        <div v-if="userLocation.depName">
+          <span>{{ userLocation.depName }} ({{ userLocation.dep }})</span>
+        </div>
+        <div v-if="!userLocation.depName && selectedDepName">
+          <span>{{ selectedDepName }} ({{ selectedDep }})</span>
+        </div>
+        <div v-if="userLocation.comName">
+          <span>{{ userLocation.comName }} ({{ userLocation.com }})</span>
+        </div>
+        <div v-if="userLocation.sectionName">
+          <span>Section {{ userLocation.sectionName }}</span>
+        </div>
+        <div v-if="userLocation.parcelleName">
+          <span>Parcelle {{ userLocation.parcelleName }}</span>
+        </div>
+      </div>
+      <Table class="fr-pt-0"></Table>
+    </div>
+    <div v-if="deps && showConfigDep" class="select-dep">
+        <div >Veuillez sélectionner un département</div>
         <select
           class="fr-select dgvSelector"
-          v-model="selectedResource"
-          @change="redirectToResource"
+          v-model="selectedDep"
         >
           <option
-            v-for="option in resources"
-            :key="option.id"
-            :value="option.id"
-            :disabled="!option.preview_url"
-            :selected="option == resource.id"
+            v-for="option in Object.entries(deps).map(([key, value]) => key)"
+            :key="option"
+            :value="option"
           >
-            {{ option.title || "Ressource sans nom" }}
+            {{ deps[option]["nom"] }}
           </option>
         </select>
-      </div>
-      <div
-        class="filterTable"
-        v-if="this.$route.query.level && this.$route.query.level == 'commune'"
-      >
-        Commune<br />
-        {{ userLocation.comName }}
-      </div>
-      <div
-        class="filterTable"
-        v-if="this.$route.query.level && this.$route.query.level == 'section'"
-      >
-        Section cadastrale<br />
-        {{ userLocation.section }}
-      </div>
-      <div
-        class="filterTable"
-        v-if="this.$route.query.level && this.$route.query.level == 'parcelle'"
-      >
-        Parcelle cadastrale<br />
-        {{ userLocation.parcelle }}
-      </div>
-      <div class="filterTable" v-if="this.$route.query.filtre">
-        <div>Type de biens</div>
-        <br />
-        <span :class="this.$route.query.filtre == 'tous' ? 'active' : ''"
-          ><div></div>
-          Appartement / Maison</span
-        >
-        <span :class="this.$route.query.filtre == 'appartement' ? 'active' : ''"
-          ><div></div>
-          Appartement</span
-        >
-        <span :class="this.$route.query.filtre == 'maison' ? 'active' : ''"
-          ><div></div>
-          Maison</span
-        >
-        <span :class="this.$route.query.filtre == 'tous' ? 'local' : ''"
-          ><div></div>
-          Locaux</span
-        >
-      </div>
     </div>
-
-    <Table class="fr-pt-0"></Table>
   </div>
 </template>
 
 <script>
 import appStore from "@/apps/dvf/store";
-import exploreStore from "@/store.js";
-import Table from "../../../components/Table.vue";
+import Table from "./Table.vue";
+import CenterDeps from "@/apps/dvf/assets/json/centers_deps.json";
 
 export default {
   name: "TableauView",
@@ -84,6 +57,11 @@ export default {
         id: "",
         code: "",
       },
+      showTable: false,
+      showConfigDep: false,
+      deps: null,
+      selectedDep: null,
+      selectedDepName: null,
     };
   },
   computed: {
@@ -92,256 +70,85 @@ export default {
     },
   },
   created() {
-    this.$store.dispatch("apify", this.csvUrl).finally(() => {});
-    fetch("https://www.data.gouv.fr/api/1/datasets/642205e1f2a0d0428a738699")
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        this.resources = data["resources"];
-        if (this.$route.query.code) {
-          this.resources.forEach((item) => {
-            if (
-              item["title"].includes(this.$route.query.code.substring(0, 2))
-            ) {
-              this.selectedResource = item["id"];
-              if (this.$route.query.level == "commune") {
-                let code = this.$route.query.code;
-                while (code.charAt(0) === "0") {
-                  code = code.substring(1);
-                }
-                this.$router
-                  .push({
-                    path: this.$route.path,
-                    query: { ...this.$route.query, code_commune__exact: code },
-                  })
-                  .catch(() => {});
-              }
-              if (
-                this.$route.query.level == "section" ||
-                this.$route.query.level == "parcelle"
-              ) {
-                let code = this.$route.query.code;
-                this.$router
-                  .push({
-                    path: this.$route.path,
-                    query: {
-                      ...this.$route.query,
-                      id_parcelle__contains: code,
-                    },
-                  })
-                  .catch(() => {});
-              }
-              if (
-                this.$route.query.filtre &&
-                this.$route.query.filtre != "tous"
-              ) {
-                this.$router
-                  .push({
-                    path: this.$route.path,
-                    query: {
-                      ...this.$route.query,
-                      type_local__contains: this.$route.query.filtre,
-                    },
-                  })
-                  .catch(() => {});
-              }
-              if (
-                this.$route.query.filtre &&
-                this.$route.query.filtre == "tous"
-              ) {
-                this.$router
-                  .push({
-                    path: this.$route.path,
-                    query: { ...this.$route.query, logement__exact: 1 },
-                  })
-                  .catch(() => {});
-              }
-              this.redirectToResource();
-            }
-          });
-        } else {
-          if (this.$route.query.filtre && this.$route.query.filtre != "tous") {
-            this.$router
-              .push({
-                path: this.$route.path,
-                query: {
-                  ...this.$route.query,
-                  type_local__contains: this.$route.query.filtre,
-                },
-              })
-              .catch(() => {});
-          }
-          this.redirectToResource();
-        }
-      });
+    this.deps = CenterDeps
+    appStore.commit("emptyTable")
+    if (this.$route.query.code && this.$route.query.level) {
+      let level
+      if (this.$route.query.level === "departement") {
+        level = "dep"
+      }
+      if (this.$route.query.level === "commune") {
+        level = "com"
+      }
+      if (this.$route.query.level === "section") {
+        level = "section"
+      }
+      if (this.$route.query.level === "parcelle") {
+        level = "parcelle"
+      }
+      this.getFirstBatchRows(level, this.$route.query.code)
+
+    } else {
+      this.showConfigDep = true
+    }
   },
   methods: {
-    changeLocation(commitFunction, level, code, name) {
-      let obj = {};
-      if (level == "fra") {
-        obj.level = "fra";
-        obj.dep = null;
-        obj.depName = null;
-        obj.com = null;
-        obj.comName = null;
-        obj.section = null;
-        obj.sectionName = null;
-        obj.parcelle = null;
-        obj.parcelleName = null;
-      }
-      if (level == "departement") {
-        obj.level = "departement";
-        obj.dep = code;
-        obj.depName = name;
-        obj.com = null;
-        obj.comName = null;
-        obj.section = null;
-        obj.sectionName = null;
-        obj.parcelle = null;
-        obj.parcelleName = null;
-      }
-      if (level == "commune") {
-        obj.level = "commune";
-        obj.dep = code.substring(0, 2);
-        obj.depName = CenterDeps[code.substring(0, 2)]["nom"];
-        obj.com = code;
-        obj.comName = name;
-        obj.section = null;
-        obj.sectionName = null;
-        obj.parcelle = null;
-        obj.parcelleName = null;
-      }
-      if (level == "section") {
-        obj.level = "section";
-        obj.dep = code.substring(0, 2);
-        obj.depName = CenterDeps[code.substring(0, 2)]["nom"];
-        obj.com = code.substring(0, 5);
-        obj.comName = this.userLocation.comName;
-        obj.section = code;
-        obj.sectionName = name.slice(5);
-        while (obj.sectionName.charAt(0) === "0") {
-          obj.sectionName = obj.sectionName.substring(1);
-        }
-        obj.parcelle = null;
-        obj.parcelleName = null;
-      }
-      if (level == "parcelle") {
-        obj.level = "parcelle";
-        obj.dep = code.substring(0, 2);
-        obj.depName = CenterDeps[code.substring(0, 2)]["nom"];
-        obj.com = code.substring(0, 5);
-        obj.comName = this.userLocation.comName;
-        obj.section = code.substring(0, 10);
-        obj.sectionName = code.substring(5, 10);
-        while (obj.sectionName.charAt(0) === "0") {
-          obj.sectionName = obj.sectionName.substring(1);
-        }
-        obj.parcelle = code;
-        obj.parcelleName = name.slice(10);
-        while (obj.parcelleName.charAt(0) === "0") {
-          obj.parcelleName = obj.parcelleName.substring(1);
-        }
-      }
-      appStore.commit(commitFunction, obj);
-    },
-    redirectToResource() {
-      this.csvUrl =
-        "https://www.data.gouv.fr/fr/datasets/r/" + this.selectedResource;
-      this.$store.dispatch("apify", this.csvUrl).finally(() => {});
-      this.resource.id = this.selectedResource;
-      this.setFiltersFromQueryString(this.$route.query);
-
-      this.resources.forEach((item) => {
-        if (item.id == this.resource.id) {
-          this.changeLocation(
-            "changeUserLocation",
-            "departement",
-            item.title.split(" - ")[0],
-            item.title.split(" - ")[1]
-          );
-        }
-      });
-    },
-    setFiltersFromQueryString(params) {
-      for (const [key, value] of Object.entries(params)) {
-        if (key.includes("__")) {
-          this.$store.commit("addFilter", {
-            field: key.split("__")[0],
-            value: value,
-            comp: key.split("__")[1],
-          });
-        }
-      }
-    },
-    changePage(page) {
-      this.$store.dispatch("changePage");
-    },
-    sort(ctx) {
-      this.$store.dispatch("sort", ctx);
-    },
-    apify(url) {
-      this.$store.dispatch("apify", url);
-    },
+    getFirstBatchRows(level, code){
+      appStore.commit('setTableLevel', level)
+      appStore.commit('setTableCode', code)
+      fetch("https://api-dvf.preprod.data.gouv.fr/dvf?" + level + "=" + code)
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          appStore.commit('updateRows', data["data"])
+        });
+        this.showTable = true
+        this.showConfigDep = false
+    }
   },
-  watch: {},
+  watch: {
+    selectedDep (){
+      this.selectedDepName = CenterDeps[this.selectedDep]["nom"]
+      this.getFirstBatchRows("dep", this.selectedDep)
+    }
+  },
 };
 </script>
 
 <style scoped>
-.filtersTable {
-  display: flex;
-  padding-left: 15px;
-  padding-right: 15px;
-  position: relative;
+
+.ariane_container {
+  width: 100%;
+  padding-left: 20px;
+  margin-top: 20px;
+  margin-bottom: 30px;
 }
 
-.filterTable {
-  padding-top: 15px;
-  padding-bottom: 15px;
-  border-radius: 15px;
-  display: flex;
-  position: relative;
-  margin-right: 20px;
-}
-
-.filterTable div {
-  margin-right: 10px;
-  text-transform: uppercase;
-  font-size: 14px;
-  font-weight: 700;
-  position: relative;
-  margin-top: 10px;
-  height: auto;
-}
-
-.filterTable span {
-  color: #929292;
-  margin-right: 10px;
-  margin-top: 0px;
-  font-size: 14px;
-}
-
-.filterTable span div {
+.ariane_container div {
   display: inline-block;
-  width: 16px;
-  height: 16px;
-  border: 1px solid #929292;
-  border-radius: 50%;
-  transform: translate(4px, 2px);
-  position: relative;
+  font-size: 12px;
+  color: #666666;
 }
 
-.filterTable span.active div:after {
-  content: "";
-  width: 10px;
-  height: 10px;
-  background-color: #929292;
-  display: block;
-  border-radius: 50%;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
+.ariane_container div span {
+  text-decoration: underline;
 }
+
+.ariane_container div:before {
+  content: ">";
+  margin: 0 5px 0 5px;
+  text-decoration: none;
+}
+
+.ariane_container div:first-child:before {
+  display: none;
+}
+
+.select-dep {
+  padding-top: 40px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
 </style>

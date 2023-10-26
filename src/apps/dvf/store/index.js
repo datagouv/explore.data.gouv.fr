@@ -54,6 +54,12 @@ export default new Vuex.Store({
     searchZoomOngoing: false,
     dvfCurrentSection: null,
     leftColOpen: true,
+
+    rows: [],
+    fields: [],
+    page: 1,
+    tableLevel: null,
+    tableCode: null,
   },
   mutations: {
     addApiResult(state, data) {
@@ -116,6 +122,38 @@ export default new Vuex.Store({
     },
     updateLeftColOpen(state) {
       state.leftColOpen = !state.leftColOpen
+    },
+
+    updateRows(state, data) {
+      let arr = state.rows
+      state.rows = arr.concat(data)
+      let fields = []
+      Object.entries(state.rows[0]).map(([key, val]) => key).forEach((item) => {
+        fields.push(
+          {
+            key: item,
+            label: item,
+            sortable: false
+          }
+        )
+      })
+      state.fields = fields
+    },
+    emptyTable(state, data) {
+      state.rows = []
+      state.fields = []
+      state.page = 1
+      state.tableLevel = null
+      state.tableCode = null
+    },
+    updatePage(state, data){
+      state.page = data
+    },
+    setTableLevel(state, data){
+      state.tableLevel = data
+    },
+    setTableCode(state, data){
+      state.tableCode = data
     }
   },
 })

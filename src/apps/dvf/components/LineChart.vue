@@ -40,93 +40,95 @@ export default {
       this.labels = [];
       this.apiData["data"].forEach(function (d, i) {
         if (self.activeFilter == "tous") {
-          var medAllVentes = Math.round(d["med_prix_m2_apt_maison"]);
+          var medAllVentes = Math.round(d["m_am"]);
         } else if (self.activeFilter == "appartement") {
-          var medAllVentes = Math.round(d["med_prix_m2_appartement"]);
+          var medAllVentes = Math.round(d["m_a"]);
         } else if (self.activeFilter == "maison") {
-          var medAllVentes = Math.round(d["med_prix_m2_maison"]);
+          var medAllVentes = Math.round(d["m_m"]);
         } else if (self.activeFilter == "local") {
-          var medAllVentes = Math.round(d["med_prix_m2_local"]);
+          var medAllVentes = Math.round(d["m_l"]);
         }
         if (!isNaN(medAllVentes) && medAllVentes != 0) {
-          self.labels.push(self.rewriteAnneeMois(d["annee_mois"]));
+          self.labels.push(self.rewriteAnneeMois(d["d"]));
           self.values.push(medAllVentes);
         }
       });
     },
     buildChart() {
       var self = this;
-      const ctx = document.getElementById("linechart").getContext("2d");
-      Chart.defaults.font.family = "Marianne";
-      this.chart = new Chart(ctx, {
-        type: "line",
-        data: {
-          labels: this.labels,
-          datasets: [
-            {
-              data: this.values,
-              borderWidth: 1,
-              pointRadius: 10,
-              pointBackgroundColor: "rgba(22, 22, 22, 0)",
-              pointBorderColor: "rgba(22, 22, 22, 0)",
-              pointHoverBorderColor: "rgba(74, 157, 247, 1)",
-              pointHoverBackgroundColor: "rgba(74, 157, 247, 1)",
-              borderColor: "rgba(22, 22, 22, 1)",
-            },
-          ],
-        },
-        options: {
-          plugins: {
-            legend: {
-              display: false,
-            },
-            tooltip: {
-              backgroundColor: "rgba(74, 157, 247, 1)",
-              bodyColor: "rgba(255, 255, 255, 1)",
-              displayColors: false,
-              callbacks: {
-                label: function (tooltipItems) {
-                  return tooltipItems.formattedValue + "€";
-                },
-                title: function (tooltipItems) {
-                  return tooltipItems[0].label;
-                },
+      if (document.getElementById("linechart")) {
+        const ctx = document.getElementById("linechart").getContext("2d");
+        Chart.defaults.font.family = "Marianne";
+        this.chart = new Chart(ctx, {
+          type: "line",
+          data: {
+            labels: this.labels,
+            datasets: [
+              {
+                data: this.values,
+                borderWidth: 1,
+                pointRadius: 10,
+                pointBackgroundColor: "rgba(22, 22, 22, 0)",
+                pointBorderColor: "rgba(22, 22, 22, 0)",
+                pointHoverBorderColor: "rgba(74, 157, 247, 1)",
+                pointHoverBackgroundColor: "rgba(74, 157, 247, 1)",
+                borderColor: "rgba(22, 22, 22, 1)",
               },
-            },
+            ],
           },
-          scales: {
-            x: {
-              grid: {
+          options: {
+            plugins: {
+              legend: {
                 display: false,
-                drawBorder: false,
               },
-              ticks: {
-                callback: function (value, index, ticks) {
-                  if (index == 0 || index == self.labels.length - 1) {
-                    return self.labels[index];
-                  }
+              tooltip: {
+                backgroundColor: "rgba(74, 157, 247, 1)",
+                bodyColor: "rgba(255, 255, 255, 1)",
+                displayColors: false,
+                callbacks: {
+                  label: function (tooltipItems) {
+                    return tooltipItems.formattedValue + "€";
+                  },
+                  title: function (tooltipItems) {
+                    return tooltipItems[0].label;
+                  },
                 },
               },
             },
-            y: {
-              beginAtZero: false,
-              grid: {
-                display: true,
-                drawBorder: false,
-                color: "#e5e5e5",
-                borderDash: [3],
+            scales: {
+              x: {
+                grid: {
+                  display: false,
+                  drawBorder: false,
+                },
+                ticks: {
+                  callback: function (value, index, ticks) {
+                    if (index == 0 || index == self.labels.length - 1) {
+                      return self.labels[index];
+                    }
+                  },
+                },
               },
-              ticks: {
-                callback: function (value, index, ticks) {
-                  if (index == 0 || index == ticks.length - 1) {
-                    return value + "€";
-                  }
+              y: {
+                beginAtZero: false,
+                grid: {
+                  display: true,
+                  drawBorder: false,
+                  color: "#e5e5e5",
+                  borderDash: [3],
+                },
+                ticks: {
+                  callback: function (value, index, ticks) {
+                    if (index == 0 || index == ticks.length - 1) {
+                      return value + "€";
+                    }
+                  },
                 },
               },
             },
           },
-        },
-      });
+        });
+      }
     },
     rewriteAnneeMois(anneemois) {
       var annee = anneemois.slice(0, 4);
