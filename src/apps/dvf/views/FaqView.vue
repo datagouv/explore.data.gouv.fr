@@ -64,11 +64,12 @@
           <span class="reponse">Cette application permet de visualiser les données de demandes de valeurs foncières (DVF), ainsi que d'autres données publiques telles que les diagnostics de performance énergétique et les copropriétés.<br>
           De nombreux autres services sont construits à partir des données ouvertes autour de la thématique du logement, notamment :<br>
           <ul>
-            <li>La couverture des réseaux sur <a href="https://maconnexioninternet.arcep.fr/">maconnexioninternet.arcep.fr</a></li>
+            <li>La couverture des réseaux sur <a href="https://maconnexioninternet.arcep.fr/">maconnexioninternet.arcep.fr</a> de l'ARCEP</li>
             <li>L'accessibilité sur  <a href="https://acceslibre.beta.gouv.fr/">acceslibre.beta.gouv.fr</a></li>
-            <li>Les risques sur  <a href="https://www.georisques.gouv.fr/">georisques.gouv.fr</a></li>
-            <li>Les informations d'urbanisme sur  <a href="https://www.geoportail-urbanisme.gouv.fr/">geoportail-urbanisme.gouv.fr</a></li>
-            <li>Les diagnostics de performance énergétique sur  <a href="https://particulier.gorenove.fr/">gorenove.fr</a></li>
+            <li>Les risques sur  <a href="https://www.georisques.gouv.fr/">georisques.gouv.fr</a> du BRGM</li>
+            <li>Les informations d'urbanisme sur  <a href="https://www.geoportail-urbanisme.gouv.fr/">geoportail-urbanisme.gouv.fr</a> de l'IGN</li>
+            <li>Les diagnostics de performance énergétique sur  <a href="https://particulier.gorenove.fr/">gorenove.fr</a> du CSTB</li>
+            <li>La visualisation de l'évolution du prix de l'immobilier sur <a href="https://datafoncier.cerema.fr/">Dynmark</a> du CEREMA</li>
           </ul></span>
         </div>
 

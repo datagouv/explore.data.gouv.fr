@@ -32,6 +32,55 @@
         :dataset="'62da71c068871f4c54258c7c'"
       ></dataset-embed>
 
+
+      <h4 class="second_title">Applications recommandées</h4>
+      <span class="chapo"
+        >Pour aller plus loin, nous vous invitons à visiter les applications du service public suivantes :</span
+      >
+
+
+      <div id="git_container">
+        <span id="git_title">Couverture des réseaux par l'ARCEP</span>
+        <a id="git_link" href="https://maconnexioninternet.arcep.fr/"
+          >https://maconnexioninternet.arcep.fr/</a
+        >
+      </div>
+      <br />
+      <div id="git_container">
+        <span id="git_title">Lieux d'accessibilité par Accès Libre</span>
+        <a id="git_link" href="https://acceslibre.beta.gouv.fr/"
+          >https://acceslibre.beta.gouv.fr/</a
+        >
+      </div>
+      <br />
+      <div id="git_container">
+        <span id="git_title">Risques encourus sur une zone géographique du BRGM</span>
+        <a id="git_link" href="https://www.georisques.gouv.fr/"
+          >https://www.georisques.gouv.fr/</a
+        >
+      </div>
+      <br />
+      <div id="git_container">
+        <span id="git_title">Données d'urbanisme par l'IGN</span>
+        <a id="git_link" href="https://www.geoportail-urbanisme.gouv.fr/"
+          >https://www.geoportail-urbanisme.gouv.fr/</a
+        >
+      </div>
+      <br />
+      <div id="git_container">
+        <span id="git_title">Performance énergétique par le CSTB</span>
+        <a id="git_link" href="https://particulier.gorenove.fr/"
+          >https://particulier.gorenove.fr/</a
+        >
+      </div>
+      <br />
+      <div id="git_container">
+        <span id="git_title">Evolution du prix de l'immobilier par le CEREMA</span>
+        <a id="git_link" href="https://datafoncier.cerema.fr/"
+          >https://datafoncier.cerema.fr/</a
+        >
+      </div>
+
       <h4 class="second_title">Code source</h4>
       <span class="chapo"
         >Le code source de cette application est disponible sur Github</span
