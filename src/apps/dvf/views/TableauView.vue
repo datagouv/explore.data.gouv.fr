@@ -96,7 +96,7 @@ export default {
     getFirstBatchRows(level, code){
       appStore.commit('setTableLevel', level)
       appStore.commit('setTableCode', code)
-      fetch("https://api-dvf.preprod.data.gouv.fr/dvf?" + level + "=" + code)
+      fetch(process.env.VUE_APP_DVF_API + "/dvf?" + level + "=" + code)
         .then((response) => {
           return response.json();
         })
