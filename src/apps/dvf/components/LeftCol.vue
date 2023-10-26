@@ -81,6 +81,181 @@
         </div>
       </div>
 
+
+    <div class="stats_container" v-if="level != 'parcelle' && level != 'section' && nodata == false">
+      <div class="global_numbers_container">
+        <div class="global_number_wrapper">
+          <div class="global_number_title">
+            Nombre total de ventes
+            <div
+              class="info_btn"
+              @mouseover="hoveredInfo = 'ventes'"
+              @mouseleave="hoveredInfo = ''"
+            >
+              <div>?</div>
+            </div>
+          </div>
+
+            <div class="info_bulle" v-if="hoveredInfo == 'ventes'">
+              Nombre total de ventes immobilières pendant les 5 dernières années
+            </div>
+
+            <div class="global_number_value">
+              {{ clientData["totalVentes"] }}
+            </div>
+          </div>
+          <div class="global_number_wrapper">
+            <div class="global_number_title">
+              Prix de vente médian au m²
+              <div
+                class="info_btn"
+                @mouseover="hoveredInfo = 'prix'"
+                @mouseleave="hoveredInfo = ''"
+              >
+                <div>?</div>
+              </div>
+            </div>
+            <div class="info_bulle" v-if="hoveredInfo == 'prix'">
+              Prix médian du m² de l'ensemble des ventes immobilières des 5
+              dernières années
+            </div>
+            <div class="global_number_value">
+              {{ clientData["totalAverage"] }}
+            </div>
+          </div>
+        </div>
+
+        <div class="tab_container">
+          <table>
+            <tr>
+              <th></th>
+              <th
+                :class="
+                  activeFilter == 'maison' || activeFilter == 'local'
+                    ? 'hide'
+                    : ''
+                "
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                  <path
+                    d="M22 21H2V19H3V4C3 3.44772 3.44772 3 4 3H18C18.5523 3 19 3.44772 19 4V9H21V19H22V21ZM17 19H19V11H13V19H15V13H17V19ZM17 9V5H5V19H11V9H17ZM7 11H9V13H7V11ZM7 15H9V17H7V15ZM7 7H9V9H7V7Z"
+                  ></path>
+                </svg>
+                Appt.
+              </th>
+              <th
+                :class="
+                  activeFilter == 'appartement' || activeFilter == 'local'
+                    ? 'hide'
+                    : ''
+                "
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                  <path
+                    d="M19 21.0001H5C4.44772 21.0001 4 20.5524 4 20.0001V11.0001L1 11.0001L11.3273 1.61162C11.7087 1.26488 12.2913 1.26488 12.6727 1.61162L23 11.0001L20 11.0001V20.0001C20 20.5524 19.5523 21.0001 19 21.0001ZM13 19.0001H18V9.15757L12 3.70302L6 9.15757V19.0001H11V13.0001H13V19.0001Z"
+                  ></path>
+                </svg>
+                Maisons
+              </th>
+              <th :class="activeFilter != 'local' ? 'hide' : ''">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                  <path
+                    d="M21 13.2422V20H22V22H2V20H3V13.2422C1.79401 12.435 1 11.0602 1 9.5C1 8.67286 1.22443 7.87621 1.63322 7.19746L4.3453 2.5C4.52393 2.1906 4.85406 2 5.21132 2H18.7887C19.1459 2 19.4761 2.1906 19.6547 2.5L22.3575 7.18172C22.7756 7.87621 23 8.67286 23 9.5C23 11.0602 22.206 12.435 21 13.2422ZM19 13.9725C18.8358 13.9907 18.669 14 18.5 14C17.2409 14 16.0789 13.478 15.25 12.6132C14.4211 13.478 13.2591 14 12 14C10.7409 14 9.5789 13.478 8.75 12.6132C7.9211 13.478 6.75911 14 5.5 14C5.331 14 5.16417 13.9907 5 13.9725V20H19V13.9725ZM5.78865 4L3.35598 8.21321C3.12409 8.59843 3 9.0389 3 9.5C3 10.8807 4.11929 12 5.5 12C6.53096 12 7.44467 11.3703 7.82179 10.4295C8.1574 9.59223 9.3426 9.59223 9.67821 10.4295C10.0553 11.3703 10.969 12 12 12C13.031 12 13.9447 11.3703 14.3218 10.4295C14.6574 9.59223 15.8426 9.59223 16.1782 10.4295C16.5553 11.3703 17.469 12 18.5 12C19.8807 12 21 10.8807 21 9.5C21 9.0389 20.8759 8.59843 20.6347 8.19746L18.2113 4H5.78865Z"
+                  ></path>
+                </svg>
+                Locaux
+              </th>
+            </tr>
+            <tr>
+              <th class="left">Ventes :</th>
+              <td
+                :class="
+                  activeFilter == 'maison' || activeFilter == 'local'
+                    ? 'hide'
+                    : ''
+                "
+              >
+                {{ clientData["appVentes"] }}
+              </td>
+              <td
+                :class="
+                  activeFilter == 'appartement' || activeFilter == 'local'
+                    ? 'hide'
+                    : ''
+                "
+              >
+                {{ clientData["houseVentes"] }}
+              </td>
+              <td :class="activeFilter != 'local' ? 'hide' : ''">
+                {{ clientData["localVentes"] }}
+              </td>
+            </tr>
+            <tr>
+              <th class="left">Prix median m² :</th>
+              <td
+                :class="
+                  activeFilter == 'maison' || activeFilter == 'local'
+                    ? 'hide'
+                    : ''
+                "
+              >
+                {{ clientData["appPrice"] }}
+              </td>
+              <td
+                :class="
+                  activeFilter == 'appartement' || activeFilter == 'local'
+                    ? 'hide'
+                    : ''
+                "
+              >
+                {{ clientData["housePrice"] }}
+              </td>
+              <td :class="activeFilter != 'local' ? 'hide' : ''">
+                {{ clientData["localPrice"] }}
+              </td>
+            </tr>
+          </table>
+        </div>
+
+      <div class="chart_container" v-if="this.apiLevel != 'section' && this.apiLevel != 'parcelle'">
+        <span class="chart_title">Evolution du prix de vente median au m²</span>
+        <span class="chart_geo">{{ chartGeoLabel }}</span>
+        <div
+          class="chart_info_btn line_chart_info"
+          @mouseover="hoveredBulle = 'line'"
+          @mouseleave="hoveredBulle = ''"
+        >
+          <div>?</div>
+        </div>
+        <div class="chart_info_bulle" v-if="hoveredBulle == 'line'">
+          Ce graphique indique l'évolution du prix au m² pour le type de biens
+          sélectionné et l'échelle sélectionnée. Les prix au m² sont obtenus en
+          divisant la valeur foncière du bien par sa surface au sol.
+        </div>
+        <line-chart></line-chart>
+      </div>
+
+      <div class="chart_container" v-if="this.level != 'section' && this.level != 'parcelle'">
+        <span class="chart_title">Distribution du prix de vente au m²</span>
+        <span class="chart_geo">{{ chartGeoLabel }}</span>
+        <div
+          class="chart_info_btn bar_chart_info"
+          @mouseover="hoveredBulle = 'bar'"
+          @mouseleave="hoveredBulle = ''"
+        >
+          <div>?</div>
+        </div>
+        <div class="chart_info_bulle" v-if="hoveredBulle == 'bar'">
+          Ce graphique montre la répartition des prix des ventes à l'échelle
+          sélectionnée, pour le type de biens sélectionné. En survolant chaque
+          barre, vous pouvez voir combien de ventes se sont faites à un montant
+          compris dans la tranche de prix affichée.
+        </div>
+        <bar-chart></bar-chart>
+      </div>
+      <br />
+    </div>
+
     <div
       class="links_container"
       v-if="level != 'fra'"
@@ -145,7 +320,7 @@
           Voir les risques sur georisques.gouv.fr
         </div>
       </div>
-      <div class="cardPartner" @click="goToPartner('acceslibre')">
+      <div class="cardPartner" @click="goToPartner('acceslibre')" v-if="userLocation && userLocation.comName">
         <div class="textPartner">
           <svg
             width="10"
@@ -492,178 +667,6 @@
         </div>
       </div>
 
-    <div class="stats_container" v-if="level != 'parcelle' && level != 'section' && nodata == false">
-      <div class="global_numbers_container">
-        <div class="global_number_wrapper">
-          <div class="global_number_title">
-            Nombre total de ventes
-            <div
-              class="info_btn"
-              @mouseover="hoveredInfo = 'ventes'"
-              @mouseleave="hoveredInfo = ''"
-            >
-              <div>?</div>
-            </div>
-          </div>
-
-            <div class="info_bulle" v-if="hoveredInfo == 'ventes'">
-              Nombre total de ventes immobilières pendant les 5 dernières années
-            </div>
-
-            <div class="global_number_value">
-              {{ clientData["totalVentes"] }}
-            </div>
-          </div>
-          <div class="global_number_wrapper">
-            <div class="global_number_title">
-              Prix de vente médian au m²
-              <div
-                class="info_btn"
-                @mouseover="hoveredInfo = 'prix'"
-                @mouseleave="hoveredInfo = ''"
-              >
-                <div>?</div>
-              </div>
-            </div>
-            <div class="info_bulle" v-if="hoveredInfo == 'prix'">
-              Prix médian du m² de l'ensemble des ventes immobilières des 5
-              dernières années
-            </div>
-            <div class="global_number_value">
-              {{ clientData["totalAverage"] }}
-            </div>
-          </div>
-        </div>
-
-        <div class="tab_container">
-          <table>
-            <tr>
-              <th></th>
-              <th
-                :class="
-                  activeFilter == 'maison' || activeFilter == 'local'
-                    ? 'hide'
-                    : ''
-                "
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                  <path
-                    d="M22 21H2V19H3V4C3 3.44772 3.44772 3 4 3H18C18.5523 3 19 3.44772 19 4V9H21V19H22V21ZM17 19H19V11H13V19H15V13H17V19ZM17 9V5H5V19H11V9H17ZM7 11H9V13H7V11ZM7 15H9V17H7V15ZM7 7H9V9H7V7Z"
-                  ></path>
-                </svg>
-                Appt.
-              </th>
-              <th
-                :class="
-                  activeFilter == 'appartement' || activeFilter == 'local'
-                    ? 'hide'
-                    : ''
-                "
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                  <path
-                    d="M19 21.0001H5C4.44772 21.0001 4 20.5524 4 20.0001V11.0001L1 11.0001L11.3273 1.61162C11.7087 1.26488 12.2913 1.26488 12.6727 1.61162L23 11.0001L20 11.0001V20.0001C20 20.5524 19.5523 21.0001 19 21.0001ZM13 19.0001H18V9.15757L12 3.70302L6 9.15757V19.0001H11V13.0001H13V19.0001Z"
-                  ></path>
-                </svg>
-                Maisons
-              </th>
-              <th :class="activeFilter != 'local' ? 'hide' : ''">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                  <path
-                    d="M21 13.2422V20H22V22H2V20H3V13.2422C1.79401 12.435 1 11.0602 1 9.5C1 8.67286 1.22443 7.87621 1.63322 7.19746L4.3453 2.5C4.52393 2.1906 4.85406 2 5.21132 2H18.7887C19.1459 2 19.4761 2.1906 19.6547 2.5L22.3575 7.18172C22.7756 7.87621 23 8.67286 23 9.5C23 11.0602 22.206 12.435 21 13.2422ZM19 13.9725C18.8358 13.9907 18.669 14 18.5 14C17.2409 14 16.0789 13.478 15.25 12.6132C14.4211 13.478 13.2591 14 12 14C10.7409 14 9.5789 13.478 8.75 12.6132C7.9211 13.478 6.75911 14 5.5 14C5.331 14 5.16417 13.9907 5 13.9725V20H19V13.9725ZM5.78865 4L3.35598 8.21321C3.12409 8.59843 3 9.0389 3 9.5C3 10.8807 4.11929 12 5.5 12C6.53096 12 7.44467 11.3703 7.82179 10.4295C8.1574 9.59223 9.3426 9.59223 9.67821 10.4295C10.0553 11.3703 10.969 12 12 12C13.031 12 13.9447 11.3703 14.3218 10.4295C14.6574 9.59223 15.8426 9.59223 16.1782 10.4295C16.5553 11.3703 17.469 12 18.5 12C19.8807 12 21 10.8807 21 9.5C21 9.0389 20.8759 8.59843 20.6347 8.19746L18.2113 4H5.78865Z"
-                  ></path>
-                </svg>
-                Locaux
-              </th>
-            </tr>
-            <tr>
-              <th class="left">Ventes :</th>
-              <td
-                :class="
-                  activeFilter == 'maison' || activeFilter == 'local'
-                    ? 'hide'
-                    : ''
-                "
-              >
-                {{ clientData["appVentes"] }}
-              </td>
-              <td
-                :class="
-                  activeFilter == 'appartement' || activeFilter == 'local'
-                    ? 'hide'
-                    : ''
-                "
-              >
-                {{ clientData["houseVentes"] }}
-              </td>
-              <td :class="activeFilter != 'local' ? 'hide' : ''">
-                {{ clientData["localVentes"] }}
-              </td>
-            </tr>
-            <tr>
-              <th class="left">Prix median m² :</th>
-              <td
-                :class="
-                  activeFilter == 'maison' || activeFilter == 'local'
-                    ? 'hide'
-                    : ''
-                "
-              >
-                {{ clientData["appPrice"] }}
-              </td>
-              <td
-                :class="
-                  activeFilter == 'appartement' || activeFilter == 'local'
-                    ? 'hide'
-                    : ''
-                "
-              >
-                {{ clientData["housePrice"] }}
-              </td>
-              <td :class="activeFilter != 'local' ? 'hide' : ''">
-                {{ clientData["localPrice"] }}
-              </td>
-            </tr>
-          </table>
-        </div>
-
-      <div class="chart_container" v-if="this.apiLevel != 'section' && this.apiLevel != 'parcelle'">
-        <span class="chart_title">Evolution du prix de vente median au m²</span>
-        <span class="chart_geo">{{ chartGeoLabel }}</span>
-        <div
-          class="chart_info_btn line_chart_info"
-          @mouseover="hoveredBulle = 'line'"
-          @mouseleave="hoveredBulle = ''"
-        >
-          <div>?</div>
-        </div>
-        <div class="chart_info_bulle" v-if="hoveredBulle == 'line'">
-          Ce graphique indique l'évolution du prix au m² pour le type de biens
-          sélectionné et l'échelle sélectionnée. Les prix au m² sont obtenus en
-          divisant la valeur foncière du bien par sa surface au sol.
-        </div>
-        <line-chart></line-chart>
-      </div>
-
-      <div class="chart_container" v-if="this.level != 'section' && this.level != 'parcelle'">
-        <span class="chart_title">Distribution du prix de vente au m²</span>
-        <span class="chart_geo">{{ chartGeoLabel }}</span>
-        <div
-          class="chart_info_btn bar_chart_info"
-          @mouseover="hoveredBulle = 'bar'"
-          @mouseleave="hoveredBulle = ''"
-        >
-          <div>?</div>
-        </div>
-        <div class="chart_info_bulle" v-if="hoveredBulle == 'bar'">
-          Ce graphique montre la répartition des prix des ventes à l'échelle
-          sélectionnée, pour le type de biens sélectionné. En survolant chaque
-          barre, vous pouvez voir combien de ventes se sont faites à un montant
-          compris dans la tranche de prix affichée.
-        </div>
-        <bar-chart></bar-chart>
-      </div>
-    </div>
 
     <div class="chart_container" v-if="this.level == 'section'">
       <div class="cta-parcelle">Sélectionnez une parcelle</div>
@@ -976,56 +979,56 @@ export default {
             levelData = data["data"][0];
           } else {
             levelData = data["data"].find((obj) => {
-              return obj.code_geo === this.apiCode;
+              return obj.c === this.apiCode;
             });
           }
           if (levelData) {
           if (this.activeFilter === "tous") {
-            this.clientData.totalVentes = this.exceptNullValue(levelData["nb_ventes_whole_apt_maison"])
-            this.clientData.totalAverage = this.exceptNullValue(Math.round(levelData["med_prix_m2_whole_apt_maison"])) + "€";
+            this.clientData.totalVentes = this.exceptNullValue(levelData["am"])
+            this.clientData.totalAverage = this.exceptNullValue(Math.round(levelData["m_am"])) + "€";
           } else if (this.activeFilter === "maison") {
-            this.clientData.totalVentes = this.exceptNullValue(levelData["nb_ventes_whole_maison"]);
-            this.clientData.totalAverage = this.exceptNullValue(Math.round(levelData["med_prix_m2_whole_maison"])) + "€";
+            this.clientData.totalVentes = this.exceptNullValue(levelData["m"]);
+            this.clientData.totalAverage = this.exceptNullValue(Math.round(levelData["m_m"])) + "€";
           } else if (this.activeFilter === "appartement") {
-            this.clientData.totalVentes = this.exceptNullValue(levelData["nb_ventes_whole_appartement"]);
-            this.clientData.totalAverage = this.exceptNullValue(Math.round(levelData["med_prix_m2_whole_appartement"])) + "€";
+            this.clientData.totalVentes = this.exceptNullValue(levelData["a"]);
+            this.clientData.totalAverage = this.exceptNullValue(Math.round(levelData["m_a"])) + "€";
           } else if (this.activeFilter === "local") {
-            this.clientData.totalVentes = this.exceptNullValue(levelData["nb_ventes_whole_local"]);
-            this.clientData.totalAverage = this.exceptNullValue(Math.round(levelData["med_prix_m2_whole_local"])) + "€";
+            this.clientData.totalVentes = this.exceptNullValue(levelData["l"]);
+            this.clientData.totalAverage = this.exceptNullValue(Math.round(levelData["m_l"])) + "€";
           }
           this.clientData.appVentes =
-            this.exceptNullValue(levelData["nb_ventes_whole_appartement"])
+            this.exceptNullValue(levelData["a"])
 
-          if (levelData["med_prix_m2_whole_appartement"] === null) {
+          if (levelData["m_a"] === null) {
             this.clientData.appPrice = "indisponible";
           } else {
             this.clientData.appPrice =
               this.exceptNullValue(Math.round(
-                levelData["med_prix_m2_whole_appartement"]
+                levelData["m_a"]
               )) + "€";
           }
 
           this.clientData.houseVentes =
-            this.exceptNullValue(levelData["nb_ventes_whole_maison"]);
+            this.exceptNullValue(levelData["m"]);
 
-          if (levelData["med_prix_m2_whole_maison"] === null) {
+          if (levelData["m_m"] === null) {
             this.clientData.housePrice = "indisponible";
           } else {
             this.clientData.housePrice =
               this.exceptNullValue(Math.round(
-                levelData["med_prix_m2_whole_maison"]
+                levelData["m_m"]
               )) + "€";
           }
 
           this.clientData.localVentes =
-            this.exceptNullValue(levelData["nb_ventes_whole_local"]);
+            this.exceptNullValue(levelData["l"]);
 
-          if (levelData["med_prix_m2_whole_local"] === null) {
+          if (levelData["m_l"] === null) {
             this.clientData.localPrice = "indisponible";
           } else {
             this.clientData.localPrice =
               this.exceptNullValue(Math.round(
-                levelData["med_prix_m2_whole_local"]
+                levelData["m_l"]
               )) + "€";
           }
         }
@@ -1332,7 +1335,7 @@ export default {
             if (partner == "acceslibre") {
               window.open(
                 "https://acceslibre.beta.gouv.fr/recherche/?what=&where=" +
-                  this.userLocation.comName +
+                  this.userLocation.comName + " (" + this.userLocation.dep + ")" +
                   "&lat=" +
                   data[0]["centre"]["coordinates"][1] +
                   "&lon=" +
@@ -1481,6 +1484,7 @@ export default {
   padding-right: 20px;
   height: 100%;
   overflow: scroll;
+  width: 30%;
 }
 
 .leftColOpener {

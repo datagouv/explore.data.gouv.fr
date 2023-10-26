@@ -77,81 +77,83 @@ export default {
         let xTickLimit = 6    
         let bgColor = this.color   
         setTimeout((e) => {
-          const ctx = document.getElementById(self.chartId).getContext('2d')
-          if(ctx){
-            let configDataset = {
-              data: datapoints,
-              backgroundColor: bgColor,
-              type: this.typeChart, 
-              pointRadius: 0.1
-            }
-            if(this.typeChart != 'bar') {
-              configDataset['borderWidth'] = 2
-              configDataset['borderColor'] = bgColor
-            }
-
-            this.chart = new Chart(ctx, {
-              data: {
-                labels: labels,
-                datasets: [configDataset]
-              },
-              options: {
-                animation: {
-                  easing: 'easeInOutBack'
-                },
-                onHover: (e) => {
-                  if (this.chart.getElementsAtEventForMode(e, 'nearest', { intersect: true }, true).length !== 0) {
-                    self.tooltip.display = true
-                    const index = this.chart.getElementsAtEventForMode(e, 'nearest', { intersect: true }, true)[0].index
-                    const pxTop = this.chart.scales['yAxis'].getPixelForValue(datapoints[index])
-                    self.tooltip.top = (this.$refs[this.chartId].getBoundingClientRect().top + pxTop - 60) + 'px'
-                    self.tooltip.left = (this.$refs[this.chartId].getBoundingClientRect().left + this.chart.scales['xAxis'].getPixelForTick(index)) + 'px'
-                    self.tooltip.value = datapoints[index] + " " + self.unitChart
-                    self.tooltip.x = labels[index]
-                    // var date = new Date(labels[index])
-                    // const options = {day: 'numeric', month: 'long', year: 'numeric'};
-                    // var ndate = date.toLocaleDateString('fr-FR',options)
-                    // self.tooltip.date = ndate
-                  } else {
-                    self.tooltip.display = false
-                  }
-                },
-                scales: {
-                    xAxis: {
-                        grid: {
-                            display: false
-                        },
-                        ticks: {
-                            maxTicksLimit: 10,
-                            callback: function(tick) {
-                                var characterLimit = 15;
-                                if (this.getLabelForValue(tick).length >= characterLimit) {
-                                    return this.getLabelForValue(tick).slice(0, this.getLabelForValue(tick).length).substring(0, characterLimit - 1).trim() + '...';
-                                }
-                                return this.getLabelForValue(tick);
-                            }
-                        }
-                    },
-                    yAxis: {
-                        grid: {
-                          color: '#e5e5e5',
-                          borderDash: [3]
-                        },
-                        ticks: {
-                            maxTicksLimit: 5
-                        }
-                    }
-                },
-                plugins: {
-                  legend: {
-                    display: false
-                  },
-                  tooltip: {
-                    enabled: false // <-- this option disables tooltips
-                  }
-                },
+          if (document.getElementById(self.chartId)){
+            const ctx = document.getElementById(self.chartId).getContext('2d')
+            if(ctx){
+              let configDataset = {
+                data: datapoints,
+                backgroundColor: bgColor,
+                type: this.typeChart, 
+                pointRadius: 0.1
               }
-            })
+              if(this.typeChart != 'bar') {
+                configDataset['borderWidth'] = 2
+                configDataset['borderColor'] = bgColor
+              }
+
+              this.chart = new Chart(ctx, {
+                data: {
+                  labels: labels,
+                  datasets: [configDataset]
+                },
+                options: {
+                  animation: {
+                    easing: 'easeInOutBack'
+                  },
+                  onHover: (e) => {
+                    if (this.chart.getElementsAtEventForMode(e, 'nearest', { intersect: true }, true).length !== 0) {
+                      self.tooltip.display = true
+                      const index = this.chart.getElementsAtEventForMode(e, 'nearest', { intersect: true }, true)[0].index
+                      const pxTop = this.chart.scales['yAxis'].getPixelForValue(datapoints[index])
+                      self.tooltip.top = (this.$refs[this.chartId].getBoundingClientRect().top + pxTop - 60) + 'px'
+                      self.tooltip.left = (this.$refs[this.chartId].getBoundingClientRect().left + this.chart.scales['xAxis'].getPixelForTick(index)) + 'px'
+                      self.tooltip.value = datapoints[index] + " " + self.unitChart
+                      self.tooltip.x = labels[index]
+                      // var date = new Date(labels[index])
+                      // const options = {day: 'numeric', month: 'long', year: 'numeric'};
+                      // var ndate = date.toLocaleDateString('fr-FR',options)
+                      // self.tooltip.date = ndate
+                    } else {
+                      self.tooltip.display = false
+                    }
+                  },
+                  scales: {
+                      xAxis: {
+                          grid: {
+                              display: false
+                          },
+                          ticks: {
+                              maxTicksLimit: 10,
+                              callback: function(tick) {
+                                  var characterLimit = 15;
+                                  if (this.getLabelForValue(tick).length >= characterLimit) {
+                                      return this.getLabelForValue(tick).slice(0, this.getLabelForValue(tick).length).substring(0, characterLimit - 1).trim() + '...';
+                                  }
+                                  return this.getLabelForValue(tick);
+                              }
+                          }
+                      },
+                      yAxis: {
+                          grid: {
+                            color: '#e5e5e5',
+                            borderDash: [3]
+                          },
+                          ticks: {
+                              maxTicksLimit: 5
+                          }
+                      }
+                  },
+                  plugins: {
+                    legend: {
+                      display: false
+                    },
+                    tooltip: {
+                      enabled: false // <-- this option disables tooltips
+                    }
+                  },
+                }
+              })
+            }
           }
         },100)
       }
