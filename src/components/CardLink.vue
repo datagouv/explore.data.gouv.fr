@@ -34,7 +34,7 @@ export default {
     },
     computed: {
         href() {
-            return window.location.origin + '/?url=https://www.data.gouv.fr/fr/datasets/r/' + this.rid
+            return window.location.origin + '/tableau?url=https://www.data.gouv.fr/fr/datasets/r/' + this.rid
         }
     },
     async created() {
