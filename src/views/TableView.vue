@@ -7,15 +7,38 @@
     <h2>Bienvenue sur le prototype d'exploration des données de data.gouv.fr</h2>
     <p>Ce prototype vise à permettre d’explorer plus facilement les données référencées sur data.gouv.fr.<br />
       Sélectionnez un fichier de moins de 100Mo qui vous intéresse sur data.gouv.fr et collez le lien dans la barre ci-dessous pour l’explorer.</p>
-    <!-- <div class="fr-callout">
-      <h3 class="fr-callout__title">Précautions d'usages</h3>
-      <p class="fr-callout__text">
-        Si l'explorateur est utilisé sur un jeu de données pour la première fois, le chargement peut prendre un certain temps.
-        Ce prototype ne permet pas d’explorer les fichiers de plus de 100 Mo.
-      </p>
-    </div> -->
+
     <form class="fr-mt-4w">
-      <label class="fr-label" for="text-input-text">URL du fichier à visualiser au format CSV
+      <label class="fr-label" for="text-input-text">Rechercher un fichier du catalogue data.gouv.fr
+        <span class="fr-hint-text">Entrez des mots clés pour avoir des suggestions</span>
+      </label>
+      <input class="fr-input fr-mb-2w" type="text" v-model="searchWordsDataset" id="text-input-text" name="text-input-text" />
+      <div class="fr-grid-row fr-grid-row--center">
+      </div>
+    </form>
+
+    <div v-for="item in results" class="results" v-bind:key="item.resource_id">
+      <div class="result-boxes">
+        <div>
+          <img :src="item.logo" width="100" />
+        </div>
+        <div>
+          <b>{{ item.dataset_title  }}</b>
+          <br />
+          Fichier : <b>{{ item.resource_title }}</b>
+        </div>
+        <div class="result-box">
+          <button class="fr-btn fr-btn--icon-left fr-icon-test-tube-line" @click="redirectViaResult(item.resource_url)">
+            Explorer
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin: auto; text-align: center; width: 100%; font-weight: bold; margin-top: 20px;">OU</div>
+
+    <form class="fr-mt-4w">
+      <label class="fr-label" for="text-input-text">Entrer l'URL du fichier à visualiser au format CSV
         <span class="fr-hint-text">Il s’agit du lien vers un fichier et non d’une page de jeu de données</span>
       </label>
       <input class="fr-input fr-mb-2w" type="text" v-model="csvUrlFieldValue" id="text-input-text" name="text-input-text" />
@@ -25,6 +48,7 @@
         </button>
       </div>
     </form>
+
     <br /><br />
     <p>Si vous ne savez pas par quoi commencer à explorer, nous vous proposons ci-dessous une sélection de quelques jeux de données.</p>
     <CardLink v-for="item in listResources" :key="item.resource_id" :did="item.dataset_id" :rid="item.resource_id"></CardLink>
@@ -46,12 +70,16 @@ import Loader from '@/components/Loader'
 import CardLink from '@/components/CardLink'
 import HeaderApp from '@/views/HeaderApp'
 import InfosResource from '@/views/InfosResource'
+import dataGouvUrlApi from '@/config'
 
 export default {
   name: 'TableView',
   components: {Table, Error, Loader, CardLink, HeaderApp, InfosResource},
   data() {
     return {
+      results: [],
+      search: null,
+      searchWordsDataset: null,
       csvUrl: '',
       csvUrlFieldValue: '',
       listResources: [
@@ -133,7 +161,11 @@ export default {
     },
     redirect() {
       this.csvUrl = this.csvUrlFieldValue
-      window.location.href = window.location.origin + '/?url=' + this.csvUrl
+      window.location.href = window.location.origin + '/tableau?url=' + this.csvUrl
+    },
+    redirectViaResult(val) {
+      this.csvUrlFieldValue = val
+      this.redirect()
     }
   },
   watch: {
@@ -142,7 +174,74 @@ export default {
       if (!value) return
       this.$store.dispatch('apify', this.csvUrl).finally(() => {
       })
+    },
+    searchWordsDataset (value) {
+      this.search = value;
+
+      let timer = setTimeout(() => {
+          if (this.search === value) {
+            fetch("https://www.data.gouv.fr/api/" + "2/datasets/search/?q=" + value).then((response) => {
+                return response.json()
+            })
+            .then((data) => {
+              let arr = []
+              if (data["data"].length > 0) {
+                data["data"].forEach((item) => {
+                  fetch(item["resources"].href).then((response2) => {
+                    return response2.json()
+                  })
+                  .then((data2) => {
+                    if (data2["data"].length > 0 && arr.length < 10) {
+                      data2["data"].forEach((item2) => {
+                        if (["csv", "xls", "xlsx"].includes(item2.format)) {
+                          let obj = {}
+                          obj["dataset_id"] = item.id
+                          obj["dataset_title"] = item.title
+                          obj["resource_id"] = item2.id
+                          obj["resource_title"] = item2.title
+                          if (!obj["resource_title"] || obj["resource_title"] == ""){
+                            obj["resource_title"] = "Sans titre"
+                          }
+                          obj["resource_url"] = item2.latest
+                          if(item.organization) {
+                            obj["logo"] = item.organization.logo
+                          } else {
+                            obj["logo"] = null
+                          }
+
+                          if (arr.length < 10) {
+                            arr.push(obj)
+                          }
+                        }
+                      })
+                    }
+                  });
+                  
+                });
+                this.results = arr
+              }
+            });
+          }
+      }, 1000)
     }
   }
 }
 </script>
+
+<style scoped>
+.results {
+  border: 1px solid #ebebeb;
+  padding: 15px;
+  margin-bottom: 10px;
+}
+
+.result-boxes {
+  display: flex;
+  cursor: pointer;
+}
+
+.result-box {
+  margin-left: auto;
+  padding-left: 20px;
+}
+</style>

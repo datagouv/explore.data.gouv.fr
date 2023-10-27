@@ -272,7 +272,7 @@
                       >
                       et
                       <a
-                        href="https://explore.data.gouv.fr/?url=https://www.data.gouv.fr/fr/datasets/r/64e02cff-9e53-4cb2-adfd-5fcc88b2dc09"
+                        href="https://explore.data.gouv.fr/tableau?url=https://www.data.gouv.fr/fr/datasets/r/64e02cff-9e53-4cb2-adfd-5fcc88b2dc09"
                         ><u>sont explorables ici.</u></a
                       ></i
                     >
