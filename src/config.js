@@ -1,3 +1,5 @@
+import configSite from './config.yml'
+
 /**
  * Simple helper to fetch attribute on given css selector
  */
@@ -16,8 +18,10 @@ function _meta(name) {
 export const csvapiUrl = process.env.VUE_APP_CSVAPI_URL || _meta('csvapi-url')
 export const pageSize = _meta('page-size') || 10
 export const dataGouvUrl = "https://www.data.gouv.fr/fr/"
+export const dataGouvUrlApi = "https://www.data.gouv.fr/api/"
 export const matomoUrl = "https://stats.data.gouv.fr/"
 export const matomoSiteId = process.env.VUE_APP_MATOMO_SITE_ID
+export default configSite
 
 /**
  * @param {string} id

@@ -10,7 +10,7 @@
         </div>
 
         <div class="footer_links_container">
-            <div class="footer_signature">Ce site est une exploration de données proposée par <a href="https://www.data.gouv.fr/">data.gouv.fr</a></div>
+            <div class="footer_signature">Ce site est proposé par <a href="https://www.data.gouv.fr/">data.gouv.fr</a></div>
             <div class="footer_links">
                 <a target="_blank" href="https://data.gouv.fr/">data.gouv.fr</a>
                 <a target="_blank" href="https://www.gouvernement.fr/">gouvernement.fr</a>

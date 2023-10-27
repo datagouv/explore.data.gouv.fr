@@ -47,7 +47,9 @@
 		"not ie <= 8"
 	],
 	"dependencies": {
-		"crypto-js": "^4.1.1"
+		"crypto-js": "^4.1.1",
+		"json-loader": "^0.5.7",
+		"yaml-loader": "^0.8.0"
 	},
 	"overrides": {
 		"autoprefixer": "^10.2.5"
