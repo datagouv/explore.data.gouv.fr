@@ -7,12 +7,10 @@
 </template>
 
 <script>
-import HeaderApp from './views/HeaderApp.vue'
 
 export default {
   name: 'app',
   components: {
-    HeaderApp,
   },
 }
 </script>

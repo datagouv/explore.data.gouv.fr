@@ -4,6 +4,7 @@ import TableView from './views/TableView.vue'
 import AppRuptureCarburant from './views/AppRuptureCarburant.vue'
 import AppCarburant from './apps/carburants/AppCarburant.vue'
 import AppDvf from './apps/dvf/AppDvf.vue'
+import HomePage from './views/HomePage.vue'
 
 Vue.use(Router)
 
@@ -14,6 +15,11 @@ export default new Router({
     {
       path: '/',
       name: 'home',
+      component: HomePage
+    },
+    {
+      path: '/tableau',
+      name: 'table',
       component: TableView
     },
     {
