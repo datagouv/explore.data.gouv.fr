@@ -1,5 +1,6 @@
 <template>
   <div class="headerapps fr-grid-row fr-grid-row--middle">
+    <div class="main-title">
     <div class="fr-enlarge-link">
       <h1 class="subtitle fr-m-0"><a :href="home">explore.</a></h1>
       <svg
@@ -26,11 +27,15 @@
           fill="#161616"
         />
       </svg>
+    </div>
+    <div class="fr-enlarge-link" style="float: left;">
+
       <a :href="appLink"
         ><div class="appName" v-if="appName != ''">
           <span>|</span> {{ appName }}
         </div></a
       >
+    </div>
     </div>
 
     <div>
@@ -134,5 +139,9 @@ export default {
   .headerlink {
     display: none;
   }
+}
+.main-title{
+  display: flex;
+  flex-direction: row;
 }
 </style>

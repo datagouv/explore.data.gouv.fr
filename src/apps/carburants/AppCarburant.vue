@@ -1,6 +1,10 @@
 <template>
   <div class="fr-container--fluid">
-    <header-apps :formHref="formHref"></header-apps>
+    <header-apps
+      :formHref="formHref"
+      appName="Carburants"
+      appLink="/prix-carburants"
+    ></header-apps>
     <div>
       <div v-if="tooltip.properties" class="tooltip" :style="{top:tooltip.top,left:tooltip.left, display:tooltip.display}">
           <div v-if="tooltip.properties.adr" class="tooltip-title">{{ tooltip.properties.adr }}</div>

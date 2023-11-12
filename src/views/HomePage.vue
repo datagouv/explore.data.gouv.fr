@@ -8,7 +8,7 @@
 
     <div class="fr-mt-4w fr-container">
         <h3>Exploration de données</h3>
-        <p class="text-home">Les équipes de data.gouv.fr et de la Direction Interministérielle du Numérique (DINUM) proposent des explorations de données ouvertes pour faciliter leur appropriation et leurs réutilisations.</p>
+        <p class="text-home">Les équipes de <a class="link-text" href="https://www.data.gouv.fr">data.gouv.fr</a> et de la <a class="link-text" href="https://www.numerique.gouv.fr/dinum/">Direction Interministérielle du Numérique (DINUM)</a> proposent des explorations de données ouvertes pour faciliter leur appropriation et leurs réutilisations.</p>
         <p class="text-home">Découvrez ici certaines de ces explorations.</p>
         <div v-if="own__reuses" class="flex-container">
             <div class="flex-child"  v-for="item in own__reuses" v-bind:key="item.titleReuse">
@@ -22,8 +22,21 @@
             </div>
         </div>
 
+        <div class="propal-div">
+            <div>
+                <b>Proposez une exploration</b>
+                <br />
+                <i style="font-size: 14px;">Vous avez une idée d'exploration des données publiques qui pourrait être utile ?</i>
+            </div>
+            <div style="margin-left: auto;">
+                <button @click="goToIdea()" class="button-idea">
+                    Soumettre une idée
+                </button>
+            </div>
+        </div>
+
         <h3>Réutilisations de la communauté</h3>
-        <p class="text-home">La force de l'Open Data, c'est sa communauté. Découvrez ci-dessous des réutilisations de données publiées par des tiers, qu'il s'agisse d'autres administrations, d'entreprises, d'associations ou de citoyens. Cette sélection est réalisée par l'équipe éditoriale de data.gouv.fr.</p>
+        <p class="text-home">La force de l'Open Data, c'est sa communauté. Découvrez notre sélection de réutilisations de données réalisées par d'autres administrations, entreprises, associations ou citoyens.</p>
         <p>Choisissez une thématique : </p>
         <div class="flex-container">
             <div 
@@ -77,6 +90,9 @@ export default {
   methods: {
     selectThematique(item) {
         this.thematique = item.thematique
+    },
+    goToIdea(){
+        window.location.href= "https://tally.so/r/n0eQVA"
     }
   },
   watch: {
@@ -89,7 +105,7 @@ export default {
 @media screen  {
 
     .main-title {
-        width: 90%;
+        width: 60%;
         padding-top: 60px;
         font-size: 60px;
         line-height: 70px;
@@ -101,7 +117,7 @@ export default {
     }
 }
 
-@media screen and (max-width: 1100px) {
+@media screen and (max-width: 1300px) {
     .main-title {
         width: 90%;
         padding-top: 60px;
@@ -184,6 +200,32 @@ export default {
     cursor: pointer;
 }
 
+.button-idea {
+    margin-right: 10px;
+    margin-bottom: 10px;
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    background-color: #3558A2;
+    color: white;
+    border-radius: 20px;
+    min-width: 50px;
+    cursor: pointer;
+}
+
+.button-idea:hover {
+    margin-right: 10px;
+    margin-bottom: 10px;
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    background-color: #3558A2;
+    color: white;
+    border-radius: 20px;
+    min-width: 50px;
+    cursor: pointer;
+}
+
 .flex-child3 {
     margin-right: 30px;
     margin-bottom: 30px;
@@ -193,6 +235,21 @@ export default {
 .reuse {
     min-width: 200px;
     max-width: 350px;
+}
+
+.link-text{
+    text-decoration: none;
+    color: #3558A2;
+}
+
+.propal-div {
+    padding: 20px;
+    background-color: #DAE7FD;
+    border-radius: 7px;
+    margin-bottom: 30px;
+    color: #3558A2;
+    display: flex;
+    flex-direction: row;
 }
 
 </style>

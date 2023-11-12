@@ -26,7 +26,6 @@
           fill="#161616"
         />
       </svg>
-      <span class="fr-badge fr-badge--info fr-badge--no-icon">BETA</span>
     </div>
     <div>
       <a
@@ -81,9 +80,6 @@ export default {
   display: inline-block;
 }
 
-.logotype {
-  transform: translate(0, 4.5px);
-}
 
 .fr-badge {
   font-size: 0.75rem;
