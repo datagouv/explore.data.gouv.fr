@@ -41,43 +41,127 @@
 
       <div id="git_container">
         <span id="git_title">Couverture des réseaux par l'ARCEP</span>
+        <svg
+          width="10"
+          height="10"
+          viewBox="0 0 10 10"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M4 2V3H1.5V8.5H7V6H8V9C8 9.27614 7.77614 9.5 7.5 9.5H1C0.723858 9.5 0.5 9.27614 0.5 9V2.5C0.5 2.22386 0.723858 2 1 2H4ZM9.5 0.5V5L7.603 3.1035L4.6035 6.1035L3.8965 5.3965L6.896 2.3965L5 0.5H9.5Z"
+            fill="#3558A2"
+          />
+        </svg>
         <a id="git_link" href="https://maconnexioninternet.arcep.fr/"
-          >https://maconnexioninternet.arcep.fr/</a
+          > maconnexioninternet.arcep.fr</a
         >
       </div>
       <br />
       <div id="git_container">
         <span id="git_title">Lieux d'accessibilité par Accès Libre</span>
+        <svg
+          width="10"
+          height="10"
+          viewBox="0 0 10 10"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M4 2V3H1.5V8.5H7V6H8V9C8 9.27614 7.77614 9.5 7.5 9.5H1C0.723858 9.5 0.5 9.27614 0.5 9V2.5C0.5 2.22386 0.723858 2 1 2H4ZM9.5 0.5V5L7.603 3.1035L4.6035 6.1035L3.8965 5.3965L6.896 2.3965L5 0.5H9.5Z"
+            fill="#3558A2"
+          />
+        </svg>
         <a id="git_link" href="https://acceslibre.beta.gouv.fr/"
-          >https://acceslibre.beta.gouv.fr/</a
+          > acceslibre.beta.gouv.fr</a
         >
       </div>
       <br />
       <div id="git_container">
         <span id="git_title">Risques encourus sur une zone géographique du BRGM</span>
+        <svg
+          width="10"
+          height="10"
+          viewBox="0 0 10 10"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M4 2V3H1.5V8.5H7V6H8V9C8 9.27614 7.77614 9.5 7.5 9.5H1C0.723858 9.5 0.5 9.27614 0.5 9V2.5C0.5 2.22386 0.723858 2 1 2H4ZM9.5 0.5V5L7.603 3.1035L4.6035 6.1035L3.8965 5.3965L6.896 2.3965L5 0.5H9.5Z"
+            fill="#3558A2"
+          />
+        </svg>
         <a id="git_link" href="https://www.georisques.gouv.fr/"
-          >https://www.georisques.gouv.fr/</a
+          > georisques.gouv.fr</a
         >
       </div>
       <br />
       <div id="git_container">
         <span id="git_title">Données d'urbanisme par l'IGN</span>
+        <svg
+          width="10"
+          height="10"
+          viewBox="0 0 10 10"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M4 2V3H1.5V8.5H7V6H8V9C8 9.27614 7.77614 9.5 7.5 9.5H1C0.723858 9.5 0.5 9.27614 0.5 9V2.5C0.5 2.22386 0.723858 2 1 2H4ZM9.5 0.5V5L7.603 3.1035L4.6035 6.1035L3.8965 5.3965L6.896 2.3965L5 0.5H9.5Z"
+            fill="#3558A2"
+          />
+        </svg>
         <a id="git_link" href="https://www.geoportail-urbanisme.gouv.fr/"
-          >https://www.geoportail-urbanisme.gouv.fr/</a
+          > geoportail-urbanisme.gouv.fr</a
         >
       </div>
       <br />
       <div id="git_container">
         <span id="git_title">Performance énergétique par le CSTB</span>
+        <svg
+          width="10"
+          height="10"
+          viewBox="0 0 10 10"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M4 2V3H1.5V8.5H7V6H8V9C8 9.27614 7.77614 9.5 7.5 9.5H1C0.723858 9.5 0.5 9.27614 0.5 9V2.5C0.5 2.22386 0.723858 2 1 2H4ZM9.5 0.5V5L7.603 3.1035L4.6035 6.1035L3.8965 5.3965L6.896 2.3965L5 0.5H9.5Z"
+            fill="#3558A2"
+          />
+        </svg>
         <a id="git_link" href="https://particulier.gorenove.fr/"
-          >https://particulier.gorenove.fr/</a
+          > particulier.gorenove.fr</a
         >
       </div>
       <br />
       <div id="git_container">
         <span id="git_title">Evolution du prix de l'immobilier par le CEREMA</span>
+        <svg
+          width="10"
+          height="10"
+          viewBox="0 0 10 10"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M4 2V3H1.5V8.5H7V6H8V9C8 9.27614 7.77614 9.5 7.5 9.5H1C0.723858 9.5 0.5 9.27614 0.5 9V2.5C0.5 2.22386 0.723858 2 1 2H4ZM9.5 0.5V5L7.603 3.1035L4.6035 6.1035L3.8965 5.3965L6.896 2.3965L5 0.5H9.5Z"
+            fill="#3558A2"
+          />
+        </svg>
         <a id="git_link" href="https://datafoncier.cerema.fr/"
-          >https://datafoncier.cerema.fr/</a
+          > datafoncier.cerema.fr</a
         >
       </div>
 
@@ -102,7 +186,7 @@
           />
         </svg>
         <a id="git_link" href="https://github.com/etalab/explore.data.gouv.fr"
-          >https://github.com/etalab/explore.data.gouv.fr</a
+          >Code source explore.data.gouv.fr</a
         >
       </div>
     </div>
