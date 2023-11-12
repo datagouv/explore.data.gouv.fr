@@ -1,18 +1,21 @@
 <template>
   <!-- url field if no url provided -->
   <div>
-  <header-app></header-app>
+    <header-apps
+      :formHref="formHref()"
+      appName="Explorateur de données"
+      appLink="/tableau"
+    ></header-apps>
   <infos-resource></infos-resource>
   <div class="fr-mt-4w fr-container" v-if="!csvUrl">
-    <h2>Bienvenue sur le prototype d'exploration des données de data.gouv.fr</h2>
-    <p>Ce prototype vise à permettre d’explorer plus facilement les données référencées sur data.gouv.fr.<br />
-      Sélectionnez un fichier de moins de 100Mo qui vous intéresse sur data.gouv.fr et collez le lien dans la barre ci-dessous pour l’explorer.</p>
+    <h1 style="width: 100%; text-align: center;">Explorer facilement les données tabulaires <br/>présentes sur data.gouv.fr</h1>
+    <p style="width: 100%; text-align: center;">A ce stade, seuls les fichiers tabulaires de moins <b>de 100Mo</b> sont disponibles.</p>
 
     <form class="fr-mt-4w">
-      <label class="fr-label" for="text-input-text">Rechercher un fichier du catalogue data.gouv.fr
+      <label class="fr-label" for="text-input-text"><b>RECHERCHER UN FICHIER DU CATALOGUE DATA.GOUV.FR</b>
         <span class="fr-hint-text">Entrez des mots clés pour avoir des suggestions</span>
       </label>
-      <input class="fr-input fr-mb-2w" type="text" v-model="searchWordsDataset" id="text-input-text" name="text-input-text" />
+      <input class="fr-input fr-mb-2w" type="text" v-model="searchWordsDataset" id="text-input-text" name="text-input-text" placeholder="exemple: élections" />
       <div class="fr-grid-row fr-grid-row--center">
       </div>
     </form>
@@ -38,10 +41,10 @@
     <div style="margin: auto; text-align: center; width: 100%; font-weight: bold; margin-top: 20px;">OU</div>
 
     <form class="fr-mt-4w">
-      <label class="fr-label" for="text-input-text">Entrer l'URL du fichier à visualiser au format CSV
+      <label class="fr-label" for="text-input-text"><b>ENTRER L'URL DU FICHIER A VISUALISER AU FORMAT CSV</b>
         <span class="fr-hint-text">Il s’agit du lien vers un fichier et non d’une page de jeu de données</span>
       </label>
-      <input class="fr-input fr-mb-2w" type="text" v-model="csvUrlFieldValue" id="text-input-text" name="text-input-text" />
+      <input class="fr-input fr-mb-2w" type="text" v-model="csvUrlFieldValue" id="text-input-text" name="text-input-text" placeholder="https://..." />
       <div class="fr-grid-row fr-grid-row--center">
         <button class="fr-btn fr-btn--icon-left fr-icon-test-tube-line" @click="redirect">
           Explorer les données
@@ -50,6 +53,7 @@
     </form>
 
     <br /><br />
+    <h2>Quelques exemples</h2>
     <p>Si vous ne savez pas par quoi commencer à explorer, nous vous proposons ci-dessous une sélection de quelques jeux de données.</p>
     <CardLink v-for="item in listResources" :key="item.resource_id" :did="item.dataset_id" :rid="item.resource_id"></CardLink>
     <br /><br />
@@ -60,10 +64,14 @@
   <Loader v-else-if="!hasLoaded"></Loader>
   <!-- table block, fed by store -->
   <Table class="fr-pt-0" v-else-if="csvUrl && !hasError"></Table>
+  <footer-apps v-if="!csvUrl" scrollable="scrollable" display="display"></footer-apps>
+
   </div>
+
 </template>
 
 <script>
+import HeaderApps from '@/views/HeaderApps.vue'
 import Table from '@/components/Table'
 import Error from '@/components/Error'
 import Loader from '@/components/Loader'
@@ -71,10 +79,12 @@ import CardLink from '@/components/CardLink'
 import HeaderApp from '@/views/HeaderApp'
 import InfosResource from '@/views/InfosResource'
 import dataGouvUrlApi from '@/config'
+import FooterApps from './FooterApps.vue'
+
 
 export default {
   name: 'TableView',
-  components: {Table, Error, Loader, CardLink, HeaderApp, InfosResource},
+  components: {Table, Error, Loader, CardLink, InfosResource, HeaderApps, FooterApps},
   data() {
     return {
       results: [],
@@ -139,6 +149,9 @@ export default {
     }
   },
   methods: {
+    formHref() {
+      return "https://tally.so/r/nr5BML";
+    },
     setFiltersFromQueryString (params) {
       [...params.entries()].filter(([k, v]) => {
         return k.indexOf('__') !== -1 && k.indexOf('_') !== 0
