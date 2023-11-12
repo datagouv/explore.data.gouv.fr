@@ -10,14 +10,8 @@
             :key="'header-'+field.key"
           >
             <div 
-              class="fr-grid-row fr-grid-row--middle no-wrap" 
+              class="" 
             >
-              <button
-                class="fr-col-auto fr-mr-2w"
-                data-fr-opened="false"
-                :aria-controls="'fr-modal-' + field.key"
-              >
-              </button>
               <div class="fr-col style-header-col">
                 {{ field.label }}
               </div>
@@ -237,7 +231,7 @@ th, td {
 }
 
 .header.sticky-bar{
-  padding: 0.45rem 1rem 0.4rem 1rem;
+  padding: 0.45rem 1rem 0.4rem 0.6rem;
   font-size: 0.8rem;
 }
 
