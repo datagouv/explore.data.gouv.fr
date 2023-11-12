@@ -19,6 +19,7 @@
           <span>Parcelle {{ userLocation.parcelleName }}</span>
         </div>
       </div>
+      <div v-if="loading"><img style="margin-left: 20px" src="../../../static/images/loader.gif" width="50" /></div>
       <Table class="fr-pt-0"></Table>
     </div>
     <div v-if="deps && showConfigDep" class="select-dep">
@@ -62,6 +63,7 @@ export default {
       deps: null,
       selectedDep: null,
       selectedDepName: null,
+      loading: true,
     };
   },
   computed: {
@@ -102,6 +104,7 @@ export default {
         })
         .then((data) => {
           appStore.commit('updateRows', data["data"])
+          this.loading = false
         });
         this.showTable = true
         this.showConfigDep = false
