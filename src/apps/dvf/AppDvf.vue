@@ -4,6 +4,7 @@
       :formHref="formHref"
       :appName="appName"
       :appLink="appLink"
+      :betaApp="true"
     ></header-apps>
     <div class="dvf_header">
       <h2>Explorateur de données de valeurs foncières</h2>
