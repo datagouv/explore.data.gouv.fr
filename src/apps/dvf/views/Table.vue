@@ -146,6 +146,7 @@ html {
   overflow: auto;
   height: 100vh;
   margin-bottom: 0;
+  display: inline-block;
 }
 
 .fr-table.padding{
