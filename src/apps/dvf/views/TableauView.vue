@@ -19,6 +19,10 @@
           <span>Parcelle {{ userLocation.parcelleName }}</span>
         </div>
       </div>
+      <div v-if="showInfo" style="margin:auto; width: 80%;"><b>Informations :</b><br/>
+      <p>La direction générale des Finances publiques, qui produit les données DVF, ne dispose pas des mutations des départements du Bas-Rhin, Haut-Rhin, Moselle et Mayotte.</p>
+      <p>Pour l'ancienne Alsace-Moselle, les données sont dans le Livre Foncier en raison de l'application du droit local, et ne sont actuellement pas ouvertes.</p>
+      </div>
       <div v-if="loading"><img style="margin-left: 20px" src="../../../static/images/loader.gif" width="50" /></div>
       <Table class="fr-pt-0"></Table>
     </div>
@@ -64,6 +68,7 @@ export default {
       selectedDep: null,
       selectedDepName: null,
       loading: true,
+      showInfo: false,
     };
   },
   computed: {
@@ -72,23 +77,40 @@ export default {
     },
   },
   created() {
-    this.deps = CenterDeps
+    let obj = {}
+    for (const [key, value] of Object.entries(CenterDeps)) {
+      if (!["57", "67", "68", "976"].includes(key)) {
+        obj[key] = CenterDeps[key]
+      }
+    }
+    this.deps = obj
     appStore.commit("emptyTable")
     if (this.$route.query.code && this.$route.query.level) {
-      let level
-      if (this.$route.query.level === "departement") {
-        level = "dep"
+      if (
+        this.$route.query.code.startsWith('57') ||
+        this.$route.query.code.startsWith('67') ||
+        this.$route.query.code.startsWith('68') ||
+        this.$route.query.code.startsWith('976')
+      ) {
+        this.loading = false
+        this.showInfo = true
+        this.showTable = true
+      } else {
+        let level
+        if (this.$route.query.level === "departement") {
+          level = "dep"
+        }
+        if (this.$route.query.level === "commune") {
+          level = "com"
+        }
+        if (this.$route.query.level === "section") {
+          level = "section"
+        }
+        if (this.$route.query.level === "parcelle") {
+          level = "parcelle"
+        }
+        this.getFirstBatchRows(level, this.$route.query.code)
       }
-      if (this.$route.query.level === "commune") {
-        level = "com"
-      }
-      if (this.$route.query.level === "section") {
-        level = "section"
-      }
-      if (this.$route.query.level === "parcelle") {
-        level = "parcelle"
-      }
-      this.getFirstBatchRows(level, this.$route.query.code)
 
     } else {
       this.showConfigDep = true
