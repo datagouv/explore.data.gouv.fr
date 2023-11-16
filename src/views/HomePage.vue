@@ -161,7 +161,7 @@ export default {
 
 .flex-container {
     display: flex;
-    flex-flow:row wrap;  
+    flex-flow:row wrap; 
     /* margin: 0;
     align-items: center;
     justify-content: center; */

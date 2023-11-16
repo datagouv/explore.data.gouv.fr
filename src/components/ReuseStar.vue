@@ -43,8 +43,20 @@ export default {
 
 <style scoped lang="scss">
 
+
+@media screen  {
+    .own-explore{
+        max-width: 500px;
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .own-explore{
+        max-width: 100%;
+    }
+}
+
 .own-explore {
-    max-width: 500px;
     border: 1px solid #ebebeb;
     cursor: pointer;
 }
