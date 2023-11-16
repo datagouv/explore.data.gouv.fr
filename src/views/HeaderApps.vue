@@ -32,7 +32,7 @@
 
       <a :href="appLink"
         ><div class="appName" v-if="appName != ''">
-          <span>|</span> {{ appName }}
+          <span>|</span> {{ appName }} <span v-if="betaApp" style="padding: 3px; background-color: #E8EDFE; color: #0163CB;">BETA</span>
         </div></a
       >
     </div>
@@ -71,6 +71,7 @@ export default {
     formHref: String,
     appName: String,
     appLink: String,
+    betaApp: Boolean,
   },
 };
 </script>
