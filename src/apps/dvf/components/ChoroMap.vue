@@ -134,6 +134,7 @@ export default {
       changeCom: false,
       mapStyle: "vector",
       waitZoom: false,
+      isMoving: false,
     };
   },
   computed: {
@@ -257,6 +258,7 @@ export default {
             paint: {
               "fill-color": "rgba(0, 0, 255, 0.2)",
             },
+
           };
 
           //parcelle line
@@ -630,12 +632,14 @@ export default {
         });
 
         this.map.on("move", (e) => {
-          appStore.commit("changeCenterMapLat", this.map.getCenter().lat);
-          appStore.commit("changeCenterMapLng", this.map.getCenter().lng);
+          this.isMoving = true
         });
 
         this.map.on("moveend", (e) => {
           this.waitZoom = false;
+          this.isMoving = false;
+          appStore.commit("changeCenterMapLat", this.map.getCenter().lat);
+          appStore.commit("changeCenterMapLng", this.map.getCenter().lng);
         });
 
         this.map.on("click", "sections_fill", (e) => {
