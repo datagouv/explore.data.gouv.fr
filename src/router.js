@@ -1,18 +1,25 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import TableView from './views/TableView.vue'
-import AppCarburant from './views/AppCarburant.vue'
 import AppRuptureCarburant from './views/AppRuptureCarburant.vue'
+import AppCarburant from './apps/carburants/AppCarburant.vue'
+import AppDvf from './apps/dvf/AppDvf.vue'
+import HomePage from './views/HomePage.vue'
 
 Vue.use(Router)
 
-export default new Router({  
+export default new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
     {
       path: '/',
       name: 'home',
+      component: HomePage
+    },
+    {
+      path: '/tableau',
+      name: 'table',
       component: TableView
     },
     {
@@ -25,5 +32,10 @@ export default new Router({
       name: 'AppRuptureCarburant',
       component: AppRuptureCarburant
     },*/
+    {
+      path: '/immobilier',
+      name: 'AppDvf',
+      component: AppDvf
+    }
   ]
 })

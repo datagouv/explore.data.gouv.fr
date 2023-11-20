@@ -1,0 +1,144 @@
+# config file for meteo-france
+
+homepage:
+  own__reuses:
+    - 
+      typeReuse: proto
+      titleReuse: Données de valeurs foncières
+      descriptionReuse: Suivez l'évolution des prix de l'immobilier et trouver le prix des ventes immobilières
+      link: immobilier
+      linkImgReuse: https://gist.githubusercontent.com/geoffreyaldebert/8f4d0e0f1ef7155a2a3ab77f08da3738/raw/e11d9a9e99dccd3c5da22b8e389b431acd04401a/explore-dvf.png
+    - 
+      typeReuse: produit
+      titleReuse: Annuaire des entreprises
+      descriptionReuse: Vérifier les informations légales publiques des entreprises, associations et services publics.
+      link: https://annuaire-entreprises.data.gouv.fr
+      linkImgReuse: https://gist.githubusercontent.com/geoffreyaldebert/8f4d0e0f1ef7155a2a3ab77f08da3738/raw/e11d9a9e99dccd3c5da22b8e389b431acd04401a/explore-annuaire.png
+    - 
+      typeReuse: produit
+      titleReuse: Carte du cadastre
+      descriptionReuse: cadastre.data.gouv.fr permet de consulter, télécharger et intégrer les données cadastrales.
+      link: https://cadastre.data.gouv.fr
+      linkImgReuse: https://gist.githubusercontent.com/geoffreyaldebert/8f4d0e0f1ef7155a2a3ab77f08da3738/raw/e11d9a9e99dccd3c5da22b8e389b431acd04401a/explore-cadastre.png
+    - 
+      typeReuse: proto
+      titleReuse: Prix des carburants
+      descriptionReuse: Suivez l'évolution des prix du carburant sur le territoire et trouvez une station essence.
+      link: prix-carburants
+      linkImgReuse: https://gist.githubusercontent.com/geoffreyaldebert/8f4d0e0f1ef7155a2a3ab77f08da3738/raw/e11d9a9e99dccd3c5da22b8e389b431acd04401a/explore-carburant.png
+    - 
+      typeReuse: produit
+      titleReuse: Explorateur de données tabulaires
+      descriptionReuse: Explorer plus facilement les données tabulaires référencées sur data.gouv.fr
+      link: tableau
+      linkImgReuse: https://gist.githubusercontent.com/geoffreyaldebert/8f4d0e0f1ef7155a2a3ab77f08da3738/raw/3e8aad4113822d83d6e27a6b506f124c20404563/explore-explore.png
+
+  reuses:
+    - thematique: Economie et Entreprise
+      reuses:
+        - 6436be8c8835b0ce8c79b9ee
+        - 6086fd4d2ff419fb9fe27e7b
+        - 60e57bd2c4d40a6e55944608
+        - 61028bdf4afa7261e9eb3068
+        - 6286b76c9df8501a93d4421e
+    - thematique: Emploi et Formation
+      reuses:
+        - 6234312cbeecffb8ae6afbb9
+        - 5e72133f9999bc296dfe7ee1
+        - 62961b7df30233d3c23b2b40
+    - thematique: Politique et vie publique
+      reuses:
+        - 5fbd29c511a5a9798e092119
+        - 5fbd209239b3ec54ff801b39
+        - 537083fda3a729478702f437
+        - 61dc9120354cf85f063c5e1c
+        - 6261588930be5d1598941d65
+        - 5fbd2192d6a5e1671d8a322b
+        - 5d3ab5ca634f417f74c86d73
+        - 64afa2081a4a8b201e8f3695
+        - 5ff88cd7792e3d3b90660985
+        - 61b0859dc140cf9a5be952c6
+        - 60336c61169032c050241917
+        - 60866f0b2e4f15c137f7c9ea
+        - 53e92f90a3a72948340866a2
+    - thematique: Education et Recherche
+      reuses:
+        - 634fe934729fdbff7159a0a0
+        - 63499329c6e554d54904d1d7
+        - 6511aab24b5430cd7573b33b
+    - thematique: Logement et Urbanisme
+      reuses:
+        - 63eab2e349a278f4b69efa00
+        - 574d4d7288ee3865fad1a13b
+        - 62ac2e43922565da1e2614fb
+        - 649bfe7d43b84608ad9fd9b6
+        - 5cc31646634f415773630550
+        - 59f618a088ee380876a76657
+        - 5c547016634f41337edb2fea
+        - 6511605c27356de83427f4cb
+        - 64f73af1542f80005eef1133
+        - 6314fc9391ae123746eb3ccb
+        - 6439555abe4e515e57392139
+        - 62b5bc31a90d00a145107606
+        - 6271030b7fc2976a0de5b17d
+        - 60bf31ba9e3c7654006207ed
+        - 60bf30fc789d80affa02e8c7
+        - 60bf2087af43755f6f518e5d
+        - 5c07a02a8b4c41679f3e8a60
+    - thematique: Agriculture et Alimentation
+      reuses:
+        - 5ca3864c634f412fc35f34a6
+        - 5c927f20634f4140cefc9daf
+        - 6417437d54294113c02e8a21
+        - 618926d09376c6dcc8727c43
+        - 6494742949e49f9151c835b5
+        - 64945f1feaa6f2da8b9c049f
+        - 61fa9caa9aa76f4fad52d31e
+    - thematique: Environnement et énergie
+      reuses:
+        - 5d9326356f4441381e8ce140
+        - 64c79b831e65af2544528b0b
+        - 6309d5bcd67b03200cd5338d
+    - thematique: Santé
+      reuses: 
+        - 5ea0369268289dd267a94b1d
+        - 62179ef77cf6c33641c36d9b
+        - 62be189626b8dbf8b0f9cacc
+    - thematique: Sécurité
+      reuses: 
+        - 62ac44c694de5bb018105a8f
+        - 62b075d52b7a7610a81905ac
+        - 6231c1955f9d75830437e540
+        - 5b5a1df7c751df6b37ea8060
+    - thematique: Aménagement du territoire
+      reuses: 
+        - 60e86650a80f47ebea7caead
+        - 59d8e78bc751df0c0707dfec
+        - 64c116c723915ba8a09daafd
+        - 63bc20a74f1a10fa2a4c1bb5
+        - 5ede00b327d2c039a25df83a
+        - 5e39121c634f4152c5bdc8ab
+        - 62ab5833e5febe890a9566b7
+        - 60e864ffa80f47ebea7caeac
+    - thematique: Culture et Loisirs
+      reuses: 
+        - 536cc394a3a72938e9a8e8f4
+    - thematique: Société et Démographie
+      reuses: 
+        - 5e0cf0a28b4c41122cc4ca58
+        - 641d9c18ead349831e61ed2f
+        - 5e43d5af6f44414fe42091c1
+        - 5e202b4a6f4441393dd064b1
+        - 5c7d4f66634f4166e4a385f9
+        - 6047c71a0a99989cb3a4fc31
+    - thematique: Transport
+      reuses: 
+        - 5e86fe970f87bf394cf6ab4a
+    - thematique: Autres
+      reuses: 
+        - 5cff91f28b4c416ca473aa8a
+
+
+
+
+

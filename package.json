@@ -18,12 +18,12 @@
 	"devDependencies": {
 		"@fullhuman/postcss-purgecss": "^4.0.0",
 		"@fullhuman/vue-cli-plugin-purgecss": "~5.0.0",
-		"@gouvfr/dsfr": "^1.7.2",
+		"@gouvfr/dsfr": "^1.9.2",
 		"@vue/cli-plugin-babel": "^3.12.1",
 		"@vue/cli-service": "^4.1.1",
 		"bootstrap-vue": "^2.1.0",
 		"cache-loader": "^4.1.0",
-		"chart.js": "^3.8.0",
+		"chart.js": "^3.9.1",
 		"d3-scale": "^4.0.2",
 		"hoek": "^5.0.3",
 		"maplibre-gl": "^2.4.0",
@@ -45,5 +45,13 @@
 		"> 1%",
 		"last 2 versions",
 		"not ie <= 8"
-	]
+	],
+	"dependencies": {
+		"crypto-js": "^4.1.1",
+		"json-loader": "^0.5.7",
+		"yaml-loader": "^0.8.0"
+	},
+	"overrides": {
+		"autoprefixer": "^10.2.5"
+	}
 }
