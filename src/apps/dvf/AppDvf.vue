@@ -6,7 +6,7 @@
       :appLink="appLink"
       :betaApp="true"
     ></header-apps>
-    <div class="safari" v-if="isSafari">Vous utilisez le navigateur Safari, nous vous conseillons de basculer sur un autre navigateur car des bugs sont remontés sur celui-ci au niveau de la carte.<br />Nous travaillons à leur résolution.</div>
+    <div class="safari" v-if="isSafari">Vous utilisez le navigateur Safari, nous vous conseillons de basculer sur un autre navigateur car des bugs sont remontés sur celui-ci au niveau de la carte.<br />Nous travaillons à leurs résolutions.</div>
     <div class="dvf_header">
       <h2>Explorateur de données de valeurs foncières</h2>
       <h3>
