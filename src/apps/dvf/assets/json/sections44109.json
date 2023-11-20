@@ -1,0 +1,1082 @@
+[
+	{
+		"code": "44109000OV",
+		"parent": "44109",
+		"valeur": 70
+	},
+	{
+		"code": "44109000VL",
+		"parent": "44109",
+		"valeur": 58
+	},
+	{
+		"code": "44109000MR",
+		"parent": "44109",
+		"valeur": 51
+	},
+	{
+		"code": "44109000DP",
+		"parent": "44109",
+		"valeur": 89
+	},
+	{
+		"code": "44109000MN",
+		"parent": "44109",
+		"valeur": 34
+	},
+	{
+		"code": "44109000HZ",
+		"parent": "44109",
+		"valeur": 52
+	},
+	{
+		"code": "44109000WL",
+		"parent": "44109",
+		"valeur": 35
+	},
+	{
+		"code": "44109000RX",
+		"parent": "44109",
+		"valeur": 45
+	},
+	{
+		"code": "44109000PV",
+		"parent": "44109",
+		"valeur": 10
+	},
+	{
+		"code": "44109000PY",
+		"parent": "44109",
+		"valeur": 12
+	},
+	{
+		"code": "44109000NO",
+		"parent": "44109",
+		"valeur": 53
+	},
+	{
+		"code": "44109000VV",
+		"parent": "44109",
+		"valeur": 43
+	},
+	{
+		"code": "44109000IT",
+		"parent": "44109",
+		"valeur": 17
+	},
+	{
+		"code": "44109000DE",
+		"parent": "44109",
+		"valeur": 62
+	},
+	{
+		"code": "44109000NX",
+		"parent": "44109",
+		"valeur": 66
+	},
+	{
+		"code": "44109000OY",
+		"parent": "44109",
+		"valeur": 77
+	},
+	{
+		"code": "44109000EH",
+		"parent": "44109",
+		"valeur": 72
+	},
+	{
+		"code": "44109000MO",
+		"parent": "44109",
+		"valeur": 24
+	},
+	{
+		"code": "44109000ET",
+		"parent": "44109",
+		"valeur": 35
+	},
+	{
+		"code": "44109000KX",
+		"parent": "44109",
+		"valeur": 36
+	},
+	{
+		"code": "44109000WM",
+		"parent": "44109",
+		"valeur": 10
+	},
+	{
+		"code": "44109000CT",
+		"parent": "44109",
+		"valeur": 27
+	},
+	{
+		"code": "44109000AO",
+		"parent": "44109",
+		"valeur": 31
+	},
+	{
+		"code": "44109000OT",
+		"parent": "44109",
+		"valeur": 41
+	},
+	{
+		"code": "44109000KT",
+		"parent": "44109",
+		"valeur": 27
+	},
+	{
+		"code": "44109000CI",
+		"parent": "44109",
+		"valeur": 28
+	},
+	{
+		"code": "44109000VA",
+		"parent": "44109",
+		"valeur": 53
+	},
+	{
+		"code": "44109000BH",
+		"parent": "44109",
+		"valeur": 66
+	},
+	{
+		"code": "44109000HL",
+		"parent": "44109",
+		"valeur": 100
+	},
+	{
+		"code": "44109000MS",
+		"parent": "44109",
+		"valeur": 88
+	},
+	{
+		"code": "44109000BW",
+		"parent": "44109",
+		"valeur": 40
+	},
+	{
+		"code": "44109000LO",
+		"parent": "44109",
+		"valeur": 23
+	},
+	{
+		"code": "44109000WI",
+		"parent": "44109",
+		"valeur": 26
+	},
+	{
+		"code": "44109000DY",
+		"parent": "44109",
+		"valeur": 74
+	},
+	{
+		"code": "44109000OW",
+		"parent": "44109",
+		"valeur": 6
+	},
+	{
+		"code": "44109000LT",
+		"parent": "44109",
+		"valeur": 16
+	},
+	{
+		"code": "44109000KV",
+		"parent": "44109",
+		"valeur": 78
+	},
+	{
+		"code": "44109000TY",
+		"parent": "44109",
+		"valeur": 30
+	},
+	{
+		"code": "44109000WZ",
+		"parent": "44109",
+		"valeur": 48
+	},
+	{
+		"code": "44109000CD",
+		"parent": "44109",
+		"valeur": 13
+	},
+	{
+		"code": "44109000VI",
+		"parent": "44109",
+		"valeur": 63
+	},
+	{
+		"code": "44109000ER",
+		"parent": "44109",
+		"valeur": 60
+	},
+	{
+		"code": "44109000HP",
+		"parent": "44109",
+		"valeur": 2
+	},
+	{
+		"code": "44109000LS",
+		"parent": "44109",
+		"valeur": 31
+	},
+	{
+		"code": "44109000KO",
+		"parent": "44109",
+		"valeur": 74
+	},
+	{
+		"code": "44109000VN",
+		"parent": "44109",
+		"valeur": 71
+	},
+	{
+		"code": "44109000BO",
+		"parent": "44109",
+		"valeur": 77
+	},
+	{
+		"code": "44109000CH",
+		"parent": "44109",
+		"valeur": 91
+	},
+	{
+		"code": "44109000WR",
+		"parent": "44109",
+		"valeur": 22
+	},
+	{
+		"code": "44109000MZ",
+		"parent": "44109",
+		"valeur": 50
+	},
+	{
+		"code": "44109000CL",
+		"parent": "44109",
+		"valeur": 89
+	},
+	{
+		"code": "44109000DX",
+		"parent": "44109",
+		"valeur": 68
+	},
+	{
+		"code": "44109000EL",
+		"parent": "44109",
+		"valeur": 12
+	},
+	{
+		"code": "44109000AV",
+		"parent": "44109",
+		"valeur": 18
+	},
+	{
+		"code": "44109000SW",
+		"parent": "44109",
+		"valeur": 37
+	},
+	{
+		"code": "44109000CP",
+		"parent": "44109",
+		"valeur": 17
+	},
+	{
+		"code": "44109000AY",
+		"parent": "44109",
+		"valeur": 14
+	},
+	{
+		"code": "44109000PR",
+		"parent": "44109",
+		"valeur": 35
+	},
+	{
+		"code": "44109000HM",
+		"parent": "44109",
+		"valeur": 15
+	},
+	{
+		"code": "44109000DT",
+		"parent": "44109",
+		"valeur": 56
+	},
+	{
+		"code": "44109000EY",
+		"parent": "44109",
+		"valeur": 63
+	},
+	{
+		"code": "44109000DV",
+		"parent": "44109",
+		"valeur": 16
+	},
+	{
+		"code": "44109000WC",
+		"parent": "44109",
+		"valeur": 3
+	},
+	{
+		"code": "44109000CY",
+		"parent": "44109",
+		"valeur": 49
+	},
+	{
+		"code": "44109000TV",
+		"parent": "44109",
+		"valeur": 56
+	},
+	{
+		"code": "44109000EK",
+		"parent": "44109",
+		"valeur": 97
+	},
+	{
+		"code": "44109000CV",
+		"parent": "44109",
+		"valeur": 100
+	},
+	{
+		"code": "44109000AT",
+		"parent": "44109",
+		"valeur": 48
+	},
+	{
+		"code": "44109000HI",
+		"parent": "44109",
+		"valeur": 44
+	},
+	{
+		"code": "44109000NW",
+		"parent": "44109",
+		"valeur": 54
+	},
+	{
+		"code": "44109000HV",
+		"parent": "44109",
+		"valeur": 86
+	},
+	{
+		"code": "44109000BT",
+		"parent": "44109",
+		"valeur": 94
+	},
+	{
+		"code": "44109000VX",
+		"parent": "44109",
+		"valeur": 2
+	},
+	{
+		"code": "44109000AW",
+		"parent": "44109",
+		"valeur": 7
+	},
+	{
+		"code": "44109000BS",
+		"parent": "44109",
+		"valeur": 97
+	},
+	{
+		"code": "44109000VY",
+		"parent": "44109",
+		"valeur": 84
+	},
+	{
+		"code": "44109000NZ",
+		"parent": "44109",
+		"valeur": 63
+	},
+	{
+		"code": "44109000EP",
+		"parent": "44109",
+		"valeur": 63
+	},
+	{
+		"code": "44109000IL",
+		"parent": "44109",
+		"valeur": 47
+	},
+	{
+		"code": "44109000OZ",
+		"parent": "44109",
+		"valeur": 58
+	},
+	{
+		"code": "44109000TW",
+		"parent": "44109",
+		"valeur": 68
+	},
+	{
+		"code": "44109000LP",
+		"parent": "44109",
+		"valeur": 76
+	},
+	{
+		"code": "44109000KS",
+		"parent": "44109",
+		"valeur": 55
+	},
+	{
+		"code": "44109000RV",
+		"parent": "44109",
+		"valeur": 24
+	},
+	{
+		"code": "44109000LZ",
+		"parent": "44109",
+		"valeur": 65
+	},
+	{
+		"code": "44109000EN",
+		"parent": "44109",
+		"valeur": 79
+	},
+	{
+		"code": "44109000BX",
+		"parent": "44109",
+		"valeur": 72
+	},
+	{
+		"code": "44109000RS",
+		"parent": "44109",
+		"valeur": 55
+	},
+	{
+		"code": "44109000HT",
+		"parent": "44109",
+		"valeur": 7
+	},
+	{
+		"code": "44109000IS",
+		"parent": "44109",
+		"valeur": 97
+	},
+	{
+		"code": "44109000LX",
+		"parent": "44109",
+		"valeur": 71
+	},
+	{
+		"code": "44109000MP",
+		"parent": "44109",
+		"valeur": 92
+	},
+	{
+		"code": "44109000VZ",
+		"parent": "44109",
+		"valeur": 40
+	},
+	{
+		"code": "44109000VE",
+		"parent": "44109",
+		"valeur": 13
+	},
+	{
+		"code": "44109000BY",
+		"parent": "44109",
+		"valeur": 75
+	},
+	{
+		"code": "44109000BE",
+		"parent": "44109",
+		"valeur": 62
+	},
+	{
+		"code": "44109000NV",
+		"parent": "44109",
+		"valeur": 69
+	},
+	{
+		"code": "44109000CW",
+		"parent": "44109",
+		"valeur": 34
+	},
+	{
+		"code": "44109000DK",
+		"parent": "44109",
+		"valeur": 39
+	},
+	{
+		"code": "44109000HW",
+		"parent": "44109",
+		"valeur": 4
+	},
+	{
+		"code": "44109000VC",
+		"parent": "44109",
+		"valeur": 53
+	},
+	{
+		"code": "44109000HN",
+		"parent": "44109",
+		"valeur": 43
+	},
+	{
+		"code": "44109000MW",
+		"parent": "44109",
+		"valeur": 21
+	},
+	{
+		"code": "44109000IX",
+		"parent": "44109",
+		"valeur": 45
+	},
+	{
+		"code": "44109000WN",
+		"parent": "44109",
+		"valeur": 83
+	},
+	{
+		"code": "44109000BC",
+		"parent": "44109",
+		"valeur": 46
+	},
+	{
+		"code": "44109000KZ",
+		"parent": "44109",
+		"valeur": 9
+	},
+	{
+		"code": "44109000PX",
+		"parent": "44109",
+		"valeur": 71
+	},
+	{
+		"code": "44109000WO",
+		"parent": "44109",
+		"valeur": 45
+	},
+	{
+		"code": "44109000WY",
+		"parent": "44109",
+		"valeur": 67
+	},
+	{
+		"code": "44109000KY",
+		"parent": "44109",
+		"valeur": 42
+	},
+	{
+		"code": "44109000MV",
+		"parent": "44109",
+		"valeur": 54
+	},
+	{
+		"code": "44109000VS",
+		"parent": "44109",
+		"valeur": 4
+	},
+	{
+		"code": "44109000XB",
+		"parent": "44109",
+		"valeur": 49
+	},
+	{
+		"code": "44109000IV",
+		"parent": "44109",
+		"valeur": 65
+	},
+	{
+		"code": "44109000DM",
+		"parent": "44109",
+		"valeur": 18
+	},
+	{
+		"code": "44109000WT",
+		"parent": "44109",
+		"valeur": 56
+	},
+	{
+		"code": "44109000WV",
+		"parent": "44109",
+		"valeur": 5
+	},
+	{
+		"code": "44109000BZ",
+		"parent": "44109",
+		"valeur": 22
+	},
+	{
+		"code": "44109000CO",
+		"parent": "44109",
+		"valeur": 61
+	},
+	{
+		"code": "44109000IR",
+		"parent": "44109",
+		"valeur": 89
+	},
+	{
+		"code": "44109000EX",
+		"parent": "44109",
+		"valeur": 32
+	},
+	{
+		"code": "44109000EV",
+		"parent": "44109",
+		"valeur": 65
+	},
+	{
+		"code": "44109000CR",
+		"parent": "44109",
+		"valeur": 84
+	},
+	{
+		"code": "44109000LV",
+		"parent": "44109",
+		"valeur": 100
+	},
+	{
+		"code": "44109000DS",
+		"parent": "44109",
+		"valeur": 97
+	},
+	{
+		"code": "44109000HR",
+		"parent": "44109",
+		"valeur": 70
+	},
+	{
+		"code": "44109000VB",
+		"parent": "44109",
+		"valeur": 68
+	},
+	{
+		"code": "44109000OR",
+		"parent": "44109",
+		"valeur": 65
+	},
+	{
+		"code": "44109000VT",
+		"parent": "44109",
+		"valeur": 21
+	},
+	{
+		"code": "44109000HY",
+		"parent": "44109",
+		"valeur": 75
+	},
+	{
+		"code": "44109000NY",
+		"parent": "44109",
+		"valeur": 28
+	},
+	{
+		"code": "44109000WD",
+		"parent": "44109",
+		"valeur": 86
+	},
+	{
+		"code": "44109000NT",
+		"parent": "44109",
+		"valeur": 79
+	},
+	{
+		"code": "44109000BN",
+		"parent": "44109",
+		"valeur": 2
+	},
+	{
+		"code": "44109000EI",
+		"parent": "44109",
+		"valeur": 31
+	},
+	{
+		"code": "44109000VD",
+		"parent": "44109",
+		"valeur": 31
+	},
+	{
+		"code": "44109000MY",
+		"parent": "44109",
+		"valeur": 16
+	},
+	{
+		"code": "44109000SV",
+		"parent": "44109",
+		"valeur": 63
+	},
+	{
+		"code": "44109000NR",
+		"parent": "44109",
+		"valeur": 97
+	},
+	{
+		"code": "44109000RZ",
+		"parent": "44109",
+		"valeur": 9
+	},
+	{
+		"code": "44109000BV",
+		"parent": "44109",
+		"valeur": 14
+	},
+	{
+		"code": "44109000KL",
+		"parent": "44109",
+		"valeur": 97
+	},
+	{
+		"code": "44109000MT",
+		"parent": "44109",
+		"valeur": 45
+	},
+	{
+		"code": "44109000BM",
+		"parent": "44109",
+		"valeur": 11
+	},
+	{
+		"code": "44109000WE",
+		"parent": "44109",
+		"valeur": 48
+	},
+	{
+		"code": "44109000KP",
+		"parent": "44109",
+		"valeur": 57
+	},
+	{
+		"code": "44109000HO",
+		"parent": "44109",
+		"valeur": 90
+	},
+	{
+		"code": "44109000VH",
+		"parent": "44109",
+		"valeur": 64
+	},
+	{
+		"code": "44109000BK",
+		"parent": "44109",
+		"valeur": 66
+	},
+	{
+		"code": "44109000DH",
+		"parent": "44109",
+		"valeur": 65
+	},
+	{
+		"code": "44109000PW",
+		"parent": "44109",
+		"valeur": 63
+	},
+	{
+		"code": "44109000XC",
+		"parent": "44109",
+		"valeur": 10
+	},
+	{
+		"code": "44109000VR",
+		"parent": "44109",
+		"valeur": 57
+	},
+	{
+		"code": "44109000TX",
+		"parent": "44109",
+		"valeur": 4
+	},
+	{
+		"code": "44109000IY",
+		"parent": "44109",
+		"valeur": 67
+	},
+	{
+		"code": "44109000LN",
+		"parent": "44109",
+		"valeur": 73
+	},
+	{
+		"code": "44109000CZ",
+		"parent": "44109",
+		"valeur": 12
+	},
+	{
+		"code": "44109000DR",
+		"parent": "44109",
+		"valeur": 11
+	},
+	{
+		"code": "44109000IK",
+		"parent": "44109",
+		"valeur": 77
+	},
+	{
+		"code": "44109000LY",
+		"parent": "44109",
+		"valeur": 2
+	},
+	{
+		"code": "44109000OP",
+		"parent": "44109",
+		"valeur": 70
+	},
+	{
+		"code": "44109000WH",
+		"parent": "44109",
+		"valeur": 94
+	},
+	{
+		"code": "44109000KM",
+		"parent": "44109",
+		"valeur": 98
+	},
+	{
+		"code": "44109000CS",
+		"parent": "44109",
+		"valeur": 92
+	},
+	{
+		"code": "44109000DN",
+		"parent": "44109",
+		"valeur": 61
+	},
+	{
+		"code": "44109000LM",
+		"parent": "44109",
+		"valeur": 36
+	},
+	{
+		"code": "44109000WP",
+		"parent": "44109",
+		"valeur": 45
+	},
+	{
+		"code": "44109000PS",
+		"parent": "44109",
+		"valeur": 1
+	},
+	{
+		"code": "44109000CN",
+		"parent": "44109",
+		"valeur": 78
+	},
+	{
+		"code": "44109000DI",
+		"parent": "44109",
+		"valeur": 37
+	},
+	{
+		"code": "44109000IW",
+		"parent": "44109",
+		"valeur": 45
+	},
+	{
+		"code": "44109000KR",
+		"parent": "44109",
+		"valeur": 16
+	},
+	{
+		"code": "44109000EW",
+		"parent": "44109",
+		"valeur": 13
+	},
+	{
+		"code": "44109000AZ",
+		"parent": "44109",
+		"valeur": 23
+	},
+	{
+		"code": "44109000EO",
+		"parent": "44109",
+		"valeur": 84
+	},
+	{
+		"code": "44109000KW",
+		"parent": "44109",
+		"valeur": 11
+	},
+	{
+		"code": "44109000DO",
+		"parent": "44109",
+		"valeur": 3
+	},
+	{
+		"code": "44109000CE",
+		"parent": "44109",
+		"valeur": 10
+	},
+	{
+		"code": "44109000LW",
+		"parent": "44109",
+		"valeur": 76
+	},
+	{
+		"code": "44109000HK",
+		"parent": "44109",
+		"valeur": 71
+	},
+	{
+		"code": "44109000BI",
+		"parent": "44109",
+		"valeur": 75
+	},
+	{
+		"code": "44109000NS",
+		"parent": "44109",
+		"valeur": 32
+	},
+	{
+		"code": "44109000IP",
+		"parent": "44109",
+		"valeur": 6
+	},
+	{
+		"code": "44109000NP",
+		"parent": "44109",
+		"valeur": 31
+	},
+	{
+		"code": "44109000SY",
+		"parent": "44109",
+		"valeur": 28
+	},
+	{
+		"code": "44109000VO",
+		"parent": "44109",
+		"valeur": 15
+	},
+	{
+		"code": "44109000WS",
+		"parent": "44109",
+		"valeur": 70
+	},
+	{
+		"code": "44109000IM",
+		"parent": "44109",
+		"valeur": 84
+	},
+	{
+		"code": "44109000HS",
+		"parent": "44109",
+		"valeur": 6
+	},
+	{
+		"code": "44109000OX",
+		"parent": "44109",
+		"valeur": 23
+	},
+	{
+		"code": "44109000OS",
+		"parent": "44109",
+		"valeur": 46
+	},
+	{
+		"code": "44109000IO",
+		"parent": "44109",
+		"valeur": 44
+	},
+	{
+		"code": "44109000IN",
+		"parent": "44109",
+		"valeur": 55
+	},
+	{
+		"code": "44109000VP",
+		"parent": "44109",
+		"valeur": 1
+	},
+	{
+		"code": "44109000CX",
+		"parent": "44109",
+		"valeur": 99
+	},
+	{
+		"code": "44109000HX",
+		"parent": "44109",
+		"valeur": 16
+	},
+	{
+		"code": "44109000RY",
+		"parent": "44109",
+		"valeur": 59
+	},
+	{
+		"code": "44109000DW",
+		"parent": "44109",
+		"valeur": 91
+	},
+	{
+		"code": "44109000EZ",
+		"parent": "44109",
+		"valeur": 53
+	},
+	{
+		"code": "44109000WK",
+		"parent": "44109",
+		"valeur": 2
+	},
+	{
+		"code": "44109000MX",
+		"parent": "44109",
+		"valeur": 83
+	},
+	{
+		"code": "44109000KN",
+		"parent": "44109",
+		"valeur": 60
+	},
+	{
+		"code": "44109000ES",
+		"parent": "44109",
+		"valeur": 14
+	},
+	{
+		"code": "44109000VW",
+		"parent": "44109",
+		"valeur": 31
+	},
+	{
+		"code": "44109000VM",
+		"parent": "44109",
+		"valeur": 20
+	},
+	{
+		"code": "44109000AX",
+		"parent": "44109",
+		"valeur": 25
+	},
+	{
+		"code": "44109000WB",
+		"parent": "44109",
+		"valeur": 51
+	},
+	{
+		"code": "44109000DL",
+		"parent": "44109",
+		"valeur": 81
+	},
+	{
+		"code": "44109000RT",
+		"parent": "44109",
+		"valeur": 94
+	},
+	{
+		"code": "44109000BP",
+		"parent": "44109",
+		"valeur": 60
+	},
+	{
+		"code": "44109000DZ",
+		"parent": "44109",
+		"valeur": 83
+	},
+	{
+		"code": "44109000PT",
+		"parent": "44109",
+		"valeur": 40
+	},
+	{
+		"code": "44109000BD",
+		"parent": "44109",
+		"valeur": 33
+	},
+	{
+		"code": "44109000WA",
+		"parent": "44109",
+		"valeur": 78
+	},
+	{
+		"code": "44109000WW",
+		"parent": "44109",
+		"valeur": 27
+	}
+]

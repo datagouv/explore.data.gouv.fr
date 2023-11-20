@@ -152,7 +152,7 @@ export default {
       return this.fields.find(field => field.key === key)
     },
     redirectToResource() {
-      window.open(window.location.origin + '/?url=' + getResourceUrl(this.selectedResource))
+      window.open(window.location.origin + '/tableau?url=' + getResourceUrl(this.selectedResource))
     },
     filterNotDuplucate(filter){
       let filt = this.filters.filter(f => f.field === filter.field)
