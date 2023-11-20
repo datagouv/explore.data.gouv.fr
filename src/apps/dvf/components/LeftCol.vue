@@ -1299,9 +1299,19 @@ export default {
           );
         }
       } else {
+        let com = this.userLocation.com
+        if (com && com.startsWith("751")) {
+          com = "75056"
+        }
+        if (com && com.startsWith("693")) {
+          com = "69123"
+        }
+        if (com && com.startsWith("132")) {
+          com = "13055"
+        }
         let url =
           "https://geo.api.gouv.fr/communes?code=" +
-          this.userLocation.com +
+          com +
           "&fields=centre";
         fetch(url)
           .then((response) => {
@@ -1869,6 +1879,10 @@ export default {
   font-weight: 700;
   line-height: 12px;
   cursor: pointer;
+}
+
+.textPartner:hover {
+  text-decoration: underline;
 }
 
 .dpe-tag {
