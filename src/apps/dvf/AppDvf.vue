@@ -6,7 +6,7 @@
       :appLink="appLink"
       :betaApp="true"
     ></header-apps>
-    <div class="safari" v-if="isSafari">Vous utilisez le navigateur Safari, nous vous conseillons de basculer sur un autre navigateur car des bugs sont remontés sur celui-ci au niveau de la carte.<br />Nous travaillons à leur résolution.</div>
+    <!-- <div class="safari" v-if="isSafari">Vous utilisez le navigateur Safari, nous vous conseillons de basculer sur un autre navigateur car des bugs sont remontés sur celui-ci au niveau de la carte.<br />Nous travaillons à leurs résolutions.</div> -->
     <div class="dvf_header">
       <h2>Explorateur de données de valeurs foncières</h2>
       <h3>
@@ -81,7 +81,7 @@ export default {
       ],
       formHref: "https://tally.so/r/m6L5jo",
       appName: "DVF",
-      isSafari: false,
+      //isSafari: false,
     };
   },
   computed: {
@@ -145,8 +145,8 @@ export default {
   },
   mounted() {
 
-    let isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || (typeof safari !== 'undefined' && window['safari'].pushNotification));
-    this.isSafari = isSafari
+    // let isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || (typeof safari !== 'undefined' && window['safari'].pushNotification));
+    // this.isSafari = isSafari
 
     if (this.$route.query.onglet) {
       if (this.$route.query.onglet != this.activePanel) {
