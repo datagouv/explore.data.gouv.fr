@@ -45,7 +45,7 @@
 
         <div class="question_box"  data-question="6" :class="(question6)?'open':''" @click="(question6)?question6=false:question6=true">
           <span class="title">J’ai constaté une erreur</span>
-          <span class="reponse">Pour toute demande d’information ou toute erreur détectée dans les données vous pouvez écrire aux producteurs des données sur <a href="https://www.data.gouv.fr/fr/datasets/demandes-de-valeurs-foncieres/">la page dédiée</a> ou contacter le bureau CL2A de la DGFIP à l’adresse suivante : bureau.cl2a-dvf@dgfip.finances.gouv.fr</span>
+          <span class="reponse">Pour toute demande d’information ou toute erreur détectée dans les données vous pouvez écrire aux producteurs des données sur <a href="https://www.data.gouv.fr/fr/datasets/demandes-de-valeurs-foncieres/">la page dédiée</a> ou contacter le bureau GF3B de la DGFIP à l’adresse suivante : bureau.gf3b-dvf@dgfip.finances.gouv.fr</span>
         </div>
 
         <div class="question_box"  data-question="7" :class="(question7)?'open':''" @click="(question7)?question7=false:question7=true">
@@ -75,7 +75,7 @@
 
         <div class="question_box"  data-question="9" :class="(question9)?'open':''" @click="(question9)?question9=false:question9=true">
           <span class="title">J’ai une autre question</span>
-          <span class="reponse">Pour toute demande d’information ou toute erreur détectée dans les données vous pouvez écrire aux producteurs des données sur <a href="https://www.data.gouv.fr/fr/datasets/demandes-de-valeurs-foncieres-geolocalisees/">la page dédiée</a> ou contacter le bureau CL2A de la DGFIP à l’adresse suivante : <b>bureau.cl2a-dvf@dgfip.finances.gouv.fr</b><br><br>
+          <span class="reponse">Pour toute demande d’information ou toute erreur détectée dans les données vous pouvez écrire aux producteurs des données sur <a href="https://www.data.gouv.fr/fr/datasets/demandes-de-valeurs-foncieres-geolocalisees/">la page dédiée</a> ou contacter le bureau GF3B de la DGFIP à l’adresse suivante : <b>bureau.gf3b-dvf@dgfip.finances.gouv.fr</b><br><br>
           Si votre question porte plus spécifiquement sur l’application, vous pouvez <a href="https://support.data.gouv.fr/">écrire à l’équipe data.gouv.fr</a>.</span>
         </div>
 
