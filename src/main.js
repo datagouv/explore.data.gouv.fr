@@ -7,6 +7,7 @@ import "@gouvfr/dsfr/dist/dsfr/dsfr.module"
 import App from './App.vue'
 import store from './store'
 import matomo from './matomo'
+import i18n from './i18n'
 
 Vue.use(VueResource)
 
@@ -19,4 +20,5 @@ new Vue({
   router,
   store,
   render: h => h(App),
+  i18n,
 }).$mount('#app')

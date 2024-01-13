@@ -40,7 +40,6 @@ export default {
         return response.json();
       })
       .then((data) => {
-        console.log(data)
         this.logo = data.organization.logo_thumbnail
         this.nom = data.title
         this.slug = data.slug
@@ -50,8 +49,6 @@ export default {
           this.acronym = "(" + data.acronym + ")"
         }
       })
-
-    console.log(dataGouvUrlApi)
   },
 };
 </script>

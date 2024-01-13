@@ -1,0 +1,20 @@
+{
+  "homepage": {
+    "title": "Promote and exploit public data for the benefit of all.",
+    "reuse_star": {
+      "title": "Data Exploration",
+      "description": "The <a class='link-text' href='https://www.data.gouv.fr'>data.gouv.fr</a> and the <a class='link-text' href='https://www.numerique.gouv.fr/dinum/'>French Interministerial Digital Directorate (DINUM)</a> teams offer open data explorations to facilitate their appropriation and reuse.",
+      "tagline": "Discover some of these explorations below."
+    },
+    "propose_reuse": {
+      "title": "Propose an exploration",
+      "tagline": "Do you have an idea for exploring public data that might be useful?",
+      "button_text": "Submit an idea"
+    },
+    "reuse": {
+      "title": "Community reuse",
+      "description": "The strength of Open Data is its community. Discover our selection of data reuse carried out by other administrations, companies, associations or citizens.",
+      "choose_theme": "Choose a theme:"
+    }
+  }
+}
