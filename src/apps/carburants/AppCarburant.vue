@@ -298,6 +298,16 @@ import * as d3 from 'd3-scale'
 export default {
   name: 'AppCarburant',
   components: {Map, markRaw, BarOrGraph, HeaderApps},
+  metaInfo: {
+    title: "Explorateur de données des prix des carburants",
+    meta: [
+      {
+        name: "description",
+        content: "Carte des prix des carburants, trouvez les prix de la station la plus proche d'une adresse.",
+      },
+      // Ajoutez d'autres balises meta si nécessaire
+    ],
+  },
   data() {
     return {
       formHref:"https://tally.so/r/3jZbA9",
