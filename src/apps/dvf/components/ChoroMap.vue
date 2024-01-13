@@ -218,7 +218,11 @@ export default {
         obj[key] = value;
       }
     }
-    this.$router.push({ path: this.$route.path, query: obj }).catch(() => {});
+    this.$router.push({
+      name: 'immobilier',
+      params: { lang: this.$route.params.lang },
+      query: obj
+    }).catch(() => {});
     // Au load de la page, on récupère les stats au niveau EPCI pour l'affichage carte
     let url = process.env.VUE_APP_DVF_API + "/epci";
     fetch(url)
