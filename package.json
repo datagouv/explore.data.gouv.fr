@@ -50,6 +50,7 @@
 		"crypto-js": "^4.1.1",
 		"json-loader": "^0.5.7",
 		"vue-i18n": "^8.26.3",
+		"vue-meta": "^2.4.0",
 		"yaml-loader": "^0.8.0"
 	},
 	"overrides": {

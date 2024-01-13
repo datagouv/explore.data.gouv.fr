@@ -70,6 +70,16 @@ export default {
     TableauView,
     FaqView,
     SourcesView,
+  },  
+  metaInfo: {
+    title: "Explorateur de données de valeurs foncières - DVF",
+    meta: [
+      {
+        name: "description",
+        content: "Suivez l'évolution des prix de l'immobilier et trouvez le prix des ventes immobilières des 5 dernières années.",
+      },
+      // Ajoutez d'autres balises meta si nécessaire
+    ],
   },
   data() {
     return {

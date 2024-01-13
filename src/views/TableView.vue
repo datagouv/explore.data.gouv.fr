@@ -85,6 +85,16 @@ import FooterApps from './FooterApps.vue'
 export default {
   name: 'TableView',
   components: {Table, Error, Loader, CardLink, InfosResource, HeaderApps, FooterApps},
+  metaInfo: {
+    title: "Explorateur de données tabulaires",
+    meta: [
+      {
+        name: "description",
+        content: "Explorer et analyser plus facilement les jeux de données référencées sur data.gouv.fr",
+      },
+      // Ajoutez d'autres balises meta si nécessaire
+    ],
+  },
   data() {
     return {
       results: [],
