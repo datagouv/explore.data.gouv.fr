@@ -94,7 +94,8 @@ export default {
       appStore.commit("updateActiveFilter", f);
       this.$router
         .push({
-          path: this.$route.path,
+          name: 'immobilier',
+          params: { lang: this.$route.params.lang },
           query: { ...this.$route.query, filtre: f },
         })
         .catch(() => {});

@@ -1,0 +1,20 @@
+{
+  "homepage": {
+    "title": "Valoriser et exploiter les données publiques au service de toutes et tous.",
+    "reuse_star": {
+      "title": "Exploration de données",
+      "description": "Les équipes de <a class='link-text' href='https://www.data.gouv.fr'>data.gouv.fr</a> et de la <a class='link-text' href='https://www.numerique.gouv.fr/dinum/'>Direction Interministérielle du Numérique (DINUM)</a> proposent des explorations de données ouvertes pour faciliter leur appropriation et leurs réutilisations.",
+      "tagline": "Découvrez ici certaines de ces explorations."
+    },
+    "propose_reuse": {
+      "title": "Proposez une exploration",
+      "tagline": "Vous avez une idée d'exploration des données publiques qui pourrait être utile ?",
+      "button_text": "Soumettre une idée"
+    },
+    "reuse": {
+      "title": "Réutilisations de la communauté",
+      "description": "La force de l'Open Data, c'est sa communauté. Découvrez notre sélection de réutilisations de données réalisées par d'autres administrations, entreprises, associations ou citoyens.",
+      "choose_theme": "Choisissez une thématique :"
+    }
+  }
+}

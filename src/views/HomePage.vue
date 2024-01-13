@@ -2,14 +2,14 @@
   <div>
     <header-app></header-app>
     <div class="lineaire-simple">
-        <h1 class="main-title">Valoriser et exploiter les données publiques au service de toutes et tous.</h1>
+        <h1 class="main-title">{{ $t("homepage.title") }}</h1>
     </div>
 
 
     <div class="fr-mt-4w fr-container">
-        <h3>Exploration de données</h3>
-        <p class="text-home">Les équipes de <a class="link-text" href="https://www.data.gouv.fr">data.gouv.fr</a> et de la <a class="link-text" href="https://www.numerique.gouv.fr/dinum/">Direction Interministérielle du Numérique (DINUM)</a> proposent des explorations de données ouvertes pour faciliter leur appropriation et leurs réutilisations.</p>
-        <p class="text-home">Découvrez ici certaines de ces explorations.</p>
+        <h3>{{ $t("homepage.reuse_star.title") }}</h3>
+        <p class="text-home" v-html="$t('homepage.reuse_star.description')"></p>
+        <p class="text-home">{{ $t("homepage.reuse_star.tagline") }}</p>
         <div v-if="own__reuses" class="flex-container">
             <div class="flex-child"  v-for="item in own__reuses" v-bind:key="item.titleReuse">
                 <reuse-star 
@@ -24,20 +24,20 @@
 
         <div class="propal-div">
             <div>
-                <b>Proposez une exploration</b>
+                <b>{{ $t("homepage.propose_reuse.title") }}</b>
                 <br />
-                <i style="font-size: 14px;">Vous avez une idée d'exploration des données publiques qui pourrait être utile ?</i>
+                <i style="font-size: 14px;">{{ $t("homepage.propose_reuse.tagline") }}</i>
             </div>
             <div style="margin-left: auto;">
                 <button @click="goToIdea()" class="button-idea">
-                    Soumettre une idée
+                    {{ $t("homepage.propose_reuse.button_text") }}
                 </button>
             </div>
         </div>
 
-        <h3>Réutilisations de la communauté</h3>
-        <p class="text-home">La force de l'Open Data, c'est sa communauté. Découvrez notre sélection de réutilisations de données réalisées par d'autres administrations, entreprises, associations ou citoyens.</p>
-        <p>Choisissez une thématique : </p>
+        <h3>{{ $t("homepage.reuse.title") }}</h3>
+        <p class="text-home">{{ $t("homepage.reuse.description") }}</p>
+        <p>{{ $t("homepage.reuse.choose_theme") }}</p>
         <div class="flex-container">
             <div 
                 @click="selectThematique(item)"

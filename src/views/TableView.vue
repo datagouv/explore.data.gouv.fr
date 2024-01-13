@@ -174,7 +174,12 @@ export default {
     },
     redirect() {
       this.csvUrl = this.csvUrlFieldValue
-      window.location.href = window.location.origin + '/tableau?url=' + this.csvUrl
+      this.$router
+        .push({
+          name: 'tableau',
+          params: { lang: this.$route.params.lang },
+          query: { url: this.csvUrl },
+        })
     },
     redirectViaResult(val) {
       this.csvUrlFieldValue = val
