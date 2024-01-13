@@ -33,7 +33,11 @@ export default {
         if (this.link.startsWith("http")){
             window.open(this.link);
         } else {
-            this.$router.push(this.link) 
+            this.$router.push({
+                name: this.link,
+                params: { lang: this.$route.params.lang },
+                query: { },
+            });
         }
     }
   },

@@ -18,5 +18,14 @@ module.exports = {
         filename: 'js/[name].[hash:8].js',
         chunkFilename: 'js/[name].[hash:8].js'
       }
+    },
+    pluginOptions: {
+      i18n: {
+        locale: 'fr',
+        fallbackLocale: 'fr',
+        localeDir: 'locales',
+        enableInSFC: false,
+        enableBridge: false
+      }
     }
   }

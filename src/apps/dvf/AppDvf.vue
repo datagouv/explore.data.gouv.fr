@@ -81,6 +81,7 @@ export default {
       ],
       formHref: "https://tally.so/r/m6L5jo",
       appName: "DVF",
+      pageName: "immobilier",
       //isSafari: false,
     };
   },
@@ -133,7 +134,7 @@ export default {
       }
     },
     appLink: function () {
-      return window.location.origin + "/immobilier?onglet=carte&filtre=tous";
+      return window.location.origin + '/' + this.$route.params.lang + "/immobilier?onglet=carte&filtre=tous";
     },
     isMobile: function () {
       if (window.innerWidth < 768) {
@@ -144,7 +145,6 @@ export default {
     },
   },
   mounted() {
-
     // let isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || (typeof safari !== 'undefined' && window['safari'].pushNotification));
     // this.isSafari = isSafari
 
@@ -161,7 +161,8 @@ export default {
       appStore.commit("changeActivePanel", id);
       this.$router
         .push({
-          path: this.$route.path,
+          name: this.pageName,
+          params: { lang: this.$route.params.lang },
           query: { ...this.$route.query, onglet: id },
         })
         .catch(() => {});
@@ -170,7 +171,8 @@ export default {
       appStore.commit("updateActiveFilter", f);
       this.$router
         .push({
-          path: this.$route.path,
+          name: this.pageName,
+          params: { lang: this.$route.params.lang },
           query: { ...this.$route.query, filtre: f },
         })
         .catch(() => {});
@@ -178,7 +180,8 @@ export default {
     updateActiveLatLng() {
       this.$router
         .push({
-          path: this.$route.path,
+          name: this.pageName,
+          params: { lang: this.$route.params.lang },
           query: {
             ...this.$route.query,
             lat: this.centerLat.toFixed(5),
@@ -194,7 +197,8 @@ export default {
         if (this.userLocation.dep != this.$route.query.code) {
           this.$router
             .push({
-              path: this.$route.path,
+              name: this.pageName,
+              params: { lang: this.$route.params.lang },
               query: { ...this.$route.query, code: this.userLocation.dep },
             })
             .catch(() => {});
@@ -204,7 +208,8 @@ export default {
         if (this.userLocation.com != this.$route.query.code) {
           this.$router
             .push({
-              path: this.$route.path,
+              name: this.pageName,
+              params: { lang: this.$route.params.lang },
               query: { ...this.$route.query, code: this.userLocation.com },
             })
             .catch(() => {});
@@ -214,7 +219,8 @@ export default {
         if (this.userLocation.section != this.$route.query.code) {
           this.$router
             .push({
-              path: this.$route.path,
+              name: this.pageName,
+              params: { lang: this.$route.params.lang },
               query: { ...this.$route.query, code: this.userLocation.section },
             })
             .catch(() => {});
@@ -224,7 +230,8 @@ export default {
         if (this.userLocation.parcelle != this.$route.query.code) {
           this.$router
             .push({
-              path: this.$route.path,
+              name: this.pageName,
+              params: { lang: this.$route.params.lang },
               query: { ...this.$route.query, code: this.userLocation.parcelle },
             })
             .catch(() => {});
@@ -234,7 +241,8 @@ export default {
         if (level != this.$route.query.level) {
           this.$router
             .push({
-              path: this.$route.path,
+              name: this.pageName,
+              params: { lang: this.$route.params.lang },
               query: { ...this.$route.query, level: level },
             })
             .catch(() => {});
@@ -248,7 +256,11 @@ export default {
             }
           }
           this.$router
-            .push({ path: this.$route.path, query: query })
+            .push({ 
+              name: this.pageName,
+              params: { lang: this.$route.params.lang },
+              query: query 
+            })
             .catch(() => {});
         }
       }
