@@ -46,13 +46,14 @@ let router = new Router({
 router.beforeEach((to, from, next) => {
   const lang = to.params.lang;
   if (!['en', 'fr'].includes(lang)) {
-    if (to.path == '/immobilier'){
+    if (to.path.startsWith('/immobilier')){
       return next({ name: 'immobilier', params: { lang: 'fr' }, query: to.query});
     }
-    else if (to.path == '/prix-carburants'){
+    else if (to.path.startsWith('/prix-carburants')){
       return next({ name: 'prix-carburants', params: { lang: 'fr' }, query: to.query});
     }
-    else if (to.path == '/tableau'){
+    else if (to.path.startsWith('/tableau')){
+      console.log()
       return next({ name: 'tableau', params: { lang: 'fr' }, query: to.query});
     }
     else {
