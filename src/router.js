@@ -4,6 +4,8 @@ import TableView from './views/TableView.vue'
 import AppCarburant from './apps/carburants/AppCarburant.vue'
 import AppDvf from './apps/dvf/AppDvf.vue'
 import HomePage from './views/HomePage.vue'
+import DatasetView from './apps/tabular/DatasetView.vue'
+import ResourceView from './apps/tabular/ResourceView.vue'
 import i18n from './i18n'
 
 Vue.use(Router)
@@ -37,7 +39,12 @@ let router = new Router({
           path: 'immobilier',
           name: 'immobilier',
           component: AppDvf
-        }
+        },
+        {
+          path: 'datasets/:id',
+          name: 'datasets',
+          component: DatasetView
+        },
       ]
     }
   ]
@@ -53,7 +60,6 @@ router.beforeEach((to, from, next) => {
       return next({ name: 'prix-carburants', params: { lang: 'fr' }, query: to.query});
     }
     else if (to.path.startsWith('/tableau')){
-      console.log()
       return next({ name: 'tableau', params: { lang: 'fr' }, query: to.query});
     }
     else {
