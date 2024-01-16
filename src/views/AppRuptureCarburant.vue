@@ -452,7 +452,7 @@ export default {
       })
     );
 
-    fetch("https://data.explore.data.gouv.fr/latest_france_ruptures.json", {
+    fetch("https://object.files.data.gouv.fr/data-pipeline-open/prod/carburants/latest_france_ruptures.json", {
       compress: false,
       headers: { "accept-encoding": "gzip" },
     })
