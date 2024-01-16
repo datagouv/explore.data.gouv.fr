@@ -384,7 +384,7 @@ export default {
       zoom: initialState.zoom
     }));
     
-    fetch('https://data.explore.data.gouv.fr/latest_france.json', {
+    fetch('https://object.files.data.gouv.fr/data-pipeline-open/prod/carburants/latest_france.geojson', {
         compress: false,
         headers: { "accept-encoding": "gzip" },
     })
@@ -475,7 +475,7 @@ export default {
     })
 
 
-    fetch('https://data.explore.data.gouv.fr/prix_2022.json')
+    fetch('https://object.files.data.gouv.fr/data-pipeline-open/prod/carburants/daily_prices.json')
     .then((response) => {
         return response.json()
     })
@@ -496,7 +496,7 @@ export default {
   methods: {
     updateDate(val){
 
-      fetch('https://data.explore.data.gouv.fr/historique/' + val + '.json')
+      fetch('https://object.files.data.gouv.fr/data-pipeline-open/prod/carburants/historique/' + val + '.json')
       .then((response) => {
           return response.json()
       })
