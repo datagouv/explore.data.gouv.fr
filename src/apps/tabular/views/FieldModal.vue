@@ -13,30 +13,21 @@
               <h1 :id="'fr-modal-title-modal-' + field.key" class="fr-modal__title">{{ field.label }}</h1>
               <!-- <h2 class="fr-text--sm">Analyse des données</h2> -->
               <dl>
+                {{ columnInfos }}
                 <dt>Format détecté</dt>
                 <dd>{{ columnInfos.format }}</dd>
                 <dt>Nombre de valeurs distinctes</dt>
                 <dd>{{ columnInfos.nb_distinct }}</dd>
-                <span v-if="columnInfos.type === 'Numeric'">
+                {{ python_type }}
+                <span v-if="columnInfos.python_type == 'float' || columnInfos.python_type == 'int'">
                   <dt>Valeur minimale</dt>
-                  <dd>{{ columnInfos.numeric_infos.min }}</dd>
+                  <dd>{{ columnInfos.min }}</dd>
                   <dt>Valeur maximale</dt>
-                  <dd>{{ columnInfos.numeric_infos.max }}</dd>
+                  <dd>{{ columnInfos.max }}</dd>
                   <dt>Valeur moyenne</dt>
-                  <dd>{{ columnInfos.numeric_infos.mean }}</dd>
+                  <dd>{{ columnInfos.mean }}</dd>
                   <dt>Ecart-type</dt>
-                  <dd>{{ columnInfos.numeric_infos.std }}</dd>
-                  <span v-if="columnInfos.type == 'Numeric' && numericPlotInfos.bin_edges && numericPlotInfos.bin_edges.length > 0">
-                    <dt>Distribution</dt>
-                    <dd>
-                      <histogram 
-                        :datachart="numericPlotInfos.counts"
-                        :labels="numericPlotInfos.bin_edges"
-                        :title="field.label"
-                        :id="'mychart-'+field.label"
-                      ></histogram>
-                    </dd>
-                  </span>
+                  <dd>{{ columnInfos.std }}</dd>
                 </span>
               </dl>
             </div>
