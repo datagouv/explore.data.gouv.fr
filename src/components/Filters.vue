@@ -59,6 +59,7 @@ export default {
       const params = this.getSearchParams()
       params.set(key, value)
       this.setSearchParams(params)
+
     },
     removeFromQueryString (key) {
       const params = this.getSearchParams()
