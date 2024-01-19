@@ -50,7 +50,7 @@ export default {
                 return response.json();
             })
             .then((data) => {
-                if (data.resources.length > 1){
+                if (data.resources.length > 0){
                     obj.dataset_title = data.title
                     obj.resource = null
                     obj.dataset_id = data.id
