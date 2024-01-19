@@ -17,7 +17,6 @@
                 <dd>{{ columnInfos.format }}</dd>
                 <dt>Nombre de valeurs distinctes</dt>
                 <dd>{{ columnInfos.nb_distinct }}</dd>
-                {{ python_type }}
                 <span v-if="columnInfos.python_type == 'float' || columnInfos.python_type == 'int'">
                   <dt>Valeur minimale</dt>
                   <dd>{{ columnInfos.min }}</dd>
