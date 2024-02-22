@@ -5,6 +5,7 @@ import AppCarburant from './apps/carburants/AppCarburant.vue'
 import AppDvf from './apps/dvf/AppDvf.vue'
 import HomePage from './views/HomePage.vue'
 import DatasetView from './apps/tabular/DatasetView.vue'
+import AppInclusion from './apps/inclusion/AppInclusion.vue'
 import ResourceView from './apps/tabular/ResourceView.vue'
 import i18n from './i18n'
 
@@ -44,6 +45,11 @@ let router = new Router({
           path: 'datasets/:id',
           name: 'datasets',
           component: DatasetView
+        },    
+        {
+          path: 'inclusion',
+          name: 'inclusion',
+          component: AppInclusion
         },
       ]
     }
