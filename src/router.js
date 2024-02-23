@@ -47,6 +47,11 @@ let router = new Router({
           component: DatasetView
         },    
         {
+          path: 'resources/:id',
+          name: 'resources',
+          component: DatasetView
+        },    
+        {
           path: 'inclusion',
           name: 'inclusion',
           component: AppInclusion
