@@ -1,0 +1,67 @@
+[
+    {
+        "value": "adultes",
+        "label": "Adultes",
+        "description": null
+    },
+    {
+        "value": "beneficiaire-rsa",
+        "label": "Bénéficiaire du Revenu de Solidarité Active (RSA)",
+        "description": null
+    },
+    {
+        "value": "deficience-visuelle",
+        "label": "Déficience visuelle",
+        "description": null
+    },
+    {
+        "value": "demandeur-demploi",
+        "label": "Demandeur ou demandeuse d’emploi",
+        "description": null
+    },
+    {
+        "value": "familles-enfants",
+        "label": "Familles/enfants",
+        "description": null
+    },
+    {
+        "value": "femmes",
+        "label": "Femmes",
+        "description": "Le lieu propose des accompagnements réservés aux femmes."
+    },
+    {
+        "value": "handicaps-mentaux",
+        "label": "Handicaps mentaux : déficiences limitant les activités d’une personne",
+        "description": null
+    },
+    {
+        "value": "handicaps-psychiques",
+        "label": "Handicaps psychiques : troubles psychiatriques donnant lieu à des atteintes comportementales",
+        "description": null
+    },
+    {
+        "value": "jeunes-16-26",
+        "label": "Jeunes (16-26 ans)",
+        "description": null
+    },
+    {
+        "value": "personnes-en-situation-illettrisme",
+        "label": "Personnes en situation d’illettrisme",
+        "description": null
+    },
+    {
+        "value": "public-langues-etrangeres",
+        "label": "Public langues étrangères",
+        "description": null
+    },
+    {
+        "value": "seniors-65",
+        "label": "Seniors (+ 65 ans)",
+        "description": null
+    },
+    {
+        "value": "surdite",
+        "label": "Surdité",
+        "description": null
+    }
+]
