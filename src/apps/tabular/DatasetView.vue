@@ -31,62 +31,76 @@ export default {
             this.$store.commit("addFilter", { field: item.split("=")[0].split("__")[0], value: item.split("=")[1], comp: item.split("=")[0].split("__")[1] })
           })
         },
+        retrieveInfos(did){
+          let url_dgv = process.env.VUE_APP_DATAGOUV_URL
+          let params_complements = null
+          let obj = {}
+          let rid = null
+          if (this.$route.hash && this.$route.hash.startsWith("#/resources/")){
+              let url_complement = this.$route.hash.replace("#/resources/", "").split("?")
+              rid = url_complement[0].replace("/", "")
+              if (url_complement.length > 1) {
+                params_complements = this.$route.hash.replace("#/resources/", "").split("?")[1].split("&")
+                this.setFiltersFromQueryString(params_complements)
+              }
+          }
+          fetch(url_dgv + '/api/1/datasets/' + did)
+              .then((response) => {
+                  return response.json();
+              })
+              .then((data) => {
+                  if (data.resources.length > 0){
+                      obj.dataset_title = data.title
+                      obj.resource = null
+                      obj.dataset_id = data.id
+                      if (data.organization) {
+                          obj.organization_id = data.organization.id
+                          obj.organization_name = data.organization.name
+                      }
+
+                      let obj2 = []
+                      data.resources.forEach((res) => {
+                          obj2.push({ resource_id: res.id, resource_title: res.title, preview_url: res.preview_url, format: res.format })
+                          if (res.id == rid){
+                              obj.resource = res
+                          }
+                          if (!rid && res.format == 'csv') {
+                              obj.resource = res
+                          }
+                      })
+                      if (obj.resource) {
+                          if (params_complements) {
+                            let complement = params_complements.join('&')
+                            if (this.$route.hash != '#/resources/' + obj.resource.id + '?' + complement) {
+                              this.$router.push({ hash: '#/resources/' + obj.resource.id + '?' + complement});
+                            }
+                          } else {
+                            if (this.$router.hash != '#/resources/' + obj.resource.id) {
+                              this.$router.push({ hash: '#/resources/' + obj.resource.id });
+                            }
+                          }
+                      }
+                      obj.other_resources = obj2
+                      //this.$store.commit('setDgvInfos', obj)
+                      this.$store.dispatch("manageDgvInfos", obj);
+                  }
+              }
+          );
+        }
     },
     mounted () {
-        let url_dgv = process.env.VUE_APP_DATAGOUV_URL
-        let obj = {}
-        let rid = null
-        let params_complements = null
-        if (this.$route.hash && this.$route.hash.startsWith("#/resources/")){
-            let url_complement = this.$route.hash.replace("#/resources/", "").split("?")
-            rid = url_complement[0].replace("/", "")
-            if (url_complement.length > 1) {
-              params_complements = this.$route.hash.replace("#/resources/", "").split("?")[1].split("&")
-              this.setFiltersFromQueryString(params_complements)
-            }
-        }
-        fetch(url_dgv + '/api/1/datasets/' + this.$route.params.id)
+        let url_dgv = process.env.VUE_APP_DATAGOUV_URL        
+        if (this.$route.name == "resources") {
+            fetch(url_dgv + '/api/2/datasets/resources/' + this.$route.params.id)
             .then((response) => {
                 return response.json();
             })
             .then((data) => {
-                if (data.resources.length > 0){
-                    obj.dataset_title = data.title
-                    obj.resource = null
-                    obj.dataset_id = data.id
-                    if (data.organization) {
-                        obj.organization_id = data.organization.id
-                        obj.organization_name = data.organization.name
-                    }
-
-                    let obj2 = []
-                    data.resources.forEach((res) => {
-                        obj2.push({ resource_id: res.id, resource_title: res.title, preview_url: res.preview_url, format: res.format })
-                        if (res.id == rid){
-                            obj.resource = res
-                        }
-                        if (!rid && res.format == 'csv') {
-                            obj.resource = res
-                        }
-                    })
-                    if (obj.resource) {
-                        if (params_complements) {
-                          let complement = params_complements.join('&')
-                          if (this.$route.hash != '#/resources/' + obj.resource.id + '?' + complement) {
-                            this.$router.push({ hash: '#/resources/' + obj.resource.id + '?' + complement});
-                          }
-                        } else {
-                          if (this.$router.hash != '#/resources/' + obj.resource.id) {
-                            this.$router.push({ hash: '#/resources/' + obj.resource.id });
-                          }
-                        }
-                    }
-                    obj.other_resources = obj2
-                    //this.$store.commit('setDgvInfos', obj)
-                    this.$store.dispatch("manageDgvInfos", obj);
-                }
-            }
-        );
+              window.location.href = "/fr/datasets/" + data["dataset_id"] + "/#/resources/" + this.$route.params.id              
+            })
+        } else {
+          this.retrieveInfos(this.$route.params.id)
+        }
     }
 }
 </script>
