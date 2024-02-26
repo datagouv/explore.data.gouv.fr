@@ -859,6 +859,7 @@ export default {
           data = this.processData(data);
           this.map.getSource("inclusion_datapoints").setData(data);
         } else {
+          appStore.commit("addUrlToSave", url);
           fetch(url)
             .then((response) => {
               return response.json();
