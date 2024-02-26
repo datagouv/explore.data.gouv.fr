@@ -20,8 +20,10 @@
                     </option>
                 </select>
               </div>
+            </div>
+            <div class="complements-resource">
               <div class="fr-col-auto fr-text--sm fr-m-0 text-mention-grey">
-                <div v-if="dgvInfos.resource" class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle">
+                <div v-if="dgvInfos.resource" class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle complements-resource-texts">
                   <div class="fr-col-auto">Mis à jour le {{ toFrDate(dgvInfos.resource.last_modified) }}</div>
                   <div class="fr-col-auto">
                     <template v-if="dgvInfos.resource.format">{{ dgvInfos.resource.format }} </template>
@@ -32,7 +34,7 @@
               </div>
             </div>
           </div>
-          <div v-if="dgvInfos.resource" class="fr-col-12 fr-col-md-3 fr-col-xl-3" style="width: 100%">
+          <!-- <div v-if="dgvInfos.resource" class="fr-col-12 fr-col-md-3 fr-col-xl-3" style="width: 100%">
             <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle" style="width: 100%">
               <div class="fr-col-auto" style="width: 100%">
                 <button
@@ -45,24 +47,19 @@
                   Configurer les filtres <span v-if="hasActivefilters" class="fr-ml-1w fr-badge fr-badge--blue-cumulus">{{countActiveFilters}}</span>
                 </button>
               </div>
-              <!-- <div class="fr-col-12 fr-col-sm">
-                <div class="fr-input-wrap fr-input-wrap--icon-left fr-icon-search-line" :class="globalSearchWrapClass">
-                  <input class="fr-input" type="search" :class="globalSearchClass" v-model="globalSearch" placeholder="Rechercher" />
-                </div>
-              </div> -->
             </div>
-          </div>
+          </div> -->
         </div>
         <dialog aria-labelledby="fr-modal-title-modal-filters" role="dialog" id="fr-modal-filters" class="fr-modal fr-modal--popover">
           <div class="fr-container--fluid">
-              <div class="fr-grid-row fr-grid-row--right">
-                  <div class="fr-col-12 fr-col-sm-7 fr-col-md-5 fr-col-lg-4 fr-col-xl-3">
+              <div class="fr-grid-row fr-grid-row--center">
+                  <div class="fr-col-12 fr-col-sm-7 fr-col-md-6">
                       <div class="fr-modal__body">
                           <div class="fr-modal__header">
-                              <button class="fr-link--close fr-link" title="Fermer la fenêtre modale" aria-controls="fr-modal-filters">Fermer</button>
+                              Configurer les filtres
+                              <button class="fr-link--close fr-link" title="Fermer la fenêtre modale" aria-controls="fr-modal-filters"></button>
                           </div>
                           <div class="fr-modal__content">
-                              <h1 id="fr-modal-title-modal-filters" class="fr-modal__title">Configurer les filtres</h1>
                               <div 
                                 v-for="filter in filters"
                                 :key="filter.field+filter.comp"
@@ -72,7 +69,6 @@
                                   class="fr-py-2w relative"
                                 >
                                   <Input
-                                    
                                     :field="getField(filter.field)"
                                     showLabel
                                   />
@@ -176,12 +172,15 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .subheader{
-  background-color:#E6EEFE;
+  background-color:#3558A2;
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
   align-items: center;
 }
+
+
+
 
 .subheader.excel{
   display: block;
@@ -191,6 +190,16 @@ export default {
   flex-grow: 99;
 }
 
+.complements-resource{
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+.complements-resource-texts{
+  color: white;
+  padding-left: 0px;
+  line-height: 14px;
+}
 
 .sticky-bar {
   z-index: 1;
@@ -203,10 +212,18 @@ export default {
 }
 
 .dgvSelector{
-  line-height: 0.9rem;
-  max-width: 320px;
+  line-height: 1.2rem;
+  max-width: 600px;
   font-size: 0.8rem;
   font-weight: 700;
+  background-color: #7F9AD4;
+  color: white;
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
+  box-shadow: inset 0 -2px 0 0 white;
+  --data-uri-svg: url(
+  "data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' x='0px' y='0px' viewBox='0 0 24 24' ><path fill='%23FFFFFF' d='M12,13.1l5-4.9l1.4,1.4L12,15.9L5.6,9.5l1.4-1.4L12,13.1z'/></svg>");
+  background-image: var(--data-uri-svg)
 }
 
 .preventExcel{
@@ -219,10 +236,25 @@ export default {
   color: #1353B5;
 }
 
-@media (max-width: 48em){
-  .fr-col-auto{
-    padding: 0.2rem 0.5rem 0.2rem 0.5rem!important;
-  }
+
+.fr-modal__header{
+  border-bottom: 1px solid #DDDDDD;
+  padding-bottom: 0px;
+  padding-top: 0px;
+  margin-bottom: 10px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.fr-link--close{
+  border-left: 1px solid #DDDDDD;
+  min-height: 0rem;
+  padding-left: 0rem;
+  padding-right: 0rem;
+}
+
+.fr-modal__title{
+  font-size: 16px;
 }
 
 </style>

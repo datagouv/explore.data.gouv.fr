@@ -20,7 +20,7 @@
       }}</label>
       <div
         ref="wrap"
-        class="fr-input-wrap fr-input-wrap--icon-left fr-icon-filter-line relative"
+        class="fr-input-wrap fr-input-wrap--icon-left relative"
         :class="inputWrapClass"
       >
         <input
@@ -31,15 +31,15 @@
           :class="inputClass"
           :value="inputValue"
           :id="field.key"
-          placeholder="Filtrer"
+          placeholder="Filtrer la colonne"
         />
-        <template v-if="columnInfos">
-          <div ref="tooltip" class="relTh" v-show="activeFilterBox">
-            <template v-if="!columnInfos.hasOwnProperty('min')">
-              <template v-if="columnInfos['tops'].length > 0">
-                <h3 class="fr-mb-1w fr-text--sm fr-text--regular">
-                  Catégories :
-                </h3>
+        <div v-if="columnInfos" style="margin-top: 10px;">
+          <div>
+            <div v-if="!columnInfos.hasOwnProperty('min')">
+              <div v-if="columnInfos['tops'].length > 0">
+                <b>
+                  Valeurs les plus fréquentes
+                </b>
                 <div
                   class="catFilter fr-my-1v"
                   v-for="cat in columnInfos['tops']"
@@ -52,14 +52,15 @@
                     "
                   >
                     {{ cat.value }}
-                    <span v-if="filters.length === 0"
-                      >&nbsp;{{ "(" + cat.count + ")" }}</span
-                    >
+                  
                   </button>
+                    <span v-if="filters.length === 0"
+                      >&nbsp;{{ cat.count }}</span
+                    >
                 </div>
-              </template>
-            </template>
-            <template
+              </div>
+            </div>
+            <div
               v-if="columnInfos.hasOwnProperty('min') && intervalFilter"
             >
               <h3 class="fr-mb-1w fr-text--sm fr-text--regular">
@@ -76,9 +77,9 @@
                 :max="Math.floor(columnInfos.max) + 1"
                 @change="sliderChange($event)"
               ></vue-slider>
-            </template>
+            </div>
           </div>
-        </template>
+        </div>
       </div>
       <div
         class="fr-mb-1w fr-text--sm fr-text--regular"
@@ -121,6 +122,33 @@ export default {
     if (this.field && this.filterLess && this.filterGreater) {
       this.intervalFilter = [this.filterLess.value, this.filterGreater.value];
     }
+    if (
+      this.columnInfos.format == "int" ||
+      this.columnInfos.format == "float"
+    ) {
+      let intfil = [this.columnInfos.min, this.columnInfos.max];
+      if (this.filterGreater) {
+        intfil[0] = this.filterGreater.value;
+      }
+      if (this.filterLess) {
+        intfil[1] = this.filterLess.value;
+      }
+      this.intervalFilter = intfil;
+      if (this.columnInfos.format == "int") {
+        this.interval = 1;
+      } else {
+        this.interval =
+          1 /
+          Math.pow(
+            10,
+            Math.max(
+              this.getInterval(this.columnInfos.min),
+              this.getInterval(this.columnInfos.max)
+            )
+          );
+      }
+    }
+
   },
   beforeDestroy() {
     if (this.listener) {
@@ -150,9 +178,11 @@ export default {
         : [];
     },
     columnInfos() {
-      return this.columnsInfos[this.field.key]
-        ? this.columnsInfos[this.field.key]
-        : {};
+      if (this.field && this.field.key) {
+        return this.columnsInfos[this.field.key]
+          ? this.columnsInfos[this.field.key]
+          : {};
+      }
     },
     columnsInfos() {
       return this.$store.state.columnsInfos;
@@ -201,10 +231,29 @@ export default {
     },
   },
   methods: {
+
+    removeFromQueryString(paramKey) {
+      // Clone the current route's query parameters
+      let queryParams = { ...this.$route.query };
+
+      // Check if the parameter to remove exists
+      if (queryParams.hasOwnProperty(paramKey)) {
+        // Remove the parameter
+        delete queryParams[paramKey];
+
+        // Update the route with the new query parameters
+        this.$router.push({ query: queryParams, hash: this.$route.hash }).catch(err => {
+          // Catch the navigation duplicated error when trying to push the same route
+          if (err.name !== 'NavigationDuplicated') {
+            throw err;
+          }
+        });
+      }
+    },
     addToQueryString(key, value) {
-      const params = this.getSearchParams();
-      params.set(key, value);
-      this.setSearchParams(params);
+      if (value) {
+        this.$router.push({ path: this.$route.path, query: { ...this.$route.query, [key]: value }, hash: this.$route.hash  });
+      }
     },
     filterText(e, type) {
       this.getInfos("function", e.target.value);
@@ -341,22 +390,6 @@ export default {
     hideBox() {
       this.activeFilterBox = false;
     },
-    removeFromQueryString(key) {
-      const params = this.getSearchParams();
-      params.delete(key);
-      this.setSearchParams(params);
-    },
-    setSearchParams(params) {
-      let complement = '?'
-      if (this.$route.hash.split("/")[this.$route.hash.split("/").length - 1].includes("?")) {
-        complement = '&'
-      }
-      window.history.pushState(
-        null,
-        "",
-        this.$route.path + this.$route.hash + complement + `${params.toString()}`
-      );
-    },
     sliderChange(e) {
       clearTimeout(this.timer);
       this.timer = setTimeout(() => {
@@ -387,33 +420,19 @@ export default {
       }, 1000);
     },
     moveTooltipIfRequired() {
-      const rect = this.$refs.tooltip.getBoundingClientRect();
-      if (rect.right > document.documentElement.clientWidth) {
-        this.$refs.tooltip.style.left = `-${
-          rect.right - document.documentElement.clientWidth
-        }px`;
-      } else {
-        this.$refs.tooltip.style.left = `0px`;
-      }
+      // const rect = this.$refs.tooltip.getBoundingClientRect();
+      // if (rect.right > document.documentElement.clientWidth) {
+      //   this.$refs.tooltip.style.left = `-${
+      //     rect.right - document.documentElement.clientWidth
+      //   }px`;
+      // } else {
+      //   this.$refs.tooltip.style.left = `0px`;
+      // }
     },
   },
 };
 </script>
 <style>
-.relTh {
-  z-index: 5;
-  position: absolute;
-  top: 2.5rem;
-  width: 250px;
-  margin: 0;
-  background-color: white;
-  padding: 16px;
-  font-weight: normal;
-  font-size: 14px;
-  border-bottom: 1px solid black;
-  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.16),
-    0px 1px 0px -2px rgba(0, 0, 0, 0.16), 0px 1px 4px rgba(0, 0, 0, 0.23);
-}
 .topInfo {
   background-color: var(--background-contrast-grey);
   cursor: pointer;
@@ -452,7 +471,7 @@ export default {
 .cardFilter {
   background-color: #f5f5fe;
   padding: 10px;
-  border-radius: 5px;
+  border-radius: 2px;
 }
 .removeFilter {
   width: 100%;
@@ -461,4 +480,5 @@ export default {
 .buttonRemoveFilter {
   float: right;
 }
+
 </style>

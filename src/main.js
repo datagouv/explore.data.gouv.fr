@@ -5,9 +5,10 @@ import router from './router'
 import VueResource from 'vue-resource'
 import "@gouvfr/dsfr/dist/dsfr/dsfr.module"
 
+
+
 import App from './App.vue'
 import store from './store'
-import matomo from './matomo'
 import i18n from './i18n'
 
 Vue.use(VueResource)
