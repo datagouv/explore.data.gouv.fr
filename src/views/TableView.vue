@@ -5,6 +5,7 @@
       :formHref="formHref()"
       appName="Explorateur de données"
       appLink="/tableau"
+      :displayBanner="true"
     ></header-apps>
   <infos-resource></infos-resource>
   <div class="fr-mt-4w fr-container" v-if="!csvUrl">
