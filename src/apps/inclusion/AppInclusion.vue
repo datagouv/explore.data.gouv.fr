@@ -1,69 +1,59 @@
 <template>
   <div class="fr-container--fluid">
     <header-apps
-      :formHref="null"
+      :formHref="formHref"
       :appName="appName"
       :appLink="appLink"
       :betaApp="true"
+      :displayBanner="displayBanner"
     ></header-apps>
+    <!-- <div class="safari" v-if="isSafari">Vous utilisez le navigateur Safari, nous vous conseillons de basculer sur un autre navigateur car des bugs sont remontés sur celui-ci au niveau de la carte.<br />Nous travaillons à leurs résolutions.</div> -->
     <div class="inclusion_header">
-      <h2>Explorateur des données de l'inclusion</h2>
+      <h2>Explorateur de données de l'inclusion</h2>
       <h3>
         Retrouver toutes les données de l'inclusion sur une cartographie accessible à tous.
       </h3>
       <div class="maj_date_container">
-        Dernière mise à jour des données : janvier 2024
+        Dernière mise à jour des données : février 2024
       </div>
     </div>
-    <div>
-      <div
-        ref="inclusionApp"
-        class="inclusion_content"
-        :class="
-          activePanel === 'faq' || activePanel === 'sources' ? 'scrollable' : ''
-        "
-      >
-        <div class="panel_container">
-          <div
-            class="panel"
-            v-for="p in panels"
-            :class="p.id === activePanel ? 'active' : ''"
-            @click="changeActivePanel(p.id)"
-            v-bind:key="p.id"
-          >
-            <img v-if="p.id === 'carte'" src="./assets/images/carte.svg" />
-            <img v-if="p.id === 'tableau'" src="./assets/images/tableau.svg" />
-            <img v-if="p.id === 'faq'" src="./assets/images/faq.svg" />
-            <img v-if="p.id === 'sources'" src="./assets/images/sources.svg" />
-            <span v-if="p.id == 'faq' && isMobile">FAQ</span>
-            <span v-else>{{ p.label }}</span>
-          </div>
-        </div>
 
-        <div class="inclusion_app">
-          <map-view v-if="activePanel == 'carte'"></map-view>
-          <tableau-view v-if="activePanel == 'tableau'"></tableau-view>
-          <faq-view v-if="activePanel == 'faq'"></faq-view>
-          <sources-view v-if="activePanel == 'sources'"></sources-view>
+    <div
+      class="inclusion_content"
+      :class="
+        activePanel === 'faq' || activePanel === 'sources' ? 'scrollable' : ''
+      "
+    >
+      <div class="panel_container">
+        <div
+          class="panel"
+          v-for="p in panels"
+          :class="p.id === activePanel ? 'active' : ''"
+          @click="changeActivePanel(p.id)"
+        >
+          <img v-if="p.id === 'carte'" src="./assets/images/carte.svg" />
+          <img v-if="p.id === 'tableau'" src="./assets/images/tableau.svg" />
+          <span v-if="p.id == 'faq' && isMobile">FAQ</span>
+          <span v-else>{{ p.label }}</span>
         </div>
       </div>
 
-      <footer-apps
-        :scrollable="isScrollable"
-        :display="isDisplay"
-      ></footer-apps>
+      <div class="inclusion_app">
+        <map-view v-if="activePanel == 'carte'"></map-view>
+        <tableau-view v-if="activePanel == 'tableau'"></tableau-view>
+      </div>
     </div>
+
+    <footer-apps :scrollable="isScrollable" :display="isDisplay"></footer-apps>
   </div>
 </template>
 
 <script>
 import appStore from "@/apps/inclusion/store";
 import HeaderApps from "@/views/HeaderApps";
-import FooterApps from "@/apps/inclusion/components/FooterApps";
+import FooterApps from "@/views/FooterApps";
 import MapView from "@/apps/inclusion/views/MapView";
 import TableauView from "@/apps/inclusion/views/TableauView";
-import FaqView from "@/apps/inclusion/views/FaqView";
-import SourcesView from "@/apps/inclusion/views/SourcesView";
 
 export default {
   name: "AppInclusion",
@@ -72,19 +62,18 @@ export default {
     FooterApps,
     MapView,
     TableauView,
-    FaqView,
-    SourcesView,
-  },
+  },  
   data() {
     return {
       panels: [
         { id: "carte", label: "Carte" },
         { id: "tableau", label: "Tableau" },
-        { id: "faq", label: "Questions fréquentes" },
-        { id: "sources", label: "Sources" },
       ],
-      formHref: "", // https://tally.so/r/m6L5jo
+      formHref: "https://tally.so/r/m6L5jo",
       appName: "Inclusion",
+      pageName: "inclusion",
+      displayBanner: true,
+      //isSafari: false,
     };
   },
   computed: {
@@ -136,7 +125,7 @@ export default {
       }
     },
     appLink: function () {
-      return window.location.origin + "/inclusion?onglet=carte&filtre=tous";
+      return window.location.origin + '/' + this.$route.params.lang + "/immobilier?onglet=carte&filtre=tous";
     },
     isMobile: function () {
       if (window.innerWidth < 768) {
@@ -147,6 +136,11 @@ export default {
     },
   },
   mounted() {
+    // let isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || (typeof safari !== 'undefined' && window['safari'].pushNotification));
+    // this.isSafari = isSafari
+    if (this.$route.query.banner) {
+      this.displayBanner = JSON.parse(this.$route.query.banner);
+    }
     if (this.$route.query.onglet) {
       if (this.$route.query.onglet != this.activePanel) {
         this.changeActivePanel(this.$route.query.onglet);
@@ -156,26 +150,22 @@ export default {
     }
   },
   methods: {
-    scrollMeTo(refName) {
-      var element = this.$refs[refName];
-      element.scrollIntoView();
-    },
     changeActivePanel(id) {
       appStore.commit("changeActivePanel", id);
       this.$router
         .push({
-          path: this.$route.path,
+          name: this.pageName,
+          params: { lang: this.$route.params.lang },
           query: { ...this.$route.query, onglet: id },
         })
         .catch(() => {});
     },
     updateActiveFilter(f) {
       appStore.commit("updateActiveFilter", f);
-      appStore.commit("updateActiveSubFilter", null);
-      appStore.commit("updateActiveSubFilterName", null);
       this.$router
         .push({
-          path: this.$route.path,
+          name: this.pageName,
+          params: { lang: this.$route.params.lang },
           query: { ...this.$route.query, filtre: f },
         })
         .catch(() => {});
@@ -183,7 +173,8 @@ export default {
     updateActiveLatLng() {
       this.$router
         .push({
-          path: this.$route.path,
+          name: this.pageName,
+          params: { lang: this.$route.params.lang },
           query: {
             ...this.$route.query,
             lat: this.centerLat.toFixed(5),
@@ -199,7 +190,8 @@ export default {
         if (this.userLocation.dep != this.$route.query.code) {
           this.$router
             .push({
-              path: this.$route.path,
+              name: this.pageName,
+              params: { lang: this.$route.params.lang },
               query: { ...this.$route.query, code: this.userLocation.dep },
             })
             .catch(() => {});
@@ -209,7 +201,8 @@ export default {
         if (this.userLocation.com != this.$route.query.code) {
           this.$router
             .push({
-              path: this.$route.path,
+              name: this.pageName,
+              params: { lang: this.$route.params.lang },
               query: { ...this.$route.query, code: this.userLocation.com },
             })
             .catch(() => {});
@@ -219,7 +212,8 @@ export default {
         if (this.userLocation.section != this.$route.query.code) {
           this.$router
             .push({
-              path: this.$route.path,
+              name: this.pageName,
+              params: { lang: this.$route.params.lang },
               query: { ...this.$route.query, code: this.userLocation.section },
             })
             .catch(() => {});
@@ -229,7 +223,8 @@ export default {
         if (this.userLocation.parcelle != this.$route.query.code) {
           this.$router
             .push({
-              path: this.$route.path,
+              name: this.pageName,
+              params: { lang: this.$route.params.lang },
               query: { ...this.$route.query, code: this.userLocation.parcelle },
             })
             .catch(() => {});
@@ -239,7 +234,8 @@ export default {
         if (level != this.$route.query.level) {
           this.$router
             .push({
-              path: this.$route.path,
+              name: this.pageName,
+              params: { lang: this.$route.params.lang },
               query: { ...this.$route.query, level: level },
             })
             .catch(() => {});
@@ -253,7 +249,11 @@ export default {
             }
           }
           this.$router
-            .push({ path: this.$route.path, query: query })
+            .push({ 
+              name: this.pageName,
+              params: { lang: this.$route.params.lang },
+              query: query 
+            })
             .catch(() => {});
         }
       }
@@ -279,13 +279,6 @@ export default {
 <style scoped>
 * {
   box-sizing: inherit;
-}
-
-
-.inclusion_header {
-  padding-left: 20px;
-  padding-top: 30px;
-  position: relative;
 }
 
 .inclusion_header {
@@ -318,6 +311,8 @@ export default {
 }
 
 .inclusion_content {
+  position: absolute;
+  top: 156px;
   bottom: 0px;
   width: 100%;
 }
@@ -331,6 +326,7 @@ export default {
 
 .mainView {
   width: 100%;
+  height: 100%;
   position: absolute;
   top: 0;
   bottom: 0;
@@ -455,6 +451,19 @@ export default {
     top: 0px;
     bottom: 41px;
   }
-  
+
 }
+
+  .safari{
+    position: absolute;
+    top: 60px;
+    width: 100%;
+    background-color: #FB7935;
+    z-index: 100;
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+    color: white;
+  }
+
 </style>

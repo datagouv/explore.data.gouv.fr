@@ -42,8 +42,11 @@ export default new Vuex.Store({
     dvfCurrentSection: null,
   },
   mutations: {
+    addUrlToSave(state, data) {
+      state.saveApiUrl.push(data)
+    },
     addApiResult(state, data) {
-      state.saveApiUrl.push(data.url)
+      if (!state.saveApiUrl["data.url"]) { state.saveApiUrl.push(data.url) }
       state.saveApiResponse[data.url] = data.data
     },
     addActualData(state, data) {
