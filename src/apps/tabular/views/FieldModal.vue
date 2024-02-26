@@ -2,17 +2,20 @@
   <dialog :aria-labelledby="'fr-modal-title-modal-' + field.key" role="dialog" :id="id"
     class="fr-modal fr-modal--popover">
     <div class="fr-container--fluid">
-      <div class="fr-grid-row fr-grid-row--right">
-        <div class="fr-col-12 fr-col-sm-7 fr-col-md-5 fr-col-lg-4 fr-col-xl-3">
+      <div class="fr-grid-row fr-grid-row--center">
+        <div class="fr-col-12 fr-col-sm-7 fr-col-md-6">
           <div class="fr-modal__body">
             <div class="fr-modal__header">
+              Paramètre de colonne
               <button class="fr-link--close fr-link" title="Fermer la fenêtre modale"
-                :aria-controls="id">Fermer</button>
+                :aria-controls="id"></button>
             </div>
             <div class="fr-modal__content fr-text--regular">
               <h1 :id="'fr-modal-title-modal-' + field.key" class="fr-modal__title">{{ field.label }}</h1>
               <!-- <h2 class="fr-text--sm">Analyse des données</h2> -->
-              <dl>
+              <b>Filtres</b>
+              <Input :field="field" />
+              <!-- <dl>
                 <dt>Format détecté</dt>
                 <dd>{{ columnInfos.format }}</dd>
                 <dt>Nombre de valeurs distinctes</dt>
@@ -27,7 +30,7 @@
                   <dt>Ecart-type</dt>
                   <dd>{{ columnInfos.std }}</dd>
                 </span>
-              </dl>
+              </dl> -->
             </div>
           </div>
         </div>
@@ -39,9 +42,10 @@
 <script>
 import Histogram from '@/apps/tabular/views/Histogram.vue'
 import storeTabular from '@/apps/tabular/store/storeTabular'
+import Input from "@/apps/tabular/views/Input.vue";
 
 export default {
-  components: {Histogram},
+  components: {Histogram, Input},
   store: storeTabular,
   props: {
     field: {
@@ -68,6 +72,26 @@ export default {
 </script>
 
 <style scoped>
+
+.fr-modal__header{
+  border-bottom: 1px solid #DDDDDD;
+  padding-bottom: 0px;
+  padding-top: 0px;
+  margin-bottom: 10px;
+}
+
+.fr-link--close{
+  border-left: 1px solid #DDDDDD;
+  min-height: 0rem;
+  padding-left: 0rem;
+  padding-right: 0rem;
+}
+
+.fr-modal__title{
+  font-size: 16px;
+}
+
+
 h2 {
   margin-top: 1rem;
   margin-bottom: 0.5rem;

@@ -4,10 +4,140 @@
             :formHref="formHref()"
             appName="Explorateur de données"
             appLink="/test"
+            :displayBanner="true"
         ></header-apps>
-        <infos-dgv></infos-dgv>
         <infos-resources></infos-resources>
-        <Table v-if="dgvInfos && dgvInfos.resource" scrollable="scrollable" display="display"></Table>
+        <infos-dgv></infos-dgv>
+        <menu-resource></menu-resource>
+        <Table v-if="tabId === 'data' && dgvInfos && dgvInfos.resource" scrollable="scrollable" display="display"></Table>
+        <div v-if="tabId === 'description'" class="infos-tab">
+          <strong>Description</strong>
+          <br />
+          {{ dgvInfos.resource.description }}
+        </div>
+        <div v-if="tabId === 'structure'" class="infos-tab">
+          <strong>Structure des données</strong>
+          <br />
+          <div @click="displayDetail(item)" v-for="item in Object.keys(columnsInfos)" >
+            <div class="metadata-column">
+              <div>
+                <strong>{{ item }}</strong>
+              </div>
+              <div class="main-metadata">
+                <div class="distinct-metadata" v-if="columnsInfos[item].nb_distinct">
+                  Valeurs distinctes : <strong>{{ columnsInfos[item].nb_distinct }}</strong>
+                </div>
+                <!-- <div class="format-metadata" v-if="columnsInfos[item].python_type">
+                  Type : <span class="format">{{ columnsInfos[item].python_type }}</span>
+                </div> -->
+                <div class="format-metadata" v-if="columnsInfos[item].python_type">
+                  Format : <span class="format">{{ columnsInfos[item].format }}</span>
+                </div>
+              </div>
+            </div>
+            <div v-if="displayDetailColumn === item" class="detail-column">
+
+              <div class="detail-metadata" v-if="columnsInfos[item].min">
+                <div>Min.</div>
+                <div><strong>{{ columnsInfos[item].min }}</strong></div>
+              </div>
+              <div class="detail-metadata" v-if="columnsInfos[item].max">
+                <div>Max.</div>
+                <div><strong>{{ columnsInfos[item].max }}</strong></div>
+              </div>
+              <div class="detail-metadata" v-if="columnsInfos[item].mean">
+                <div>Moyenne</div>
+                <div><strong>{{ columnsInfos[item].mean }}</strong></div>
+              </div>
+              <div class="detail-metadata" v-if="columnsInfos[item].std">
+                <div>Ecart Type</div>
+                <div><strong>{{ columnsInfos[item].std }}</strong></div>
+              </div>
+            </div>
+
+            <div v-if="displayDetailColumn === item" class="detail-column">
+              <div class="detail-metadata" v-if="columnsInfos[item].format">
+                <div>Valeurs les plus fréquentes</div>
+                <div class="detail-column">
+                  <div class="detail-metadata" v-for="index in 5" :key="index">
+                    <div  v-for="n in [0, 1]" :key="n">
+                      <span v-if="columnsInfos[item].tops.length > ((index-1)*2 + n)">
+                        <strong>{{ columnsInfos[item].tops[(index-1)*2 + n].value }}</strong> ({{ columnsInfos[item].tops[(index-1)*2 + n].count }})
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div  v-if="tabId === 'metadata'" class="metadata-tab">
+          <div  class="metadata-container">
+            <div class="metadata-block">
+              <h4>URL</h4>
+              <span>{{ dgvInfos.resource.url }}</span>
+            </div>
+
+            <div class="metadata-block">
+              <h4>Créé le</h4>
+              <p>{{ dgvInfos.resource.created_at.slice(0,10) }}</p>
+            </div>
+
+            <div class="metadata-block">
+              <h4>Taille</h4>
+              <p v-if="dgvInfos.resource.filesize">{{ dgvInfos.resource.filesize }}</p>
+            </div>
+          </div>
+          <div  class="metadata-container">
+            <div class="metadata-block">
+              <h4>URL Stable</h4>
+              <span>{{ dgvInfos.resource.latest }}</span>
+            </div>
+
+            <div class="metadata-block">
+              <h4>Créé le</h4>
+              <p v-if="dgvInfos.resource.harvest">{{ dgvInfos.resource.harvest.modified_at.slice(0,10) }}</p>
+              <p v-else>{{ dgvInfos.resource.modified_at.slice(0,10) }}</p>
+            </div>
+
+            <div class="metadata-block">
+              <h4>Type</h4>
+              <p v-if="dgvInfos.resource.type === 'main'">Fichier principal</p>
+              <p v-if="dgvInfos.resource.type === 'documentation'">Documentation</p>
+            </div>
+          </div>
+          <div  class="metadata-container">
+            <div class="metadata-block">
+              <h4>Identifiant</h4>
+              <span class="format">{{ dgvInfos.resource.id }}</span>
+            </div>
+
+            <div class="metadata-block">
+            </div>
+
+            <div class="metadata-block">
+              <h4>Type MIME</h4>
+              <span v-if="dgvInfos.resource.mime" class="format">{{ dgvInfos.resource.mime }}</span>
+            </div>
+          </div>
+          <div  class="metadata-container">
+            <div class="metadata-block">
+              <h4>SHA-1</h4>
+              <span v-if="dgvInfos.resource.extras && dgvInfos.resource.extras['analysis:checksum']" class="format">{{ dgvInfos.resource.extras['analysis:checksum'] }}</span>
+            </div>
+
+            <div class="metadata-block">
+            </div>
+
+            <div class="metadata-block">
+            </div>
+          </div>
+        </div>
+
+          <div v-if="tabId === 'api'">
+            <openapi-explorer spec-url="https://tabular-api.data.gouv.fr/api/resources/91084b11-1316-422e-bccf-b86234cd3fd9/swagger/">
+            </openapi-explorer>
+          </div>
     </div>
 </template>
 
@@ -16,14 +146,46 @@ import HeaderApps from '@/views/HeaderApps.vue'
 import InfosDgv from '@/apps/tabular/views/InfosDgv.vue'
 import InfosResources from '@/apps/tabular/views/InfosResources.vue'
 import Table from '@/apps/tabular/views/Table.vue'
+import MenuResource from '@/apps/tabular/views/menuResource.vue'
 import storeTabular from './store/storeTabular'
+import 'openapi-explorer';
 
 export default {
     name: 'DatasetView',
-    components: {HeaderApps, InfosDgv, InfosResources, Table},
+    components: {HeaderApps, InfosDgv, InfosResources, Table, MenuResource},
     store: storeTabular,
     data() {
         return {
+          displayDetailColumn: "",
+          jsonApi: {
+  "swagger": "3.0",
+  "info": {
+    "title": "Sample API",
+    "description": "API description in Markdown.",
+    "version": "1.0.0"
+  },
+  "host": "api.example.com",
+  "basePath": "/v1",
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "/users": {
+      "get": {
+        "summary": "Returns a list of users.",
+        "description": "Optional extended description in Markdown.",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  }
+},
         }
     },
     props:{
@@ -32,13 +194,23 @@ export default {
       dgvInfos() {
         return this.$store.state.dgv_infos
       },
+      tabId(){
+          return this.$store.state.tabId;
+      },
+      columnsInfos(){
+          return this.$store.state.columnsInfos;
+      }
     },
     methods: {
         formHref() {
             return "https://tally.so/r/nr5BML";
         },
+        displayDetail(item){
+          this.displayDetailColumn = item
+        }
     },
     mounted () {
+      
     },
     watch: {
     }
@@ -47,7 +219,7 @@ export default {
 
 <style scoped>
 .subheader{
-  background-color:#E6EEFE;
+  background-color:#3558A2;
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
@@ -95,5 +267,102 @@ export default {
     padding: 0.2rem 0.5rem 0.2rem 0.5rem!important;
   }
 }
+
+.infos-tab{
+  padding: 1rem;
+}
+
+.metadata-column{
+  display: flex;
+  align-items: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #DDDDDD;
+}
+.main-metadata{
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.metadata-column:hover{
+  cursor: pointer;
+  background-color: #EEEEEE;
+}
+
+.distinct-metadata{
+  padding-right: 0.7rem;
+}
+
+.format{
+  padding-top: 3px;
+  padding-bottom: 3px;
+  padding-left: 5px;
+  padding-right: 5px;
+  background-color: #EEEEEE;
+  color: #666666;
+  border-radius: 3px;
+}
+
+.detail-column{
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.detail-metadata{
+  min-width: 14rem;
+  line-height: 50px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.format-metadata{
+  padding-right: 10px;
+}
+
+.metadata-container {
+  display: grid;
+  grid-template-columns: 3fr 1fr 1fr; /* Adjust the number of columns as needed */
+  padding: 10px;
+  justify-content: space-between;
+}
+
+.metadata-block {
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+.metadata-block h4 {
+  margin: 0;
+  padding-bottom: 10px;
+  font-size: 14px;
+  color: #333; /* Dark grey text */
+}
+
+.metadata-block p, .metadata-block a {
+  margin: 0;
+  font-size: 14px;
+  color: #666; /* Lighter grey text */
+}
+
+.metadata-block a {
+  text-decoration: none;
+  color: #0000EE; /* Standard link color */
+}
+
+/* Responsive adjustments for smaller screens */
+@media screen and (max-width: 50em) {
+  .metadata-container {
+    grid-template-columns: 1fr; /* Stack the blocks on smaller screens */
+    justify-content: normal;
+  }
+}
+
+.metadata-tab{
+  padding: 15px;
+}
+/* 
+openapi-explorer::part(section-navbar) {
+  background: #3558A2;
+} */
 
 </style>

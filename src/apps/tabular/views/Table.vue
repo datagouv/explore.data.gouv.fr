@@ -18,30 +18,12 @@
               @mouseover="hoverArrow = true"
               @mouseleave="hoverArrow = false"
             >
-              <button
-                class="fr-col-auto fr-mr-2w"
-                :class="{ 'text-label-blue-cumulus': field.key === sortBy }"
-                data-fr-opened="false"
-                :aria-controls="'fr-modal-' + field.key"
-              >
-                <span
-                  v-if="columnsInfos && columnsInfos[field.key]"
-                  class="fr-icon-info-line"
-                  aria-hidden="true"
-                ></span>
-              </button>
-              <div
-                @click="sortbyfield(field.key)"
-                class="fr-col style-header-col"
-                :class="{ 'text-label-blue-cumulus': field.key === sortBy }"
-              >
-                {{ field.label }}
-              </div>
-              <div
-                class="fr-col-auto fr-ml-2w style-header-col"
+              <div 
+                class="fr-col-auto"
                 v-if="field.key === sortBy"
                 @click="sortbyfield(field.key)"
               >
+
                 <span
                   class="fr-icon-arrow-down-line text-label-blue-cumulus"
                   :class="{
@@ -50,12 +32,38 @@
                   }"
                   aria-hidden="true"
                 ></span>
+                
+              </div>
+              <div
+                @click="sortbyfield(field.key)"
+                class="fr-col style-header-col"
+                :class="{ 'text-label-blue-cumulus': field.key === sortBy }"
+              >
+                {{ field.label }}
+              </div>
+              <div
+                class="style-header-col filter-icon"
+              >
+                <button
+                  class="fr-col-auto"
+                  :class="{ 'text-label-blue-cumulus': field.key === sortBy }"
+                  data-fr-opened="false"
+                  :aria-controls="'fr-modal-' + field.key"
+                >
+                  <span
+                    v-if="columnsInfos && columnsInfos[field.key]"
+                  >
+                    <svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M11.25 2.5V3.5H10.75L8.25 7.25V11.5H5.25V7.25L2.75 3.5H2.25V2.5H11.25ZM3.952 3.5L6.25 6.947V10.5H7.25V6.947L9.548 3.5H3.952Z" fill="#929292"/>
+                    </svg>
+                  </span>
+                </button>
               </div>
             </div>
             <FieldModal :id="'fr-modal-' + field.key" :field="field" />
           </th>
         </tr>
-        <tr>
+        <!-- <tr>
           <th
             scope="col"
             v-for="field in fields"
@@ -65,7 +73,7 @@
           >
             <Input :field="field" />
           </th>
-        </tr>
+        </tr> -->
       </thead>
       
       <tbody id="body">
@@ -215,40 +223,6 @@
         </p>
       </div>
       <div v-if="rows.length < 10" class="messageNoResults"></div>
-      <tfoot class="fr-p-2w">
-        <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle">
-          <div class="fr-col-auto">
-            <div class="fr-grid-row fr-grid-row--gutters">
-              <p class="fr-col-auto">
-                <strong>Nb. Colonnes</strong> : {{ fields.length }}
-              </p>
-              <p class="fr-col-auto">
-                <strong>Nb. Lignes</strong> : {{ totalRows }}
-              </p>
-            </div>
-          </div>
-          <div class="fr-col-auto">
-            <a
-              v-if="filters.length > 0"
-              download
-              :href="exportData()"
-              class="fr-btn fr-btn--sm fr-btn--secondary fr-btn--icon-left fr-icon-download-line"
-            >
-              Télécharger les données filtrées
-            </a>
-            &nbsp;&nbsp;
-            <span v-if="dgvInfos.resource">
-              <a
-                download
-                :href="dgvInfos.resource.latest"
-                class="fr-btn fr-btn--sm fr-btn--secondary fr-btn--icon-left fr-icon-download-line"
-              >
-                Télécharger le fichier complet
-              </a>
-            </span>
-          </div>
-        </div>
-      </tfoot>
     </table>
   </div>
 </template>
@@ -735,13 +709,17 @@ html {
   height: 100%;
   overflow: hidden;
 }
+.fr-table td{
+  padding: 0.5rem 0rem 0.5rem 1.2rem!important;
+  border-right: 1px solid #DDDDDD;
+
+}
 .fr-table {
   overflow: auto;
   height: 100vh;
   margin-bottom: 0;
-}
-.fr-table.padding {
-  padding-bottom: 285px;
+  border-top: 1px solid black;
+  padding-top: 0px;
 }
 .fr-table table {
   height: 100%;
@@ -756,31 +734,7 @@ html {
 .fr-table tbody {
   height: auto;
 }
-tfoot {
-  position: fixed;
-  bottom: 0;
-  background-color: var(--background-flat-grey);
-  color: var(--text-inverted-grey);
-  width: 100%;
-  z-index: 6;
-  overflow: hidden;
-  padding: 0.5rem !important;
-}
-tfoot .fr-btn--secondary {
-  --border-action-high-blue-france: var(--text-inverted-grey);
-  --border-active-blue-france: var(--text-inverted-grey);
-  --text-action-high-blue-france: var(--text-inverted-grey);
-  --hover-tint: var(--grey-425-625);
-}
-tfoot .fr-grid-row {
-  justify-content: space-between;
-}
-tfoot .fr-col-auto {
-  font-size: 0.85rem;
-}
-tfoot .fr-col-auto a {
-  font-size: 0.85rem;
-}
+
 th {
   vertical-align: middle;
 }
@@ -800,6 +754,7 @@ td {
 .header,
 .filter {
   border-bottom: 2px solid var(--border-plain-grey);
+  border-right: 1px solid #DDDDDD;
 }
 .header--sorted,
 .filter--filled {
@@ -821,35 +776,32 @@ td {
   border-width: 1px;
 }
 .cell {
-  max-height: 7.5rem;
-  overflow: auto;
-  overflow-x: hidden;
+    padding: 0px;
+    height: 3rem;
+    overflow-y: auto;
+    display: block;
+    width: 100%;
+    font-size: 12px;
+    line-height: 20px;
+    display: flex;
+    align-items: center;
 }
 .style-header-col {
   cursor: pointer;
   white-space: nowrap;
+  font-size: 12px;
+  width: 10rem;
 }
 .messageNoResults {
   min-height: 400px;
 }
+.filter-icon{
+  text-align: right;
+}
+
 @media (min-width: 48em) {
-  .fr-table td {
-    padding: 0.75rem;
-  }
-  .fr-table.padding {
-    padding-bottom: 169px;
-  }
   .style-header-col {
     white-space: normal;
-  }
-  tfoot {
-    padding: 1rem !important;
-  }
-  tfoot .fr-col-auto {
-    font-size: 1rem;
-  }
-  tfoot .fr-col-auto a {
-    font-size: 1rem;
   }
 }
 </style>

@@ -27,8 +27,9 @@ export default {
             return "https://tally.so/r/nr5BML";
         },
         setFiltersFromQueryString (params) {
-          params.forEach((item) => {
-            this.$store.commit("addFilter", { field: item.split("=")[0].split("__")[0], value: item.split("=")[1], comp: item.split("=")[0].split("__")[1] })
+          console.log(params)
+          Object.keys(params).forEach((item) => {
+            this.$store.commit("addFilter", { field: item.split("__")[0], value: params[item], comp: item.split("__")[1] })
           })
         },
         retrieveInfos(did){
@@ -39,10 +40,7 @@ export default {
           if (this.$route.hash && this.$route.hash.startsWith("#/resources/")){
               let url_complement = this.$route.hash.replace("#/resources/", "").split("?")
               rid = url_complement[0].replace("/", "")
-              if (url_complement.length > 1) {
-                params_complements = this.$route.hash.replace("#/resources/", "").split("?")[1].split("&")
-                this.setFiltersFromQueryString(params_complements)
-              }
+              this.setFiltersFromQueryString(this.$route.query)
           }
           fetch(url_dgv + '/api/1/datasets/' + did)
               .then((response) => {
@@ -69,16 +67,7 @@ export default {
                           }
                       })
                       if (obj.resource) {
-                          if (params_complements) {
-                            let complement = params_complements.join('&')
-                            if (this.$route.hash != '#/resources/' + obj.resource.id + '?' + complement) {
-                              this.$router.push({ hash: '#/resources/' + obj.resource.id + '?' + complement});
-                            }
-                          } else {
-                            if (this.$router.hash != '#/resources/' + obj.resource.id) {
-                              this.$router.push({ hash: '#/resources/' + obj.resource.id });
-                            }
-                          }
+                          this.$router.push({ hash: '#/resources/' + obj.resource.id, query: this.$route.query });
                       }
                       obj.other_resources = obj2
                       //this.$store.commit('setDgvInfos', obj)
@@ -107,7 +96,7 @@ export default {
 
 <style scoped>
 .subheader{
-  background-color:#E6EEFE;
+  background-color:#3558A2;
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;

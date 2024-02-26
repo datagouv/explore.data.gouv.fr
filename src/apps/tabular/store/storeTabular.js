@@ -18,6 +18,7 @@ export default new Vuex.Store({
   state: {
     /** @type {Array} */
     rows: [],
+    tabId: "data",
     columns: [],
     generalInfos: {},
     columnsInfos: [],
@@ -145,6 +146,9 @@ export default new Vuex.Store({
     }
   },
   mutations: {
+    updateTabId(state, data) {
+      state.tabId = data
+    },
     updateLoadingState(state, data) {
       state.hasLoaded = data
     },
