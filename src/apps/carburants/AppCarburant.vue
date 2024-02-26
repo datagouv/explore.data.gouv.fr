@@ -4,6 +4,7 @@
       :formHref="formHref"
       appName="Carburants"
       appLink="/prix-carburants"
+      :displayBanner="true"
     ></header-apps>
     <div>
       <div v-if="tooltip.properties" class="tooltip" :style="{top:tooltip.top,left:tooltip.left, display:tooltip.display}">

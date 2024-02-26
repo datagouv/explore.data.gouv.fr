@@ -1,5 +1,5 @@
 <template>
-  <div class="headerapps fr-grid-row fr-grid-row--middle">
+  <div v-if="displayBanner" class="headerapps fr-grid-row fr-grid-row--middle">
     <div class="main-title">
     <div class="fr-enlarge-link">
       <h1 class="subtitle fr-m-0"><a :href="home">explore.</a></h1>
@@ -72,6 +72,7 @@ export default {
     appName: String,
     appLink: String,
     betaApp: Boolean,
+    displayBanner: Boolean,
   },
 };
 </script>
@@ -81,8 +82,8 @@ export default {
 .headerapps {
   padding-left: 20px;
   padding-right: 20px;
-  padding-top: 13px;
-  padding-bottom: 13px;
+  padding-top: 5px;
+  padding-bottom: 5px;
   background-color: white;
   justify-content: space-between;
   width: 100%;

@@ -5,6 +5,7 @@
       :appName="appName"
       :appLink="appLink"
       :betaApp="true"
+      :displayBanner="true"
     ></header-apps>
     <!-- <div class="safari" v-if="isSafari">Vous utilisez le navigateur Safari, nous vous conseillons de basculer sur un autre navigateur car des bugs sont remontés sur celui-ci au niveau de la carte.<br />Nous travaillons à leurs résolutions.</div> -->
     <div class="dvf_header">
