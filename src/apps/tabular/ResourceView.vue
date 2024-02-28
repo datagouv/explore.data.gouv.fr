@@ -135,7 +135,7 @@
         </div>
 
           <div v-if="tabId === 'api'">
-            <openapi-explorer spec-url="https://tabular-api.data.gouv.fr/api/resources/91084b11-1316-422e-bccf-b86234cd3fd9/swagger/">
+            <openapi-explorer :spec-url="'https://tabular-api.data.gouv.fr/api/resources/' + dgvInfos.resource.id + '/swagger/'">
             </openapi-explorer>
           </div>
     </div>
@@ -157,35 +157,6 @@ export default {
     data() {
         return {
           displayDetailColumn: "",
-          jsonApi: {
-  "swagger": "3.0",
-  "info": {
-    "title": "Sample API",
-    "description": "API description in Markdown.",
-    "version": "1.0.0"
-  },
-  "host": "api.example.com",
-  "basePath": "/v1",
-  "schemes": [
-    "https"
-  ],
-  "paths": {
-    "/users": {
-      "get": {
-        "summary": "Returns a list of users.",
-        "description": "Optional extended description in Markdown.",
-        "produces": [
-          "application/json"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    }
-  }
-},
         }
     },
     props:{
