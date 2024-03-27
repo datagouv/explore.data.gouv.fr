@@ -34,6 +34,7 @@
                     v-if="filters.length > 0"
                     download
                     :href="exportData()"
+                    target="_blank"
                     class="fr-btn fr-btn--sm fr-btn--secondary fr-btn--icon-left fr-icon-download-line"
                     >
                     Données filtrées
