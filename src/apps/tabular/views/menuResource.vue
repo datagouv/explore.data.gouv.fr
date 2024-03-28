@@ -67,7 +67,7 @@
         <div class="menu-tab" :class="tabId === 'metadata' ? 'menu-tab-selected' : ''" @click="changeTab('metadata')">
             Métadonnées
         </div>
-        <div class="menu-tab" :class="tabId === 'api' ? 'menu-tab-selected' : ''" @click="changeTab('api')">
+        <div style="display: none;" class="menu-tab" :class="tabId === 'api' ? 'menu-tab-selected' : ''" @click="changeTab('api')">
             API
         </div>
     </div>
