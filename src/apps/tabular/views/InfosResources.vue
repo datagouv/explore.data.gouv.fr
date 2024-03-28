@@ -13,10 +13,12 @@
                     @change="redirectToResource"
                   >
                     <option
-                      :key="dgvInfos.resource.id"
-                      :value="dgvInfos.resource.id"
+                      v-for="item in dgvInfos.other_resources"
+                      :key="item.resource_id"
+                      :value="item.resource_id"
+                      :selected="item.resource_id === dgvInfos.resource.id"
                     >
-                      {{ dgvInfos.resource.title || "Ressource sans nom" }}
+                      {{ item.resource_title || "Ressource sans nom" }}
                     </option>
                 </select>
               </div>
@@ -144,7 +146,7 @@ export default {
       return this.fields.find(field => field.key === key)
     },
     redirectToResource() {
-      //window.open(window.location.origin + '/' + this.$route.params.lang + '/tableau?url=' + getResourceUrl(this.selectedResource))
+      window.open(window.location.origin + '/' + this.$route.params.lang + '/datasets/' + this.dgvInfos.dataset_id + '/#/resources/' + this.selectedResource)
     },
     filterNotDuplucate(filter){
       let filt = this.filters.filter(f => f.field === filter.field)

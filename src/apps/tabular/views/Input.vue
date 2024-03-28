@@ -123,8 +123,11 @@ export default {
       this.intervalFilter = [this.filterLess.value, this.filterGreater.value];
     }
     if (
-      this.columnInfos.format == "int" ||
-      this.columnInfos.format == "float"
+      this.columnInfos &&
+      this.columnInfos.format && (
+        this.columnInfos.format == "int" ||
+        this.columnInfos.format == "float"
+      )
     ) {
       let intfil = [this.columnInfos.min, this.columnInfos.max];
       if (this.filterGreater) {
@@ -134,7 +137,7 @@ export default {
         intfil[1] = this.filterLess.value;
       }
       this.intervalFilter = intfil;
-      if (this.columnInfos.format == "int") {
+      if (this.columnInfos && this.columnInfos.format && this.columnInfos.format == "int") {
         this.interval = 1;
       } else {
         this.interval =

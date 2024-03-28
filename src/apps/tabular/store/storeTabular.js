@@ -211,7 +211,7 @@ export default new Vuex.Store({
       state.dgv_infos.dataset_title = data.dataset_title
       state.dgv_infos.organization_id = data.organization_id
       state.dgv_infos.organization_name = data.organization_name
-      state.dgv_infos.other_resources = data.other_resources.filter(res => (res.format.includes('csv') | res.format.includes('xls')))
+      state.dgv_infos.other_resources = data.other_resources
     },
     addFilter(state, filter) {
       state.filters.push(filter)
