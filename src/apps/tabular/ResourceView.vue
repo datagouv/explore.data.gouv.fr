@@ -13,10 +13,12 @@
         <div v-if="tabId === 'description'" class="infos-tab">
           <strong>Description</strong>
           <br />
-          {{ dgvInfos.resource.description }}
+          <p v-if="dgvInfos.resource.description">{{ dgvInfos.resource.description }}</p>
+          <p v-else>Cette ressource n'a pas de description.</p>
         </div>
         <div v-if="tabId === 'structure'" class="infos-tab">
           <strong>Structure des données</strong>
+
           <br />
           <div @click="displayDetail(item)" v-for="item in Object.keys(columnsInfos)" >
             <div class="metadata-column">
@@ -75,10 +77,10 @@
           <div  class="metadata-container">
             <div class="metadata-block">
               <h4>URL</h4>
-              <span>{{ dgvInfos.resource.url }}</span>
+              <span><a :href="dgvInfos.resource.url"><span class="link-urls">{{ dgvInfos.resource.url }}</span></a></span>
             </div>
 
-            <div class="metadata-block">
+            <div v-if="dgvInfos.resource.created_at" class="metadata-block">
               <h4>Créé le</h4>
               <p>{{ dgvInfos.resource.created_at.slice(0,10) }}</p>
             </div>
@@ -91,13 +93,13 @@
           <div  class="metadata-container">
             <div class="metadata-block">
               <h4>URL Stable</h4>
-              <span>{{ dgvInfos.resource.latest }}</span>
+              <span><a :href="dgvInfos.resource.latest"><span class="link-urls">{{ dgvInfos.resource.latest }}</span></a></span>
             </div>
 
             <div class="metadata-block">
               <h4>Créé le</h4>
               <p v-if="dgvInfos.resource.harvest">{{ dgvInfos.resource.harvest.modified_at.slice(0,10) }}</p>
-              <p v-else>{{ dgvInfos.resource.modified_at.slice(0,10) }}</p>
+              <p v-else-if="dgvInfos.resource.modified_at">{{ dgvInfos.resource.modified_at.slice(0,10) }}</p>
             </div>
 
             <div class="metadata-block">
@@ -335,5 +337,11 @@ export default {
 openapi-explorer::part(section-navbar) {
   background: #3558A2;
 } */
+
+
+.link-urls{
+  color: #1353B5;
+  font-size: 15px;
+}
 
 </style>

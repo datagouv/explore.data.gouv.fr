@@ -27,7 +27,6 @@ export default {
             return "https://tally.so/r/nr5BML";
         },
         setFiltersFromQueryString (params) {
-          console.log(params)
           Object.keys(params).forEach((item) => {
             this.$store.commit("addFilter", { field: item.split("__")[0], value: params[item], comp: item.split("__")[1] })
           })
