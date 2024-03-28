@@ -57,16 +57,24 @@ export default {
 
                       let obj2 = []
                       data.resources.forEach((res) => {
-                          obj2.push({ resource_id: res.id, resource_title: res.title, preview_url: res.preview_url, format: res.format })
-                          if (res.id == rid){
-                              obj.resource = res
-                          }
-                          if (!rid && res.format == 'csv') {
-                              obj.resource = res
+                          if (res.extras && res.extras['analysis:parsing:finished_at']) {
+                            let obj3 = { resource_id: res.id, resource_title: res.title, preview_url: res.preview_url, extras: res.extras }
+                            if (res.format) {
+                              obj3.format = res.format
+                            }
+                            obj2.push(obj3)
+                            if (res.id == rid){
+                                obj.resource = res
+                            }
                           }
                       })
                       if (obj.resource) {
-                          this.$router.push({ hash: '#/resources/' + obj.resource.id, query: this.$route.query });
+                          this.$router.push({ hash: '#/resources/' + obj.resource.id, query: this.$route.query }).catch(
+                            err => {
+                            if (err.name !== 'NavigationDuplicated') {
+                              throw err;
+                            }
+                          });
                       }
                       obj.other_resources = obj2
                       //this.$store.commit('setDgvInfos', obj)

@@ -32,7 +32,7 @@
                 <!-- <div class="format-metadata" v-if="columnsInfos[item].python_type">
                   Type : <span class="format">{{ columnsInfos[item].python_type }}</span>
                 </div> -->
-                <div class="format-metadata" v-if="columnsInfos[item].python_type">
+                <div class="format-metadata" v-if="columnsInfos[item].format">
                   Format : <span class="format">{{ columnsInfos[item].format }}</span>
                 </div>
               </div>
