@@ -22,8 +22,8 @@
       </div>
       <div class="footer_links">
         <a target="_blank" href="https://data.gouv.fr/">data.gouv.fr</a>
-        <a target="_blank" href="https://www.gouvernement.fr/"
-          >gouvernement.fr</a
+        <a target="_blank" href="https://www.info.gouv.fr/"
+          >info.gouv.fr</a
         >
         <a target="_blank" href="https://www.legifrance.gouv.fr/"
           >legifrance.fr</a
