@@ -1,9 +1,7 @@
 <template>
-    <div>
-        <span v-if="dgvInfos.resource">
-            <resource-view></resource-view>
-        </span>
-    </div>
+  <div v-if="dgvInfos.resource">
+    <resource-view></resource-view>
+  </div>
 </template>
 
 <script>
