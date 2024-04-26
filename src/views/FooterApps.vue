@@ -13,7 +13,7 @@
             <div class="footer_signature">Ce site est proposé par <a href="https://www.data.gouv.fr/">data.gouv.fr</a></div>
             <div class="footer_links">
                 <a target="_blank" href="https://data.gouv.fr/">data.gouv.fr</a>
-                <a target="_blank" href="https://www.gouvernement.fr/">gouvernement.fr</a>
+                <a target="_blank" href="https://www.info.gouv.fr/">info.gouv.fr</a>
                 <a target="_blank" href="https://www.legifrance.gouv.fr/">legifrance.fr</a>
                 <a target="_blank" href="https://www.service-public.fr/">service-public.fr</a>
             </div>
