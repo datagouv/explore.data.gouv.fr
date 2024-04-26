@@ -195,8 +195,8 @@ export default {
   display: flex;
   flex-direction: column;
   height: 100vh;
-  /* Use svh on newer devices, useful for mobile users */
-  height: 100svh;
+  /* Use dvh on newer devices, useful for mobile users */
+  height: 100dvh;
   overflow: hidden;
 }
 
