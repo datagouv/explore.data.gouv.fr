@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id="resource-view">
         <header-apps
             :formHref="formHref()"
             appName="Explorateur de données"
@@ -191,6 +191,15 @@ export default {
 </script>
 
 <style scoped>
+#resource-view {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  /* Use dvh on newer devices, useful for mobile users */
+  height: 100dvh;
+  overflow: hidden;
+}
+
 .subheader{
   background-color:#3558A2;
   display: flex;
