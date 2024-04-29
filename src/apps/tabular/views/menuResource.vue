@@ -13,13 +13,13 @@
         <div class="menu-buttons">
             <div class="menu-button">
                 <div v-if="dgvInfos.resource">
-                    <div class="fr-col-auto" style="width: 100%">
+                    <div class="fr-col-auto">
                         <button
                         :disabled="doesntHaveFilter"
-                        class="fr-btn fr-btn--sm fr-btn--secondary fr-btn--icon-left fr-icon-filter-line"
+                        class="fr-btn fr-btn--sm fr-btn--secondary fr-icon-filter-line"
+                        :class="{'fr-btn--icon-left': filters.length > 0}"
                         data-fr-opened="false"
                         aria-controls="fr-modal-filters"
-                        :style="filters.length > 0 ? '' : 'padding-right: 2px;'"
                         >
                             <span v-if="hasActivefilters" class="fr-badge fr-badge--blue-cumulus">{{countActiveFilters}}</span>
                         </button>
@@ -47,8 +47,7 @@
                     <a
                         download
                         :href="dgvInfos.resource.latest"
-                        class="fr-btn fr-btn--sm fr-btn--secondary fr-btn--icon-left fr-icon-download-line"
-                        style="padding-right: 2px;"
+                        class="fr-btn fr-btn--sm fr-btn--secondary fr-icon-download-line"
                     ></a>
                     </span>
                 </div>
@@ -146,7 +145,7 @@ export default {
     border-bottom: 1px solid #EEEEEE;
 }
 
-@media (min-width: 70em) {
+@media (min-width: 62em) {
     .menu-resource {
         flex-direction: row;
         justify-content: space-between;
@@ -165,7 +164,7 @@ export default {
     }
 }
 
-@media (max-width: 70em) {
+@media (max-width: 62em) {
     .menu-resource {
         align-items: flex-start;
     }
@@ -185,13 +184,13 @@ export default {
     }
 }
 
-@media (max-width: 35em) {
+@media (max-width: 36em) {
     .menu-counts {
         display: none;
     }
 }
 
-@media (min-width: 35em) {
+@media (min-width: 36em) {
     .menu-counts {
         display: flex;
         align-items: center;
