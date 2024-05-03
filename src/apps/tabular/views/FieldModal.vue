@@ -1,7 +1,7 @@
 <template>
   <dialog :aria-labelledby="'fr-modal-title-modal-' + field.key" role="dialog" :id="id"
     class="fr-modal fr-modal--popover">
-    <div class="fr-container--fluid">
+    <div class="fr-container--fluid modal-position">
       <div class="fr-grid-row fr-grid-row--center">
         <div class="fr-col-12 fr-col-sm-7 fr-col-md-6">
           <div class="fr-modal__body">
@@ -112,4 +112,9 @@ dd {
   margin-bottom: 0.75rem;
   font-weight: bold;
 }
+
+.modal-position{
+  margin-top: 150px;
+}
+
 </style>
