@@ -4,6 +4,18 @@
       <div v-if="dgvInfos.resource" class="fr-container--fluid fr-p-2w sticky-bar">
         <div class="fr-grid-row fr-grid-row--gutters">
           <div class="fr-col-12 fr-col-md-9 fr-col-xl-9">
+            <div class="complements-resource">
+              <div class="fr-col-auto fr-text--sm fr-m-0 text-mention-grey">
+                <div v-if="dgvInfos.resource" class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle complements-resource-texts fr-m-0">
+                  <div class="bloc-maj-crawler maj-crawler"><b>Dernière mise à jour de l'exploration le {{ toFrDate(dgvInfos.resource.extras['analysis:parsing:finished_at']) }}</b></div>
+                  <div class="bloc-maj-crawler">-</div>
+                  <div class="bloc-maj-crawler">
+                    <template v-if="dgvInfos.resource.format"><i>Format {{ dgvInfos.resource.format }}</i></template>
+                    <template v-if="dgvInfos.resource.filesize">({{ bytesToSize(dgvInfos.resource.filesize) }})</template>
+                  </div>
+                </div>
+              </div>
+            </div>
             <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle">
               <div class="fr-col-auto">
                 <span v-if="!dgvInfos.resource">Sélectionner une ressource du jeu de données : </span>
@@ -21,18 +33,6 @@
                       {{ item.resource_title || "Ressource sans nom" }}
                     </option>
                 </select>
-              </div>
-            </div>
-            <div class="complements-resource">
-              <div class="fr-col-auto fr-text--sm fr-m-0 text-mention-grey">
-                <div v-if="dgvInfos.resource" class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle complements-resource-texts">
-                  <div class="fr-col-auto">Mis à jour le {{ toFrDate(dgvInfos.resource.last_modified) }}</div>
-                  <div class="fr-col-auto">
-                    <template v-if="dgvInfos.resource.format">{{ dgvInfos.resource.format }} </template>
-                    <template v-if="dgvInfos.resource.filesize">({{ bytesToSize(dgvInfos.resource.filesize) }})</template>
-                  </div>
-                  <!-- <div class="fr-col-auto">{{ dgvInfos.resource.metrics.views ? dgvInfos.resource.metrics.views : 0 }} téléchargement<template v-if="dgvInfos.resource.metrics.views > 1">s</template></div> -->
-                </div>
               </div>
             </div>
           </div>
@@ -133,8 +133,11 @@ export default {
     }
   },
   methods: {
-    toFrDate(date) {
-      return date.substr(8, 2) + "/" + date.substr(5, 2) + "/" + date.substr(0, 4)
+    toFrDate(dateStr) {
+      const date = new Date(dateStr);
+      const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' };
+      const dateFormatter = new Intl.DateTimeFormat('fr-FR', options);
+      return dateFormatter.format(date).replace(',', '').replace(" ", " à ");
     },
     bytesToSize(bytes) {
       var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
@@ -257,6 +260,16 @@ export default {
 
 .fr-modal__title{
   font-size: 16px;
+}
+
+.maj-crawler{
+  font-size: 14px;
+}
+
+.bloc-maj-crawler{
+  margin-right: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 </style>
