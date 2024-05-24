@@ -32,27 +32,12 @@
           Fichier : <b>{{ item.resource_title }}</b>
         </div>
         <div class="result-box">
-          <button class="fr-btn fr-btn--icon-left fr-icon-test-tube-line" @click="redirectViaResult(item.resource_url)">
-            Explorer
-          </button>
+            <button class="fr-btn fr-btn--icon-left fr-icon-test-tube-line" @click="goto(item)">Explorer</button>
         </div>
       </div>
     </div>
 
-    <div style="margin: auto; text-align: center; width: 100%; font-weight: bold; margin-top: 20px;">OU</div>
-
-    <form class="fr-mt-4w">
-      <label class="fr-label" for="text-input-text"><b>ENTRER L'URL DU FICHIER A VISUALISER AU FORMAT CSV</b>
-        <span class="fr-hint-text">Il s’agit du lien vers un fichier et non d’une page de jeu de données</span>
-      </label>
-      <input class="fr-input fr-mb-2w" type="text" v-model="csvUrlFieldValue" id="text-input-text" name="text-input-text" placeholder="https://..." />
-      <div class="fr-grid-row fr-grid-row--center">
-        <button class="fr-btn fr-btn--icon-left fr-icon-test-tube-line" @click="redirect">
-          Explorer les données
-        </button>
-      </div>
-    </form>
-
+  
     <br /><br />
     <h2>Quelques exemples</h2>
     <p>Si vous ne savez pas par quoi commencer à explorer, nous vous proposons ci-dessous une sélection de quelques jeux de données.</p>
@@ -102,23 +87,15 @@ export default {
       search: null,
       searchWordsDataset: null,
       csvUrl: '',
-      csvUrlFieldValue: '',
+      objResource: '',
       listResources: [
         {
           'dataset_id': '6311c164ebfb165ddc828ded',
           'resource_id': '1c5075ec-7ce1-49cb-ab89-94f507812daf',
         },
         {
-          'dataset_id': '54101458a3a72937cb2c703c',
-          'resource_id': '64e02cff-9e53-4cb2-adfd-5fcc88b2dc09'
-        },
-        {
-          'dataset_id': '60190d00a7273a8100dd4d38',
-          'resource_id': '5c4e1452-3850-4b59-b11c-3dd51d7fb8b5'
-        },
-        {
-          'dataset_id': '5448d3e0c751df01f85d0572',
-          'resource_id': '8d9398ae-3037-48b2-be19-412c24561fbb',
+          'dataset_id': '64265b673eb38d94e6538672',
+          'resource_id': 'df2cbcb3-da0a-4265-a24e-c36f2c787db2'
         },
       ]
     }
@@ -183,19 +160,9 @@ export default {
     apify(url) {
       this.$store.dispatch('apify', url)
     },
-    redirect() {
-      this.csvUrl = this.csvUrlFieldValue
-      this.$router
-        .push({
-          name: 'tableau',
-          params: { lang: this.$route.params.lang },
-          query: { url: this.csvUrl },
-        })
+    goto(item) {
+      window.location.href = window.location.origin + '/' + this.$route.params.lang + '/datasets/' + item.dataset_id + "/#/resources/" + item.resource_id
     },
-    redirectViaResult(val) {
-      this.csvUrlFieldValue = val
-      this.redirect()
-    }
   },
   watch: {
     csvUrl (value) {
@@ -222,7 +189,7 @@ export default {
                   .then((data2) => {
                     if (data2["data"].length > 0 && arr.length < 10) {
                       data2["data"].forEach((item2) => {
-                        if (["csv", "xls", "xlsx"].includes(item2.format)) {
+                        if (item2.extras && item2.extras["analysis:parsing:finished_at"]) {
                           let obj = {}
                           obj["dataset_id"] = item.id
                           obj["dataset_title"] = item.title
