@@ -1,0 +1,4 @@
+VUE_APP_FILTERS_ENABLED=true
+VUE_APP_DVF_API=https://api-dvf.preprod.data.gouv.fr
+#VUE_APP_DVF_API=https://dvf-api.data.gouv.fr
+VUE_APP_INCLUSION_TOKEN=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJnZW9mZnJleS5hbGRlYmVydEBkYXRhLmdvdXYuZnIiLCJhZG1pbiI6ZmFsc2V9.zdccXEMJCPupFTPTnB6IVEctNywcdoPT0g5cdBa3VJQ

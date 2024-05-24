@@ -4,7 +4,6 @@
 
 <script>
 import appStore from "@/apps/dvf/store";
-import exploreStore from "@/store.js";
 import Table from "../../../components/Table.vue";
 
 export default {

@@ -1,5 +1,5 @@
 <template>
-  <div class='csvapi'>
+  <div>
     <div id="app">
       <router-view></router-view>
     </div>
@@ -32,61 +32,6 @@ export default {
 
 .no-wrap {
   flex-wrap: nowrap;
-}
-
-.csvapi {
-  font-family: Marianne, Roboto, 'Helvetica Neue', Arial;
-  --border-action-high-blue-france: var(--border-plain-blue-cumulus);
-  --border-active-blue-france: var(--border-plain-blue-cumulus);
-  --text-action-high-blue-france: var(--text-label-blue-cumulus);
-  --background-action-low-blue-france-hover: var(--background-action-low-blue-cumulus-hover);
-  --background-action-low-blue-france-active: var(--background-action-low-blue-cumulus-active);
-  --background-action-low-blue-france: var(--background-action-low-blue-cumulus);
-  --background-action-high-blue-france-hover: var(--background-action-high-blue-cumulus-hover);
-  --background-action-high-blue-france-active: var(--background-action-high-blue-cumulus-active);
-  --background-action-high-blue-france: var(--background-action-high-blue-cumulus);
-  --border-default-blue-france: var(--border-default-blue-cumulus);
-}
-
-
-.csvapi .fr-btn {
-  border-radius: 30px;
-}
-
-.csvapi .fr-input-wrap.fr-input-wrap--icon-left .fr-input {
-  padding-left: 2.5rem;
-  padding-right: 1rem;
-}
-.csvapi .fr-input-wrap.fr-input-wrap--icon-left[class*=" fr-fi-"]::before,
-.csvapi .fr-input-wrap.fr-input-wrap--icon-left[class*=" fr-icon-"]::before,
-.csvapi .fr-input-wrap.fr-input-wrap--icon-left[class^=fr-fi-]::before,
-.csvapi .fr-input-wrap.fr-input-wrap--icon-left[class^=fr-icon-]::before {
-  left: 0.75rem;
-  right: auto;
-}
-
-.csvapi .fr-input.fr-input--empty,
-.csvapi .fr-input-wrap.fr-input-wrap--empty[class*=" fr-fi-"]::before,
-.csvapi .fr-input-wrap.fr-input-wrap--empty[class*=" fr-icon-"]::before,
-.csvapi .fr-input-wrap.fr-input-wrap--empty[class^=fr-fi-]::before,
-.csvapi .fr-input-wrap.fr-input-wrap--empty[class^=fr-icon-]::before {
-  color: var(--text-mention-grey);
-}
-
-.csvapi .fr-input.fr-input--empty {
-  box-shadow: inset 0 -2px 0 0 var(--text-mention-grey);
-}
-
-.csvapi .fr-input.fr-input--filled,
-.csvapi .fr-input-wrap.fr-input-wrap--filled[class*=" fr-fi-"]::before,
-.csvapi .fr-input-wrap.fr-input-wrap--filled[class*=" fr-icon-"]::before,
-.csvapi .fr-input-wrap.fr-input-wrap--filled[class^=fr-fi-]::before,
-.csvapi .fr-input-wrap.fr-input-wrap--filled[class^=fr-icon-]::before {
-  color: var(--text-label-blue-cumulus);
-}
-
-.csvapi .fr-input.fr-input--filled {
-  box-shadow: inset 0 -2px 0 0 var(--border-plain-blue-cumulus);
 }
 
 .fr-table__shadow:before {

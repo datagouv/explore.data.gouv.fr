@@ -212,7 +212,6 @@ import Histogram from '@/components/Histogram.vue'
 import Tooltip from '@/components/Tooltip.vue'
 import Input from './Input.vue'
 import FieldModal from './FieldModal.vue'
-import {csvapiUrl} from '@/config'
 
 export default {
   name: 'Table',
