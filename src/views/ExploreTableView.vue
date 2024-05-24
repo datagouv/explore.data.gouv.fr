@@ -44,12 +44,6 @@
     <CardLink v-for="item in listResources" :key="item.resource_id" :did="item.dataset_id" :rid="item.resource_id"></CardLink>
     <br /><br />
   </div>
-  <!-- error block -->
-  <Error v-else-if="hasError" :error="error" :csvUrl="csvUrl"></Error>
-  <!-- loader block -->
-  <Loader v-else-if="!hasLoaded"></Loader>
-  <!-- table block, fed by store -->
-  <Table class="fr-pt-0" v-else-if="csvUrl && !hasError"></Table>
   <footer-apps v-if="!csvUrl" scrollable="scrollable" display="display"></footer-apps>
 
   </div>
@@ -59,18 +53,16 @@
 <script>
 import HeaderApps from '@/views/HeaderApps.vue'
 import Table from '@/components/Table'
-import Error from '@/components/Error'
 import Loader from '@/components/Loader'
 import CardLink from '@/components/CardLink'
 import HeaderApp from '@/views/HeaderApp'
-import InfosResource from '@/views/InfosResource'
 import dataGouvUrlApi from '@/config'
 import FooterApps from './FooterApps.vue'
 
 
 export default {
-  name: 'TableView',
-  components: {Table, Error, Loader, CardLink, InfosResource, HeaderApps, FooterApps},
+  name: 'ExploreTableView',
+  components: {Table, Loader, CardLink, HeaderApps, FooterApps},
   metaInfo: {
     title: "Explorateur de données tabulaires",
     meta: [

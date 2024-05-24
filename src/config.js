@@ -15,7 +15,6 @@ function _meta(name) {
   return _attr(`meta[name=${name}]`, 'content')
 }
 
-export const csvapiUrl = process.env.VUE_APP_CSVAPI_URL || _meta('csvapi-url')
 export const pageSize = _meta('page-size') || 10
 export const dataGouvUrl = "https://www.data.gouv.fr/fr/"
 export const dataGouvUrlApi = "https://www.data.gouv.fr/api/"

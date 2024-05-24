@@ -1,9 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import {csvapiUrl, pageSize} from '@/config'
-import { configure, getData, makeDataUrl } from '@/csvapi'
-
 Vue.use(Vuex)
 
 function getColor(col, value, colors) {
@@ -24,7 +21,6 @@ export default new Vuex.Store({
     columnsInfos: [],
     colorsCat: {},
     fields: [],
-    /** @type {Array<import('@/csvapi').CsvapiFilter>} */
     filters: [],
     page: 1,
     pageSize: 20,
@@ -188,7 +184,6 @@ export default new Vuex.Store({
       }
     },
     setPage(state, page) {
-      configure({ page })
       state.page = page
     },
     setColumns(state, columns) {

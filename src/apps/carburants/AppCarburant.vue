@@ -199,7 +199,7 @@
                         <i> Celles-ci sont mises à disposition par le Ministère de l'Économie, des Finances et de la Souveraineté industrielle et numérique.
                         Pour plus d'informations <a href="https://www.prix-carburants.gouv.fr/"><u>rendez-vous sur le site officiel.</u></a></i>
                         <br />
-                        <i>Cette visualisation a été créée par le département Etalab de <a href="https://www.numerique.gouv.fr/"><u>la Direction Interministérielle du Numérique (DINUM)</u></a> et son <a href="https://github.com/etalab/csvapi-front/blob/exploration-table/src/views/AppCarburant.vue"><u>code source est libre.</u></a></i>
+                        <i>Cette visualisation a été créée par le département Etalab de <a href="https://www.numerique.gouv.fr/"><u>la Direction Interministérielle du Numérique (DINUM)</u></a> et son <a href="https://github.com/datagouv/explore.data.gouv.fr"><u>code source est libre.</u></a></i>
                       </div>
                       <br />
                     </div>
@@ -897,7 +897,7 @@ html{
   padding-left: 5px;
 }
 
-.csvapi .fr-btn{
+.fr-btn{
   border-radius: 0px;
 }
 

@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import TableView from './views/TableView.vue'
+import ExploreTableView from './views/ExploreTableView.vue'
 import AppCarburant from './apps/carburants/AppCarburant.vue'
 import AppDvf from './apps/dvf/AppDvf.vue'
 import HomePage from './views/HomePage.vue'
@@ -29,7 +29,7 @@ let router = new Router({
         {
           path: 'tableau',
           name: 'tableau',
-          component: TableView
+          component: ExploreTableView
         },
         {
           path: 'prix-carburants',
