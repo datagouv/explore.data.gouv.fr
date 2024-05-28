@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class='explore-app'>
     <div id="app">
       <router-view></router-view>
     </div>
@@ -217,6 +217,55 @@ export default {
   --active:var(--background-contrast-brown-opera-active);
   background-color:var(--background-contrast-brown-opera);
   color:var(--text-label-brown-opera);
+}
+
+
+.explore-app {
+  font-family: Marianne, Roboto, 'Helvetica Neue', Arial;
+  --border-action-high-blue-france: var(--border-plain-blue-cumulus);
+  --border-active-blue-france: var(--border-plain-blue-cumulus);
+  --text-action-high-blue-france: var(--text-label-blue-cumulus);
+  --background-action-low-blue-france-hover: var(--background-action-low-blue-cumulus-hover);
+  --background-action-low-blue-france-active: var(--background-action-low-blue-cumulus-active);
+  --background-action-low-blue-france: var(--background-action-low-blue-cumulus);
+  --background-action-high-blue-france-hover: var(--background-action-high-blue-cumulus-hover);
+  --background-action-high-blue-france-active: var(--background-action-high-blue-cumulus-active);
+  --background-action-high-blue-france: var(--background-action-high-blue-cumulus);
+  --border-default-blue-france: var(--border-default-blue-cumulus);
+}
+.explore-app .fr-btn {
+  border-radius: 30px;
+}
+.explore-app .fr-input-wrap.fr-input-wrap--icon-left .fr-input {
+  padding-left: 2.5rem;
+  padding-right: 1rem;
+}
+.explore-app .fr-input-wrap.fr-input-wrap--icon-left[class*=" fr-fi-"]::before,
+.explore-app .fr-input-wrap.fr-input-wrap--icon-left[class*=" fr-icon-"]::before,
+.explore-app .fr-input-wrap.fr-input-wrap--icon-left[class^=fr-fi-]::before,
+.explore-app .fr-input-wrap.fr-input-wrap--icon-left[class^=fr-icon-]::before {
+  left: 0.75rem;
+  right: auto;
+}
+.explore-app .fr-input.fr-input--empty,
+.explore-app .fr-input-wrap.fr-input-wrap--empty[class*=" fr-fi-"]::before,
+.explore-app .fr-input-wrap.fr-input-wrap--empty[class*=" fr-icon-"]::before,
+.explore-app .fr-input-wrap.fr-input-wrap--empty[class^=fr-fi-]::before,
+.explore-app .fr-input-wrap.fr-input-wrap--empty[class^=fr-icon-]::before {
+  color: var(--text-mention-grey);
+}
+.explore-app .fr-input.fr-input--empty {
+  box-shadow: inset 0 -2px 0 0 var(--text-mention-grey);
+}
+.explore-app .fr-input.fr-input--filled,
+.explore-app .fr-input-wrap.fr-input-wrap--filled[class*=" fr-fi-"]::before,
+.explore-app .fr-input-wrap.fr-input-wrap--filled[class*=" fr-icon-"]::before,
+.explore-app .fr-input-wrap.fr-input-wrap--filled[class^=fr-fi-]::before,
+.explore-app .fr-input-wrap.fr-input-wrap--filled[class^=fr-icon-]::before {
+  color: var(--text-label-blue-cumulus);
+}
+.explore-app .fr-input.fr-input--filled {
+  box-shadow: inset 0 -2px 0 0 var(--border-plain-blue-cumulus);
 }
 
 </style>
