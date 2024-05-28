@@ -210,11 +210,9 @@ export default new Vuex.Store({
     },
     addFilter(state, filter) {
       state.filters.push(filter)
-      configure({ filters: state.filters })
     },
     deleteFilter(state, index) {
       state.filters.splice(index, 1)
-      configure({ filters: state.filters })
     },
     deleteAllFiltersWithField(state, field) {
       state.filters = state.filters.filter((obj) => {
