@@ -199,7 +199,7 @@ export default {
       } else {
         this.isCsv = false
       }
-      if ((this.dgvInfos.resource.format === 'geojson') || (this.dgvInfos.resource.url.split(".")[this.dgvInfos.resource.url.split(".").length-1] === 'geojson')) {
+      if ((this.dgvInfos.resource.format === 'geojson') || (this.dgvInfos.resource.url.split(".")[this.dgvInfos.resource.url.split(".").length-1] === 'geojson') || (this.dgvInfos.resource.title.split(".")[this.dgvInfos.resource.title.split(".").length-1] === 'geojson')) {
         this.isGeojson = true
       } else {
         this.isGeojson = false
