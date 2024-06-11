@@ -72,7 +72,7 @@ export default {
 
                       let obj2 = []
                       data.resources.forEach((res) => {
-                          if ((res.extras && res.extras['analysis:parsing:finished_at']) || (res.format === 'geojson') || (res.url.split(".")[res.url.split(".").length-1] === 'geojson')) {
+                          if ((res.extras && res.extras['analysis:parsing:finished_at']) || (res.format === 'geojson') || (res.url.split(".")[res.url.split(".").length-1] === 'geojson') || (res.title.split(".")[res.title.split(".").length-1] === 'geojson')) {
                             let obj3 = { resource_id: res.id, resource_title: res.title, preview_url: res.preview_url, extras: res.extras }
                             if (res.format) {
                               obj3.format = res.format
