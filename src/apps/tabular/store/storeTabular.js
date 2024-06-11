@@ -39,6 +39,7 @@ export default new Vuex.Store({
       organization_name: undefined,
       other_resources: [],
     },
+    isExplore: true,
   },
   getters: {
     color(state) {
@@ -137,6 +138,11 @@ export default new Vuex.Store({
     },
     manageDgvInfos({ commit, dispatch, state }, data) {
       commit('setDgvInfos', data)
+      if (data.resource) {
+        commit('setIsExplore', true)
+      } else {
+        commit('setIsExplore', false)
+      }
       dispatch("retrieveData")
       dispatch("getProfile")
     }
@@ -199,6 +205,9 @@ export default new Vuex.Store({
     setSort(state, sort) {
       state.sortBy = sort.by
       state.sortDesc = sort.desc
+    },
+    setIsExplore(state, data) {
+      state.isExplore = data
     },
     setDgvInfos(state, data) {
       state.dgv_infos.resource = data.resource

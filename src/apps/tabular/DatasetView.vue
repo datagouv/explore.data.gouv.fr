@@ -1,17 +1,31 @@
 <template>
-  <div v-if="dgvInfos.resource">
-    <resource-view></resource-view>
+  <div>
+    <div v-if="isExplore">
+      <div v-if="dgvInfos.resource">
+        <resource-view></resource-view>
+      </div>
+    </div>
+    <div v-else>
+      <header-apps
+          :formHref="formHref()"
+          appName="Explorateur de données"
+          appLink="/test"
+          :displayBanner="true"
+      ></header-apps>
+      <div class="no-explore">Pas d'exploration disponible pour cette ressource, désolé. Si nous ne proposons pas d'exploration pour cette ressource, plusieurs pistes :<ul><li>la ressource demandée n'est pas un csv ou un geojson</li><li>la ressource demandée est trop lourde et ne peut être affichée dans un navigateur</li><li>la ressource demandée n'est pas correctement formatée et nous n'arrivons pas à la lire</li></ul></div>
+    </div>
   </div>
 </template>
 
 <script>
 import ResourceView from '@/apps/tabular/ResourceView.vue'
+import HeaderApps from '@/views/HeaderApps.vue'
 import storeTabular from './store/storeTabular'
 import config from '@/config.js'
 
 export default {
     name: 'DatasetView',
-    components: {ResourceView},
+    components: {ResourceView, HeaderApps},
     store: storeTabular,
     props:{
     },
@@ -19,6 +33,9 @@ export default {
         dgvInfos () {
           return this.$store.state.dgv_infos
         },
+        isExplore () {
+          return this.$store.state.isExplore
+        }
     },
     methods: {
         formHref() {
@@ -55,7 +72,7 @@ export default {
 
                       let obj2 = []
                       data.resources.forEach((res) => {
-                          if (res.extras && res.extras['analysis:parsing:finished_at']) {
+                          if ((res.extras && res.extras['analysis:parsing:finished_at']) || (res.format == 'geojson')) {
                             let obj3 = { resource_id: res.id, resource_title: res.title, preview_url: res.preview_url, extras: res.extras }
                             if (res.format) {
                               obj3.format = res.format
@@ -65,6 +82,7 @@ export default {
                                 obj.resource = res
                             }
                           }
+
                       })
                       if (obj.resource) {
                           this.$router.push({ hash: '#/resources/' + obj.resource.id, query: this.$route.query }).catch(
@@ -148,6 +166,11 @@ export default {
   .fr-col-auto{
     padding: 0.2rem 0.5rem 0.2rem 0.5rem!important;
   }
+}
+
+.no-explore{
+  padding-left: 20px;
+  padding-top: 50px;
 }
 
 </style>
