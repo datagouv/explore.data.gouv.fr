@@ -10,7 +10,7 @@
         <infos-resources></infos-resources>
         <infos-dgv></infos-dgv>
         <div v-if="!isCsv && isGeojson">
-          <div class="umap-banner">Cette carte est disponible grâce à <a href="https://umap.openstreetmap.fr/fr/" target="_blank">Umap</a><span class="hide-mobile"> et propulsé par <a :href="umapUrl" target="_blank">l'instance de l'ANCT</a>. Vous pouvez éditer directement le fichier sur cette instance <a :href="umapUrl + 'map/?dataUrl=' + datagouvUrl + '/fr/datasets/r/' + dgvInfos.resource.id + '&popupTemplate=Table'" target="_blank">en cliquant sur ce lien</a></span></div>
+          <div class="umap-banner">Cette carte est disponible grâce à <a href="https://umap.openstreetmap.fr/fr/" target="_blank">Umap</a><span class="hide-mobile"> et propulsé par <a :href="umapUrl" target="_blank">l'instance de l'ANCT</a>. Vous pouvez éditer directement la carte sur cette instance <a :href="umapUrl + 'map/?dataUrl=' + datagouvUrl + '/fr/datasets/r/' + dgvInfos.resource.id + '&popupTemplate=Table'" target="_blank">en cliquant sur ce lien</a></span></div>
           <iframe class="iframe-umap" :src="umapUrl + 'map/?dataUrl=' + datagouvUrl + '/fr/datasets/r/' + dgvInfos.resource.id + '&popupTemplate=Table'"></iframe>
         </div>
         <span v-if="isCsv">
@@ -199,7 +199,7 @@ export default {
       } else {
         this.isCsv = false
       }
-      if (this.dgvInfos.resource.format === 'geojson') {
+      if ((this.dgvInfos.resource.format === 'geojson') || (this.dgvInfos.resource.url.split(".")[this.dgvInfos.resource.url.split(".").length-1] === 'geojson')) {
         this.isGeojson = true
       } else {
         this.isGeojson = false
