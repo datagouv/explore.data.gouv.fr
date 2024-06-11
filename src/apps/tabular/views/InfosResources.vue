@@ -7,7 +7,8 @@
             <div class="complements-resource">
               <div class="fr-col-auto fr-text--sm fr-m-0 text-mention-grey">
                 <div v-if="dgvInfos.resource" class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle complements-resource-texts fr-m-0">
-                  <div class="bloc-maj-crawler maj-crawler"><b>Dernière mise à jour de l'exploration le {{ toFrDate(dgvInfos.resource.extras['analysis:parsing:finished_at']) }}</b></div>
+                  <div class="bloc-maj-crawler maj-crawler" v-if="dgvInfos.resource.extras && dgvInfos.resource.extras['analysis:parsing:finished_at']"><b>Dernière mise à jour de l'exploration le {{ toFrDate(dgvInfos.resource.extras['analysis:parsing:finished_at']) }}</b></div>
+                  <div class="bloc-maj-crawler maj-crawler" v-else><b>Dernière mise à jour de l'exploration le {{ toFrDate(dgvInfos.resource.last_modified) }}</b></div>
                   <div class="bloc-maj-crawler">-</div>
                   <div class="bloc-maj-crawler">
                     <template v-if="dgvInfos.resource.format"><i>Format {{ dgvInfos.resource.format }}</i></template>

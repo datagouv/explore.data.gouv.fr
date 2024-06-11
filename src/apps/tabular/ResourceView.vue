@@ -1,4 +1,5 @@
 <template>
+<div>
     <div id="resource-view">
         <header-apps
             :formHref="formHref()"
@@ -8,139 +9,145 @@
         ></header-apps>
         <infos-resources></infos-resources>
         <infos-dgv></infos-dgv>
-        <menu-resource></menu-resource>
-        <Table v-if="tabId === 'data' && dgvInfos && dgvInfos.resource" scrollable="scrollable" display="display"></Table>
-        <div v-if="tabId === 'description'" class="infos-tab">
-          <strong>Description</strong>
-          <br />
-          <p v-if="dgvInfos.resource.description">{{ dgvInfos.resource.description }}</p>
-          <p v-else>Cette ressource n'a pas de description.</p>
+        <div v-if="!isCsv && isGeojson">
+          <div class="umap-banner">Cette carte est disponible grâce à <a href="https://umap.openstreetmap.fr/fr/" target="_blank">Umap</a><span class="hide-mobile"> et propulsé par <a :href="umapUrl" target="_blank">l'instance de l'ANCT</a>. Vous pouvez éditer directement éditer le fichier sur cette instance <a :href="umapUrl + 'map/?dataUrl=' + datagouvUrl + '/fr/datasets/r/' + dgvInfos.resource.id + '&popupTemplate=Table'" target="_blank">en cliquant sur ce lien</a></span></div>
+          <iframe class="iframe-umap" :src="umapUrl + 'map/?dataUrl=' + datagouvUrl + '/fr/datasets/r/' + dgvInfos.resource.id + '&popupTemplate=Table'"></iframe>
         </div>
-        <div v-if="tabId === 'structure'" class="infos-tab">
-          <strong>Structure des données</strong>
+        <span v-if="isCsv">
+          <menu-resource></menu-resource>
+          <Table v-if="tabId === 'data' && dgvInfos && dgvInfos.resource" scrollable="scrollable" display="display"></Table>
+          <div v-if="tabId === 'description'" class="infos-tab">
+            <strong>Description</strong>
+            <br />
+            <p v-if="dgvInfos.resource.description">{{ dgvInfos.resource.description }}</p>
+            <p v-else>Cette ressource n'a pas de description.</p>
+          </div>
+          <div v-if="tabId === 'structure'" class="infos-tab">
+            <strong>Structure des données</strong>
 
-          <br />
-          <div @click="displayDetail(item)" v-for="item in Object.keys(columnsInfos)" >
-            <div class="metadata-column">
-              <div>
-                <strong>{{ item }}</strong>
-              </div>
-              <div class="main-metadata">
-                <div class="distinct-metadata" v-if="columnsInfos[item].nb_distinct">
-                  Valeurs distinctes : <strong>{{ columnsInfos[item].nb_distinct }}</strong>
+            <br />
+            <div @click="displayDetail(item)" v-for="item in Object.keys(columnsInfos)" >
+              <div class="metadata-column">
+                <div>
+                  <strong>{{ item }}</strong>
                 </div>
-                <!-- <div class="format-metadata" v-if="columnsInfos[item].python_type">
-                  Type : <span class="format">{{ columnsInfos[item].python_type }}</span>
-                </div> -->
-                <div class="format-metadata" v-if="columnsInfos[item].format">
-                  Format : <span class="format">{{ columnsInfos[item].format }}</span>
+                <div class="main-metadata">
+                  <div class="distinct-metadata" v-if="columnsInfos[item].nb_distinct">
+                    Valeurs distinctes : <strong>{{ columnsInfos[item].nb_distinct }}</strong>
+                  </div>
+                  <!-- <div class="format-metadata" v-if="columnsInfos[item].python_type">
+                    Type : <span class="format">{{ columnsInfos[item].python_type }}</span>
+                  </div> -->
+                  <div class="format-metadata" v-if="columnsInfos[item].format">
+                    Format : <span class="format">{{ columnsInfos[item].format }}</span>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div v-if="displayDetailColumn === item" class="detail-column">
+              <div v-if="displayDetailColumn === item" class="detail-column">
 
-              <div class="detail-metadata" v-if="columnsInfos[item].min">
-                <div>Min.</div>
-                <div><strong>{{ columnsInfos[item].min }}</strong></div>
+                <div class="detail-metadata" v-if="columnsInfos[item].min">
+                  <div>Min.</div>
+                  <div><strong>{{ columnsInfos[item].min }}</strong></div>
+                </div>
+                <div class="detail-metadata" v-if="columnsInfos[item].max">
+                  <div>Max.</div>
+                  <div><strong>{{ columnsInfos[item].max }}</strong></div>
+                </div>
+                <div class="detail-metadata" v-if="columnsInfos[item].mean">
+                  <div>Moyenne</div>
+                  <div><strong>{{ columnsInfos[item].mean }}</strong></div>
+                </div>
+                <div class="detail-metadata" v-if="columnsInfos[item].std">
+                  <div>Ecart Type</div>
+                  <div><strong>{{ columnsInfos[item].std }}</strong></div>
+                </div>
               </div>
-              <div class="detail-metadata" v-if="columnsInfos[item].max">
-                <div>Max.</div>
-                <div><strong>{{ columnsInfos[item].max }}</strong></div>
-              </div>
-              <div class="detail-metadata" v-if="columnsInfos[item].mean">
-                <div>Moyenne</div>
-                <div><strong>{{ columnsInfos[item].mean }}</strong></div>
-              </div>
-              <div class="detail-metadata" v-if="columnsInfos[item].std">
-                <div>Ecart Type</div>
-                <div><strong>{{ columnsInfos[item].std }}</strong></div>
-              </div>
-            </div>
 
-            <div v-if="displayDetailColumn === item" class="detail-column">
-              <div class="detail-metadata" v-if="columnsInfos[item].format">
-                <div>Valeurs les plus fréquentes</div>
-                <div class="detail-column">
-                  <div class="detail-metadata" v-for="index in 5" :key="index">
-                    <div  v-for="n in [0, 1]" :key="n">
-                      <span v-if="columnsInfos[item].tops.length > ((index-1)*2 + n)">
-                        <strong>{{ columnsInfos[item].tops[(index-1)*2 + n].value }}</strong> ({{ columnsInfos[item].tops[(index-1)*2 + n].count }})
-                      </span>
+              <div v-if="displayDetailColumn === item" class="detail-column">
+                <div class="detail-metadata" v-if="columnsInfos[item].format">
+                  <div>Valeurs les plus fréquentes</div>
+                  <div class="detail-column">
+                    <div class="detail-metadata" v-for="index in 5" :key="index">
+                      <div  v-for="n in [0, 1]" :key="n">
+                        <span v-if="columnsInfos[item].tops.length > ((index-1)*2 + n)">
+                          <strong>{{ columnsInfos[item].tops[(index-1)*2 + n].value }}</strong> ({{ columnsInfos[item].tops[(index-1)*2 + n].count }})
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <div  v-if="tabId === 'metadata'" class="metadata-tab">
-          <div  class="metadata-container">
-            <div class="metadata-block">
-              <h4>URL</h4>
-              <span><a :href="dgvInfos.resource.url"><span class="link-urls">{{ dgvInfos.resource.url }}</span></a></span>
-            </div>
+          <div  v-if="tabId === 'metadata'" class="metadata-tab">
+            <div  class="metadata-container">
+              <div class="metadata-block">
+                <h4>URL</h4>
+                <span><a :href="dgvInfos.resource.url"><span class="link-urls">{{ dgvInfos.resource.url }}</span></a></span>
+              </div>
 
-            <div v-if="dgvInfos.resource.created_at" class="metadata-block">
-              <h4>Créé le</h4>
-              <p>{{ dgvInfos.resource.created_at.slice(0,10) }}</p>
-            </div>
+              <div v-if="dgvInfos.resource.created_at" class="metadata-block">
+                <h4>Créé le</h4>
+                <p>{{ dgvInfos.resource.created_at.slice(0,10) }}</p>
+              </div>
 
-            <div class="metadata-block">
-              <h4>Taille</h4>
-              <p v-if="dgvInfos.resource.filesize">{{ dgvInfos.resource.filesize }}</p>
+              <div class="metadata-block">
+                <h4>Taille</h4>
+                <p v-if="dgvInfos.resource.filesize">{{ dgvInfos.resource.filesize }}</p>
+              </div>
+            </div>
+            <div  class="metadata-container">
+              <div class="metadata-block">
+                <h4>URL Stable</h4>
+                <span><a :href="dgvInfos.resource.latest"><span class="link-urls">{{ dgvInfos.resource.latest }}</span></a></span>
+              </div>
+
+              <div class="metadata-block">
+                <h4>Créé le</h4>
+                <p v-if="dgvInfos.resource.harvest">{{ dgvInfos.resource.harvest.modified_at.slice(0,10) }}</p>
+                <p v-else-if="dgvInfos.resource.modified_at">{{ dgvInfos.resource.modified_at.slice(0,10) }}</p>
+              </div>
+
+              <div class="metadata-block">
+                <h4>Type</h4>
+                <p v-if="dgvInfos.resource.type === 'main'">Fichier principal</p>
+                <p v-if="dgvInfos.resource.type === 'documentation'">Documentation</p>
+              </div>
+            </div>
+            <div  class="metadata-container">
+              <div class="metadata-block">
+                <h4>Identifiant</h4>
+                <span class="format">{{ dgvInfos.resource.id }}</span>
+              </div>
+
+              <div class="metadata-block">
+              </div>
+
+              <div class="metadata-block">
+                <h4>Type MIME</h4>
+                <span v-if="dgvInfos.resource.mime" class="format">{{ dgvInfos.resource.mime }}</span>
+              </div>
+            </div>
+            <div  class="metadata-container">
+              <div class="metadata-block">
+                <h4>SHA-1</h4>
+                <span v-if="dgvInfos.resource.extras && dgvInfos.resource.extras['analysis:checksum']" class="format">{{ dgvInfos.resource.extras['analysis:checksum'] }}</span>
+              </div>
+
+              <div class="metadata-block">
+              </div>
+
+              <div class="metadata-block">
+              </div>
             </div>
           </div>
-          <div  class="metadata-container">
-            <div class="metadata-block">
-              <h4>URL Stable</h4>
-              <span><a :href="dgvInfos.resource.latest"><span class="link-urls">{{ dgvInfos.resource.latest }}</span></a></span>
-            </div>
 
-            <div class="metadata-block">
-              <h4>Créé le</h4>
-              <p v-if="dgvInfos.resource.harvest">{{ dgvInfos.resource.harvest.modified_at.slice(0,10) }}</p>
-              <p v-else-if="dgvInfos.resource.modified_at">{{ dgvInfos.resource.modified_at.slice(0,10) }}</p>
+            <div v-if="tabId === 'api'">
+              <openapi-explorer :spec-url="'https://tabular-api.data.gouv.fr/api/resources/' + dgvInfos.resource.id + '/swagger/'">
+              </openapi-explorer>
             </div>
-
-            <div class="metadata-block">
-              <h4>Type</h4>
-              <p v-if="dgvInfos.resource.type === 'main'">Fichier principal</p>
-              <p v-if="dgvInfos.resource.type === 'documentation'">Documentation</p>
-            </div>
-          </div>
-          <div  class="metadata-container">
-            <div class="metadata-block">
-              <h4>Identifiant</h4>
-              <span class="format">{{ dgvInfos.resource.id }}</span>
-            </div>
-
-            <div class="metadata-block">
-            </div>
-
-            <div class="metadata-block">
-              <h4>Type MIME</h4>
-              <span v-if="dgvInfos.resource.mime" class="format">{{ dgvInfos.resource.mime }}</span>
-            </div>
-          </div>
-          <div  class="metadata-container">
-            <div class="metadata-block">
-              <h4>SHA-1</h4>
-              <span v-if="dgvInfos.resource.extras && dgvInfos.resource.extras['analysis:checksum']" class="format">{{ dgvInfos.resource.extras['analysis:checksum'] }}</span>
-            </div>
-
-            <div class="metadata-block">
-            </div>
-
-            <div class="metadata-block">
-            </div>
-          </div>
-        </div>
-
-          <div v-if="tabId === 'api'">
-            <openapi-explorer :spec-url="'https://tabular-api.data.gouv.fr/api/resources/' + dgvInfos.resource.id + '/swagger/'">
-            </openapi-explorer>
-          </div>
-    </div>
+        </span>
+    </div></div>
 </template>
 
 <script>
@@ -159,6 +166,10 @@ export default {
     data() {
         return {
           displayDetailColumn: "",
+          isCsv: true,
+          isGeojson: false,
+          umapUrl: process.env.VUE_APP_UMAP_INSTANCE,
+          datagouvUrl: process.env.VUE_APP_DATAGOUV_URL
         }
     },
     props:{
@@ -183,7 +194,16 @@ export default {
         }
     },
     mounted () {
-      
+      if (this.dgvInfos.resource.extras && this.dgvInfos.resource.extras['analysis:parsing:finished_at']){
+        this.isCsv = true
+      } else {
+        this.isCsv = false
+      }
+      if (this.dgvInfos.resource.format === 'geojson') {
+        this.isGeojson = true
+      } else {
+        this.isGeojson = false
+      }
     },
     watch: {
     }
@@ -248,6 +268,30 @@ export default {
   .fr-col-auto{
     padding: 0.2rem 0.5rem 0.2rem 0.5rem!important;
   }
+
+  .hide-mobile{
+    display: none;
+  }
+
+}
+
+.umap-banner{
+  width: 100%; 
+  height: 50px; 
+  background-color: #fbe769; 
+  line-height: 50px; 
+  margin: auto; 
+  padding-left: 20px; 
+  font-weight: bold; 
+  font-style: italic; 
+  font-size: 13px;
+}
+
+.iframe-umap{
+  display: block;
+  height: 80vh;
+  width: 100vw;
+  border: none;
 }
 
 .infos-tab{
@@ -352,5 +396,6 @@ openapi-explorer::part(section-navbar) {
   color: #1353B5;
   font-size: 15px;
 }
+
 
 </style>
