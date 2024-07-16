@@ -187,10 +187,10 @@
                           {{ this.legend.medianPrix }} €
                         </div>
                       </div>
-                      <br />
+                      <!-- <br />
                       <div v-if="valuesx && valuesy">
                         <bar-or-graph indicateur="toto" color="#3558a2" :titleChart="titleChart" unitChart="€" typeChart="line" :valuesx="valuesx" :valuesy="valuesy"></bar-or-graph>
-                      </div>
+                      </div> -->
                       <br />
                       <div class="nb-legend">
                         <i><u><a href="https://www.data.gouv.fr/fr/posts/exploration-de-donnees-zoom-sur-de-nouvelles-briques-disponibles-sur-data-gouv-fr-avec-lexemple-du-prix-des-carburants/">En savoir plus sur ce tableau de bord</a></u> et la méthodologie permettant son développement.</i>
