@@ -15,7 +15,7 @@
         ventes immobilières des 5 dernières années
       </h3>
       <div class="maj_date_container">
-        Dernière mise à jour des données : avril 2024
+        Dernière mise à jour des données : octobre 2024
       </div>
     </div>
 
