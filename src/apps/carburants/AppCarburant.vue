@@ -195,7 +195,7 @@
                       <div class="nb-legend">
                         <i><u><a href="https://www.data.gouv.fr/fr/posts/exploration-de-donnees-zoom-sur-de-nouvelles-briques-disponibles-sur-data-gouv-fr-avec-lexemple-du-prix-des-carburants/">En savoir plus sur ce tableau de bord</a></u> et la méthodologie permettant son développement.</i>
                         <br />
-                        <i>Les sources de données utilisées pour réaliser cette application <a href="https://www.data.gouv.fr/fr/datasets/prix-des-carburants-en-france-flux-instantane/"><u>sont disponibles sur data.gouv.fr</u></a> et <a href="https://explore.data.gouv.fr/tableau?url=https://www.data.gouv.fr/fr/datasets/r/64e02cff-9e53-4cb2-adfd-5fcc88b2dc09"><u>sont explorables ici.</u></a></i>
+                        <i>Les sources de données utilisées pour réaliser cette application <a href="https://www.data.gouv.fr/fr/datasets/prix-des-carburants-en-france-flux-instantane-v2-amelioree/"><u>sont disponibles sur data.gouv.fr</u></a> et <a href="https://explore.data.gouv.fr/fr/datasets/6407d088d4e23dc662022e2c/#/resources/edd67f5b-46d0-4663-9de9-e5db1c880160"><u>sont explorables ici.</u></a></i>
                         <i> Celles-ci sont mises à disposition par le Ministère de l'Économie, des Finances et de la Souveraineté industrielle et numérique.
                         Pour plus d'informations <a href="https://www.prix-carburants.gouv.fr/"><u>rendez-vous sur le site officiel.</u></a></i>
                         <br />
