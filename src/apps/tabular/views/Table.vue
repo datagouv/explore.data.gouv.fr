@@ -709,7 +709,7 @@ html {
   overflow: hidden;
 }
 .fr-table td {
-  padding: 0.5rem 0rem 0.5rem 1.2rem!important;
+  padding: 5.5px 8px !important;
   border-right: 1px solid #DDDDDD;
 
 }
@@ -764,7 +764,7 @@ td {
   max-width: 17rem;
 }
 .header.sticky-bar {
-  padding: 0.45rem 1rem 0.4rem 1rem;
+  padding: 5.5px 8px;
   font-size: 0.8rem;
 }
 .header.sticky-bar div {
