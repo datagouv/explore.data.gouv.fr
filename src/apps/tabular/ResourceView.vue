@@ -26,7 +26,7 @@
             <strong>Structure des données</strong>
 
             <br />
-            <div @click="displayDetail(item)" v-for="item in Object.keys(columnsInfos)" >
+            <div @click="toggleDetail(item)" v-for="item in Object.keys(columnsInfos)" >
               <div class="metadata-column">
                 <div>
                   <strong>{{ item }}</strong>
@@ -190,8 +190,12 @@ export default {
         formHref() {
             return "https://tally.so/r/nr5BML";
         },
-        displayDetail(item){
-          this.displayDetailColumn = item
+        toggleDetail(item) {
+          if(this.displayDetailColumn === item) {
+            this.displayDetailColumn = ""
+          } else {
+            this.displayDetailColumn = item
+          }
         }
     },
     mounted () {
@@ -300,6 +304,7 @@ export default {
 
 .infos-tab {
   padding: 1rem;
+  overflow: auto;
 }
 
 .metadata-column {
