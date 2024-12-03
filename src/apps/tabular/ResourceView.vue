@@ -4,7 +4,7 @@
         <header-apps
             :formHref="formHref()"
             appName="Explorateur de données"
-            appLink="/test"
+            appLink="/tableau"
             :displayBanner="true"
         ></header-apps>
         <infos-resources></infos-resources>
@@ -13,7 +13,7 @@
           <div class="umap-banner">Cette carte est disponible grâce à <a href="https://umap.openstreetmap.fr/fr/" target="_blank">Umap</a><span class="hide-mobile"> et propulsé par <a :href="umapUrl" target="_blank">l'instance de l'ANCT</a>. Vous pouvez éditer directement la carte sur cette instance <a :href="umapUrl + 'map/?dataUrl=' + datagouvUrl + '/fr/datasets/r/' + dgvInfos.resource.id + '&popupTemplate=Table'" target="_blank">en cliquant sur ce lien</a></span></div>
           <iframe class="iframe-umap" :src="umapUrl + 'map/?dataUrl=' + datagouvUrl + '/fr/datasets/r/' + dgvInfos.resource.id + '&popupTemplate=Table'"></iframe>
         </div>
-        <span v-if="isCsv">
+        <template class="h-full" v-if="isCsv">
           <menu-resource></menu-resource>
           <Table v-if="tabId === 'data' && dgvInfos && dgvInfos.resource" scrollable="scrollable" display="display"></Table>
           <div v-if="tabId === 'description'" class="infos-tab">
@@ -146,8 +146,9 @@
               <openapi-explorer :spec-url="'https://tabular-api.data.gouv.fr/api/resources/' + dgvInfos.resource.id + '/swagger/'">
               </openapi-explorer>
             </div>
-        </span>
-    </div></div>
+        </template>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -220,7 +221,7 @@ export default {
   overflow: hidden;
 }
 
-.subheader{
+.subheader {
   background-color:#3558A2;
   display: flex;
   flex-wrap: wrap;
@@ -228,14 +229,17 @@ export default {
   align-items: center;
 }
 
-.subheader.excel{
+.subheader.excel {
   display: block;
 }
 
-.inforessource{
+.inforessource {
   flex-grow: 99;
 }
 
+.h-full {
+  height: 100%;
+}
 
 .sticky-bar {
   z-index: 1;
@@ -243,39 +247,39 @@ export default {
   padding-bottom: 0.5rem!important;
 }
 
-.fr-text--sm, .fr-btn--sm{
+.fr-text--sm, .fr-btn--sm {
   font-size: 0.8rem!important;
 }
 
-.dgvSelector{
+.dgvSelector {
   line-height: 0.9rem;
   max-width: 320px;
   font-size: 0.8rem;
   font-weight: 700;
 }
 
-.preventExcel{
+.preventExcel {
   margin:1px 0 0 0!important;
 }
 
-.preventExcel div{
+.preventExcel div {
   background-color: #FBCB04;
   padding-left: 30px;
   color: #1353B5;
 }
 
-@media (max-width: 48em){
-  .fr-col-auto{
+@media (max-width: 48em) {
+  .fr-col-auto {
     padding: 0.2rem 0.5rem 0.2rem 0.5rem!important;
   }
 
-  .hide-mobile{
+  .hide-mobile {
     display: none;
   }
 
 }
 
-.umap-banner{
+.umap-banner {
   width: 100%; 
   height: 50px; 
   background-color: #fbe769; 
@@ -287,40 +291,40 @@ export default {
   font-size: 13px;
 }
 
-.iframe-umap{
+.iframe-umap {
   display: block;
   height: 80vh;
   width: 100vw;
   border: none;
 }
 
-.infos-tab{
+.infos-tab {
   padding: 1rem;
 }
 
-.metadata-column{
+.metadata-column {
   display: flex;
   align-items: center;
   padding-top: 10px;
   padding-bottom: 10px;
   border-bottom: 1px solid #DDDDDD;
 }
-.main-metadata{
+.main-metadata {
   margin-left: auto;
   display: flex;
   align-items: center;
   flex-wrap: wrap;
 }
-.metadata-column:hover{
+.metadata-column:hover {
   cursor: pointer;
   background-color: #EEEEEE;
 }
 
-.distinct-metadata{
+.distinct-metadata {
   padding-right: 0.7rem;
 }
 
-.format{
+.format {
   padding-top: 3px;
   padding-bottom: 3px;
   padding-left: 5px;
@@ -330,18 +334,18 @@ export default {
   border-radius: 3px;
 }
 
-.detail-column{
+.detail-column {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
 }
-.detail-metadata{
+.detail-metadata {
   min-width: 14rem;
   line-height: 50px;
   padding-top: 20px;
   padding-bottom: 20px;
 }
-.format-metadata{
+.format-metadata {
   padding-right: 10px;
 }
 
@@ -392,10 +396,8 @@ openapi-explorer::part(section-navbar) {
 } */
 
 
-.link-urls{
+.link-urls {
   color: #1353B5;
   font-size: 15px;
 }
-
-
 </style>

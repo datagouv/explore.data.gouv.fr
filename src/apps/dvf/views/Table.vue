@@ -231,12 +231,12 @@ th, td {
   min-width: 150px;
 }
 
-.header.sticky-bar{
+.header.sticky-bar {
   padding: 0.45rem 1rem 0.4rem 0.6rem;
   font-size: 0.8rem;
 }
 
-.header.sticky-bar div{
+.header.sticky-bar div {
   max-height: 80px;
   overflow: auto;
   line-height: 16px;

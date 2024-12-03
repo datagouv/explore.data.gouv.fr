@@ -331,7 +331,7 @@ export default {
           this.getLocalOrFetch(
             this.columnsInfos[field]['format'], 
             val,
-            'https://recherche-entreprises.api.gouv.fr/search?q=' + val + '&page=1&per_page=1'
+            'https://recherche-entreprises.api.gouv.fr/search?q=' + val + '&page=1&per_page=1&mtm_campaign=explore-data-gouv-fr'
           )
           .then((data) => {
             this.messageBox = data['results'][0]['nom_complet']
@@ -345,7 +345,7 @@ export default {
           this.getLocalOrFetch(
             this.columnsInfos[field]['format'], 
             val.replace(' ', ''),
-            'https://recherche-entreprises.api.gouv.fr/search?q=' + val.replace(' ', '') + '&page=1&per_page=1'
+            'https://recherche-entreprises.api.gouv.fr/search?q=' + val.replace(' ', '') + '&page=1&per_page=1&mtm_campaign=explore-data-gouv-fr'
           )
           .then((data) => {
             this.messageBox = data['results'][0]['nom_complet']
