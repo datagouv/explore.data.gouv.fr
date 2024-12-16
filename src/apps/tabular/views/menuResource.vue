@@ -156,7 +156,7 @@ export default {
         align-items: center;
     }
     .menu-tabs {
-        margin-left: 15px;
+        margin-left: 20px;
         order: 1;
         display: flex;
         align-items: center;

@@ -9,7 +9,7 @@
           <th
             scope="col"
             class="header sticky-bar"
-            :class="{ 'header--sorted': field.key === sortBy }"
+            :class="{ 'header--sorted': field.key === sortBy, 'filter--filled': getFilter(field.key) }"
             v-for="field in fields"
             :key="'header-' + field.key"
           >
@@ -37,15 +37,14 @@
               <div
                 @click="sortbyfield(field.key)"
                 class="fr-col style-header-col"
-                :class="{ 'text-label-blue-cumulus': field.key === sortBy }"
+                :class="{ 'text-label-blue-cumulus': field.key === sortBy || getFilter(field.key) }"
               >
                 {{ field.label }}
               </div>
               <div
-                class="style-header-col filter-icon"
+                class="style-header-col fr-col-auto filter-icon"
               >
                 <button
-                  class="fr-col-auto"
                   :class="{ 'text-label-blue-cumulus': field.key === sortBy }"
                   data-fr-opened="false"
                   :aria-controls="'fr-modal-' + field.key"
@@ -76,7 +75,7 @@
         </tr> -->
       </thead>
       
-      <tbody id="body">
+      <tbody ref="body" id="body">
         <tr v-for="(row, index) in rows" :key="row[0]">
           <td
             @mouseleave="hideTooltips"
@@ -360,7 +359,7 @@ export default {
             val,
             "https://recherche-entreprises.api.gouv.fr/search?q=" +
               val +
-              "&page=1&per_page=1"
+              "&page=1&per_page=1&mtm_campaign=explore-data-gouv-fr"
           )
             .then((data) => {
               this.messageBox = data["results"][0]["nom_complet"];
@@ -376,7 +375,7 @@ export default {
             val.replace(" ", ""),
             "https://recherche-entreprises.api.gouv.fr/search?q=" +
               val.replace(" ", "") +
-              "&page=1&per_page=1"
+              "&page=1&per_page=1&mtm_campaign=explore-data-gouv-fr"
           )
             .then((data) => {
               this.messageBox = data["results"][0]["nom_complet"];
@@ -673,9 +672,9 @@ export default {
       }
     },
     handleScroll(event) {
-      if (event.target.scrollTop > this.lastBiggerScroll) {
-        this.lastBiggerScroll =
-          event.target.scrollTop + event.target.offsetHeight / 2;
+    const { top, height } = event.target.getBoundingClientRect()
+      if (top + event.target.scrollTop > this.lastBiggerScroll) {
+        this.lastBiggerScroll = top + event.target.scrollTop + height;
         this.userChangePage();
       }
     },
@@ -709,14 +708,14 @@ html {
   height: 100%;
   overflow: hidden;
 }
-.fr-table td{
-  padding: 0.5rem 0rem 0.5rem 1.2rem!important;
+.fr-table td {
+  padding: 5.5px 8px !important;
   border-right: 1px solid #DDDDDD;
 
 }
 .fr-table {
   overflow: auto;
-  height: 100vh;
+  height: 100%;
   margin-bottom: 0;
   border-top: 1px solid black;
   padding-top: 0px;
@@ -761,16 +760,17 @@ td {
   border-color: var(--border-plain-blue-cumulus);
 }
 .header {
-  min-width: 150px;
+  min-width: 10rem;
+  max-width: 17rem;
 }
 .header.sticky-bar {
-  padding: 0.45rem 1rem 0.4rem 1rem;
+  padding: 5.5px 8px;
   font-size: 0.8rem;
 }
 .header.sticky-bar div {
   max-height: 80px;
   overflow: auto;
-  line-height: 16px;
+  line-height: 17px;
 }
 .filter {
   border-width: 1px;
@@ -790,13 +790,16 @@ td {
   cursor: pointer;
   white-space: nowrap;
   font-size: 12px;
-  width: 10rem;
 }
 .messageNoResults {
   min-height: 400px;
 }
 .filter-icon{
   text-align: right;
+}
+
+.fr-badge {
+  line-height: 1.2rem;
 }
 
 @media (min-width: 48em) {

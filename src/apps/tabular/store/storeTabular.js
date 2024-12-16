@@ -49,8 +49,8 @@ export default new Vuex.Store({
       if (state.columns) {
         return state.columns.map(c => {
           return {
-            key: c,
-            label: c,
+            key: c.trim(),
+            label: c.trim(),
             sortable: true,
           }
         })

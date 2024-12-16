@@ -1,6 +1,6 @@
 <template>
   <div style="background-color: #3558A2; padding-bottom: 10px;">
-     <div class="fr-pl-2w fr-py-1v fr-py-m-2w fr-m-0 infosdgv">        
+     <div class="fr-pl-5v fr-py-1v fr-py-m-2w fr-m-0 infosdgv">        
       <div
         class="links-infosdgv"
         @click="getDataGouvUrl('datasets/'+dgvInfos.dataset_id)"

@@ -1,7 +1,7 @@
 <template>
   <div class="subheader">
     <div class="inforessource">
-      <div v-if="dgvInfos.resource" class="fr-container--fluid fr-p-2w sticky-bar">
+      <div v-if="dgvInfos.resource" class="fr-container--fluid fr-px-5v sticky-bar">
         <div class="fr-grid-row fr-grid-row--gutters">
           <div class="fr-col-12 fr-col-md-9 fr-col-xl-9">
             <div class="complements-resource">
