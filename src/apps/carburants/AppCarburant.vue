@@ -195,11 +195,11 @@
                       <div class="nb-legend">
                         <i><u><a href="https://www.data.gouv.fr/fr/posts/exploration-de-donnees-zoom-sur-de-nouvelles-briques-disponibles-sur-data-gouv-fr-avec-lexemple-du-prix-des-carburants/">En savoir plus sur ce tableau de bord</a></u> et la méthodologie permettant son développement.</i>
                         <br />
-                        <i>Les sources de données utilisées pour réaliser cette application <a href="https://www.data.gouv.fr/fr/datasets/prix-des-carburants-en-france-flux-instantane/"><u>sont disponibles sur data.gouv.fr</u></a> et <a href="https://explore.data.gouv.fr/tableau?url=https://www.data.gouv.fr/fr/datasets/r/64e02cff-9e53-4cb2-adfd-5fcc88b2dc09"><u>sont explorables ici.</u></a></i>
+                        <i>Les sources de données utilisées pour réaliser cette application <a href="https://www.data.gouv.fr/datasets/prix-des-carburants-en-france-flux-instantane-v2-amelioree/"><u>sont disponibles sur data.gouv.fr</u></a>.</i>
                         <i> Celles-ci sont mises à disposition par le Ministère de l'Économie, des Finances et de la Souveraineté industrielle et numérique.
                         Pour plus d'informations <a href="https://www.prix-carburants.gouv.fr/"><u>rendez-vous sur le site officiel.</u></a></i>
                         <br />
-                        <i>Cette visualisation a été créée par le département Etalab de <a href="https://www.numerique.gouv.fr/"><u>la Direction Interministérielle du Numérique (DINUM)</u></a> et son <a href="https://github.com/datagouv/explore.data.gouv.fr"><u>code source est libre.</u></a></i>
+                        <i>Cette visualisation a été créée par l'équipe de data.gouv.fr de <a href="https://www.numerique.gouv.fr/"><u>la Direction Interministérielle du Numérique (DINUM)</u></a> et son <a href="https://github.com/datagouv/explore.data.gouv.fr"><u>code source est libre.</u></a></i>
                       </div>
                       <br />
                     </div>
