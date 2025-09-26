@@ -47,7 +47,7 @@
 		"not ie <= 8"
 	],
 	"dependencies": {
-		"crypto-js": "^4.1.1",
+		"crypto-js": "^4.2.0",
 		"json-loader": "^0.5.7",
 		"openapi-explorer": "^2.2.690",
 		"vue-i18n": "^8.26.3",
