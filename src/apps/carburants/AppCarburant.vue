@@ -374,7 +374,7 @@ export default {
   mounted() {
     this.dataChloropleth = null
     this.matchExpression = ['match', ['get', 'code']]
-    this.zoomLevel = 4.2
+    this.zoomLevel = 5.5
     this.lat = 46.3
     this.lng = 2
     const initialState = { lng: this.lng, lat: this.lat, zoom: this.zoomLevel };
@@ -385,7 +385,7 @@ export default {
       zoom: initialState.zoom
     }));
     
-    fetch('https://object.files.data.gouv.fr/data-pipeline-open/prod/carburants/latest_france.geojson', {
+    fetch('https://object.files.data.gouv.fr/data-pipeline-open/carburants/latest_france.geojson', {
         compress: false,
         headers: { "accept-encoding": "gzip" },
     })
@@ -476,7 +476,7 @@ export default {
     })
 
 
-    fetch('https://object.files.data.gouv.fr/data-pipeline-open/prod/carburants/daily_prices.json')
+    fetch('https://object.files.data.gouv.fr/data-pipeline-open/carburants/daily_prices.json')
     .then((response) => {
         return response.json()
     })
@@ -497,7 +497,7 @@ export default {
   methods: {
     updateDate(val){
 
-      fetch('https://object.files.data.gouv.fr/data-pipeline-open/prod/carburants/historique/' + val + '.json')
+      fetch('https://object.files.data.gouv.fr/data-pipeline-open/carburants/historique/' + val + '.json')
       .then((response) => {
           return response.json()
       })
