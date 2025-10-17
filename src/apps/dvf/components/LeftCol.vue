@@ -669,7 +669,7 @@
 
 
     <div class="chart_container" v-if="this.level == 'section'">
-      <div class="cta-parcelle">Sélectionnez une parcelle</div>
+      <div class="cta-parcelle">Sélectionnez une parcelle (NB : seules les parcelles ayant fait l'objet d'au moins une mutation ces 5 dernières années sont cliquables.)</div>
     </div>
     
 
