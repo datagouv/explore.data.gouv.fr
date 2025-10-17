@@ -92,7 +92,7 @@ export default {
         this.resultsAdresses = null;
       }
       // if the search is a parcelle id, we take it as it is
-      const pattern = /^\d{8}[A-Z]{2}\d{4}$/;
+      const pattern = /^\d{8}(\d|[A-Z])[A-Z]\d{4}$/;
       if (pattern.test(this.searchAdress)) {
         let timer = setTimeout(() => {
           this.getParcelle();
