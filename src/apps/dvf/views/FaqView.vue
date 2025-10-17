@@ -78,8 +78,7 @@
           <span class="reponse">Pour toute demande d’information ou toute erreur détectée dans les données vous pouvez écrire aux producteurs des données sur <a href="https://www.data.gouv.fr/datasets/demandes-de-valeurs-foncieres/discussions">la page dédiée</a> ou contacter le bureau GF3B de la DGFIP à l’adresse suivante : <b>bureau.gf3b-dvf@dgfip.finances.gouv.fr</b><br><br>
           Si votre question porte plus spécifiquement sur l’application, vous pouvez <a href="https://support.data.gouv.fr/">écrire à l’équipe data.gouv.fr</a>.
           Les données DPE sont issues de la base nationale des bâtiments produite par le CSTB et consultables <a href="https://www.data.gouv.fr/datasets/base-de-donnees-nationale-des-batiments/">ici</a>.
-          Les données sur les copropriétés sont issues du registre national d'immatriculation des copropriétés produit par l'ANAH  et consultables <a href="https://www.data.gouv.fr/datasets/registre-national-dimmatriculation-des-coproprietes/">ici</a>.
-          </span>
+          Les données sur les copropriétés sont issues du registre national d'immatriculation des copropriétés produit par l'ANAH  et consultables <a href="https://www.data.gouv.fr/datasets/registre-national-dimmatriculation-des-coproprietes/">ici</a>.</span>
         </div>
 
 
