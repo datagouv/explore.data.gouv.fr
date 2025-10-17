@@ -7,7 +7,7 @@
           <input
             v-model="searchAdress"
             class="fr-input"
-            placeholder="Rechercher une adresse"
+            placeholder="Rechercher une adresse ou une parcelle"
             type="search"
             id="search-540-input"
             name="search-540-input"
@@ -73,9 +73,31 @@ export default {
           this.firstResult = data.features[0];
         });
     },
+    getParcelle() {
+      fetch(
+        "https://data.geopf.fr/geocodage/search?index=parcel&q=" +
+         this.searchAdress
+      )
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          data.features[0].citycode = data.features[0].departmentcode + data.features[0].municipalitycode
+          this.resultsAdresses = data;
+          this.firstResult = data.features[0];
+        });
+    },
     autoComplete() {
       if (this.searchAdress.length === 0) {
         this.resultsAdresses = null;
+      }
+      // if the search is a parcelle id, we take it as it is
+      const pattern = /^\d{8}[A-Z]{2}\d{4}$/;
+      if (pattern.test(this.searchAdress)) {
+        let timer = setTimeout(() => {
+          this.getParcelle();
+        }, 650);
+        return;
       }
       let search = this.searchAdress;
       let timer = setTimeout(() => {
