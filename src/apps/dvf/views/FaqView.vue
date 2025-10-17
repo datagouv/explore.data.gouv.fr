@@ -75,7 +75,7 @@
 
         <div class="question_box"  data-question="9" :class="(question9)?'open':''" @click="(question9)?question9=false:question9=true">
           <span class="title">J’ai une autre question</span>
-          <span class="reponse">Pour toute demande d’information ou toute erreur détectée dans les données vous pouvez écrire aux producteurs des données sur <a href="https://www.data.gouv.fr/fr/datasets/demandes-de-valeurs-foncieres-geolocalisees/">la page dédiée</a> ou contacter le bureau GF3B de la DGFIP à l’adresse suivante : <b>bureau.gf3b-dvf@dgfip.finances.gouv.fr</b><br><br>
+          <span class="reponse">Pour toute demande d’information ou toute erreur détectée dans les données vous pouvez écrire aux producteurs des données sur <a href="https://www.data.gouv.fr/datasets/demandes-de-valeurs-foncieres/discussions">la page dédiée</a> ou contacter le bureau GF3B de la DGFIP à l’adresse suivante : <b>bureau.gf3b-dvf@dgfip.finances.gouv.fr</b><br><br>
           Si votre question porte plus spécifiquement sur l’application, vous pouvez <a href="https://support.data.gouv.fr/">écrire à l’équipe data.gouv.fr</a>.</span>
         </div>
 
