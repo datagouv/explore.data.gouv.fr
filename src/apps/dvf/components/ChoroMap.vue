@@ -20,6 +20,7 @@
           class="tooltip_place"
         >
           <b>{{ tooltip.value }}</b> par m²
+          <b>{{ tooltip.count }}</b> mutations
         </div>
         <div
           v-if="tooltip.value && tooltip.value == 'nodata'"
@@ -94,6 +95,7 @@ export default {
         display: "block",
         visibility: "",
         value: 0,
+        count: 0,
         date: "",
         place: "NaN",
       },
@@ -112,6 +114,7 @@ export default {
         commune: "sections_fill",
       },
       actualPropertyPrix: "m_am",
+      actualPropertyCount: "am",
       mousePosition: {
         dep: {
           code: null,
@@ -233,6 +236,7 @@ export default {
         this.sendApiResultToStore(url, data);
         this.dataChloropleth["fra"] = data["data"];
         this.actualPropertyPrix = this.mappingPropertiesPrix[this.activeFilter];
+        this.actualPropertyCount = this.mappingPropertiesPrix[this.activeFilter].substring(2,);
         let matchExpression = this.changeChloroplethColors(
           "c",
           this.actualPropertyPrix,
@@ -1244,6 +1248,7 @@ export default {
         this.tooltip.value =
           Math.round(result[this.actualPropertyPrix]).toLocaleString() + "€";
       }
+      this.tooltip.count = result[this.actualPropertyCount].toLocaleString()
     },
     manageChloroplethColors() {
       if (this.dataChloropleth[this.userLocation.level]) {
@@ -1252,6 +1257,7 @@ export default {
           property_tile_code_geo = "id";
         }
         this.actualPropertyPrix = this.mappingPropertiesPrix[this.activeFilter];
+        this.actualPropertyCount = this.mappingPropertiesPrix[this.activeFilter].substring(2,);
         let matchExpression = this.changeChloroplethColors(
           "c",
           this.actualPropertyPrix,
