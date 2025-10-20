@@ -82,7 +82,8 @@ export default {
           return response.json();
         })
         .then((data) => {
-          data.features[0].citycode = data.features[0].departmentcode + data.features[0].municipalitycode
+          data.features[0].properties.citycode = data.features[0].properties.departmentcode + data.features[0].properties.municipalitycode
+          data.features[0].properties.label = "Parcelle " + data.features[0].properties.id
           this.resultsAdresses = data;
           this.firstResult = data.features[0];
         });
