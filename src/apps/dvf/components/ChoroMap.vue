@@ -20,7 +20,7 @@
           class="tooltip_place"
         >
           <b>{{ tooltip.value }}</b> par m²
-          <b>{{ tooltip.count }}</b> mutations
+          </br><b>{{ tooltip.count }}</b> mutation{{ tooltip.count < 2 ? '' : 's' }}
         </div>
         <div
           v-if="tooltip.value && tooltip.value == 'nodata'"
@@ -34,7 +34,8 @@
           v-if="tooltip.value && tooltip.value == 'smalldata'"
           class="tooltip_place"
         >
-          Pas assez de données pour faire une visualisation
+          <b>{{ tooltip.count }}</b> mutation{{ tooltip.count < 2 ? '' : 's' }}
+          </br>Pas assez de données pour faire une visualisation
         </div>
       </div>
     </div>
@@ -694,7 +695,16 @@ export default {
               this.$route.query.level === "commune"
             ) {
               this.mousePosition.com.code = this.$route.query.code;
-              this.mousePosition.com.nom = this.$route.query.code;
+              fetch(
+                "https://geo.api.gouv.fr/communes?code=" +
+                  this.$route.query.code
+              )
+                .then((response) => {
+                  return response.json();
+                })
+                .then((data) => {
+                  this.mousePosition.com.nom = data[0].nom;
+                });
               this.changeCom = true;
             }
             if (
