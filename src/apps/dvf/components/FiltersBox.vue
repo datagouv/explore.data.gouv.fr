@@ -9,7 +9,7 @@
       @click="openFilters ? (openFilters = false) : (openFilters = true)"
     >
       <div>
-        Type de bien
+        Type de biens
         <span v-if="activeFilter == 'tous'"> Appartements et maisons </span>
         <span v-if="activeFilter == 'appartement'"> Appartements </span>
         <span v-if="activeFilter == 'maison'"> Maisons </span>
