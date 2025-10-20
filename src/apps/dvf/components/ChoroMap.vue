@@ -1258,7 +1258,9 @@ export default {
         this.tooltip.value =
           Math.round(result[this.actualPropertyPrix]).toLocaleString() + "€";
       }
-      this.tooltip.count = result[this.actualPropertyCount].toLocaleString()
+      if (result && result[this.actualPropertyCount] && result[this.actualPropertyCount] !== null) {
+        this.tooltip.count = result[this.actualPropertyCount].toLocaleString()
+      }
     },
     manageChloroplethColors() {
       if (this.dataChloropleth[this.userLocation.level]) {
