@@ -72,12 +72,12 @@
           </div>
         </div>
 
-          <div v-if="level === 'parcelle'">
-            <div><span class="location_title">PARCELLE CADASTRALE</span></div>
-            <div>
-              <span class="location_label">{{ userLocation.parcelle }}</span>
-            </div>
+        <div v-if="level === 'parcelle'">
+          <div><span class="location_title">PARCELLE CADASTRALE</span></div>
+          <div>
+            <span class="location_label">{{ userLocation.parcelle }}</span>
           </div>
+        </div>
         </div>
       </div>
 
@@ -677,6 +677,9 @@
       <div class="title_mutations">Liste des mutations immobilières</div>
       <div class="mutations_total" v-if="parcellesMutations && Object.keys(parcellesMutations).length">
         {{ Object.keys(parcellesMutations).length }} mutations
+      </div>
+      <div class="no_mutations" v-if="!parcellesMutations || Object.keys(parcellesMutations).length === 0">
+        Aucune transaction enregistrée sur cette parcelle depuis 5 ans
       </div>
       <div
         class="mutation_box"
@@ -1968,6 +1971,16 @@ export default {
   margin: auto;
   text-align: center;
   border: 1px solid #ebebeb;
+}
+
+.no_mutations {
+  padding: 20px;
+  font-size: 14px;
+  margin: auto;
+  text-align: center;
+  border: 1px solid #ebebeb;
+  color: #666666;
+  font-style: italic;
 }
 
 @media screen and (max-width: 1279px) {

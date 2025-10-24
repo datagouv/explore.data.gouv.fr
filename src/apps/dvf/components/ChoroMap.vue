@@ -1,7 +1,7 @@
 <template>
   <div class="choroMap">
     <search-bar></search-bar>
-    <filters-box></filters-box>
+    <filters-box @select-parcelle="selectParcelleOnMap" @simulate-parcelle-click="simulateParcelleClick"></filters-box>
     <div
       ref="mapTooltip"
       class="map_tooltip"
@@ -139,6 +139,8 @@ export default {
       mapStyle: "vector",
       waitZoom: false,
       isMoving: false,
+      pendingParcelleClick: null,
+      disableAutoUpdates: false,
     };
   },
   computed: {
@@ -649,6 +651,27 @@ export default {
           this.isMoving = false;
           appStore.commit("changeCenterMapLat", this.map.getCenter().lat);
           appStore.commit("changeCenterMapLng", this.map.getCenter().lng);
+
+          if (this.pendingParcelleClick) {
+            setTimeout(() => {
+              this.disableAutoUpdates = false;
+              this.map.setLayoutProperty("departements_fill", "visibility", "none");
+              this.map.setLayoutProperty("epcis_fill", "visibility", "none");
+              this.map.setLayoutProperty("communes_fill", "visibility", "none");
+              this.map.setLayoutProperty("communes_fill2", "visibility", "none");
+              this.map.setLayoutProperty("sections_fill", "visibility", "none");
+              this.map.setLayoutProperty("parcelles_fill", "visibility", "visible");
+              
+              this.changeLocation("changeUserLocation", "parcelle", this.pendingParcelleClick, this.pendingParcelleClick);
+              
+              let matchExpression = ["match", ["get", "id"]];
+              matchExpression.push(this.pendingParcelleClick, "rgba(255, 0, 0, 0.5)");
+              matchExpression.push("rgba(0, 0, 255, 0.2)");
+              this.map.setPaintProperty("parcelles_fill", "fill-color", matchExpression);
+              
+              this.pendingParcelleClick = null;
+            }, 200);
+          }
         });
 
         this.map.on("click", "sections_fill", (e) => {
@@ -1288,6 +1311,20 @@ export default {
         );
       }
     },
+    selectParcelleOnMap(parcelleId) {
+      let matchExpression = ["match", ["get", "id"]];
+      matchExpression.push(parcelleId, "rgba(255, 0, 0, 0.5)");
+      matchExpression.push("rgba(0, 0, 255, 0.2)");
+      this.map.setPaintProperty(
+        "parcelles_fill",
+        "fill-color",
+        matchExpression
+      );
+    },
+    simulateParcelleClick(parcelleId) {
+      this.pendingParcelleClick = parcelleId;
+      this.disableAutoUpdates = true;
+    },
   },
   watch: {
     parcellesAdjacentes() {
@@ -1322,7 +1359,7 @@ export default {
       });
     },
     zoomLevel() {
-      if (this.waitZoom === false) {
+      if (this.waitZoom === false && !this.disableAutoUpdates) {
         if (this.zoomLevel < 8) {
           if (this.level != "fra") {
             this.map.setLayoutProperty("epcis_fill", "visibility", "visible");

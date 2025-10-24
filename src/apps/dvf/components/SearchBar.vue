@@ -7,7 +7,7 @@
           <input
             v-model="searchAdress"
             class="fr-input"
-            placeholder="Rechercher une adresse ou une parcelle"
+            placeholder="Rechercher une adresse"
             type="search"
             id="search-540-input"
             name="search-540-input"
@@ -62,7 +62,7 @@ export default {
   methods: {
     getAdresses() {
       fetch(
-        "https://api-adresse.data.gouv.fr/search/?q=" +
+        "https://data.geopf.fr/geocodage/search/?q=" +
           this.searchAdress.replace(" ", "%20")
       )
         .then((response) => {
