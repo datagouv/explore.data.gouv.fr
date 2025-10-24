@@ -62,7 +62,7 @@ export default {
   methods: {
     getAdresses() {
       fetch(
-        "https://api-adresse.data.gouv.fr/search/?q=" +
+        "https://data.geopf.fr/geocodage/search/?q=" +
           this.searchAdress.replace(" ", "%20")
       )
         .then((response) => {
@@ -73,9 +73,32 @@ export default {
           this.firstResult = data.features[0];
         });
     },
+    getParcelle() {
+      fetch(
+        "https://data.geopf.fr/geocodage/search?index=parcel&q=" +
+         this.searchAdress
+      )
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          data.features[0].properties.citycode = data.features[0].properties.departmentcode + data.features[0].properties.municipalitycode
+          data.features[0].properties.label = "Parcelle " + data.features[0].properties.id
+          this.resultsAdresses = data;
+          this.firstResult = data.features[0];
+        });
+    },
     autoComplete() {
       if (this.searchAdress.length === 0) {
         this.resultsAdresses = null;
+      }
+      // if the search is a parcelle id, we take it as it is
+      const pattern = /^\d{8}(\d|[A-Z])[A-Z]\d{4}$/;
+      if (pattern.test(this.searchAdress)) {
+        let timer = setTimeout(() => {
+          this.getParcelle();
+        }, 650);
+        return;
       }
       let search = this.searchAdress;
       let timer = setTimeout(() => {

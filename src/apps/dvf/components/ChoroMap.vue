@@ -1,7 +1,7 @@
 <template>
   <div class="choroMap">
     <search-bar></search-bar>
-    <filters-box></filters-box>
+    <filters-box @select-parcelle="selectParcelleOnMap" @simulate-parcelle-click="simulateParcelleClick"></filters-box>
     <div
       ref="mapTooltip"
       class="map_tooltip"
@@ -20,6 +20,7 @@
           class="tooltip_place"
         >
           <b>{{ tooltip.value }}</b> par m²
+          </br><b>{{ tooltip.count }}</b> mutation{{ tooltip.count < 2 ? '' : 's' }}
         </div>
         <div
           v-if="tooltip.value && tooltip.value == 'nodata'"
@@ -33,7 +34,8 @@
           v-if="tooltip.value && tooltip.value == 'smalldata'"
           class="tooltip_place"
         >
-          Pas assez de données pour faire une visualisation
+          <b>{{ tooltip.count }}</b> mutation{{ tooltip.count < 2 ? '' : 's' }}
+          </br>Pas assez de données pour faire une visualisation
         </div>
       </div>
     </div>
@@ -94,6 +96,7 @@ export default {
         display: "block",
         visibility: "",
         value: 0,
+        count: 0,
         date: "",
         place: "NaN",
       },
@@ -112,6 +115,7 @@ export default {
         commune: "sections_fill",
       },
       actualPropertyPrix: "m_am",
+      actualPropertyCount: "am",
       mousePosition: {
         dep: {
           code: null,
@@ -135,6 +139,8 @@ export default {
       mapStyle: "vector",
       waitZoom: false,
       isMoving: false,
+      pendingParcelleClick: null,
+      disableAutoUpdates: false,
     };
   },
   computed: {
@@ -233,6 +239,7 @@ export default {
         this.sendApiResultToStore(url, data);
         this.dataChloropleth["fra"] = data["data"];
         this.actualPropertyPrix = this.mappingPropertiesPrix[this.activeFilter];
+        this.actualPropertyCount = this.mappingPropertiesPrix[this.activeFilter].substring(2,);
         let matchExpression = this.changeChloroplethColors(
           "c",
           this.actualPropertyPrix,
@@ -644,6 +651,27 @@ export default {
           this.isMoving = false;
           appStore.commit("changeCenterMapLat", this.map.getCenter().lat);
           appStore.commit("changeCenterMapLng", this.map.getCenter().lng);
+
+          if (this.pendingParcelleClick) {
+            setTimeout(() => {
+              this.disableAutoUpdates = false;
+              this.map.setLayoutProperty("departements_fill", "visibility", "none");
+              this.map.setLayoutProperty("epcis_fill", "visibility", "none");
+              this.map.setLayoutProperty("communes_fill", "visibility", "none");
+              this.map.setLayoutProperty("communes_fill2", "visibility", "none");
+              this.map.setLayoutProperty("sections_fill", "visibility", "none");
+              this.map.setLayoutProperty("parcelles_fill", "visibility", "visible");
+              
+              this.changeLocation("changeUserLocation", "parcelle", this.pendingParcelleClick, this.pendingParcelleClick);
+              
+              let matchExpression = ["match", ["get", "id"]];
+              matchExpression.push(this.pendingParcelleClick, "rgba(255, 0, 0, 0.5)");
+              matchExpression.push("rgba(0, 0, 255, 0.2)");
+              this.map.setPaintProperty("parcelles_fill", "fill-color", matchExpression);
+              
+              this.pendingParcelleClick = null;
+            }, 200);
+          }
         });
 
         this.map.on("click", "sections_fill", (e) => {
@@ -690,7 +718,16 @@ export default {
               this.$route.query.level === "commune"
             ) {
               this.mousePosition.com.code = this.$route.query.code;
-              this.mousePosition.com.nom = this.$route.query.code;
+              fetch(
+                "https://geo.api.gouv.fr/communes?code=" +
+                  this.$route.query.code
+              )
+                .then((response) => {
+                  return response.json();
+                })
+                .then((data) => {
+                  this.mousePosition.com.nom = data[0].nom;
+                });
               this.changeCom = true;
             }
             if (
@@ -1244,6 +1281,9 @@ export default {
         this.tooltip.value =
           Math.round(result[this.actualPropertyPrix]).toLocaleString() + "€";
       }
+      if (result && result[this.actualPropertyCount] && result[this.actualPropertyCount] !== null) {
+        this.tooltip.count = result[this.actualPropertyCount].toLocaleString()
+      }
     },
     manageChloroplethColors() {
       if (this.dataChloropleth[this.userLocation.level]) {
@@ -1252,6 +1292,7 @@ export default {
           property_tile_code_geo = "id";
         }
         this.actualPropertyPrix = this.mappingPropertiesPrix[this.activeFilter];
+        this.actualPropertyCount = this.mappingPropertiesPrix[this.activeFilter].substring(2,);
         let matchExpression = this.changeChloroplethColors(
           "c",
           this.actualPropertyPrix,
@@ -1269,6 +1310,20 @@ export default {
           exp
         );
       }
+    },
+    selectParcelleOnMap(parcelleId) {
+      let matchExpression = ["match", ["get", "id"]];
+      matchExpression.push(parcelleId, "rgba(255, 0, 0, 0.5)");
+      matchExpression.push("rgba(0, 0, 255, 0.2)");
+      this.map.setPaintProperty(
+        "parcelles_fill",
+        "fill-color",
+        matchExpression
+      );
+    },
+    simulateParcelleClick(parcelleId) {
+      this.pendingParcelleClick = parcelleId;
+      this.disableAutoUpdates = true;
     },
   },
   watch: {
@@ -1304,7 +1359,7 @@ export default {
       });
     },
     zoomLevel() {
-      if (this.waitZoom === false) {
+      if (this.waitZoom === false && !this.disableAutoUpdates) {
         if (this.zoomLevel < 8) {
           if (this.level != "fra") {
             this.map.setLayoutProperty("epcis_fill", "visibility", "visible");
