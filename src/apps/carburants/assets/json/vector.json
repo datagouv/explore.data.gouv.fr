@@ -25,7 +25,7 @@
   "sources": {
     "openmaptiles": {
       "type": "vector",
-      "url": "https://openmaptiles.geo.data.gouv.fr/data/france-vector.json"
+      "url": "https://openmaptiles.geo.data.gouv.fr/data/planet-vector.json"
     },
     "decoupage-administratif": {
       "type": "vector",
