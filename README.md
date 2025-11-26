@@ -33,7 +33,7 @@ This app has been tested under Node v10.
 Install all dependencies and laucnh the development server
 
 ```shell
-npm install
+npm ci
 npm run serve
 ```
 
