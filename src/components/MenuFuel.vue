@@ -33,7 +33,7 @@ export default {
   methods: {
     getAdresses() {
       fetch(
-        "https://api-adresse.data.gouv.fr/search/?q=" + this.searchAdress
+        "https://data.geopf.fr/geocodage/search/?q=" + this.searchAdress
       ).then((response) => {
         this.results = response.json();
       });

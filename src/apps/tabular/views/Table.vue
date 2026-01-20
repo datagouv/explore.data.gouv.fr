@@ -608,7 +608,7 @@ export default {
           this.getLocalOrFetch(
             "adresse",
             adr,
-            "https://api-adresse.data.gouv.fr/search/?q=" + adr
+            "https://data.geopf.fr/geocodage/search/?q=" + adr
           )
             .then((data) => {
               this.messageBox = data["features"][0]["properties"]["label"];

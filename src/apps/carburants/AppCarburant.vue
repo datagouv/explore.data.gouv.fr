@@ -582,7 +582,7 @@ export default {
       }
     },
     getAdresses() {
-        fetch('https://api-adresse.data.gouv.fr/search/?q=' + this.searchAdress.replace(' ', '%20'))
+        fetch('https://data.geopf.fr/geocodage/search/?q=' + this.searchAdress.replace(' ', '%20'))
         .then((response) => {
             return response.json()
         })
