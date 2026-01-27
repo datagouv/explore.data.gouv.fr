@@ -62,7 +62,7 @@ export default {
   methods: {
     getAdresses() {
       fetch(
-        "https://api-adresse.data.gouv.fr/search/?q=" +
+        "https://data.geopf.fr/geocodage/search/?q=" +
           this.searchAdress.replace(" ", "%20")
       )
         .then((response) => {
