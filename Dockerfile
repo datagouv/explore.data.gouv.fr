@@ -1,15 +1,20 @@
-FROM node:21 as builder
+FROM node:22 AS builder
+
+RUN corepack enable && corepack prepare pnpm@latest-10 --activate
 
 WORKDIR /app
+
+COPY package.json pnpm-lock.yaml .npmrc ./
+
+RUN pnpm install
 
 COPY ./ /app
 
 ENV NODE_OPTIONS=--openssl-legacy-provider
 
-RUN npm ci
 RUN echo "$(date)" && \
-    export $(cat /app/.env | xargs) && \
-    npm run build
+    export $(cat /app/*.env | xargs) && \
+    pnpm run build
 
 FROM nginx:alpine-slim
 
