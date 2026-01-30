@@ -7,7 +7,7 @@
       appLink="/tableau"
       :displayBanner="true"
     ></header-apps>
-  <infos-resource></infos-resource>
+  <infos-resources></infos-resources>
   <div class="fr-mt-4w fr-container" v-if="!csvUrl">
     <h1 style="width: 100%; text-align: center;">Explorer facilement les données tabulaires <br/>présentes sur data.gouv.fr</h1>
     <p style="width: 100%; text-align: center;">A ce stade, seuls les fichiers tabulaires de moins <b>de 100Mo</b> sont disponibles.</p>
@@ -52,6 +52,7 @@
 
 <script>
 import HeaderApps from '@/views/HeaderApps.vue'
+import InfosResources from '@/apps/tabular/views/InfosResources.vue'
 import Table from '@/components/Table'
 import Loader from '@/components/Loader'
 import CardLink from '@/components/CardLink'
@@ -62,7 +63,7 @@ import FooterApps from './FooterApps.vue'
 
 export default {
   name: 'ExploreTableView',
-  components: {Table, Loader, CardLink, HeaderApps, FooterApps},
+  components: { Table, Loader, CardLink, HeaderApps, FooterApps, InfosResources },
   metaInfo: {
     title: "Explorateur de données tabulaires",
     meta: [
