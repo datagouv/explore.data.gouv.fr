@@ -9,6 +9,12 @@ homepage:
       link: immobilier
       linkImgReuse: https://gist.githubusercontent.com/geoffreyaldebert/8f4d0e0f1ef7155a2a3ab77f08da3738/raw/e11d9a9e99dccd3c5da22b8e389b431acd04401a/explore-dvf.png
     - 
+      typeReuse: proto
+      titleReuse: Où en est l'épidémie de grippe en France ?
+      descriptionReuse: "Suivez l’évolution de la grippe en France : taux d’incidence, cartographie et état actuel de la vaccination."
+      link: https://explore.data.gouv.fr/grippe
+      linkImgReuse: https://raw.githubusercontent.com/datagouv/assets/refs/heads/main/explore/grippe.jpg
+    - 
       typeReuse: produit
       titleReuse: Annuaire des entreprises
       descriptionReuse: Vérifier les informations légales publiques des entreprises, associations et services publics.
