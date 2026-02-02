@@ -13,10 +13,24 @@ module.exports = {
       .use('yaml-loader')
         .loader('yaml-loader')
     },
+    transpileDependencies: [
+      'chartjs-chart-treemap'
+    ],
     configureWebpack: {
       output: {
         filename: 'js/[name].[hash:8].js',
         chunkFilename: 'js/[name].[hash:8].js'
+      }
+    },
+    devServer: {
+      proxy: {
+        '/api/tabular': {
+          target: 'https://tabular-api.data.gouv.fr',
+          changeOrigin: true,
+          pathRewrite: {
+            '^/api/tabular': '/api'
+          }
+        }
       }
     },
     pluginOptions: {
