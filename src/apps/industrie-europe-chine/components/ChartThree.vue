@@ -50,12 +50,10 @@ export default {
   },
   methods: {
     async fetchData() {
-      try {
-        this.loading = true;
-        const isDev = process.env.NODE_ENV === 'development';
-        const baseUrl = isDev 
-          ? '/api/tabular' 
-          : 'https://tabular-api.data.gouv.fr/api';
+        try {
+          this.loading = true;
+          // Utiliser la même approche que l'app tabular : variable d'environnement ou URL par défaut
+          const baseUrl = (process.env.VUE_APP_TABULAR_API || 'https://tabular-api.data.gouv.fr') + '/api';
         
         const countryFr = this.selectedCountry || 'Allemagne';
         const countryEn = appStore.state.countryToApiName[countryFr];
