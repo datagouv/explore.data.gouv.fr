@@ -52,14 +52,12 @@ export default {
     async fetchData() {
       try {
         this.loading = true;
-        // Utiliser la même approche que l'app tabular : variable d'environnement ou URL par défaut
-        const baseUrl = (process.env.VUE_APP_TABULAR_API || 'https://tabular-api.data.gouv.fr') + '/api';
         
         const countryFr = this.selectedCountry || 'Allemagne';
         const countryEn = appStore.state.countryToApiName[countryFr];
         const category = this.selectedCategory || ` Fabrication d'articles textiles confectionnés, sauf habillement`;
         const categoryId = appStore.state.categoryToId[category];
-        const url = `${baseUrl}/resources/71d9f379-5d71-4b06-99b5-75ac32239e0b/data/?window_end__greater=2000&HOME__exact=${encodeURIComponent(countryEn)}&code_categorie__exact=${categoryId}&page_size=200`;
+        const url = process.env.VUE_APP_TABULAR_API + '/api/resources/71d9f379-5d71-4b06-99b5-75ac32239e0b/data/?window_end__greater=2000&HOME__exact=' + encodeURIComponent(countryEn) + '&code_categorie__exact=' + categoryId + '&page_size=200';
         
         const response = await fetch(url);
         if (!response.ok) {
