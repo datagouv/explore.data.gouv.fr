@@ -30,6 +30,9 @@ export default {
     },
     selectedCategory() {
       return appStore.state.selectedCategory;
+    },
+    selectedCompetitor() {
+      return appStore.state.selectedCompetitor;
     }
   },
   watch: {
@@ -37,6 +40,9 @@ export default {
       this.fetchData();
     },
     selectedCategory() {
+      this.fetchData();
+    },
+    selectedCompetitor() {
       this.fetchData();
     }
   },
@@ -53,11 +59,13 @@ export default {
       try {
         this.loading = true;
         
-        const countryFr = this.selectedCountry || 'Allemagne';
+        const countryFr = this.selectedCountry || 'France';
         const countryEn = appStore.state.countryToApiName[countryFr];
         const category = this.selectedCategory || ` Fabrication d'articles textiles confectionnés, sauf habillement`;
         const categoryId = appStore.state.categoryToId[category];
-        const url = process.env.VUE_APP_TABULAR_API + '/api/resources/71d9f379-5d71-4b06-99b5-75ac32239e0b/data/?window_end__greater=2000&HOME__exact=' + encodeURIComponent(countryEn) + '&code_categorie__exact=' + categoryId + '&page_size=200';
+        const competitor = this.selectedCompetitor || 'Chine';
+        const resourceId = appStore.state.competitorResourceIds[competitor].indicator1;
+        const url = process.env.VUE_APP_TABULAR_API + '/api/resources/' + resourceId + '/data/?window_end__greater=2000&HOME__exact=' + encodeURIComponent(countryEn) + '&code_categorie__exact=' + categoryId + '&page_size=200';
         
         const response = await fetch(url);
         if (!response.ok) {
@@ -102,8 +110,8 @@ export default {
       const levelsArray = Array.from(levels).sort((a, b) => b - a);
       
       const colorsByLevel = {
-        0: "#fee9e9",
-        1: "#fcbfbf",
+        0: "#ffffff",
+        1: "#FFD4D4",
         2: "#f95c5e",
         3: "#c9191e",
         4: "#5e2a2b",

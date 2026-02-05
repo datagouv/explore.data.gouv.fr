@@ -12,7 +12,23 @@ export default new Vuex.Store({
       exports: [],
       employment: []
     },
-    selectedCountry: 'Allemagne',
+    selectedCountry: 'France',
+    selectedCompetitor: 'Chine',
+    competitors: ['Chine', 'Allemagne'],
+    competitorResourceIds: {
+      'Chine': {
+        indicator1: '71d9f379-5d71-4b06-99b5-75ac32239e0b',
+        indicator2: 'd353484d-d159-45dc-85cf-d4dc5f0ed47f',
+        indicator3: 'd5670741-91c2-4000-aba5-793eb4909ee0',
+        indicator4: 'a1387473-fa48-4e35-bbde-f6c6084cde63'
+      },
+      'Allemagne': {
+        indicator1: '6ddc7294-69a5-43e2-bf78-8fab4f4875d6',
+        indicator2: '10a467ff-c8e9-4ebb-9fbf-71c6f5433fba',
+        indicator3: '591d5343-a43a-4038-aa24-ee583f9a9385',
+        indicator4: 'd3ddb7df-3c1b-4a3b-a22c-d742971cf055'
+      }
+    },
     countryToApiName: {
       'Autriche': 'Austria',
       'Belgique': 'Belgium',
@@ -167,9 +183,9 @@ export default new Vuex.Store({
       'Fabrication d\'ouvrages en métaux': '8db6ac69-f7fa-485e-a6ec-a1ef33ad56b7',
       'Fabrication d\'émetteurs de radio et de télévision et d\'appareils pour la téléphonie et le télégraphe filaires': '594d3839-4dcc-4419-b822-923bc9f5e494',
       'Fabrication d\'équipements de levage et de manutention': '2a5efeec-ec1c-4b74-9875-f040ffd18de2',
-      'Manufacture of pesticides and other agro-chemical products': '70edff7b-be8f-4a5a-ab13-73e56b6c955e',
-      'Manufacture of spacecraft': '3be9a067-0178-4218-ab46-b8a230377bc3',
-      'Mining and agglomeration of lignite': 'e314c3d9-f381-4393-95f3-30d79d0a628f',
+      'Fabrication de pesticides et d’autres produits agrochimiques': '70edff7b-be8f-4a5a-ab13-73e56b6c955e',
+      'Fabrication d’engins spatiaux': '3be9a067-0178-4218-ab46-b8a230377bc3',
+      'Extraction et agglomération de lignite': 'e314c3d9-f381-4393-95f3-30d79d0a628f',
       'Métallurgie des métaux précieux et des autres métaux non ferreux': '6d9f1e2f-cf2f-48ba-8dd9-7685ca3563ad',
       'Production et distribution de films cinématographiques et de vidéos': '36af71dd-c7ee-471c-80ea-163d79dd2db8',
       'Préparation et conservation de fruits et de légumes': '1422cce1-ba78-4852-b581-eaa31c57e409',
@@ -201,6 +217,13 @@ export default new Vuex.Store({
     },
     setSelectedCategory(state, category) {
       state.selectedCategory = category
+    },
+    setSelectedCompetitor(state, competitor) {
+      state.selectedCompetitor = competitor
+      // Si on sélectionne Allemagne comme compétiteur et que le pays est Allemagne, changer le pays
+      if (competitor === 'Allemagne' && state.selectedCountry === 'Allemagne') {
+        state.selectedCountry = 'France';
+      }
     }
   },
   actions: {
@@ -219,6 +242,15 @@ export default new Vuex.Store({
     selectedCountry: state => state.selectedCountry,
     countries: state => Object.keys(state.countryToApiName),
     selectedCategory: state => state.selectedCategory,
-    categories: state => Object.keys(state.categoryToId)
+    categories: state => Object.keys(state.categoryToId),
+    selectedCompetitor: state => state.selectedCompetitor,
+    competitors: state => state.competitors,
+    availableCountries: state => {
+      const allCountries = Object.keys(state.countryToApiName);
+      if (state.selectedCompetitor === 'Allemagne') {
+        return allCountries.filter(country => country !== 'Allemagne');
+      }
+      return allCountries;
+    }
   }
 })

@@ -26,6 +26,115 @@ export default {
       error: null,
       apiData: null,
       countryLevelMap: {},
+      countryTranslations: {
+        "Afghanistan": "Afghanistan",
+        "Albania": "Albanie",
+        "Algeria": "Algérie",
+        "American Samoa": "Samoa américaines",
+        "Andorra": "Andorre",
+        "Angola": "Angola",
+        "Anguilla": "Anguilla",
+        "Antarctica": "Antarctique",
+        "Antigua and Barbuda": "Antigua-et-Barbuda",
+        "Argentina": "Argentine",
+        "Armenia": "Arménie",
+        "Aruba": "Aruba",
+        "Australia": "Australie",
+        "Austria": "Autriche",
+        "Azerbaijan": "Azerbaïdjan",
+        "Bahamas": "Bahamas",
+        "Bahrain": "Bahreïn",
+        "Bangladesh": "Bangladesh",
+        "Barbados": "Barbade",
+        "Belarus": "Biélorussie",
+        "Belgium": "Belgique",
+        "Belize": "Belize",
+        "Benin": "Bénin",
+        "Bermuda": "Bermudes",
+        "Bhutan": "Bhoutan",
+        "Bolivia (Plurinational State of)": "Bolivie",
+        "Bosnia Herzegovina": "Bosnie-Herzégovine",
+        "Botswana": "Botswana",
+        "Brazil": "Brésil",
+        "Brunei Darussalam": "Brunei",
+        "Bulgaria": "Bulgarie",
+        "Burkina Faso": "Burkina Faso",
+        "Burundi": "Burundi",
+        "Cambodia": "Cambodge",
+        "Cameroon": "Cameroun",
+        "Canada": "Canada",
+        "Cabo Verde": "Cap-Vert",
+        "Central African Rep.": "République centrafricaine",
+        "Chad": "Tchad",
+        "Chile": "Chili",
+        "China": "Chine",
+        "Colombia": "Colombie",
+        "Comoros": "Comores",
+        "Congo": "Congo",
+        "Dem. Rep. of the Congo": "République démocratique du Congo",
+        "Costa Rica": "Costa Rica",
+        "Côte d'Ivoire": "Côte d'Ivoire",
+        "Croatia": "Croatie",
+        "Cuba": "Cuba",
+        "Cyprus": "Chypre",
+        "Czechia": "Tchéquie",
+        "Denmark": "Danemark",
+        "Djibouti": "Djibouti",
+        "Dominica": "Dominique",
+        "Dominican Rep.": "République dominicaine",
+        "Ecuador": "Équateur",
+        "Egypt": "Égypte",
+        "El Salvador": "Salvador",
+        "Equatorial Guinea": "Guinée équatoriale",
+        "Eritrea": "Érythrée",
+        "Estonia": "Estonie",
+        "Ethiopia": "Éthiopie",
+        "Finland": "Finlande",
+        "France": "France",
+        "Germany": "Allemagne",
+        "Greece": "Grèce",
+        "Hungary": "Hongrie",
+        "Iceland": "Islande",
+        "India": "Inde",
+        "Indonesia": "Indonésie",
+        "Iran": "Iran",
+        "Iraq": "Irak",
+        "Ireland": "Irlande",
+        "Israel": "Israël",
+        "Italy": "Italie",
+        "Japan": "Japon",
+        "Kazakhstan": "Kazakhstan",
+        "Kenya": "Kenya",
+        "Rep. of Korea": "Corée du Sud",
+        "Latvia": "Lettonie",
+        "Lithuania": "Lituanie",
+        "Luxembourg": "Luxembourg",
+        "Malaysia": "Malaisie",
+        "Malta": "Malte",
+        "Mexico": "Mexique",
+        "Morocco": "Maroc",
+        "Netherlands": "Pays-Bas",
+        "Norway": "Norvège",
+        "Poland": "Pologne",
+        "Portugal": "Portugal",
+        "Romania": "Roumanie",
+        "Russian Federation": "Russie",
+        "Saudi Arabia": "Arabie saoudite",
+        "Serbia": "Serbie",
+        "Singapore": "Singapour",
+        "Slovakia": "Slovaquie",
+        "Slovenia": "Slovénie",
+        "Spain": "Espagne",
+        "Sweden": "Suède",
+        "Switzerland": "Suisse",
+        "Türkiye": "Turquie",
+        "Ukraine": "Ukraine",
+        "United Kingdom": "Royaume-Uni",
+        "United Arab Emirates": "Émirats arabes unis",
+        "USA": "États-Unis",
+        "Viet Nam": "Viêt Nam",
+        "South Africa": "Afrique du Sud",
+      },
     };
   },
   computed: {
@@ -34,6 +143,9 @@ export default {
     },
     selectedCategory() {
       return appStore.state.selectedCategory;
+    },
+    selectedCompetitor() {
+      return appStore.state.selectedCompetitor;
     }
   },
   watch: {
@@ -41,6 +153,9 @@ export default {
       this.fetchData();
     },
     selectedCategory() {
+      this.fetchData();
+    },
+    selectedCompetitor() {
       this.fetchData();
     }
   },
@@ -53,15 +168,21 @@ export default {
     }
   },
   methods: {
+    translateCountry(countryName) {
+      return this.countryTranslations[countryName] || countryName;
+    },
+    
     async fetchData() {
         try {
           this.loading = true;
         
-        const countryFr = this.selectedCountry || 'Allemagne';
+        const countryFr = this.selectedCountry || 'France';
         const countryEn = appStore.state.countryToApiName[countryFr];
         const category = this.selectedCategory || ` Fabrication d'articles textiles confectionnés, sauf habillement`;
         const categoryId = appStore.state.categoryToId[category];
-        const url = process.env.VUE_APP_TABULAR_API + '/api/resources/a1387473-fa48-4e35-bbde-f6c6084cde63/data/?code_categorie__exact=' + categoryId + '&HOME__exact=' + encodeURIComponent(countryEn) + '&page_size=200';
+        const competitor = this.selectedCompetitor || 'Chine';
+        const resourceId = appStore.state.competitorResourceIds[competitor].indicator4;
+        const url = process.env.VUE_APP_TABULAR_API + '/api/resources/' + resourceId + '/data/?code_categorie__exact=' + categoryId + '&HOME__exact=' + encodeURIComponent(countryEn) + '&page_size=200';
         
         const response = await fetch(url);
         if (!response.ok) {
@@ -146,10 +267,11 @@ export default {
                 if (!ctx.raw) return "";
                 const value = ctx.raw.v;
                 const country = ctx.raw.g || ctx.raw._data?.country;
+                const countryFr = this.translateCountry(country);
                 if (value < 0.001) {
-                  return [country, value.toExponential(2) + " Md$"];
+                  return [countryFr, value.toExponential(2) + " Md$"];
                 }
-                return [country, value.toFixed(3) + " Md$"];
+                return [countryFr, value.toFixed(3) + " Md$"];
               },
               color: (ctx) => {
                 if (!ctx.raw) return "#000";
@@ -204,7 +326,7 @@ export default {
                 title: (context) => {
                   if (!context[0].raw) return "";
                   const country = context[0].raw.g || context[0].raw._data?.country;
-                  return country;
+                  return this.translateCountry(country);
                 },
                 label: (context) => {
                   if (!context.raw) return "";

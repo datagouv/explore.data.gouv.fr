@@ -30,6 +30,9 @@ export default {
     },
     selectedCategory() {
       return appStore.state.selectedCategory;
+    },
+    selectedCompetitor() {
+      return appStore.state.selectedCompetitor;
     }
   },
   watch: {
@@ -37,6 +40,9 @@ export default {
       this.fetchData();
     },
     selectedCategory() {
+      this.fetchData();
+    },
+    selectedCompetitor() {
       this.fetchData();
     }
   },
@@ -53,11 +59,13 @@ export default {
         try {
           this.loading = true;
         
-        const countryFr = this.selectedCountry || 'Allemagne';
+        const countryFr = this.selectedCountry || 'France';
         const countryEn = appStore.state.countryToApiName[countryFr];
         const category = this.selectedCategory || ` Fabrication d'articles textiles confectionnés, sauf habillement`;
         const categoryId = appStore.state.categoryToId[category];
-        const url = process.env.VUE_APP_TABULAR_API + '/api/resources/d353484d-d159-45dc-85cf-d4dc5f0ed47f/data/?code_categorie__exact=' + categoryId + '&window_end__greater=2000&HOME__exact=' + encodeURIComponent(countryEn) + '&page_size=50';
+        const competitor = this.selectedCompetitor || 'Chine';
+        const resourceId = appStore.state.competitorResourceIds[competitor].indicator2;
+        const url = process.env.VUE_APP_TABULAR_API + '/api/resources/' + resourceId + '/data/?code_categorie__exact=' + categoryId + '&window_end__greater=2000&HOME__exact=' + encodeURIComponent(countryEn) + '&page_size=50';
         
         const response = await fetch(url);
         if (!response.ok) {
@@ -103,7 +111,7 @@ export default {
           labels: years,
           datasets: [
             {
-              label: "Allemagne",
+              label: this.selectedCountry,
               data: germanyExports,
               borderColor: "#000091",
               backgroundColor: "rgba(0, 0, 145, 0.1)",
@@ -116,7 +124,7 @@ export default {
               fill: false,
             },
             {
-              label: "Chine",
+              label: this.selectedCompetitor,
               data: chinaExports,
               borderColor: "#e1000f",
               backgroundColor: "rgba(225, 0, 15, 0.1)",

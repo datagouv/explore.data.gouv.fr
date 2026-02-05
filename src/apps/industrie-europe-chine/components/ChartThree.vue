@@ -30,6 +30,9 @@ export default {
     },
     selectedCategory() {
       return appStore.state.selectedCategory;
+    },
+    selectedCompetitor() {
+      return appStore.state.selectedCompetitor;
     }
   },
   watch: {
@@ -37,6 +40,9 @@ export default {
       this.fetchData();
     },
     selectedCategory() {
+      this.fetchData();
+    },
+    selectedCompetitor() {
       this.fetchData();
     }
   },
@@ -53,11 +59,13 @@ export default {
         try {
           this.loading = true;
         
-        const countryFr = this.selectedCountry || 'Allemagne';
+        const countryFr = this.selectedCountry || 'France';
         const countryEn = appStore.state.countryToApiName[countryFr];
         const category = this.selectedCategory || ` Fabrication d'articles textiles confectionnés, sauf habillement`;
         const categoryId = appStore.state.categoryToId[category];
-        const url = process.env.VUE_APP_TABULAR_API + '/api/resources/d5670741-91c2-4000-aba5-793eb4909ee0/data/?code_categorie__exact=' + categoryId + '&window_end__greater=2000&HOME__exact=' + encodeURIComponent(countryEn) + '&page_size=50';
+        const competitor = this.selectedCompetitor || 'Chine';
+        const resourceId = appStore.state.competitorResourceIds[competitor].indicator3;
+        const url = process.env.VUE_APP_TABULAR_API + '/api/resources/' + resourceId + '/data/?code_categorie__exact=' + categoryId + '&window_end__greater=2000&HOME__exact=' + encodeURIComponent(countryEn) + '&page_size=50';
         
         const response = await fetch(url);
         if (!response.ok) {
@@ -123,7 +131,7 @@ export default {
           labels: years,
           datasets: [
             {
-              label: "CN ≥ 50% Allemagne",
+              label: `${this.selectedCompetitor} ≥ 50% ${this.selectedCountry}`,
               data: smoothed50pct,
               borderColor: "#000091",
               backgroundColor: "rgba(0, 0, 145, 0.05)",
@@ -136,7 +144,7 @@ export default {
               fill: false,
             },
             {
-              label: "CN ≥ 100% Allemagne",
+              label: `${this.selectedCompetitor} ≥ 100% ${this.selectedCountry}`,
               data: smoothed100pct,
               borderColor: "#6A6AF4",
               backgroundColor: "rgba(106, 106, 244, 0.05)",
@@ -149,7 +157,7 @@ export default {
               fill: false,
             },
             {
-              label: "CN ≥ 150% Allemagne",
+              label: `${this.selectedCompetitor} ≥ 150% ${this.selectedCountry}`,
               data: smoothed150pct,
               borderColor: "#e1000f",
               backgroundColor: "rgba(225, 0, 15, 0.05)",
@@ -162,7 +170,7 @@ export default {
               fill: false,
             },
             {
-              label: "CN ≥ 200% Allemagne",
+              label: `${this.selectedCompetitor} ≥ 200% ${this.selectedCountry}`,
               data: smoothed200pct,
               borderColor: "#FF6B6B",
               backgroundColor: "rgba(255, 107, 107, 0.05)",
