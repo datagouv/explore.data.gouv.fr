@@ -23,6 +23,7 @@
 <script>
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
+import appStore from '@/apps/industrie-europe-chine/store';
 
 export default {
   name: 'MapEurope',
@@ -82,6 +83,9 @@ export default {
     }
   },
   methods: {
+    translateCountry(countryName) {
+      return appStore.state.countryTranslations[countryName] || countryName;
+    },
     async loadEuropeGeoJSON() {
       try {
         const response = await fetch('https://raw.githubusercontent.com/leakyMirror/map-of-europe/refs/heads/master/GeoJSON/europe.geojson');
@@ -117,6 +121,8 @@ export default {
           if (!feature.properties.country_name) {
             feature.properties.country_name = data.HOME || data.Importateur || feature.properties.NAME;
           }
+          const originalName = feature.properties.NAME;
+          feature.properties.NAME_FR = this.translateCountry(originalName);
           return true;
         }
         return false;
@@ -188,7 +194,7 @@ export default {
           type: 'symbol',
           source: 'europe-countries',
           layout: {
-            'text-field': ['get', 'NAME'],
+            'text-field': ['get', 'NAME_FR'],
             'text-font': ['Open Sans Regular'],
             'text-size': 12,
             'text-anchor': 'center'
@@ -246,7 +252,8 @@ export default {
       return '#3558a2';
     },
     buildPopupContent(properties) {
-      const countryName = properties.country_name || properties.HOME || properties.Importateur || properties.NAME;
+      const countryNameRaw = properties.country_name || properties.HOME || properties.Importateur || properties.NAME;
+      const countryName = this.translateCountry(countryNameRaw);
       
       let content = `
         <div style="padding: 12px; width: 100%; max-width: 100%; box-sizing: border-box; overflow: hidden;">
