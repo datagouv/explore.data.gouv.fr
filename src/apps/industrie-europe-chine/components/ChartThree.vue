@@ -22,6 +22,7 @@ export default {
       loading: true,
       error: null,
       apiData: null,
+      resizeTimeout: null,
     };
   },
   computed: {
@@ -48,13 +49,33 @@ export default {
   },
   mounted() {
     this.fetchData();
+    window.addEventListener('resize', this.handleResize);
   },
   beforeDestroy() {
     if (this.chart) {
       this.chart.destroy();
     }
+    window.removeEventListener('resize', this.handleResize);
+    if (this.resizeTimeout) {
+      clearTimeout(this.resizeTimeout);
+    }
   },
   methods: {
+    handleResize() {
+      if (this.resizeTimeout) {
+        clearTimeout(this.resizeTimeout);
+      }
+      this.resizeTimeout = setTimeout(() => {
+        if (this.chart) {
+          this.chart.destroy();
+        }
+        if (this.apiData && this.apiData.length > 0) {
+          this.$nextTick(() => {
+            this.buildChart();
+          });
+        }
+      }, 250);
+    },
     async fetchData() {
         try {
           this.loading = true;
@@ -187,7 +208,7 @@ export default {
         options: {
           responsive: true,
           maintainAspectRatio: true,
-          aspectRatio: 2.5,
+          aspectRatio: window.innerWidth < 768 ? 1.2 : 2.5,
           plugins: {
             legend: {
               display: true,
@@ -281,6 +302,12 @@ canvas {
 .error-container p {
   margin: 0;
   font-size: 14px;
+}
+
+@media screen and (max-width: 767px) {
+  .chart-wrapper {
+    min-height: 400px;
+  }
 }
 </style>
 

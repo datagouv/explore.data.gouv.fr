@@ -290,13 +290,14 @@ export default {
         options: {
           responsive: true,
           maintainAspectRatio: false,
+          onHover: null,
           plugins: {
             title: {
               display: false,
             },
             legend: {
               display: true,
-              position: "bottom",
+              position: "top",
               labels: {
                 generateLabels() {
                   return [
@@ -354,8 +355,8 @@ export default {
 <style scoped>
 .chart-wrapper {
   width: 100%;
-  height: 100%;
-  min-height: 500px;
+  height: 600px;
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -364,6 +365,7 @@ export default {
 canvas {
   width: 100% !important;
   height: 100% !important;
+  max-height: 600px;
 }
 
 .loading-container,
