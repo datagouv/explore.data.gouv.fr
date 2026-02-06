@@ -21,7 +21,7 @@
           </p>
           <br />
           <p>
-            Ce tableau de bord a été réalisé dans le cadre de la note du Haut-commissariat à la Stratégie et au Plan "L'industrie européenne face au rouleau compresseur chinois". Les données brutes ont par ailleurs été publiées sur data.gouv.fr. »
+            Ce tableau de bord a été réalisé dans le cadre de la note du Haut-commissariat à la Stratégie et au Plan "L'industrie européenne face au rouleau compresseur chinois". Les données brutes ont par ailleurs été publiées sur data.gouv.fr.
           </p>
         </div>
       </div>
@@ -596,7 +596,6 @@ export default {
   font-size: 16px;
   line-height: 24px;
   color: #3a3a3a;
-  max-width: 900px;
 }
 
 .industrie_header .intro p {
