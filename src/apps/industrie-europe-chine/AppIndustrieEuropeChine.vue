@@ -13,11 +13,15 @@
         <h1>L'industrie européenne face au rouleau compresseur chinois - une analyse comparative</h1>
         <div class="intro">
           <p>
-            Cette page propose à travers quatre graphiques clés, une analyse comparative de la menace que fait peser la Chine sur les exportations européennes, par pays de destination et par secteur manufacturier concerné, les données agrégées pour la menace sur le marché intérieur, la menace sur les avantages comparatifs, ainsi que la répartition des investissements.
+            Cette page propose, à travers quatre cartes, une analyse comparative de la menace chinoise pour l’industrie européenne. Ces cartes détaillent successivement, pour l’ensemble des pays de l’Union européenne, la part des exportations menacée, la part de la production européenne exposée à une forte pression des importations chinoises, la part des avantages comparatifs de chaque pays qui est menacée, ainsi que les investissements chinois annoncés au sein des pays de l’Union européenne.
           </p>
           <br />
           <p>
-            Le tableau de bord des exportations vise à offrir une vision claire des dynamiques industrielles entre chacun des pays européens et la Chine. Ce tableau a été réalisé dans le cadre de la note du Haut-commissariat à la Stratégie et au Plan. Les données brutes ont par ailleurs été publiées sur data.gouv.fr.
+            Une seconde page, spécifiquement dédiée aux exportations, permet de visualiser pour chaque pays européen et chaque secteur d’exportation, l’évolution de la menace au fil des années.
+          </p>
+          <br />
+          <p>
+            Ce tableau de bord a été réalisé dans le cadre de la note du Haut-commissariat à la Stratégie et au Plan "L'industrie européenne face au rouleau compresseur chinois". Les données brutes ont par ailleurs été publiées sur data.gouv.fr. »
           </p>
         </div>
       </div>
@@ -58,6 +62,7 @@
                 :data-field="map1Config.dataField"
                 :map-title="map1Config.title"
                 :map-note="map1Config.note"
+                :map-note-below="map1Config.note_below"
                 :legend-config="map1Config.legendConfig"
                 :color-scale="map1Config.colorScale"
                 :popup-config="map1Config.popupConfig"
@@ -71,6 +76,7 @@
                 :data-field="map2Config.dataField"
                 :map-title="map2Config.title"
                 :map-note="map2Config.note"
+                :map-note-below="map2Config.note_below"
                 :legend-config="map2Config.legendConfig"
                 :color-scale="map2Config.colorScale"
                 :popup-config="map2Config.popupConfig"
@@ -84,6 +90,7 @@
                 :data-field="map3Config.dataField"
                 :map-title="map3Config.title"
                 :map-note="map3Config.note"
+                :map-note-below="map3Config.note_below"
                 :legend-config="map3Config.legendConfig"
                 :color-scale="map3Config.colorScale"
                 :popup-config="map3Config.popupConfig"
@@ -97,6 +104,7 @@
                 :data-field="map4Config.dataField"
                 :map-title="map4Config.title"
                 :map-note="map4Config.note"
+                :map-note-below="map4Config.note_below"
                 :legend-config="map4Config.legendConfig"
                 :color-scale="map4Config.colorScale"
                 :popup-config="map4Config.popupConfig"
@@ -318,8 +326,9 @@ export default {
       map1Config: {
         apiUrl: 'https://tabular-api.data.gouv.fr/api/resources/c212711b-a9ba-4076-a872-c0a53f131ccd/data/?page_size=200',
         dataField: 'part_menacee',
-        title: 'Menace chinoise sur les exportations européennes (en pourcentage des exportations)',
-        note: 'Les menaces sont agrégées au niveau de chaque pays',
+        title: 'Part des exportations européennes menacées par la concurrence chinoise (en pourcentage)',
+        note: 'Les menaces sectorielles détaillées dans le « Focus exportations » sont agrégées par pays. <a href="?onglet=exports"; text-decoration: underline;">Voir le détail par secteur et pays</a>',
+        note_below: 'Sources : BACII, calculs des auteurs',
         colorScale: {
           type: 'interpolate',
           field: 'part_menacee',
@@ -354,7 +363,8 @@ export default {
         apiUrl: 'https://tabular-api.data.gouv.fr/api/resources/fad5dc77-853b-4a28-934b-e222f0a1b5fb/data/?page_size=200',
         dataField: 'share_risk_ge2_pct',
         title: 'Part de la production manufacturière potentiellement menacée à l\'import, par pays européen',
-        note: 'Les menaces sectorielles sont agrégées au niveau de chaque pays. <a href="?onglet=exports"; text-decoration: underline;">Voir le détail par secteur et pays</a>',
+        note: 'Les menaces sectorielles sont agrégées au niveau de chaque pays.',
+        note_below: 'Sources : Eurostat, BACI, calculs des auteurs',
         colorScale: {
           type: 'interpolate',
           field: 'share_risk_ge2_pct',
@@ -380,7 +390,7 @@ export default {
           fields: [
             { key: 'prod_total', label: 'Production totale', format: 'euro' },
             { key: 'prod_risk_ge2', label: 'Production menacée', format: 'euro' },
-            { key: 'share_risk_ge2_pct', label: 'Part menacée', format: 'percentage', highlight: true }
+            { key: 'share_risk_ge2_pct', label: 'Part menacée', format: 'percentage_raw', highlight: true }
           ]
         }
       },
@@ -390,7 +400,8 @@ export default {
         apiUrl: 'https://tabular-api.data.gouv.fr/api/resources/e8a1b6b3-8924-45f1-8f73-4bc244eca5eb/data/?page_size=200',
         dataField: 'pct_threat_among_acr',
         title: 'Part des avantages comparatifs menacée, par pays européen',
-        note: 'La carte représente, pour chaque pays européen, la part des avantages comparatifs révélés exposée à une concurrence chinoise forte, mesurée par le pourcentage de la production manufacturière correspondant aux dix principaux avantages comparatifs révélés du pays',
+        note: 'La carte représente, pour chaque pays européen, la part des avantages comparatifs révélés (ACR) exposée à une concurrence chinoise forte, telle qu’identifiée à partir de l’approche fondée sur le marché intérieur. Cette part est mesurée par le pourcentage de la production manufacturière correspondant aux dix principaux avantages comparatifs révélés du pays. La définition des ACR prise est celle utilisée par le CEPII',
+        note_below: 'Sources : Eurostat, BACI, calculs des auteurs',
         colorScale: {
           type: 'interpolate',
           field: 'pct_threat_among_acr',
@@ -414,9 +425,9 @@ export default {
         },
         popupConfig: {
           fields: [
-            { key: 'acr_total_pct', label: 'Total ACR (% prod)', format: 'percentage' },
-            { key: 'acr_threat_pct', label: 'ACR menacée (% prod)', format: 'percentage' },
-            { key: 'pct_threat_among_acr', label: 'Part ACR menacée', format: 'percentage', highlight: true }
+            { key: 'acr_total_pct', label: 'Part des 10 principaux ACR du pays dans la production manufacturière totale', format: 'percentage' },
+            { key: 'acr_threat_pct', label: 'Part de la production du pays menacée et  correspondant à l’un des 10 principaux ACR', format: 'percentage' },
+            { key: 'pct_threat_among_acr', label: 'Part des 10 principaux ACR menacée', format: 'percentage', highlight: true }
           ]
         }
       },
@@ -426,30 +437,29 @@ export default {
         apiUrl: 'https://tabular-api.data.gouv.fr/api/resources/03f015f5-1f48-443f-8512-05ca2c499405/data/?page_size=200',
         dataField: 'classe',
         title: 'Une géographie inégale des investissements chinois en Europe (2016-2024)',
-        note: 'Ratio investissements/production pour chaque pays, classé en quartiles',
+        note: 'Le ratio entre le montant des investissement chinois et la production est calculé pour chaque pays, puis reparti en quartiles.',
+        note_below: 'Source : Trendeo, Eurostat, calculs des auteurs',
         colorScale: {
           type: 'categorical',
           field: 'classe',
           stops: [
-            { value: 'Quartile 1', color: '#fee5d9' },
-            { value: 'Quartile 2', color: '#fcae91' },
-            { value: 'Quartile 3', color: '#fb6a4a' },
-            { value: 'Quartile 4', color: '#a50f15' }
+            { value: 'Quartile 1', color: '#a50f15' },
+            { value: 'Quartile 2', color: '#fb6a4a' },
+            { value: 'Quartile 3', color: '#dffee6' },
+            { value: 'Quartile 4', color: '#18753c' }
           ]
         },
         legendConfig: {
           title: 'Investissements/Production',
           items: [
-            { color: '#fee5d9', label: 'Quartile 1 (faible)' },
-            { color: '#fcae91', label: 'Quartile 2' },
-            { color: '#fb6a4a', label: 'Quartile 3' },
-            { color: '#a50f15', label: 'Quartile 4 (élevé)' }
+            { color: '#a50f15', label: 'Quartile 1 (faible)' },
+            { color: '#fb6a4a', label: 'Quartile 2' },
+            { color: '#dffee6', label: 'Quartile 3' },
+            { color: '#18753c', label: 'Quartile 4 (élevé)' }
           ]
         },
         popupConfig: {
           fields: [
-            { key: 'prod_total', label: 'Production totale', format: 'euro' },
-            { key: 'investissements_Mds', label: 'Investissements (Mds €)', format: 'number' },
             { key: 'classe', label: 'Classe', format: 'text', highlight: true }
           ]
         }

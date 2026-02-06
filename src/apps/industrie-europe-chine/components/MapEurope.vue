@@ -16,6 +16,7 @@
         <span class="legend-label">{{ item.label }}</span>
       </div>
     </div>
+    <div class="map-note-below" v-if="mapNoteBelow">{{ mapNoteBelow }}</div>
   </div>
 </template>
 
@@ -53,6 +54,10 @@ export default {
     popupConfig: {
       type: Object,
       required: true
+    },
+    mapNoteBelow: {
+      type: String,
+      default: ''
     }
   },
   data() {
@@ -205,7 +210,10 @@ export default {
           const feature = e.features[0];
           const content = this.buildPopupContent(feature.properties);
           
-          new maplibregl.Popup()
+          new maplibregl.Popup({
+            maxWidth: '300px',
+            className: 'custom-popup'
+          })
             .setLngLat(e.lngLat)
             .setHTML(content)
             .addTo(this.map);
@@ -239,8 +247,8 @@ export default {
       const countryName = properties.country_name || properties.HOME || properties.Importateur || properties.NAME;
       
       let content = `
-        <div style="padding: 12px; min-width: 280px;">
-          <h3 style="margin: 0 0 12px 0; font-size: 16px; font-weight: 700; color: #000091;">
+        <div style="padding: 12px; width: 100%; max-width: 100%; box-sizing: border-box; overflow: hidden;">
+          <h3 style="margin: 0 0 12px 0; font-size: 16px; font-weight: 700; color: #000091; word-wrap: break-word; overflow-wrap: break-word; hyphens: auto; white-space: normal;">
             ${countryName}
           </h3>
       `;
@@ -250,7 +258,7 @@ export default {
         let displayValue = value;
         
         if (fieldConfig.format === 'percentage') {
-          displayValue = `${(value * 100).toFixed(1)}%`;
+          displayValue = `${(value).toFixed(2)}%`;
         } else if (fieldConfig.format === 'number') {
           displayValue = value.toLocaleString('fr-FR', { maximumFractionDigits: 0 });
         } else if (fieldConfig.format === 'euro') {
@@ -259,13 +267,13 @@ export default {
           displayValue = value;
         }
         
-        const marginBottom = index === this.popupConfig.fields.length - 1 ? '0' : '8px';
+        const marginBottom = index === this.popupConfig.fields.length - 1 ? '0' : '12px';
         const isHighlight = fieldConfig.highlight;
         
         content += `
-          <div style="margin-bottom: ${marginBottom};">
-            <strong style="color: #161616;">${fieldConfig.label}:</strong>
-            <div style="color: ${isHighlight ? this.getColorForValue(value, this.colorScale) : '#3a3a3a'}; font-size: ${isHighlight ? '16px' : '14px'}; font-weight: ${isHighlight ? '700' : '400'};">
+          <div style="margin-bottom: ${marginBottom}; width: 100%; max-width: 100%; overflow: hidden;">
+            <strong style="display: block; color: #161616; margin-bottom: 4px; word-wrap: break-word; overflow-wrap: break-word; line-height: 1.4; white-space: normal; hyphens: auto; font-size: 13px;">${fieldConfig.label}:</strong>
+            <div style="color: ${isHighlight ? this.getColorForValue(value, this.colorScale) : '#3a3a3a'}; font-size: ${isHighlight ? '16px' : '14px'}; font-weight: ${isHighlight ? '700' : '400'}; word-wrap: break-word; overflow-wrap: break-word; white-space: normal;">
               ${displayValue}
             </div>
           </div>
@@ -373,5 +381,35 @@ export default {
 .legend-label {
   color: #3a3a3a;
   font-size: 12px;
+}
+
+.map-note-below {
+  font-size: 12px;
+  color: #666666;
+  font-style: italic;
+  background-color: #f6f6f6;
+}
+
+/* Styles pour les popups MapLibre */
+:deep(.custom-popup) {
+  max-width: 300px !important;
+}
+
+:deep(.custom-popup .maplibregl-popup-content) {
+  max-width: 300px !important;
+  word-wrap: break-word !important;
+  overflow-wrap: break-word !important;
+  box-sizing: border-box !important;
+}
+
+:deep(.custom-popup .maplibregl-popup-content > div) {
+  max-width: 100% !important;
+  overflow: hidden !important;
+}
+
+:deep(.custom-popup .maplibregl-popup-content strong) {
+  white-space: normal !important;
+  word-wrap: break-word !important;
+  overflow-wrap: break-word !important;
 }
 </style>
