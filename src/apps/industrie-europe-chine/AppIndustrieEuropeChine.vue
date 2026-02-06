@@ -354,7 +354,7 @@ export default {
           fields: [
             { key: 'total_acr_exports', label: 'Total exports ACR', format: 'euro' },
             { key: 'threat_top10_exports', label: 'Exports menacés (Top 10)', format: 'euro' },
-            { key: 'part_menacee', label: 'Part menacée', format: 'percentage', highlight: true }
+            { key: 'part_menacee', label: 'Part menacée', format: 'percentage_raw', highlight: true }
           ]
         }
       },
@@ -390,7 +390,7 @@ export default {
           fields: [
             { key: 'prod_total', label: 'Production totale', format: 'euro' },
             { key: 'prod_risk_ge2', label: 'Production menacée', format: 'euro' },
-            { key: 'share_risk_ge2_pct', label: 'Part menacée', format: 'percentage_raw', highlight: true }
+            { key: 'share_risk_ge2_pct', label: 'Part menacée', format: 'percentage', highlight: true }
           ]
         }
       },

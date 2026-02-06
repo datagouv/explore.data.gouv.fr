@@ -259,6 +259,8 @@ export default {
         
         if (fieldConfig.format === 'percentage') {
           displayValue = `${(value).toFixed(2)}%`;
+        } else if (fieldConfig.format === 'percentage_raw') {
+          displayValue = `${(value * 100).toFixed(2)}%`;
         } else if (fieldConfig.format === 'number') {
           displayValue = value.toLocaleString('fr-FR', { maximumFractionDigits: 0 });
         } else if (fieldConfig.format === 'euro') {
