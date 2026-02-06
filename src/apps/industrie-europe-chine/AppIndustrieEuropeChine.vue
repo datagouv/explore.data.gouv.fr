@@ -352,9 +352,9 @@ export default {
         },
         popupConfig: {
           fields: [
-            { key: 'total_acr_exports', label: 'Total exports ACR', format: 'euro' },
-            { key: 'threat_top10_exports', label: 'Exports menacés (Top 10)', format: 'euro' },
-            { key: 'part_menacee', label: 'Part menacée', format: 'percentage_raw', highlight: true }
+            { key: 'exports_menaces_kusd', label: 'Exports menacés (milliers d\'euros) ', },
+            { key: 'exports_totaux_kusd', label: 'Exports totaux (milliers d\'euros) ', },
+            { key: 'part_menacee', label: 'Part menacée ', format: 'percentage_raw', highlight: true }
           ]
         }
       },
@@ -388,9 +388,9 @@ export default {
         },
         popupConfig: {
           fields: [
-            { key: 'prod_total', label: 'Production totale', format: 'euro' },
-            { key: 'prod_risk_ge2', label: 'Production menacée', format: 'euro' },
-            { key: 'share_risk_ge2_pct', label: 'Part menacée', format: 'percentage', highlight: true }
+            { key: 'prod_total', label: 'Production totale ', format: 'euro' },
+            { key: 'prod_risk_ge2', label: 'Production menacée ', format: 'euro' },
+            { key: 'share_risk_ge2_pct', label: 'Part menacée ', format: 'percentage', highlight: true }
           ]
         }
       },
@@ -425,9 +425,9 @@ export default {
         },
         popupConfig: {
           fields: [
-            { key: 'acr_total_pct', label: 'Part des 10 principaux ACR du pays dans la production manufacturière totale', format: 'percentage' },
-            { key: 'acr_threat_pct', label: 'Part de la production du pays menacée et  correspondant à l’un des 10 principaux ACR', format: 'percentage' },
-            { key: 'pct_threat_among_acr', label: 'Part des 10 principaux ACR menacée', format: 'percentage', highlight: true }
+            { key: 'acr_total_pct', label: 'Part des 10 principaux ACR du pays dans la production manufacturière totale ', format: 'percentage' },
+            { key: 'acr_threat_pct', label: 'Part de la production du pays menacée et  correspondant à l’un des 10 principaux ACR ', format: 'percentage' },
+            { key: 'pct_threat_among_acr', label: 'Part des 10 principaux ACR menacée ', format: 'percentage', highlight: true }
           ]
         }
       },
@@ -460,7 +460,7 @@ export default {
         },
         popupConfig: {
           fields: [
-            { key: 'classe', label: 'Classe', format: 'text', highlight: true }
+            { key: 'classe', label: 'Classe ', format: 'text', highlight: true }
           ]
         }
       }
