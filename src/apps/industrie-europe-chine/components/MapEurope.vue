@@ -133,20 +133,22 @@ export default {
         style: {
           version: 8,
           sources: {
-            'osm-tiles': {
+            'ign-tiles': {
               type: 'raster',
-              tiles: ['https://tile.openstreetmap.org/{z}/{x}/{y}.png'],
+              tiles: [
+                'https://data.geopf.fr/wmts?layer=GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2&style=normal&tilematrixset=PM&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image%2Fpng&TileMatrix={z}&TileCol={x}&TileRow={y}'
+              ],
               tileSize: 256,
-              attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+              attribution: '© <a href="https://www.ign.fr/" target="_blank">IGN</a> - <a href="https://geoservices.ign.fr/" target="_blank">Géoplateforme</a>'
             }
           },
           layers: [
             {
-              id: 'osm-tiles-layer',
+              id: 'ign-layer',
               type: 'raster',
-              source: 'osm-tiles',
+              source: 'ign-tiles',
               minzoom: 0,
-              maxzoom: 19
+              maxzoom: 18
             }
           ]
         },
