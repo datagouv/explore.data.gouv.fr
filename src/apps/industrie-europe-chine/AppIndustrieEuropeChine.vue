@@ -271,7 +271,7 @@
                 <p>
                   Les données utilisées dans ce tableau de bord sont disponibles en open data sur la plateforme data.gouv.fr :
                 </p>
-                <!-- <dataset-embed dataset="697c9aa7d6bc970fff176361"></dataset-embed> -->
+                <dataset-embed dataset="697c9aa7d6bc970fff176361"></dataset-embed>
               </div>
             </div>
           </section>
