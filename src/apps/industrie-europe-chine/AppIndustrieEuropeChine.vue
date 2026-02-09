@@ -192,7 +192,7 @@
         </div>
       </div>
 
-      <div class="indicator_section">
+      <!-- <div class="indicator_section">
         <h2 class="indicator_title">Comparaison des exportations {{ selectedCountry }}-{{ selectedCompetitor }}</h2>
         <div class="indicator_description">
           <p>
@@ -202,7 +202,7 @@
         <div class="chart_container">
           <chart-two></chart-two>
         </div>
-      </div>
+      </div> -->
 
       <div class="indicator_section">
         <h2 class="indicator_title">Part des marchés dominés par {{ selectedCompetitor }}</h2>
