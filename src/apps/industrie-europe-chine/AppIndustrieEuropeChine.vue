@@ -327,8 +327,8 @@ export default {
         apiUrl: 'https://tabular-api.data.gouv.fr/api/resources/c212711b-a9ba-4076-a872-c0a53f131ccd/data/?page_size=200',
         dataField: 'part_menacee',
         title: 'Part des exportations européennes menacées par la concurrence chinoise (en pourcentage)',
-        note: 'Les menaces sectorielles détaillées dans le « Focus exportations » sont agrégées par pays. <a href="?onglet=exports"; text-decoration: underline;">Voir le détail par secteur et pays</a>',
-        note_below: 'Sources : BACII, calculs des auteurs',
+        note: 'Les menaces sectorielles détaillées dans le « Focus exportations » sont agrégées par pays. <a href="?onglet=exports"; text-decoration: underline;">Voir le détail par secteur et pays</a><br /><span style="font-size: 10px; line-height: 10px;">* Les moyennes par pays présentées dans cette visualisation peuvent différer légèrement des résultats figurant dans le tableau 2, avec un écart moyen inférieur à un point de pourcentage, en raison d’une catégorisation plus fine des secteurs d’activité retenus pour cette visualisation ainsi que les effets d’arrondis dans la présentation des données</span>',
+        note_below: 'Ssssources : BACI, calculs des auteurs',
         colorScale: {
           type: 'interpolate',
           field: 'part_menacee',
@@ -510,7 +510,8 @@ export default {
       return appStore.state.competitors;
     },
     categories() {
-      return Object.keys(appStore.state.categoryToId).sort((a, b) => 
+      // Récupère les catégories avec les noms renommés du store
+      return appStore.getters.categories.sort((a, b) => 
         a.localeCompare(b, 'fr', { sensitivity: 'base' })
       );
     },
@@ -524,10 +525,14 @@ export default {
     },
     selectedCategory: {
       get() {
-        return appStore.state.selectedCategory;
+        // Retourne le nom d'affichage
+        const apiName = appStore.state.selectedCategory;
+        return appStore.getters.getCategoryDisplayName(apiName);
       },
-      set(value) {
-        appStore.commit('setSelectedCategory', value);
+      set(displayValue) {
+        // Convertit le nom d'affichage en nom API avant de stocker
+        const apiName = appStore.getters.getCategoryApiName(displayValue);
+        appStore.commit('setSelectedCategory', apiName);
       }
     },
     selectedCompetitor: {

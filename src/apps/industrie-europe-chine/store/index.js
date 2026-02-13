@@ -316,6 +316,10 @@ export default new Vuex.Store({
       'Édition de livres, de brochures, de partitions musicales et d\'autres publications': '5769d640-f657-4f27-a360-c2c5acf9e610',
       'Édition de supports enregistrés': '91a6bc8c-c7af-4730-8d2d-c58e7f42c6c5',
       'Élevage de bovins, ovins, caprins, chevaux, ânes, mulets et bardots; production laitière': 'eba3c1d4-5877-4b3a-a846-2aa68180231c'
+    },
+    categoryDisplayNames: {
+      'Fabrication de machines pour l\'extraction, la construction et le génie civil': 'Fabrication de machines pour les industries extractrices et de la construction',
+      'Fabrication d\'appareils pour le contrôle des processus industriels': 'Fabrication d\'équipements de contrôle des procédés industriels'
     }
   },
   mutations: {
@@ -355,7 +359,11 @@ export default new Vuex.Store({
     selectedCountry: state => state.selectedCountry,
     countries: state => Object.keys(state.countryToApiName),
     selectedCategory: state => state.selectedCategory,
-    categories: state => Object.keys(state.categoryToId),
+    categories: state => {
+      return Object.keys(state.categoryToId).map(category => 
+        state.categoryDisplayNames[category] || category
+      );
+    },
     selectedCompetitor: state => state.selectedCompetitor,
     competitors: state => state.competitors,
     availableCountries: state => {
@@ -364,6 +372,14 @@ export default new Vuex.Store({
         return allCountries.filter(country => country !== 'Allemagne');
       }
       return allCountries;
+    },
+    getCategoryDisplayName: state => categoryName => {
+      return state.categoryDisplayNames[categoryName] || categoryName;
+    },
+    getCategoryApiName: state => displayName => {
+      // Inverse lookup : trouve le nom API à partir du nom d'affichage
+      const entry = Object.entries(state.categoryDisplayNames).find(([apiName, display]) => display === displayName);
+      return entry ? entry[0] : displayName;
     }
   }
 })
