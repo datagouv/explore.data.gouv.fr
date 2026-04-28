@@ -6,6 +6,7 @@ import AppDvf from './apps/dvf/AppDvf.vue'
 import HomePage from './views/HomePage.vue'
 import DatasetView from './apps/tabular/DatasetView.vue'
 import AppInclusion from './apps/inclusion/AppInclusion.vue'
+import AppIndustrieEuropeChine from './apps/industrie-europe-chine/AppIndustrieEuropeChine.vue'
 import ResourceView from './apps/tabular/ResourceView.vue'
 import i18n from './i18n'
 
@@ -56,6 +57,11 @@ let router = new Router({
           name: 'inclusion',
           component: AppInclusion
         },
+        {
+          path: 'industrie-europe-chine',
+          name: 'industrie-europe-chine',
+          component: AppIndustrieEuropeChine
+        },
       ]
     }
   ]
@@ -72,6 +78,9 @@ router.beforeEach((to, from, next) => {
     }
     else if (to.path.startsWith('/tableau')){
       return next({ name: 'tableau', params: { lang: 'fr' }, query: to.query});
+    }
+    else if (to.path.startsWith('/industrie-europe-chine')){
+      return next({ name: 'industrie-europe-chine', params: { lang: 'fr' }, query: to.query});
     }
     else {
       return next('fr/');
