@@ -1,0 +1,11 @@
+strictPeerDependencies: false
+nodeLinker: hoisted
+minimumReleaseAge: 5760
+shamefullyHoist: true
+allowBuilds:
+  '@parcel/watcher': true
+  bootstrap-vue: set this to true or false
+  core-js: true
+  core-js-pure: true
+  maplibre-gl: set this to true or false
+  vue-material: set this to true or false
