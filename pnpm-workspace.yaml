@@ -3,9 +3,9 @@ nodeLinker: hoisted
 minimumReleaseAge: 5760
 shamefullyHoist: true
 allowBuilds:
-  '@parcel/watcher': true
-  bootstrap-vue: set this to true or false
-  core-js: true
-  core-js-pure: true
-  maplibre-gl: set this to true or false
-  vue-material: set this to true or false
+  '@parcel/watcher': false
+  bootstrap-vue: false
+  core-js: false
+  core-js-pure: false
+  maplibre-gl: false
+  vue-material: false
