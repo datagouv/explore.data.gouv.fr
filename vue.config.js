@@ -1,3 +1,5 @@
+const path = require('path');
+
 module.exports = {
     chainWebpack: config => {
       if(config.plugins.has('extract-css')) {
@@ -23,6 +25,10 @@ module.exports = {
       }
     },
     devServer: {
+      static: {
+        directory: path.join(__dirname, '../apigeo2/data'),
+        publicPath: '/apigeo-data',
+      },
       proxy: {
         '/api/tabular': {
           target: 'https://tabular-api.data.gouv.fr',

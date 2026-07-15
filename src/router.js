@@ -7,6 +7,7 @@ import HomePage from './views/HomePage.vue'
 import DatasetView from './apps/tabular/DatasetView.vue'
 import AppInclusion from './apps/inclusion/AppInclusion.vue'
 import AppIndustrieEuropeChine from './apps/industrie-europe-chine/AppIndustrieEuropeChine.vue'
+import AppDecoupageAdministratif from './apps/decoupage-administratif/AppDecoupageAdministratif.vue'
 import ResourceView from './apps/tabular/ResourceView.vue'
 import i18n from './i18n'
 
@@ -62,6 +63,11 @@ let router = new Router({
           name: 'industrie-europe-chine',
           component: AppIndustrieEuropeChine
         },
+        {
+          path: 'decoupage-administratif',
+          name: 'decoupage-administratif',
+          component: AppDecoupageAdministratif
+        },
       ]
     }
   ]
@@ -81,6 +87,9 @@ router.beforeEach((to, from, next) => {
     }
     else if (to.path.startsWith('/industrie-europe-chine')){
       return next({ name: 'industrie-europe-chine', params: { lang: 'fr' }, query: to.query});
+    }
+    else if (to.path.startsWith('/decoupage-administratif')){
+      return next({ name: 'decoupage-administratif', params: { lang: 'fr' }, query: to.query});
     }
     else {
       return next('fr/');
