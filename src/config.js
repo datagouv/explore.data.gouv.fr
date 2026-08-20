@@ -20,6 +20,7 @@ export const dataGouvUrl = "https://www.data.gouv.fr/fr/"
 export const dataGouvUrlApi = "https://www.data.gouv.fr/api/"
 export const matomoUrl = "https://stats.data.gouv.fr/"
 export const matomoSiteId = process.env.VUE_APP_MATOMO_SITE_ID
+export const carburantsDataUrl = "https://data-pipeline-open.s3.sbg.io.cloud.ovh.net/carburants"
 export default configSite
 
 /**

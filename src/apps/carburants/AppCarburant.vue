@@ -284,6 +284,7 @@
 <script>
 
 import store from './store'
+import { carburantsDataUrl } from '@/config'
 
 import HeaderApps from '@/views/HeaderApps'
 
@@ -385,7 +386,7 @@ export default {
       zoom: initialState.zoom
     }));
     
-    fetch('https://object.files.data.gouv.fr/data-pipeline-open/carburants/latest_france.geojson', {
+    fetch(carburantsDataUrl + '/latest_france.geojson', {
         compress: false,
         headers: { "accept-encoding": "gzip" },
     })
@@ -476,7 +477,7 @@ export default {
     })
 
 
-    fetch('https://object.files.data.gouv.fr/data-pipeline-open/carburants/daily_prices.json')
+    fetch(carburantsDataUrl + '/daily_prices.json')
     .then((response) => {
         return response.json()
     })
@@ -497,7 +498,7 @@ export default {
   methods: {
     updateDate(val){
 
-      fetch('https://object.files.data.gouv.fr/data-pipeline-open/carburants/historique/' + val + '.json')
+      fetch(carburantsDataUrl + '/historique/' + val + '.json')
       .then((response) => {
           return response.json()
       })
