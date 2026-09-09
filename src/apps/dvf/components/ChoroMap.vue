@@ -75,6 +75,11 @@ import CenterDeps from "@/apps/dvf/assets/json/centers_deps.json";
 
 import * as d3 from "d3-scale";
 
+// Paris, Lyon et Marseille n'ont aucune donnée DVF sous leur code de commune
+// entière : les mutations sont portées par les arrondissements (75101, 69381…),
+// qui sont des communes à part entière dans les tuiles comme dans l'API.
+const COMMUNES_A_ARRONDISSEMENTS = ["75056", "13055", "69123"];
+
 export default {
   name: "ChoroMap",
   components: { Map, markRaw, SearchBar, FiltersBox },
@@ -527,7 +532,7 @@ export default {
 
           this.map.on("mousemove", "communes_fill2", (e) => {
             let comId = e.features[0]["properties"]["code"];
-            let comToChange = ["75056", "13055", "69123"];
+            let comToChange = COMMUNES_A_ARRONDISSEMENTS;
             if (comToChange.includes(comId)) {
               comId = e.features[1]["properties"]["code"];
             }
@@ -550,7 +555,7 @@ export default {
             if (e.features.length > 1) {
               comId2 = e.features[1]["properties"]["code"];
             }
-            let comToChange = ["75056", "13055", "69123"];
+            let comToChange = COMMUNES_A_ARRONDISSEMENTS;
             let zoom = 12;
             if (comToChange.includes(comId) || (comId2 && comToChange.includes(comId2))) {
               if (comToChange.includes(comId)){
@@ -578,7 +583,7 @@ export default {
           this.map.on("mousemove", "communes_fill", (e) => {
             let comId = e.features[0]["properties"]["code"];
             let comName = e.features[0]["properties"]["nom"];
-            let comToChange = ["75056", "13055", "69123"];
+            let comToChange = COMMUNES_A_ARRONDISSEMENTS;
             if (comToChange.includes(comId)) {
               comId = e.features[1]["properties"]["code"];
               comName = e.features[1]["properties"]["nom"];
@@ -1325,14 +1330,22 @@ export default {
     // voit en entier, une grande ville ne déborde pas, et il n'y a plus de cas
     // particulier à maintenir pour Paris, Lyon et Marseille.
     zoomToCommune(code) {
-      // Le watcher de zoom reconstruit le niveau « commune » à partir de
-      // mousePosition : sans ça il appellerait displaySections(null) à l'arrivée.
+      // Le watcher de zoom reconstruit le niveau affiché à partir de mousePosition :
+      // sans ça il appellerait displaySections(null) à l'arrivée.
       const dep = this.getCode(code);
       this.mousePosition.dep.code = dep;
       this.mousePosition.dep.nom = CenterDeps[dep] ? CenterDeps[dep]["nom"] : null;
-      this.mousePosition.com.code = code;
-      this.mousePosition.com.nom = this.searchBarCityName;
-      this.changeCom = true;
+
+      // Sur Paris, Lyon et Marseille, s'arrêter au niveau département : la
+      // choroplèthe y colore les arrondissements, seuls porteurs des données.
+      const parArrondissements = COMMUNES_A_ARRONDISSEMENTS.includes(code);
+      if (parArrondissements) {
+        this.changeDep = true;
+      } else {
+        this.mousePosition.com.code = code;
+        this.mousePosition.com.nom = this.searchBarCityName;
+        this.changeCom = true;
+      }
 
       fetch("https://geo.api.gouv.fr/communes/" + code + "?fields=bbox")
         .then((response) => response.json())
@@ -1355,13 +1368,18 @@ export default {
           }
           this.map.flyTo({
             center: camera.center,
-            // La carte n'affiche les sections d'une commune qu'entre 11 et 14 :
-            // hors de cette plage on retomberait au département ou à la section.
-            zoom: Math.min(Math.max(camera.zoom, 11.1), 13.9),
+            // Les niveaux de la carte sont bornés par le zoom : 8-11 pour les
+            // communes d'un département, 11-14 pour les sections d'une commune.
+            zoom: parArrondissements
+              ? Math.min(Math.max(camera.zoom, 8.1), 10.9)
+              : Math.min(Math.max(camera.zoom, 11.1), 13.9),
           });
         })
         .catch(() => {
-          this.map.flyTo({ center: this.searchBarCoordinates, zoom: 12 });
+          this.map.flyTo({
+            center: this.searchBarCoordinates,
+            zoom: parArrondissements ? 10.5 : 12,
+          });
         });
     },
     selectParcelleOnMap(parcelleId) {
