@@ -975,8 +975,16 @@ export default {
         appStore.commit(commitFunction, obj);
       }
 
-      // case when searching address
-      if (level == "section" && this.searchBarCityCode && this.searchBarCityName) {
+      // Après une recherche, la section survolée ne porte pas le nom de sa commune :
+      // on le reprend du résultat de recherche. Réservé à la position de
+      // l'utilisateur : appliqué aussi au survol, le moindre mouvement de souris
+      // écraserait le niveau affiché par une section sans code.
+      if (
+        commitFunction == "changeUserLocation" &&
+        level == "section" &&
+        this.searchBarCityCode &&
+        this.searchBarCityName
+      ) {
         let parse_code = this.getCode(this.searchBarCityCode);
         obj.level = "section";
         obj.dep = parse_code;
