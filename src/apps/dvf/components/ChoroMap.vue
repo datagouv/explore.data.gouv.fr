@@ -6,6 +6,7 @@
       @simulate-parcelle-click="simulateParcelleClick"
       @zoom-to-departement="zoomToDepartement"
       @zoom-to-commune="zoomToCommune"
+      @zoom-to-section="zoomToSection"
     ></filters-box>
     <div
       ref="mapTooltip"
@@ -577,7 +578,7 @@ export default {
               this.zoomToCommune(
                 comId,
                 e.features[featureNb]["properties"]["nom"],
-                [e.lngLat.lng, e.lngLat.lat]
+                { centre: [e.lngLat.lng, e.lngLat.lat] }
               );
             }
           });
@@ -1369,7 +1370,8 @@ export default {
     // Cadre l'emprise réelle de la commune plutôt qu'un zoom fixe : un village se
     // voit en entier, une grande ville ne déborde pas, et il n'y a plus de cas
     // particulier à maintenir pour Paris, Lyon et Marseille.
-    zoomToCommune(code, nom, centreDeSecours) {
+    zoomToCommune(code, nom, options) {
+      const { centre, bbox } = options || {};
       // Le watcher de zoom reconstruit le niveau affiché à partir de mousePosition :
       // sans ça il appellerait displaySections(null) à l'arrivée.
       const dep = this.getCode(code);
@@ -1387,45 +1389,62 @@ export default {
         this.changeCom = true;
       }
 
+      // Les niveaux de la carte sont bornés par le zoom : 8-11 pour les communes
+      // d'un département, 11-14 pour les sections d'une commune.
+      const bornes = parArrondissements ? [8.1, 10.9] : [11.1, 13.9];
+
+      // L'appelant connaît déjà l'emprise (le sélecteur la reçoit avec sa liste
+      // de communes) : rien à demander.
+      if (bbox) {
+        this.cadrerSur(bbox, bornes);
+        return;
+      }
+
+      // Sinon on part tout de suite vers le point connu et on recadre à
+      // l'arrivée de l'emprise : geo.api répond en 70 ms d'ordinaire, mais passe
+      // à plusieurs secondes sur un cache froid, et la carte ne doit pas
+      // rester figée pendant ce temps.
+      if (centre) {
+        this.map.flyTo({
+          center: centre,
+          zoom: parArrondissements ? 10.5 : 12,
+        });
+      }
+
       fetch("https://geo.api.gouv.fr/communes/" + code + "?fields=bbox")
         .then((response) => response.json())
         .then((data) => {
           const ring = data.bbox && data.bbox.coordinates[0];
-          if (!ring) {
-            throw new Error("bbox absente");
+          if (ring) {
+            this.cadrerSur(this.bornesDepuisAnneau(ring), bornes);
           }
-          const lngs = ring.map((point) => point[0]);
-          const lats = ring.map((point) => point[1]);
-          const camera = this.map.cameraForBounds(
-            [
-              [Math.min(...lngs), Math.min(...lats)],
-              [Math.max(...lngs), Math.max(...lats)],
-            ],
-            { padding: 40 }
-          );
-          if (!camera) {
-            throw new Error("cadrage impossible");
-          }
-          this.map.flyTo({
-            center: camera.center,
-            // Les niveaux de la carte sont bornés par le zoom : 8-11 pour les
-            // communes d'un département, 11-14 pour les sections d'une commune.
-            zoom: parArrondissements
-              ? Math.min(Math.max(camera.zoom, 8.1), 10.9)
-              : Math.min(Math.max(camera.zoom, 11.1), 13.9),
-          });
         })
-        .catch(() => {
-          // Le sélecteur de commune n'a pas de coordonnées à donner : sans emprise
-          // et sans repli, mieux vaut ne pas déplacer la carte au hasard.
-          if (!centreDeSecours) {
-            return;
-          }
-          this.map.flyTo({
-            center: centreDeSecours,
-            zoom: parArrondissements ? 10.5 : 12,
-          });
-        });
+        .catch(() => {});
+    },
+    zoomToSection(code, bbox) {
+      this.mousePosition.section.code = code;
+      this.mousePosition.section.nom = code;
+      // Au-delà de 14 la carte passe au niveau section puis parcelle.
+      this.cadrerSur(bbox, [14.1, 17]);
+    },
+    // bbox au format [[ouest, sud], [est, nord]]
+    cadrerSur(bbox, [zoomMin, zoomMax]) {
+      const camera = this.map.cameraForBounds(bbox, { padding: 40 });
+      if (!camera) {
+        return;
+      }
+      this.map.flyTo({
+        center: camera.center,
+        zoom: Math.min(Math.max(camera.zoom, zoomMin), zoomMax),
+      });
+    },
+    bornesDepuisAnneau(ring) {
+      const lngs = ring.map((point) => point[0]);
+      const lats = ring.map((point) => point[1]);
+      return [
+        [Math.min(...lngs), Math.min(...lats)],
+        [Math.max(...lngs), Math.max(...lats)],
+      ];
     },
     selectParcelleOnMap(parcelleId) {
       let matchExpression = ["match", ["get", "id"]];
@@ -1469,11 +1488,9 @@ export default {
     },
     searchBarCoordinates() {
       if (this.searchBarType === "municipality" && this.searchBarCityCode) {
-        this.zoomToCommune(
-          this.searchBarCityCode,
-          this.searchBarCityName,
-          this.searchBarCoordinates
-        );
+        this.zoomToCommune(this.searchBarCityCode, this.searchBarCityName, {
+          centre: this.searchBarCoordinates,
+        });
       } else {
         appStore.commit("changeZoomLevel", 16);
         this.map.flyTo({

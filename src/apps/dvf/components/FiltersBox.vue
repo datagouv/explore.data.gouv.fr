@@ -170,6 +170,24 @@
 import appStore from "@/apps/dvf/store";
 import centersDeps from "@/apps/dvf/assets/json/centers_deps.json";
 
+// Emprise [[ouest, sud], [est, nord]] d'une géométrie GeoJSON, quelle que soit sa
+// profondeur d'imbrication (Polygon, MultiPolygon).
+function bornesDepuisGeometrie(geometrie) {
+  let ouest = 180, sud = 90, est = -180, nord = -90;
+  const parcourir = (coordonnees) => {
+    if (typeof coordonnees[0] === "number") {
+      ouest = Math.min(ouest, coordonnees[0]);
+      est = Math.max(est, coordonnees[0]);
+      sud = Math.min(sud, coordonnees[1]);
+      nord = Math.max(nord, coordonnees[1]);
+    } else {
+      coordonnees.forEach(parcourir);
+    }
+  };
+  parcourir(geometrie.coordinates);
+  return [[ouest, sud], [est, nord]];
+}
+
 export default {
   name: "FiltersBox",
   components: {},
@@ -240,7 +258,9 @@ export default {
         this.navigateToDepartement(this.selectedDepartement);
         
         try {
-          const response = await fetch(`https://geo.api.gouv.fr/departements/${this.selectedDepartement}/communes`);
+          // `bbox` coûte 5 ko sur les 34 de cette réponse, et évite une requête
+          // par commune au moment de la sélection.
+          const response = await fetch(`https://geo.api.gouv.fr/departements/${this.selectedDepartement}/communes?fields=nom,code,bbox`);
           this.communes = await response.json();
           
           this.communes.sort((a, b) => {
@@ -445,7 +465,9 @@ export default {
           parcelleName: null,
         });
         
-        this.$emit("zoom-to-commune", communeCode, commune.nom);
+        this.$emit("zoom-to-commune", communeCode, commune.nom, {
+          bbox: commune.bbox && bornesDepuisGeometrie(commune.bbox),
+        });
 
         this.$router.push({
           name: 'immobilier',
@@ -476,12 +498,25 @@ export default {
           parcelleName: null,
         });
       }
-      
+
+      // La géométrie des sections est déjà en mémoire : aucune requête à faire
+      // pour cadrer celle qu'on vient de choisir.
+      const section = this.sections.find(
+        (s) => s.properties.id.replace(s.properties.commune, "") === sectionCode
+      );
+      if (section) {
+        this.$emit(
+          "zoom-to-section",
+          section.properties.id,
+          bornesDepuisGeometrie(section.geometry)
+        );
+      }
+
       this.$router.push({
         name: 'immobilier',
         params: { lang: this.$route.params.lang },
-        query: { 
-          ...this.$route.query, 
+        query: {
+          ...this.$route.query,
           level: 'section',
           code: sectionCode
         },
