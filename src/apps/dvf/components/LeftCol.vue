@@ -778,6 +778,15 @@ import LineChart from "@/apps/dvf/components/LineChart";
 import BarChart from "@/apps/dvf/components/BarChart";
 import CenterDeps from "@/apps/dvf/assets/json/centers_deps.json";
 
+// Suffixe des clés de l'API DVF : `am` pour appartements + maisons, et `m_<clé>`
+// pour la médiane correspondante.
+const COUNT_KEY_PAR_FILTRE = {
+  tous: "am",
+  maison: "m",
+  appartement: "a",
+  local: "l",
+};
+
 export default {
   name: "LeftCol",
   components: { LineChart, BarChart },
@@ -1003,12 +1012,18 @@ export default {
           });
       }
     },
-    exceptNullValue(val){
-      if (val) {
-        return val.toLocaleString()
-      } else {
-        return null
-      }
+    // DVF n'a pas de chiffre pour toute sélection. Sans ces garde-fous,
+    // Math.round(null) vaut 0, un 0 est traité comme absent, et l'interface
+    // affiche littéralement « null€ ».
+    formatCount(value) {
+      return value === null || value === undefined
+        ? "indisponible"
+        : value.toLocaleString();
+    },
+    formatMedian(value) {
+      return value === null || value === undefined
+        ? "indisponible"
+        : Math.round(value).toLocaleString() + "€";
     },
 
     manageClientData(data) {
@@ -1032,56 +1047,20 @@ export default {
               return obj.c === this.apiCode;
             });
           }
-          if (levelData) {
-          if (this.activeFilter === "tous") {
-            this.clientData.totalVentes = this.exceptNullValue(levelData["am"])
-            this.clientData.totalAverage = this.exceptNullValue(Math.round(levelData["m_am"])) + "€";
-          } else if (this.activeFilter === "maison") {
-            this.clientData.totalVentes = this.exceptNullValue(levelData["m"]);
-            this.clientData.totalAverage = this.exceptNullValue(Math.round(levelData["m_m"])) + "€";
-          } else if (this.activeFilter === "appartement") {
-            this.clientData.totalVentes = this.exceptNullValue(levelData["a"]);
-            this.clientData.totalAverage = this.exceptNullValue(Math.round(levelData["m_a"])) + "€";
-          } else if (this.activeFilter === "local") {
-            this.clientData.totalVentes = this.exceptNullValue(levelData["l"]);
-            this.clientData.totalAverage = this.exceptNullValue(Math.round(levelData["m_l"])) + "€";
+          // Aucune ligne pour cette sélection : sans ce repli, les chiffres de la
+          // localisation précédente resteraient affichés comme s'ils étaient les siens.
+          if (!levelData) {
+            levelData = {};
           }
-          this.clientData.appVentes =
-            this.exceptNullValue(levelData["a"])
-
-          if (levelData["m_a"] === null) {
-            this.clientData.appPrice = "indisponible";
-          } else {
-            this.clientData.appPrice =
-              this.exceptNullValue(Math.round(
-                levelData["m_a"]
-              )) + "€";
-          }
-
-          this.clientData.houseVentes =
-            this.exceptNullValue(levelData["m"]);
-
-          if (levelData["m_m"] === null) {
-            this.clientData.housePrice = "indisponible";
-          } else {
-            this.clientData.housePrice =
-              this.exceptNullValue(Math.round(
-                levelData["m_m"]
-              )) + "€";
-          }
-
-          this.clientData.localVentes =
-            this.exceptNullValue(levelData["l"]);
-
-          if (levelData["m_l"] === null) {
-            this.clientData.localPrice = "indisponible";
-          } else {
-            this.clientData.localPrice =
-              this.exceptNullValue(Math.round(
-                levelData["m_l"]
-              )) + "€";
-          }
-        }
+          const countKey = COUNT_KEY_PAR_FILTRE[this.activeFilter];
+          this.clientData.totalVentes = this.formatCount(levelData[countKey]);
+          this.clientData.totalAverage = this.formatMedian(levelData["m_" + countKey]);
+          this.clientData.appVentes = this.formatCount(levelData["a"]);
+          this.clientData.appPrice = this.formatMedian(levelData["m_a"]);
+          this.clientData.houseVentes = this.formatCount(levelData["m"]);
+          this.clientData.housePrice = this.formatMedian(levelData["m_m"]);
+          this.clientData.localVentes = this.formatCount(levelData["l"]);
+          this.clientData.localPrice = this.formatMedian(levelData["m_l"]);
         } else {
           this.nodata = true;
         }
