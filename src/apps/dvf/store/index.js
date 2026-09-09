@@ -3,6 +3,9 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
+// Taille de page imposée par l'API (`limit=20` dans api-dvf/api_aio.py).
+export const TABLE_PAGE_SIZE = 20
+
 export default new Vuex.Store({
   state: {
     activePanel: "carte",
@@ -58,6 +61,7 @@ export default new Vuex.Store({
     rows: [],
     fields: [],
     page: 1,
+    hasMore: true,
     tableLevel: null,
     tableCode: null,
   },
@@ -122,24 +126,24 @@ export default new Vuex.Store({
     },
 
     updateRows(state, data) {
-      let arr = state.rows
-      state.rows = arr.concat(data)
-      let fields = []
-      Object.entries(state.rows[0]).map(([key, val]) => key).forEach((item) => {
-        fields.push(
-          {
-            key: item,
-            label: item,
-            sortable: false
-          }
-        )
-      })
-      state.fields = fields
+      // Une page pleine signifie qu'il en reste probablement d'autres.
+      state.hasMore = data.length === TABLE_PAGE_SIZE
+      state.rows = state.rows.concat(data)
+      if (state.rows.length === 0) {
+        state.fields = []
+        return
+      }
+      state.fields = Object.keys(state.rows[0]).map((key) => ({
+        key: key,
+        label: key,
+        sortable: false
+      }))
     },
     emptyTable(state, data) {
       state.rows = []
       state.fields = []
       state.page = 1
+      state.hasMore = true
       state.tableLevel = null
       state.tableCode = null
     },
