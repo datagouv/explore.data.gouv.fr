@@ -551,7 +551,6 @@ export default {
               comId2 = e.features[1]["properties"]["code"];
             }
             let comToChange = COMMUNES_A_ARRONDISSEMENTS;
-            let zoom = 12;
             if (comToChange.includes(comId) || (comId2 && comToChange.includes(comId2))) {
               if (comToChange.includes(comId)){
                 featureNb = 1
@@ -559,18 +558,17 @@ export default {
               } else {
                 comId = e.features[featureNb]["properties"]["code"];
               }
-              zoom = 13.5;
             }
-            if (this.userLocation.com != comId) {
-              this.mousePosition.com.code = comId;
-              this.mousePosition.com.nom = e.features[featureNb]["properties"]["nom"];
-              this.changeCom = true;
-              if (this.map.getZoom() <= 14) {
-                this.map.flyTo({
-                  center: [e.lngLat.lng, e.lngLat.lat],
-                  zoom: zoom,
-                });
-              }
+            if (this.userLocation.com != comId && this.map.getZoom() <= 14) {
+              // Même cadrage que la recherche : un zoom fixe dézoomait quand on
+              // venait d'une commune plus resserrée, et centrer sur le point
+              // cliqué plaçait la commune de biais, puisqu'on clique depuis sa
+              // voisine, donc près de la frontière.
+              this.zoomToCommune(
+                comId,
+                e.features[featureNb]["properties"]["nom"],
+                [e.lngLat.lng, e.lngLat.lat]
+              );
             }
           });
 
@@ -1340,7 +1338,7 @@ export default {
     // Cadre l'emprise réelle de la commune plutôt qu'un zoom fixe : un village se
     // voit en entier, une grande ville ne déborde pas, et il n'y a plus de cas
     // particulier à maintenir pour Paris, Lyon et Marseille.
-    zoomToCommune(code) {
+    zoomToCommune(code, nom, centreDeSecours) {
       // Le watcher de zoom reconstruit le niveau affiché à partir de mousePosition :
       // sans ça il appellerait displaySections(null) à l'arrivée.
       const dep = this.getCode(code);
@@ -1354,7 +1352,7 @@ export default {
         this.changeDep = true;
       } else {
         this.mousePosition.com.code = code;
-        this.mousePosition.com.nom = this.searchBarCityName;
+        this.mousePosition.com.nom = nom;
         this.changeCom = true;
       }
 
@@ -1388,7 +1386,7 @@ export default {
         })
         .catch(() => {
           this.map.flyTo({
-            center: this.searchBarCoordinates,
+            center: centreDeSecours,
             zoom: parArrondissements ? 10.5 : 12,
           });
         });
@@ -1435,7 +1433,11 @@ export default {
     },
     searchBarCoordinates() {
       if (this.searchBarType === "municipality" && this.searchBarCityCode) {
-        this.zoomToCommune(this.searchBarCityCode);
+        this.zoomToCommune(
+          this.searchBarCityCode,
+          this.searchBarCityName,
+          this.searchBarCoordinates
+        );
       } else {
         appStore.commit("changeZoomLevel", 16);
         this.map.flyTo({
