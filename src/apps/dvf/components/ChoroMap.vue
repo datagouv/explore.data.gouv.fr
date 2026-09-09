@@ -1,7 +1,12 @@
 <template>
   <div class="choroMap">
     <search-bar></search-bar>
-    <filters-box @select-parcelle="selectParcelleOnMap" @simulate-parcelle-click="simulateParcelleClick"></filters-box>
+    <filters-box
+      @select-parcelle="selectParcelleOnMap"
+      @simulate-parcelle-click="simulateParcelleClick"
+      @zoom-to-departement="zoomToDepartement"
+      @zoom-to-commune="zoomToCommune"
+    ></filters-box>
     <div
       ref="mapTooltip"
       class="map_tooltip"
@@ -82,6 +87,9 @@ const COMMUNES_A_ARRONDISSEMENTS = ["75056", "13055", "69123"];
 
 // Vue au chargement : la France entière.
 const VUE_FRANCE = { center: [2, 46.3], zoom: 4.8 };
+
+// Trop petits pour être lisibles au zoom des autres départements.
+const DEPARTEMENTS_DENSES = ["75", "92", "93", "94"];
 
 // maplibre libelle ses contrôles en anglais par défaut. Comme le reste de
 // l'explorateur, ces libellés sont en français en dur.
@@ -478,16 +486,7 @@ export default {
               (this.userLocation.level == "departement" &&
                 this.userLocation.dep != this.mouseLocation.dep)
             ) {
-              let depBonus = ["75", "92", "93", "94"];
-              let bonus = 0;
-              if (depBonus.includes(e.features[0].properties.code)) {
-                bonus = 1.8;
-              }
-              this.changeDep = true;
-              this.map.flyTo({
-                center: CenterDeps[e.features[0].properties.code].coordinates,
-                zoom: 9 + bonus,
-              });
+              this.zoomToDepartement(e.features[0].properties.code);
             }
           });
 
@@ -1352,6 +1351,21 @@ export default {
         );
       }
     },
+    // L'API ne publie pas d'emprise pour les départements : on garde le centre de
+    // CenterDeps, à la différence des communes qui sont cadrées sur leur bbox.
+    zoomToDepartement(code) {
+      const departement = CenterDeps[code];
+      if (!departement) {
+        return;
+      }
+      this.mousePosition.dep.code = code;
+      this.mousePosition.dep.nom = this.depName(code);
+      this.changeDep = true;
+      this.map.flyTo({
+        center: departement.coordinates,
+        zoom: DEPARTEMENTS_DENSES.includes(code) ? 10.8 : 9,
+      });
+    },
     // Cadre l'emprise réelle de la commune plutôt qu'un zoom fixe : un village se
     // voit en entier, une grande ville ne déborde pas, et il n'y a plus de cas
     // particulier à maintenir pour Paris, Lyon et Marseille.
@@ -1402,6 +1416,11 @@ export default {
           });
         })
         .catch(() => {
+          // Le sélecteur de commune n'a pas de coordonnées à donner : sans emprise
+          // et sans repli, mieux vaut ne pas déplacer la carte au hasard.
+          if (!centreDeSecours) {
+            return;
+          }
           this.map.flyTo({
             center: centreDeSecours,
             zoom: parArrondissements ? 10.5 : 12,

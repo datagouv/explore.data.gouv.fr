@@ -409,11 +409,13 @@ export default {
           parcelleName: null,
         });
         
+        this.$emit("zoom-to-departement", departementCode);
+
         this.$router.push({
           name: 'immobilier',
           params: { lang: this.$route.params.lang },
-          query: { 
-            ...this.$route.query, 
+          query: {
+            ...this.$route.query,
             level: 'departement',
             code: departementCode
           },
@@ -422,7 +424,12 @@ export default {
     },
 
     navigateToCommune(communeCode) {
-      const commune = this.communes.find(c => c.code === communeCode);
+      // Appelée aussi pour un arrondissement, qui ne figure pas dans la liste des
+      // communes renvoyée par geo.api : sans ce second passage, choisir « Paris 1er »
+      // ne faisait rien du tout.
+      const commune =
+        this.communes.find((c) => c.code === communeCode) ||
+        this.arrondissements.find((a) => a.code === communeCode);
       if (commune) {
         const departementCode = this.getDepartementFromCommune(communeCode);
         const departement = this.departements[departementCode];
@@ -438,11 +445,13 @@ export default {
           parcelleName: null,
         });
         
+        this.$emit("zoom-to-commune", communeCode, commune.nom);
+
         this.$router.push({
           name: 'immobilier',
           params: { lang: this.$route.params.lang },
-          query: { 
-            ...this.$route.query, 
+          query: {
+            ...this.$route.query,
             level: 'commune',
             code: communeCode
           },
