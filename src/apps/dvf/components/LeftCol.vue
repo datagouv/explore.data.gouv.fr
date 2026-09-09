@@ -42,6 +42,16 @@
         </div>
 
         <div class="location_container">
+          <a
+            v-if="download"
+            :href="download.url"
+            download
+            class="fr-btn fr-btn--sm fr-btn--secondary fr-icon-download-line download_link"
+            :title="'Télécharger les ventes ' + download.label + ' (CSV)'"
+          >
+            Télécharger les ventes {{ download.label }} (CSV)
+          </a>
+
           <div v-if="level === 'fra'">
             <div><span class="location_title">PAYS</span></div>
             <div><span class="location_label">France entière</span></div>
@@ -80,21 +90,6 @@
         </div>
         </div>
 
-        <a v-if="download" :href="download.url" download class="download_link">
-          <svg
-            width="10"
-            height="10"
-            viewBox="0 0 10 10"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M5 6.5L1.5 3H4V0.5H6V3H8.5L5 6.5ZM1 8H9V9.5H1V8Z"
-              fill="#3558A2"
-            />
-          </svg>
-          Télécharger les ventes {{ download.label }} (CSV)
-        </a>
       </div>
 
 
@@ -850,6 +845,13 @@ export default {
       const api = process.env.VUE_APP_DVF_API + "/dvf/csv/?";
       const location = this.userLocation;
       if (location.level === "parcelle" && location.parcelle) {
+        // Ne pas proposer le fichier vide d'une parcelle sans mutation.
+        if (
+          !this.parcellesMutations ||
+          Object.keys(this.parcellesMutations).length === 0
+        ) {
+          return null;
+        }
         return {
           url: api + "parcelle=" + location.parcelle,
           label: "de cette parcelle",
@@ -1576,6 +1578,7 @@ export default {
   width: 100%;
   margin-top: 10px;
   margin-bottom: 20px;
+  position: relative;
 }
 
 .location_title {
@@ -1590,21 +1593,13 @@ export default {
   color: #161616;
 }
 
+/* Sur la ligne du titre de niveau, à l'opposé de celui-ci : l'action est
+   occasionnelle, elle ne doit pas s'intercaler entre le lieu et ses chiffres.
+   Le DSFR masque le libellé de lui-même sur un bouton à icône seule. */
 .download_link {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  margin-top: 10px;
-  padding: 6px 12px;
-  border: 1px solid #3558a2;
-  color: #3558a2;
-  font-size: 12px;
-  font-weight: 700;
-  background-image: none;
-}
-
-.download_link:hover {
-  background-color: #e6eefe;
+  position: absolute;
+  top: -6px;
+  right: 0;
 }
 
 .global_numbers_container {
