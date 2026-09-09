@@ -16,9 +16,12 @@
           />
           <button
             class="fr-btn search-btn"
-            title="Rechercher"
+            :class="{ 'search-btn--loading': searching }"
+            :title="searching ? 'Recherche en cours' : 'Rechercher'"
+            :aria-busy="searching ? 'true' : 'false'"
             @click="search()"
           >
+            <span v-if="searching" class="search-spinner" aria-hidden="true"></span>
             Rechercher
           </button>
         </div>
@@ -64,6 +67,7 @@ export default {
       results: [],
       firstResult: null,
       searchMessage: "",
+      searching: false,
       debounceTimer: null,
     };
   },
@@ -75,8 +79,10 @@ export default {
       const query = this.searchAdress.trim();
       this.clearResults();
       if (query.length === 0) {
+        this.searching = false;
         return;
       }
+      this.searching = true;
       if (PARCELLE_PATTERN.test(query)) {
         this.getParcelle(query);
       } else {
@@ -87,6 +93,7 @@ export default {
       clearTimeout(this.debounceTimer);
       if (this.searchAdress.trim().length === 0) {
         this.clearResults();
+        this.searching = false;
         return;
       }
       this.debounceTimer = setTimeout(() => this.search(), 650);
@@ -95,6 +102,13 @@ export default {
       this.results = [];
       this.firstResult = null;
       this.searchMessage = "";
+    },
+    // Une frappe plus récente a relancé une recherche : c'est elle qui éteindra
+    // le spinner, pas la réponse à celle-ci.
+    stopSearching(query) {
+      if (this.searchAdress.trim() === query) {
+        this.searching = false;
+      }
     },
     getAdresses(query) {
       fetch(
@@ -118,7 +132,8 @@ export default {
         .catch(() => {
           this.searchMessage =
             "La recherche d'adresse est momentanément indisponible. Réessayez dans quelques instants.";
-        });
+        })
+        .finally(() => this.stopSearching(query));
     },
     getParcelle(query) {
       fetch(
@@ -148,7 +163,8 @@ export default {
         .catch(() => {
           this.searchMessage =
             "La recherche de parcelle est momentanément indisponible. Réessayez dans quelques instants.";
-        });
+        })
+        .finally(() => this.stopSearching(query));
     },
     moveTo(item) {
       appStore.commit("changeSearchBarCoordinates", {
@@ -198,6 +214,37 @@ input {
 
 .search-btn {
   border-radius: 0 !important;
+}
+
+/* Le DSFR dessine la loupe en ::before : on l'efface le temps de la recherche. */
+.search-btn--loading::before {
+  display: none !important;
+}
+
+/* Même empreinte que l'icône remplacée (1.5rem + 0.5rem de marge) : le bouton
+   est large de 2.5rem et masque son libellé en le débordant. */
+.search-spinner {
+  flex: 0 0 auto;
+  box-sizing: border-box;
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-right: 0.5rem;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: search-spin 0.7s linear infinite;
+}
+
+@keyframes search-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .search-spinner {
+    animation-duration: 2s;
+  }
 }
 
 .autocomplete-item {
