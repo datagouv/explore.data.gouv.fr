@@ -603,8 +603,10 @@ export default {
               if (this.getCode(comId) == this.userLocation.dep) {
                 if (!this.changeCom) {
                   this.mousePosition.com.code = comId;
-                  this.mousePosition.com.nom =
-                    e.features[0]["properties"]["nom"];
+                  // `comName` et non features[0] : sur Paris, Lyon et Marseille
+                  // c'est la ville entière qui est dessinée au-dessus, et on
+                  // affichait son nom avec le code de l'arrondissement.
+                  this.mousePosition.com.nom = comName;
                   this.displayTooltip(e);
                   this.changeLocation(
                     "changeMouseLocation",
