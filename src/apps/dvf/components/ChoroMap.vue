@@ -578,7 +578,7 @@ export default {
               this.zoomToCommune(
                 comId,
                 e.features[featureNb]["properties"]["nom"],
-                { centre: [e.lngLat.lng, e.lngLat.lat] }
+                [e.lngLat.lng, e.lngLat.lat]
               );
             }
           });
@@ -1372,8 +1372,7 @@ export default {
     // Cadre l'emprise réelle de la commune plutôt qu'un zoom fixe : un village se
     // voit en entier, une grande ville ne déborde pas, et il n'y a plus de cas
     // particulier à maintenir pour Paris, Lyon et Marseille.
-    zoomToCommune(code, nom, options) {
-      const { centre, bbox } = options || {};
+    zoomToCommune(code, nom, centre) {
       // Le watcher de zoom reconstruit le niveau affiché à partir de mousePosition :
       // sans ça il appellerait displaySections(null) à l'arrivée.
       const dep = this.getCode(code);
@@ -1395,17 +1394,8 @@ export default {
       // d'un département, 11-14 pour les sections d'une commune.
       const bornes = parArrondissements ? [8.1, 10.9] : [11.1, 13.9];
 
-      // L'appelant connaît déjà l'emprise (le sélecteur la reçoit avec sa liste
-      // de communes) : rien à demander.
-      if (bbox) {
-        this.cadrerSur(bbox, bornes);
-        return;
-      }
-
-      // Sinon on part tout de suite vers le point connu et on recadre à
-      // l'arrivée de l'emprise : geo.api répond en 70 ms d'ordinaire, mais passe
-      // à plusieurs secondes sur un cache froid, et la carte ne doit pas
-      // rester figée pendant ce temps.
+      // On part vers le point connu quand on en a un, sans attendre l'emprise :
+      // geo.api met plusieurs secondes au premier appel sur un département.
       if (centre) {
         this.map.flyTo({
           center: centre,
@@ -1416,9 +1406,9 @@ export default {
       fetch("https://geo.api.gouv.fr/communes/" + code + "?fields=bbox")
         .then((response) => response.json())
         .then((data) => {
-          const ring = data.bbox && data.bbox.coordinates[0];
-          if (ring) {
-            this.cadrerSur(this.bornesDepuisAnneau(ring), bornes);
+          const anneau = data.bbox && data.bbox.coordinates[0];
+          if (anneau) {
+            this.cadrerSur(this.bornesDepuisAnneau(anneau), bornes);
           }
         })
         .catch(() => {});
@@ -1440,9 +1430,9 @@ export default {
         zoom: Math.min(Math.max(camera.zoom, zoomMin), zoomMax),
       });
     },
-    bornesDepuisAnneau(ring) {
-      const lngs = ring.map((point) => point[0]);
-      const lats = ring.map((point) => point[1]);
+    bornesDepuisAnneau(anneau) {
+      const lngs = anneau.map((point) => point[0]);
+      const lats = anneau.map((point) => point[1]);
       return [
         [Math.min(...lngs), Math.min(...lats)],
         [Math.max(...lngs), Math.max(...lats)],
@@ -1490,9 +1480,11 @@ export default {
     },
     searchBarCoordinates() {
       if (this.searchBarType === "municipality" && this.searchBarCityCode) {
-        this.zoomToCommune(this.searchBarCityCode, this.searchBarCityName, {
-          centre: this.searchBarCoordinates,
-        });
+        this.zoomToCommune(
+          this.searchBarCityCode,
+          this.searchBarCityName,
+          this.searchBarCoordinates
+        );
       } else {
         appStore.commit("changeZoomLevel", 16);
         this.map.flyTo({
