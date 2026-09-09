@@ -11,28 +11,31 @@
             type="search"
             id="search-540-input"
             name="search-540-input"
-            v-on:keyup.enter="autoComplete()"
+            v-on:keyup.enter="search()"
             @input="autoComplete()"
           />
           <button
             class="fr-btn search-btn"
             title="Rechercher"
-            @click="getAdresses()"
+            @click="search()"
           >
             Rechercher
           </button>
         </div>
       </div>
     </div>
-    <div v-if="resultsAdresses" class="autocomplete">
+    <div v-if="searchMessage" class="autocomplete">
+      <div class="autocomplete-message">{{ searchMessage }}</div>
+    </div>
+    <div v-else-if="results.length" class="autocomplete">
       <div
-        @click="moveTo(item.geometry.coordinates, item.properties.citycode, item.properties.city)"
-        v-for="item in resultsAdresses.features"
-        :key="item.properties.label"
+        @click="moveTo(item)"
+        v-for="item in results"
+        :key="item.properties.id"
       >
         <div
           :class="
-            firstResult.properties.label === item.properties.label
+            firstResult && firstResult.properties.label === item.properties.label
               ? 'autocomplete-item autocomplete-item-select'
               : 'autocomplete-item'
           "
@@ -48,72 +51,112 @@
 <script>
 import appStore from "@/apps/dvf/store";
 
+// Référence cadastrale complète : 5 chiffres de commune, 5 de section
+// (préfixe + lettres), 4 de parcelle.
+const PARCELLE_PATTERN = /^\d{8}(\d|[A-Z])[A-Z]\d{4}$/;
+
 export default {
   name: "SearchBar",
   components: {},
   data() {
     return {
-      searchAdress: null,
-      resultsAdresses: null,
+      searchAdress: "",
+      results: [],
+      firstResult: null,
+      searchMessage: "",
+      debounceTimer: null,
     };
   },
   computed: {},
   mounted() {},
   methods: {
-    getAdresses() {
-      fetch(
-        "https://data.geopf.fr/geocodage/search/?q=" +
-          this.searchAdress.replace(" ", "%20")
-      )
-        .then((response) => {
-          return response.json();
-        })
-        .then((data) => {
-          this.resultsAdresses = data;
-          this.firstResult = data.features[0];
-        });
-    },
-    getParcelle() {
-      fetch(
-        "https://data.geopf.fr/geocodage/search?index=parcel&q=" +
-         this.searchAdress
-      )
-        .then((response) => {
-          return response.json();
-        })
-        .then((data) => {
-          data.features[0].properties.citycode = data.features[0].properties.departmentcode + data.features[0].properties.municipalitycode
-          data.features[0].properties.label = "Parcelle " + data.features[0].properties.id
-          this.resultsAdresses = data;
-          this.firstResult = data.features[0];
-        });
-    },
-    autoComplete() {
-      if (this.searchAdress.length === 0) {
-        this.resultsAdresses = null;
-      }
-      // if the search is a parcelle id, we take it as it is
-      const pattern = /^\d{8}(\d|[A-Z])[A-Z]\d{4}$/;
-      if (pattern.test(this.searchAdress)) {
-        let timer = setTimeout(() => {
-          this.getParcelle();
-        }, 650);
+    search() {
+      clearTimeout(this.debounceTimer);
+      const query = this.searchAdress.trim();
+      this.clearResults();
+      if (query.length === 0) {
         return;
       }
-      let search = this.searchAdress;
-      let timer = setTimeout(() => {
-        if (this.searchAdress === search) {
-          this.getAdresses();
-        }
-      }, 650);
+      if (PARCELLE_PATTERN.test(query)) {
+        this.getParcelle(query);
+      } else {
+        this.getAdresses(query);
+      }
     },
-    moveTo(coord, citycode, cityname) {
-      let obj = {}
-      obj["coord"] = coord
-      obj["citycode"] = citycode
-      obj["cityname"] = cityname
-      appStore.commit("changeSearchBarCoordinates", obj);
-      this.resultsAdresses = null;
+    autoComplete() {
+      clearTimeout(this.debounceTimer);
+      if (this.searchAdress.trim().length === 0) {
+        this.clearResults();
+        return;
+      }
+      this.debounceTimer = setTimeout(() => this.search(), 650);
+    },
+    clearResults() {
+      this.results = [];
+      this.firstResult = null;
+      this.searchMessage = "";
+    },
+    getAdresses(query) {
+      fetch(
+        "https://data.geopf.fr/geocodage/search/?q=" + encodeURIComponent(query)
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          if (this.searchAdress.trim() !== query) {
+            return;
+          }
+          if (!data.features || data.features.length === 0) {
+            this.searchMessage =
+              "Aucune adresse ne correspond à « " +
+              query +
+              " ». Vérifiez l'orthographe, ou saisissez le nom d'une commune.";
+            return;
+          }
+          this.results = data.features;
+          this.firstResult = data.features[0];
+        })
+        .catch(() => {
+          this.searchMessage =
+            "La recherche d'adresse est momentanément indisponible. Réessayez dans quelques instants.";
+        });
+    },
+    getParcelle(query) {
+      fetch(
+        "https://data.geopf.fr/geocodage/search?index=parcel&q=" +
+          encodeURIComponent(query)
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          if (this.searchAdress.trim() !== query) {
+            return;
+          }
+          if (!data.features || data.features.length === 0) {
+            this.searchMessage =
+              "Aucune parcelle ne porte la référence « " +
+              query +
+              " ». Vérifiez la référence sur cadastre.gouv.fr.";
+            return;
+          }
+          const parcelle = data.features[0];
+          parcelle.properties.citycode =
+            parcelle.properties.departmentcode +
+            parcelle.properties.municipalitycode;
+          parcelle.properties.label = "Parcelle " + parcelle.properties.id;
+          this.results = [parcelle];
+          this.firstResult = parcelle;
+        })
+        .catch(() => {
+          this.searchMessage =
+            "La recherche de parcelle est momentanément indisponible. Réessayez dans quelques instants.";
+        });
+    },
+    moveTo(item) {
+      appStore.commit("changeSearchBarCoordinates", {
+        coord: item.geometry.coordinates,
+        citycode: item.properties.citycode,
+        cityname: item.properties.city,
+      });
+      this.clearResults();
     },
   },
   watch: {},
@@ -168,6 +211,18 @@ input {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+
+.autocomplete-message {
+  width: 100%;
+  border-bottom: 1px solid #ebebeb;
+  border-left: 1px solid #ebebeb;
+  border-right: 1px solid #ebebeb;
+  background-color: white;
+  padding: 10px;
+  font-size: 12px;
+  line-height: 16px;
+  color: #666666;
 }
 
 .autocomplete-item:hover {
