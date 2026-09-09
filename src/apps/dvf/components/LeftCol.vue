@@ -79,6 +79,22 @@
           </div>
         </div>
         </div>
+
+        <a v-if="download" :href="download.url" download class="download_link">
+          <svg
+            width="10"
+            height="10"
+            viewBox="0 0 10 10"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M5 6.5L1.5 3H4V0.5H6V3H8.5L5 6.5ZM1 8H9V9.5H1V8Z"
+              fill="#3558A2"
+            />
+          </svg>
+          Télécharger les ventes {{ download.label }} (CSV)
+        </a>
       </div>
 
 
@@ -816,8 +832,39 @@ export default {
     saveApiResponse: function () {
       return appStore.state.saveApiResponse;
     },
-    zoomLevel: function () {
-      return appStore.state.map.zoomLevel;
+    // Portée et URL de l'export CSV pour la sélection courante. `null` au niveau
+    // France (l'export national n'est pas exposé) et là où DVF n'a pas de données.
+    download: function () {
+      if (this.nodata) {
+        return null;
+      }
+      const api = process.env.VUE_APP_DVF_API + "/dvf/csv/?";
+      const location = this.userLocation;
+      if (location.level === "parcelle" && location.parcelle) {
+        return {
+          url: api + "parcelle=" + location.parcelle,
+          label: "de cette parcelle",
+        };
+      }
+      if (location.level === "section" && location.section) {
+        return {
+          url: api + "section=" + location.section,
+          label: "de cette section",
+        };
+      }
+      if (location.level === "commune" && location.com) {
+        return {
+          url: api + "com=" + location.com,
+          label: "de cette commune",
+        };
+      }
+      if (location.level === "departement" && location.dep) {
+        return {
+          url: api + "dep=" + location.dep,
+          label: "de ce département",
+        };
+      }
+      return null;
     },
     dep: function () {
       return appStore.state.userLocation.dep;
@@ -1562,6 +1609,23 @@ export default {
   font-weight: 800;
   font-size: 28px;
   color: #161616;
+}
+
+.download_link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+  padding: 6px 12px;
+  border: 1px solid #3558a2;
+  color: #3558a2;
+  font-size: 12px;
+  font-weight: 700;
+  background-image: none;
+}
+
+.download_link:hover {
+  background-color: #e6eefe;
 }
 
 .global_numbers_container {
