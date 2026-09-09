@@ -248,6 +248,7 @@ export default {
         this.actualPropertyPrix = this.mappingPropertiesPrix[this.activeFilter];
         this.actualPropertyCount = this.mappingPropertiesPrix[this.activeFilter].substring(2,);
         let matchExpression = this.changeChloroplethColors(
+          "fra",
           "c",
           this.actualPropertyPrix,
           "code"
@@ -1008,14 +1009,19 @@ export default {
       obj.data = data;
       appStore.commit("addApiResult", obj);
     },
+    // Le niveau est un paramètre et non `userLocation.level` : l'appelant sait
+    // quel calque il colore, alors que le niveau affiché est un état partagé qui
+    // peut déjà avoir changé, et qui vaut parfois `section` ou `parcelle`, pour
+    // lesquels `dataChloropleth` n'a pas d'entrée.
     changeChloroplethColors(
+      level,
       property_code_geo,
       property_value,
       property_tile_code_geo
     ) {
       let list_obj = [];
       let dataObj = [];
-      this.dataChloropleth[this.userLocation.level].forEach((d) => {
+      (this.dataChloropleth[level] || []).forEach((d) => {
         if (!list_obj.includes(d[property_code_geo])) {
           list_obj.push(d[property_code_geo]);
           dataObj.push(d);
@@ -1328,6 +1334,7 @@ export default {
         this.actualPropertyPrix = this.mappingPropertiesPrix[this.activeFilter];
         this.actualPropertyCount = this.mappingPropertiesPrix[this.activeFilter].substring(2,);
         let matchExpression = this.changeChloroplethColors(
+          this.userLocation.level,
           "c",
           this.actualPropertyPrix,
           property_tile_code_geo
