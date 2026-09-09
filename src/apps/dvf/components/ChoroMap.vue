@@ -712,16 +712,20 @@ export default {
               this.$route.query.level === "commune"
             ) {
               this.mousePosition.com.code = this.$route.query.code;
+              // Forme directe plutôt que `?code=` : le filtre par code ignore les
+              // arrondissements municipaux et renvoie [] pour 69386 ou 75112.
               fetch(
-                "https://geo.api.gouv.fr/communes?code=" +
-                  this.$route.query.code
+                "https://geo.api.gouv.fr/communes/" + this.$route.query.code
               )
                 .then((response) => {
                   return response.json();
                 })
-                .then((data) => {
-                  this.mousePosition.com.nom = data[0].nom;
-                });
+                .then((commune) => {
+                  if (commune && commune.nom) {
+                    this.mousePosition.com.nom = commune.nom;
+                  }
+                })
+                .catch(() => {});
               this.changeCom = true;
             }
             if (
