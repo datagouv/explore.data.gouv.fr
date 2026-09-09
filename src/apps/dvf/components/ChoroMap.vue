@@ -67,7 +67,7 @@ import appStore from "@/apps/dvf/store";
 import SearchBar from "@/apps/dvf/components/SearchBar";
 import FiltersBox from "@/apps/dvf/components/FiltersBox";
 
-import { Map, GeolocateControl } from "maplibre-gl";
+import { Map, GeolocateControl, NavigationControl } from "maplibre-gl";
 
 import { markRaw } from "vue";
 import styleVector from "@/apps/dvf/assets/json/vector-dvf.json";
@@ -252,8 +252,13 @@ export default {
             style: styleVector,
             center: [this.lng, this.lat],
             zoom: this.zoomLevel,
+            // Une choroplèthe se lit au nord : une rotation accidentelle
+            // (clic droit glissé, deux doigts) ne peut que désorienter.
+            dragRotate: false,
+            pitchWithRotate: false,
           })
         );
+        this.map.touchZoomRotate.disableRotation();
 
         // On map load, add its layers
         this.map.on("load", (m) => {
@@ -781,6 +786,11 @@ export default {
             }
           }, 500);
         });
+
+        this.map.addControl(
+          new NavigationControl({ showCompass: false }),
+          "top-left"
+        );
 
         this.map.addControl(
           new GeolocateControl({
