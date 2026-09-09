@@ -80,6 +80,9 @@ import * as d3 from "d3-scale";
 // qui sont des communes à part entière dans les tuiles comme dans l'API.
 const COMMUNES_A_ARRONDISSEMENTS = ["75056", "13055", "69123"];
 
+// Vue au chargement : la France entière.
+const VUE_FRANCE = { center: [2, 46.3], zoom: 4.8 };
+
 export default {
   name: "ChoroMap",
   components: { Map, markRaw, SearchBar, FiltersBox },
@@ -91,7 +94,6 @@ export default {
         departement: [],
         commune: [],
       },
-      dataEpci: null,
       legMin: 0,
       legMax: 0,
       legPivot: 0,
@@ -105,9 +107,7 @@ export default {
         date: "",
         place: "NaN",
       },
-      lastCodeHovered: "",
       fetching: false,
-      fetchedCommunes: [],
       mappingPropertiesPrix: {
         tous: "m_am",
         maison: "m_m",
@@ -143,7 +143,6 @@ export default {
       changeCom: false,
       mapStyle: "vector",
       waitZoom: false,
-      isMoving: false,
       pendingParcelleClick: null,
       disableAutoUpdates: false,
     };
@@ -164,20 +163,11 @@ export default {
     mapProperties: function () {
       return appStore.state.mapProperties;
     },
-    lng: function () {
-      return appStore.state.mapProperties.lng;
-    },
-    lat: function () {
-      return appStore.state.mapProperties.lat;
-    },
     centerLng: function () {
       return appStore.state.mapProperties.centerLng;
     },
     centerLat: function () {
       return appStore.state.mapProperties.centerLat;
-    },
-    zoom: function () {
-      return appStore.state.mapProperties.zoom;
     },
     zoomLevel: function () {
       return appStore.state.mapProperties.zoomLevel;
@@ -217,9 +207,7 @@ export default {
     }
   },
   mounted() {
-    appStore.commit("changeZoomLevel", 4.8);
-    appStore.commit("changeMapLng", 2);
-    appStore.commit("changeMapLat", 46.3);
+    appStore.commit("changeZoomLevel", VUE_FRANCE.zoom);
     appStore.commit("changeMapInit", true);
     this.changeLocation("changeUserLocation", "fra", null, null);
 
@@ -260,8 +248,8 @@ export default {
           new Map({
             container: this.$refs.mapContainer,
             style: styleVector,
-            center: [this.lng, this.lat],
-            zoom: this.zoomLevel,
+            center: VUE_FRANCE.center,
+            zoom: VUE_FRANCE.zoom,
             // Une choroplèthe se lit au nord : une rotation accidentelle
             // (clic droit glissé, deux doigts) ne peut que désorienter.
             dragRotate: false,
@@ -542,7 +530,9 @@ export default {
               comId = e.features[1]["properties"]["code"];
             }
             if (this.userLocation.com != comId) {
-              matchExpression = ["match", ["get", "code"]];
+              // `let` manquant : l'affectation visait le matchExpression du
+              // remplissage EPCI, déclaré dans la portée englobante.
+              let matchExpression = ["match", ["get", "code"]];
               matchExpression.push(comId, 0.4);
               matchExpression.push(0);
               this.map.setPaintProperty(
@@ -651,19 +641,8 @@ export default {
           appStore.commit("changeZoomLevel", this.map.getZoom());
         });
 
-        this.map.on("mousemove", (e) => {
-          //this.displayTooltip(e)
-          appStore.commit("changeMapLat", e.lngLat.wrap().lat);
-          appStore.commit("changeMapLng", e.lngLat.wrap().lng);
-        });
-
-        this.map.on("move", (e) => {
-          this.isMoving = true
-        });
-
         this.map.on("moveend", (e) => {
           this.waitZoom = false;
-          this.isMoving = false;
           appStore.commit("changeCenterMapLat", this.map.getCenter().lat);
           appStore.commit("changeCenterMapLng", this.map.getCenter().lng);
 
@@ -903,7 +882,6 @@ export default {
       }
     },
     changeLocation(commitFunction, level, code, name) {
-      this.fetching = false;
       let obj = {};
       if (level == "fra") {
         obj.level = "fra";
@@ -1278,6 +1256,11 @@ export default {
               data = res;
               this.sendApiResultToStore(url, data);
               this.manageTooltipData(level, code, data);
+            })
+            // Sans ce rattrapage, une requête en échec laisserait `fetching` à
+            // true et les infobulles ne se rempliraient plus jamais.
+            .catch(() => {})
+            .then(() => {
               this.fetching = false;
             });
         }

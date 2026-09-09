@@ -10,11 +10,8 @@ export default new Vuex.Store({
   state: {
     activePanel: "carte",
     mapProperties: {
-      lng: 2,
-      lat: 46.3,
       centerLat: 2,
       centerLng: 46.3,
-      zoom: null,
       zoomLevel: 4.8,
       init: true,
     },
@@ -84,12 +81,6 @@ export default new Vuex.Store({
     },
     changeZoomLevel(state, data) {
       state.mapProperties.zoomLevel = data
-    },
-    changeMapLat(state, data) {
-      state.mapProperties.lat = data
-    },
-    changeMapLng(state, data) {
-      state.mapProperties.lng = data
     },
     changeCenterMapLat(state, data) {
       state.mapProperties.centerLat = data

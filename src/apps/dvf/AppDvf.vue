@@ -106,12 +106,6 @@ export default {
     zoomLevel: function () {
       return appStore.state.mapProperties.zoomLevel;
     },
-    lat: function () {
-      return appStore.state.mapProperties.lat;
-    },
-    lng: function () {
-      return appStore.state.mapProperties.lng;
-    },
     centerLat: function () {
       return appStore.state.mapProperties.centerLat;
     },
