@@ -703,8 +703,7 @@ export default {
               this.$route.query.level === "departement"
             ) {
               this.mousePosition.dep.code = this.$route.query.code;
-              this.mousePosition.dep.nom =
-                CenterDeps[this.$route.query.code]["nom"];
+              this.mousePosition.dep.nom = this.depName(this.$route.query.code);
               this.changeDep = true;
             }
             if (
@@ -877,6 +876,11 @@ export default {
         this.map.setLayoutProperty("boundary-water", "visibility", "visible");
       }
     },
+    // Le code vient parfois de l'URL : il peut désigner une commune fusionnée ou
+    // ne rien désigner du tout, et CenterDeps n'a alors pas d'entrée.
+    depName(code) {
+      return CenterDeps[code] ? CenterDeps[code]["nom"] : null;
+    },
     getCode(code) {
       if(!code) { return }
       if (parseInt(code.substring(0, 2)) >= 97) {
@@ -913,7 +917,7 @@ export default {
         let parse_code = this.getCode(code);
         obj.level = "commune";
         obj.dep = parse_code;
-        obj.depName = CenterDeps[parse_code]["nom"];
+        obj.depName = this.depName(parse_code);
         obj.com = code;
         obj.comName = name;
         obj.section = null;
@@ -925,7 +929,7 @@ export default {
         let parse_code = this.getCode(code);
         obj.level = "section";
         obj.dep = parse_code;
-        obj.depName = CenterDeps[parse_code]["nom"];
+        obj.depName = this.depName(parse_code);
         obj.com = code.substring(0, 5);
         obj.comName = this.userLocation.comName;
         obj.section = code;
@@ -940,7 +944,7 @@ export default {
         let parse_code = this.getCode(code);
         obj.level = "parcelle";
         obj.dep = parse_code;
-        obj.depName = CenterDeps[parse_code]["nom"];
+        obj.depName = this.depName(parse_code);
         obj.com = code.substring(0, 5);
         obj.comName = this.userLocation.comName;
         obj.section = code.substring(0, 10);
@@ -954,7 +958,7 @@ export default {
           obj.parcelleName = obj.parcelleName.substring(1);
         }
         this.mousePosition.dep.code = parse_code
-        this.mousePosition.dep.nom = CenterDeps[parse_code]["nom"];
+        this.mousePosition.dep.nom = this.depName(parse_code);
         this.mousePosition.com.code = code.substring(0, 5);
         this.mousePosition.com.nom = this.userLocation.comName;
       }
@@ -975,7 +979,7 @@ export default {
         let parse_code = this.getCode(this.searchBarCityCode);
         obj.level = "section";
         obj.dep = parse_code;
-        obj.depName = CenterDeps[parse_code]["nom"];
+        obj.depName = this.depName(parse_code);
         obj.com = this.searchBarCityCode;
         obj.comName = this.searchBarCityName;
         obj.section = null;
@@ -984,7 +988,7 @@ export default {
         obj.parcelleName = null;
         appStore.commit("changeUserLocation", obj);
         this.mousePosition.dep.code = parse_code
-        this.mousePosition.dep.nom = CenterDeps[parse_code]["nom"];
+        this.mousePosition.dep.nom = this.depName(parse_code);
         this.mousePosition.com.code = this.searchBarCityCode
         this.mousePosition.com.nom = this.searchBarCityName
       }
@@ -1334,7 +1338,7 @@ export default {
       // sans ça il appellerait displaySections(null) à l'arrivée.
       const dep = this.getCode(code);
       this.mousePosition.dep.code = dep;
-      this.mousePosition.dep.nom = CenterDeps[dep] ? CenterDeps[dep]["nom"] : null;
+      this.mousePosition.dep.nom = this.depName(dep);
 
       // Sur Paris, Lyon et Marseille, s'arrêter au niveau département : la
       // choroplèthe y colore les arrondissements, seuls porteurs des données.
