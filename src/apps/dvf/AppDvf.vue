@@ -155,10 +155,9 @@ export default {
       }
     },
   },
-  mounted() {
-    // let isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || (typeof safari !== 'undefined' && window['safari'].pushNotification));
-    // this.isSafari = isSafari
-
+  // Avant le montage des enfants : sinon la carte se monte systématiquement, même
+  // sur ?onglet=tableau, et sa requête /epci revient sur un composant détruit.
+  created() {
     if (this.$route.query.onglet) {
       if (this.$route.query.onglet != this.activePanel) {
         this.changeActivePanel(this.$route.query.onglet);

@@ -241,6 +241,11 @@ export default {
         return response.json();
       })
       .then((data) => {
+        // L'utilisateur a pu changer d'onglet pendant la requête : sans ce garde-fou
+        // new Map() reçoit un conteneur détruit et lève une erreur non rattrapée.
+        if (!this.$refs.mapContainer) {
+          return;
+        }
         this.sendApiResultToStore(url, data);
         this.dataChloropleth["fra"] = data["data"];
         this.actualPropertyPrix = this.mappingPropertiesPrix[this.activeFilter];
