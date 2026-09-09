@@ -1112,13 +1112,20 @@ export default {
           return response.json();
         })
         .then((data) => {
-          this.dataChloropleth["departement"] = data["data"];
+          // Les tuiles superposent la commune entière et ses arrondissements sur
+          // le même calque, la commune au-dessus. La colorier recouvrirait ses
+          // arrondissements, alors que c'est justement à cette échelle qu'on les
+          // compare — et le département 75 n'est fait que de ceux de Paris.
+          const communes = data["data"].filter(
+            (commune) => !COMMUNES_A_ARRONDISSEMENTS.includes(commune.c)
+          );
+          this.dataChloropleth["departement"] = communes;
           let { x, scaleMin, scaleMax } = this.calculateColor(
-            data["data"],
+            communes,
             this.actualPropertyPrix
           );
           let matchExpression = this.getMatchExpressionStart(
-            data["data"],
+            communes,
             x,
             this.actualPropertyPrix,
             "c",
@@ -1136,7 +1143,7 @@ export default {
             matchExpressionOpacity,
             matchExpressionColor,
             matchExpressionLineWidth,
-          } = this.getMatchExpressionLine(data["data"], "c", "code");
+          } = this.getMatchExpressionLine(communes, "c", "code");
           if (matchExpressionOpacity.length > 3) {
             this.map.setPaintProperty(
               "communes_line",
