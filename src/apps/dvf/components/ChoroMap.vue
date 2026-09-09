@@ -83,6 +83,15 @@ const COMMUNES_A_ARRONDISSEMENTS = ["75056", "13055", "69123"];
 // Vue au chargement : la France entière.
 const VUE_FRANCE = { center: [2, 46.3], zoom: 4.8 };
 
+// maplibre libelle ses contrôles en anglais par défaut. Comme le reste de
+// l'explorateur, ces libellés sont en français en dur.
+const LIBELLES_MAPLIBRE = {
+  "NavigationControl.ZoomIn": "Zoomer",
+  "NavigationControl.ZoomOut": "Dézoomer",
+  "GeolocateControl.FindMyLocation": "Afficher ma position",
+  "GeolocateControl.LocationNotAvailable": "Position indisponible",
+};
+
 export default {
   name: "ChoroMap",
   components: { Map, markRaw, SearchBar, FiltersBox },
@@ -250,6 +259,7 @@ export default {
             style: styleVector,
             center: VUE_FRANCE.center,
             zoom: VUE_FRANCE.zoom,
+            locale: LIBELLES_MAPLIBRE,
             // Une choroplèthe se lit au nord : une rotation accidentelle
             // (clic droit glissé, deux doigts) ne peut que désorienter.
             dragRotate: false,
