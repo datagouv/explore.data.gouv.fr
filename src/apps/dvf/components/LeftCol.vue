@@ -1600,6 +1600,10 @@ export default {
   position: absolute;
   top: -6px;
   right: 0;
+  /* `.explore-app .fr-btn` (App.vue) arrondit tous les boutons en pilule, ce qui
+     donne un rond sur une icône seule. Le chrome de la carte est à angles droits,
+     comme le bouton de la barre de recherche qui neutralise déjà cette règle. */
+  border-radius: 0 !important;
 }
 
 .global_numbers_container {
