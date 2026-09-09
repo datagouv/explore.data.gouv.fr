@@ -155,6 +155,9 @@ export default {
         coord: item.geometry.coordinates,
         citycode: item.properties.citycode,
         cityname: item.properties.city,
+        // `municipality` quand l'utilisateur a choisi une commune : la carte cadre
+        // alors son emprise au lieu de plonger au niveau de la parcelle.
+        type: item.properties.type,
       });
       this.clearResults();
     },

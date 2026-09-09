@@ -144,9 +144,6 @@ export default {
     };
   },
   computed: {
-    searchZoomOngoing: function () {
-      return appStore.state.searchZoomOngoing
-    },
     saveApiUrl: function () {
       return appStore.state.saveApiUrl;
     },
@@ -209,6 +206,9 @@ export default {
     },
     searchBarCityName: function() {
       return appStore.state.searchBarCityName;
+    },
+    searchBarType: function() {
+      return appStore.state.searchBarType;
     }
   },
   mounted() {
@@ -1321,6 +1321,49 @@ export default {
         );
       }
     },
+    // Cadre l'emprise réelle de la commune plutôt qu'un zoom fixe : un village se
+    // voit en entier, une grande ville ne déborde pas, et il n'y a plus de cas
+    // particulier à maintenir pour Paris, Lyon et Marseille.
+    zoomToCommune(code) {
+      // Le watcher de zoom reconstruit le niveau « commune » à partir de
+      // mousePosition : sans ça il appellerait displaySections(null) à l'arrivée.
+      const dep = this.getCode(code);
+      this.mousePosition.dep.code = dep;
+      this.mousePosition.dep.nom = CenterDeps[dep] ? CenterDeps[dep]["nom"] : null;
+      this.mousePosition.com.code = code;
+      this.mousePosition.com.nom = this.searchBarCityName;
+      this.changeCom = true;
+
+      fetch("https://geo.api.gouv.fr/communes/" + code + "?fields=bbox")
+        .then((response) => response.json())
+        .then((data) => {
+          const ring = data.bbox && data.bbox.coordinates[0];
+          if (!ring) {
+            throw new Error("bbox absente");
+          }
+          const lngs = ring.map((point) => point[0]);
+          const lats = ring.map((point) => point[1]);
+          const camera = this.map.cameraForBounds(
+            [
+              [Math.min(...lngs), Math.min(...lats)],
+              [Math.max(...lngs), Math.max(...lats)],
+            ],
+            { padding: 40 }
+          );
+          if (!camera) {
+            throw new Error("cadrage impossible");
+          }
+          this.map.flyTo({
+            center: camera.center,
+            // La carte n'affiche les sections d'une commune qu'entre 11 et 14 :
+            // hors de cette plage on retomberait au département ou à la section.
+            zoom: Math.min(Math.max(camera.zoom, 11.1), 13.9),
+          });
+        })
+        .catch(() => {
+          this.map.flyTo({ center: this.searchBarCoordinates, zoom: 12 });
+        });
+    },
     selectParcelleOnMap(parcelleId) {
       let matchExpression = ["match", ["get", "id"]];
       matchExpression.push(parcelleId, "rgba(255, 0, 0, 0.5)");
@@ -1362,11 +1405,15 @@ export default {
       this.manageChloroplethColors();
     },
     searchBarCoordinates() {
-      appStore.commit("changeZoomLevel", 16);
-      this.map.flyTo({
-        center: this.searchBarCoordinates,
-        zoom: 16,
-      });
+      if (this.searchBarType === "municipality" && this.searchBarCityCode) {
+        this.zoomToCommune(this.searchBarCityCode);
+      } else {
+        appStore.commit("changeZoomLevel", 16);
+        this.map.flyTo({
+          center: this.searchBarCoordinates,
+          zoom: 16,
+        });
+      }
     },
     zoomLevel() {
       if (this.waitZoom === false && !this.disableAutoUpdates) {

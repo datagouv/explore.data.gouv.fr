@@ -51,7 +51,7 @@ export default new Vuex.Store({
     searchBarCoordinates: null,
     searchBarCityCode: null,
     searchBarCityName: null,
-    searchZoomOngoing: false,
+    searchBarType: null,
     dvfCurrentSection: null,
     leftColOpen: true,
 
@@ -73,10 +73,7 @@ export default new Vuex.Store({
       state.searchBarCoordinates = data["coord"]
       state.searchBarCityCode = data["citycode"]
       state.searchBarCityName = data["cityname"]
-      state.searchZoomOngoing = true
-    },
-    changeSearchZoomOngoing(state, data){
-      state.searchZoomOngoing = data
+      state.searchBarType = data["type"]
     },
     changeActivePanel(state, data) {
       state.activePanel = data
