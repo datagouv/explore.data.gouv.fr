@@ -383,8 +383,11 @@ export default {
       container: this.$refs.mapContainer,
       style: styleVector,
       center: [initialState.lng, initialState.lat],
-      zoom: initialState.zoom
+      zoom: initialState.zoom,
+      maxPitch: 0
     }));
+    this.map.dragRotate.disable();
+    this.map.touchZoomRotate.disableRotation();
     
     fetch(carburantsDataUrl + '/latest_france.geojson', {
         compress: false,
@@ -404,76 +407,11 @@ export default {
       this.legend.medianPrix = parseFloat(data.properties[this.currentFuel + "_median"]).toFixed(2)
 
       this.dateMaj = new Date(data.properties.maj);
-      this.map.on('load', (m) => {
-        this.map.addSource('station_points', {
-            type: 'geojson',
-            data: this.dataPoints
-        });
-        this.map.addLayer({
-            id: 'stations',
-            type: 'circle',
-            source: 'station_points',
-            paint: {
-              // Make circles larger as the user zooms from z12 to z22.
-              'circle-radius': {
-                base: 3.75,
-                stops: [
-                  [3, 3],
-                  [12, 10],
-                  [18, 60]
-                ]
-              },
-              // Color circles by ethnicity, using a `match` expression.
-              'circle-color': [
-                'match',
-                ['get', this.currentFuel + '_color'],
-                "1",
-                '#67A532',
-                "2",
-                '#C8AA39',
-                "3",
-                '#FA7A35',
-                /* other */ 'hsla(0%, 0%, 0%, 0)'
-              ]
-            },
-            minzoom:1,
-        });
-
-
-        this.map.on('zoom', () => {
-          let timer = setTimeout(() => {
-            const currentZoom = this.map.getZoom();
-            if(currentZoom != this.zoomLevel) {
-              this.zoomLevel = currentZoom
-              if(currentZoom > 10) {
-                this.displayAllStations()
-              } else {
-                this.displayAllStations()
-              }
-            }
-          }, 350)
-        });
-
-        this.map.on('mousemove', this.showMapTooltip);
-        this.map.on('touchmove', this.showMapTooltip);
-        this.map.on('click', this.showMapTooltip);
-
-        this.map.on('mouseleave', 'stations', (e) => {
-          this.tooltip.display = 'none'
-        });
-
-        this.map.addControl(
-          new GeolocateControl({
-            positionOptions: {
-              enableHighAccuracy: true
-            },
-            trackUserLocation: true,
-            fitBoundsOptions: {maxZoom:12}
-          })
-        );
-
-
-      });
+      if (this.map.loaded()) {
+        this.setupStationLayer();
+      } else {
+        this.map.once('load', () => this.setupStationLayer());
+      }
     })
 
 
@@ -496,6 +434,74 @@ export default {
     });
   },
   methods: {
+    setupStationLayer() {
+      if (this.map.getSource('station_points')) return;
+      this.map.addSource('station_points', {
+          type: 'geojson',
+          data: this.dataPoints
+      });
+      this.map.addLayer({
+          id: 'stations',
+          type: 'circle',
+          source: 'station_points',
+          paint: {
+            // Make circles larger as the user zooms from z12 to z22.
+            'circle-radius': [
+              'interpolate',
+              ['exponential', 3.75],
+              ['zoom'],
+              3, 3,
+              12, 10,
+              18, 60
+            ],
+            // Color circles by ethnicity, using a `match` expression.
+            'circle-color': [
+              'match',
+              ['get', this.currentFuel + '_color'],
+              "1",
+              '#67A532',
+              "2",
+              '#C8AA39',
+              "3",
+              '#FA7A35',
+              /* other */ 'rgba(0, 0, 0, 0)'
+            ]
+          },
+          minzoom:1,
+      });
+
+      this.map.on('zoom', () => {
+        let timer = setTimeout(() => {
+          const currentZoom = this.map.getZoom();
+          if(currentZoom != this.zoomLevel) {
+            this.zoomLevel = currentZoom
+            if(currentZoom > 10) {
+              this.displayAllStations()
+            } else {
+              this.displayAllStations()
+            }
+          }
+        }, 350)
+      });
+
+      this.map.on('mousemove', this.showMapTooltip);
+      this.map.on('touchmove', this.showMapTooltip);
+      this.map.on('click', this.showMapTooltip);
+
+      this.map.on('mouseleave', 'stations', (e) => {
+        this.tooltip.display = 'none'
+      });
+
+      this.map.addControl(
+        new GeolocateControl({
+          positionOptions: {
+            enableHighAccuracy: true
+          },
+          trackUserLocation: true,
+          fitBoundsOptions: {maxZoom:12}
+        })
+      );
+    },
     updateDate(val){
 
       fetch(carburantsDataUrl + '/historique/' + val + '.json')
@@ -506,7 +512,10 @@ export default {
         //data.features = data.features.filter((feature) => ((feature.properties.hasOwnProperty("SP95")) || (feature.properties.hasOwnProperty("SP98")) || (feature.properties.hasOwnProperty("E10")) || (feature.properties.hasOwnProperty("Gazole")) || (feature.properties.hasOwnProperty("GPLc")) || (feature.properties.hasOwnProperty("E85"))))
 
         this.dataPoints = JSON.parse(JSON.stringify(data))
-        this.map.getSource("station_points").setData(this.dataPoints);
+        const stationSource = this.map.getSource("station_points")
+        if (stationSource) {
+          stationSource.setData(this.dataPoints);
+        }
 
         this.legend.minPrix = 0
         this.legend.tertilePrix1 = data.properties[this.currentFuel][1]
@@ -636,7 +645,7 @@ export default {
             '#C8AA39',
             "3",
             '#FA7A35',
-            /* other */ 'hsla(0%, 0%, 0%, 0)'
+            /* other */ 'rgba(0, 0, 0, 0)'
           ]
         } else {
             paintProperties = [
@@ -648,7 +657,7 @@ export default {
               '#C8AA39',
               "3",
               '#FA7A35',
-              /* other */ 'hsla(0%, 0%, 0%, 0)'
+              /* other */ 'rgba(0, 0, 0, 0)'
             ]
         }
       }

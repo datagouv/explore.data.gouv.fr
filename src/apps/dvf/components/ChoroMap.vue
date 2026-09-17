@@ -252,8 +252,11 @@ export default {
             style: styleVector,
             center: [this.lng, this.lat],
             zoom: this.zoomLevel,
+            maxPitch: 0,
           })
         );
+        this.map.dragRotate.disable();
+        this.map.touchZoomRotate.disableRotation();
 
         // On map load, add its layers
         this.map.on("load", (m) => {
