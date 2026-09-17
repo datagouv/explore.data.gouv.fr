@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import maplibregl from 'maplibre-gl';
+import * as maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import appStore from '@/apps/industrie-europe-chine/store';
 
@@ -160,8 +160,10 @@ export default {
         },
         center: [15.0, 54.0],
         zoom: 2.8,
-        attributionControl: true
+        maxPitch: 0
       });
+      this.map.dragRotate.disable();
+      this.map.touchZoomRotate.disableRotation();
 
       this.map.on('load', () => {
         this.map.addSource('europe-countries', {

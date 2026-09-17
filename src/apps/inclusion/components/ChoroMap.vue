@@ -244,8 +244,11 @@ export default {
             style: styleVector,
             center: [this.lng, this.lat],
             zoom: this.zoomLevel,
+            maxPitch: 0,
           })
         );
+        this.map.dragRotate.disable();
+        this.map.touchZoomRotate.disableRotation();
 
         // On map load, add its layers
         this.map.on("load", (m) => {
@@ -297,14 +300,14 @@ export default {
             source: "inclusion_datapoints",
             paint: {
               // Make circles larger as the user zooms from z12 to z22.
-              "circle-radius": {
-                base: 3.75,
-                stops: [
-                  [3, 3],
-                  [12, 10],
-                  [18, 60],
-                ],
-              },
+              "circle-radius": [
+                "interpolate",
+                ["exponential", 3.75],
+                ["zoom"],
+                3, 3,
+                12, 10,
+                18, 60,
+              ],
               // Color circles by ethnicity, using a `match` expression.
               "circle-color": "#060091",
             },
