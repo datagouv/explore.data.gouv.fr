@@ -42,6 +42,16 @@
         </div>
 
         <div class="location_container">
+          <a
+            v-if="download"
+            :href="download.url"
+            download
+            class="fr-btn fr-btn--sm fr-btn--secondary fr-icon-download-line download_link"
+            :title="'Télécharger les ventes ' + download.label + ' (CSV)'"
+          >
+            Télécharger les ventes {{ download.label }} (CSV)
+          </a>
+
           <div v-if="level === 'fra'">
             <div><span class="location_title">PAYS</span></div>
             <div><span class="location_label">France entière</span></div>
@@ -79,6 +89,7 @@
           </div>
         </div>
         </div>
+
       </div>
 
 
@@ -762,6 +773,15 @@ import LineChart from "@/apps/dvf/components/LineChart";
 import BarChart from "@/apps/dvf/components/BarChart";
 import CenterDeps from "@/apps/dvf/assets/json/centers_deps.json";
 
+// Suffixe des clés de l'API DVF : `am` pour appartements + maisons, et `m_<clé>`
+// pour la médiane correspondante.
+const COUNT_KEY_PAR_FILTRE = {
+  tous: "am",
+  maison: "m",
+  appartement: "a",
+  local: "l",
+};
+
 export default {
   name: "LeftCol",
   components: { LineChart, BarChart },
@@ -816,8 +836,46 @@ export default {
     saveApiResponse: function () {
       return appStore.state.saveApiResponse;
     },
-    zoomLevel: function () {
-      return appStore.state.map.zoomLevel;
+    // Portée et URL de l'export CSV pour la sélection courante. `null` au niveau
+    // France (l'export national n'est pas exposé) et là où DVF n'a pas de données.
+    download: function () {
+      if (this.nodata) {
+        return null;
+      }
+      const api = process.env.VUE_APP_DVF_API + "/dvf/csv/?";
+      const location = this.userLocation;
+      if (location.level === "parcelle" && location.parcelle) {
+        // Ne pas proposer le fichier vide d'une parcelle sans mutation.
+        if (
+          !this.parcellesMutations ||
+          Object.keys(this.parcellesMutations).length === 0
+        ) {
+          return null;
+        }
+        return {
+          url: api + "parcelle=" + location.parcelle,
+          label: "de cette parcelle",
+        };
+      }
+      if (location.level === "section" && location.section) {
+        return {
+          url: api + "section=" + location.section,
+          label: "de cette section",
+        };
+      }
+      if (location.level === "commune" && location.com) {
+        return {
+          url: api + "com=" + location.com,
+          label: "de cette commune",
+        };
+      }
+      if (location.level === "departement" && location.dep) {
+        return {
+          url: api + "dep=" + location.dep,
+          label: "de ce département",
+        };
+      }
+      return null;
     },
     dep: function () {
       return appStore.state.userLocation.dep;
@@ -956,12 +1014,18 @@ export default {
           });
       }
     },
-    exceptNullValue(val){
-      if (val) {
-        return val.toLocaleString()
-      } else {
-        return null
-      }
+    // DVF n'a pas de chiffre pour toute sélection. Sans ces garde-fous,
+    // Math.round(null) vaut 0, un 0 est traité comme absent, et l'interface
+    // affiche littéralement « null€ ».
+    formatCount(value) {
+      return value === null || value === undefined
+        ? "indisponible"
+        : value.toLocaleString();
+    },
+    formatMedian(value) {
+      return value === null || value === undefined
+        ? "indisponible"
+        : Math.round(value).toLocaleString() + "€";
     },
 
     manageClientData(data) {
@@ -985,56 +1049,20 @@ export default {
               return obj.c === this.apiCode;
             });
           }
-          if (levelData) {
-          if (this.activeFilter === "tous") {
-            this.clientData.totalVentes = this.exceptNullValue(levelData["am"])
-            this.clientData.totalAverage = this.exceptNullValue(Math.round(levelData["m_am"])) + "€";
-          } else if (this.activeFilter === "maison") {
-            this.clientData.totalVentes = this.exceptNullValue(levelData["m"]);
-            this.clientData.totalAverage = this.exceptNullValue(Math.round(levelData["m_m"])) + "€";
-          } else if (this.activeFilter === "appartement") {
-            this.clientData.totalVentes = this.exceptNullValue(levelData["a"]);
-            this.clientData.totalAverage = this.exceptNullValue(Math.round(levelData["m_a"])) + "€";
-          } else if (this.activeFilter === "local") {
-            this.clientData.totalVentes = this.exceptNullValue(levelData["l"]);
-            this.clientData.totalAverage = this.exceptNullValue(Math.round(levelData["m_l"])) + "€";
+          // Aucune ligne pour cette sélection : sans ce repli, les chiffres de la
+          // localisation précédente resteraient affichés comme s'ils étaient les siens.
+          if (!levelData) {
+            levelData = {};
           }
-          this.clientData.appVentes =
-            this.exceptNullValue(levelData["a"])
-
-          if (levelData["m_a"] === null) {
-            this.clientData.appPrice = "indisponible";
-          } else {
-            this.clientData.appPrice =
-              this.exceptNullValue(Math.round(
-                levelData["m_a"]
-              )) + "€";
-          }
-
-          this.clientData.houseVentes =
-            this.exceptNullValue(levelData["m"]);
-
-          if (levelData["m_m"] === null) {
-            this.clientData.housePrice = "indisponible";
-          } else {
-            this.clientData.housePrice =
-              this.exceptNullValue(Math.round(
-                levelData["m_m"]
-              )) + "€";
-          }
-
-          this.clientData.localVentes =
-            this.exceptNullValue(levelData["l"]);
-
-          if (levelData["m_l"] === null) {
-            this.clientData.localPrice = "indisponible";
-          } else {
-            this.clientData.localPrice =
-              this.exceptNullValue(Math.round(
-                levelData["m_l"]
-              )) + "€";
-          }
-        }
+          const countKey = COUNT_KEY_PAR_FILTRE[this.activeFilter];
+          this.clientData.totalVentes = this.formatCount(levelData[countKey]);
+          this.clientData.totalAverage = this.formatMedian(levelData["m_" + countKey]);
+          this.clientData.appVentes = this.formatCount(levelData["a"]);
+          this.clientData.appPrice = this.formatMedian(levelData["m_a"]);
+          this.clientData.houseVentes = this.formatCount(levelData["m"]);
+          this.clientData.housePrice = this.formatMedian(levelData["m_m"]);
+          this.clientData.localVentes = this.formatCount(levelData["l"]);
+          this.clientData.localPrice = this.formatMedian(levelData["m_l"]);
         } else {
           this.nodata = true;
         }
@@ -1550,6 +1578,7 @@ export default {
   width: 100%;
   margin-top: 10px;
   margin-bottom: 20px;
+  position: relative;
 }
 
 .location_title {
@@ -1562,6 +1591,19 @@ export default {
   font-weight: 800;
   font-size: 28px;
   color: #161616;
+}
+
+/* Sur la ligne du titre de niveau, à l'opposé de celui-ci : l'action est
+   occasionnelle, elle ne doit pas s'intercaler entre le lieu et ses chiffres.
+   Le DSFR masque le libellé de lui-même sur un bouton à icône seule. */
+.download_link {
+  position: absolute;
+  top: -6px;
+  right: 0;
+  /* `.explore-app .fr-btn` (App.vue) arrondit tous les boutons en pilule, ce qui
+     donne un rond sur une icône seule. Le chrome de la carte est à angles droits,
+     comme le bouton de la barre de recherche qui neutralise déjà cette règle. */
+  border-radius: 0 !important;
 }
 
 .global_numbers_container {

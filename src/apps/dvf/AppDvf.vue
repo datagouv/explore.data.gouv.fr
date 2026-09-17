@@ -1,5 +1,5 @@
 <template>
-  <div class="fr-container--fluid">
+  <div class="fr-container--fluid" :class="isScrollable">
     <header-apps
       :formHref="formHref"
       :appName="appName"
@@ -106,12 +106,6 @@ export default {
     zoomLevel: function () {
       return appStore.state.mapProperties.zoomLevel;
     },
-    lat: function () {
-      return appStore.state.mapProperties.lat;
-    },
-    lng: function () {
-      return appStore.state.mapProperties.lng;
-    },
     centerLat: function () {
       return appStore.state.mapProperties.centerLat;
     },
@@ -155,10 +149,9 @@ export default {
       }
     },
   },
-  mounted() {
-    // let isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || (typeof safari !== 'undefined' && window['safari'].pushNotification));
-    // this.isSafari = isSafari
-
+  // Avant le montage des enfants : sinon la carte se monte systématiquement, même
+  // sur ?onglet=tableau, et sa requête /epci revient sur un composant détruit.
+  created() {
     if (this.$route.query.onglet) {
       if (this.$route.query.onglet != this.activePanel) {
         this.changeActivePanel(this.$route.query.onglet);
@@ -328,18 +321,29 @@ export default {
   right: 20px;
 }
 
+/* Colonne flex plutôt qu'un `top: 156px` codé en dur : celui-ci approximait la
+   hauteur de l'en-tête, qui en fait 140, d'où 16 px d'écart entre les onglets
+   positionnés en absolu (carte, tableau) et ceux rendus dans le flux (FAQ,
+   sources). Il se décalait aussi dès que le titre passait sur deux lignes. */
+.fr-container--fluid {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
 .dvf_content {
-  position: absolute;
-  top: 156px;
-  bottom: 0px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
   width: 100%;
 }
 
 .dvf_app {
-  position: absolute;
+  position: relative;
   width: 100%;
-  top: 40px;
-  bottom: 0;
+  flex: 1;
+  min-height: 0;
 }
 
 .mainView {
@@ -350,19 +354,15 @@ export default {
   bottom: 0;
 }
 
-.dvf_content.scrollable {
-  position: relative;
-  top: 0px;
-  height: 100%;
+/* FAQ et sources sont de longs textes : c'est la page qui défile, pas un
+   panneau interne, donc la hauteur d'écran ne s'impose plus. */
+.fr-container--fluid.scrollable {
+  height: auto;
+  min-height: 100vh;
 }
 
 .dvf_content.scrollable .dvf_app {
-  top: 0;
-}
-
-.dvf_content.scrollable .dvf_app {
-  position: relative;
-  height: 100%;
+  flex: none;
 }
 
 .dvf_content.scrollable .mainView {
@@ -427,10 +427,6 @@ export default {
     display: none;
   }
 
-  .dvf_content {
-    top: 50px;
-  }
-
   .panel_container {
     position: absolute;
     bottom: 0;
@@ -465,9 +461,10 @@ export default {
     color: #3558a2;
   }
 
+  /* La barre d'onglets devient une navigation basse et sort du flux : une marge
+     lui réserve sa hauteur, sinon elle recouvre le bas du contenu. */
   .dvf_app {
-    top: 0px;
-    bottom: 41px;
+    margin-bottom: 41px;
   }
 
 }
