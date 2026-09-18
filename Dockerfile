@@ -1,19 +1,19 @@
 FROM node:22 AS builder
 
-RUN corepack enable && corepack prepare pnpm@latest-11 --activate
+# corepack reads the pinned pnpm version from the packageManager field
+RUN corepack enable
 
 WORKDIR /app
 
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 
-RUN pnpm install
+RUN pnpm install --frozen-lockfile
 
 COPY ./ /app
 
 ENV NODE_OPTIONS=--openssl-legacy-provider
 
-RUN echo "$(date)" && \
-    export $(cat /app/*.env | xargs) && \
+RUN if [ -f /app/.env ]; then export $(grep -v '^#' /app/.env | xargs); fi && \
     pnpm run build
 
 FROM nginx:alpine-slim
