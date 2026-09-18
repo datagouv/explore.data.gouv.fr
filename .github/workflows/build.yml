@@ -39,5 +39,5 @@ jobs:
           context: .
           push: true
           tags: |
-            ${{ vars.CONTAINER_REGISTRY_SERVER }}/${{ vars.CONTAINER_REGISTRY_NAMESPACE }}/${{ env.IMAGE_NAME }}:prod-${{ steps.version.outputs.version }}
-            ${{ vars.CONTAINER_REGISTRY_SERVER }}/${{ vars.CONTAINER_REGISTRY_NAMESPACE }}/${{ env.IMAGE_NAME }}:prod-latest
+            ${{ vars.CONTAINER_REGISTRY_SERVER }}/${{ vars.CONTAINER_REGISTRY_NAMESPACE }}/${{ env.IMAGE_NAME }}:${{ steps.version.outputs.version }}
+            ${{ vars.CONTAINER_REGISTRY_SERVER }}/${{ vars.CONTAINER_REGISTRY_NAMESPACE }}/${{ env.IMAGE_NAME }}:latest
