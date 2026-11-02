@@ -1,6 +1,6 @@
 <template>
   <div class="mainView" id="tableauView">
-    <div v-if="showTable">
+    <div v-if="showTable" class="table_wrapper">
       <div v-if="userLocation" class="ariane_container">
         <div><span>France</span></div>
         <div v-if="userLocation.depName">
@@ -24,7 +24,11 @@
       <p>Pour l'ancienne Alsace-Moselle, les données sont dans le Livre Foncier en raison de l'application du droit local, et ne sont actuellement pas ouvertes.</p>
       </div>
       <div v-if="loading"><img style="margin-left: 20px" src="../../../static/images/loader.gif" width="50" /></div>
-      <Table class="fr-pt-0"></Table>
+      <div v-else-if="rows.length === 0 && !showInfo" class="empty_state">
+        Aucune vente n'est enregistrée pour cette sélection sur les 5 dernières
+        années.
+      </div>
+      <Table v-else class="fr-pt-0"></Table>
     </div>
     <div v-if="deps && showConfigDep" class="select-dep">
         <div >Veuillez sélectionner un département</div>
@@ -74,6 +78,9 @@ export default {
   computed: {
     userLocation: function () {
       return appStore.state.userLocation;
+    },
+    rows: function () {
+      return appStore.state.rows;
     },
   },
   created() {
@@ -142,6 +149,25 @@ export default {
 </script>
 
 <style scoped>
+
+/* Le tableau occupe la hauteur restante et défile tout seul : sans ça c'est la
+   page entière qui défile, et le chargement des pages suivantes ne part jamais. */
+#tableauView {
+  display: flex;
+  flex-direction: column;
+}
+
+.table_wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  flex: 1;
+}
+
+.empty_state {
+  padding: 40px 20px;
+  color: #666666;
+}
 
 .ariane_container {
   width: 100%;

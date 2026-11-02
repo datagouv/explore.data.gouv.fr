@@ -62,6 +62,13 @@
                 {{ commune.nom }} ({{ commune.code }})
               </option>
             </select>
+            <div v-if="chargement === 'communes'" class="loading-message">
+              Chargement des communes…
+            </div>
+            <div v-else-if="erreurChargement === 'communes'" class="parcelle-error">
+              Liste des communes indisponible. Resélectionnez le département pour
+              réessayer.
+            </div>
           </div>
 
           <div v-if="selectedCommune === '75056' || selectedCommune === '69123' || selectedCommune === '13055'" class="select-group">
@@ -82,6 +89,13 @@
                 {{ section.properties.id.replace(section.properties.commune, '') }}{{ section.properties.nom ? ' - ' + section.properties.nom : '' }}
               </option>
             </select>
+            <div v-if="chargement === 'sections'" class="loading-message">
+              Chargement des sections…
+            </div>
+            <div v-else-if="erreurChargement === 'sections'" class="parcelle-error">
+              Liste des sections indisponible. Resélectionnez la commune pour
+              réessayer.
+            </div>
           </div>
           <div v-if="selectedSection" class="select-group">
             <label>Parcelle ({{ parcelles.length }} trouvées)</label>
@@ -91,6 +105,13 @@
                 {{ parcelle.properties.id }}
               </option>
             </select>
+            <div v-if="chargement === 'parcelles'" class="loading-message">
+              Chargement des parcelles…
+            </div>
+            <div v-else-if="erreurChargement === 'parcelles'" class="parcelle-error">
+              Liste des parcelles indisponible. Resélectionnez la section pour
+              réessayer.
+            </div>
           </div>
         </div>
       </div>
@@ -170,6 +191,24 @@
 import appStore from "@/apps/dvf/store";
 import centersDeps from "@/apps/dvf/assets/json/centers_deps.json";
 
+// Emprise [[ouest, sud], [est, nord]] d'une géométrie GeoJSON, quelle que soit sa
+// profondeur d'imbrication (Polygon, MultiPolygon).
+function bornesDepuisGeometrie(geometrie) {
+  let ouest = 180, sud = 90, est = -180, nord = -90;
+  const parcourir = (coordonnees) => {
+    if (typeof coordonnees[0] === "number") {
+      ouest = Math.min(ouest, coordonnees[0]);
+      est = Math.max(est, coordonnees[0]);
+      sud = Math.min(sud, coordonnees[1]);
+      nord = Math.max(nord, coordonnees[1]);
+    } else {
+      coordonnees.forEach(parcourir);
+    }
+  };
+  parcourir(geometrie.coordinates);
+  return [[ouest, sud], [est, nord]];
+}
+
 export default {
   name: "FiltersBox",
   components: {},
@@ -189,6 +228,9 @@ export default {
       parcelles: [],
       departements: centersDeps,
       parcelleInputError: "",
+      // Le sélecteur est séquentiel : une seule liste se charge à la fois.
+      chargement: "",
+      erreurChargement: "",
     };
   },
   computed: {
@@ -239,15 +281,28 @@ export default {
       if (this.selectedDepartement) {
         this.navigateToDepartement(this.selectedDepartement);
         
+        this.chargement = "communes";
+        this.erreurChargement = "";
         try {
-          const response = await fetch(`https://geo.api.gouv.fr/departements/${this.selectedDepartement}/communes`);
-          this.communes = await response.json();
-          
+          // L'API DVF plutôt que geo.api : elle rend la même liste en 0,1 à 0,25 s
+          // là où geo.api met 8 à 10 s au premier appel sur un département, et
+          // l'application l'interroge déjà pour colorer la carte.
+          const response = await fetch(
+            `${process.env.VUE_APP_DVF_API}/departement/${this.selectedDepartement}/communes`
+          );
+          const data = await response.json();
+          this.communes = (data.data || []).map((commune) => ({
+            code: commune.c,
+            nom: commune.n,
+          }));
+
           this.communes.sort((a, b) => {
             return a.nom.localeCompare(b.nom);
           });
         } catch (error) {
-          console.error("Erreur lors du chargement des communes:", error);
+          this.erreurChargement = "communes";
+        } finally {
+          this.chargement = "";
         }
       }
     },
@@ -318,13 +373,7 @@ export default {
             { code: "13216", nom: "Marseille 16e" }
           ];
         } else {
-          try {
-            const response = await fetch(`https://cadastre.data.gouv.fr/bundler/cadastre-etalab/communes/${this.selectedCommune}/geojson/sections`);
-            const data = await response.json();
-            this.sections = data.features || [];
-          } catch (error) {
-            console.error("Erreur lors du chargement des sections:", error);
-          }
+          await this.chargerSections(this.selectedCommune);
         }
       }
     },
@@ -337,14 +386,21 @@ export default {
       
       if (this.selectedArrondissement) {
         this.navigateToCommune(this.selectedArrondissement);
-        
-        try {
-          const response = await fetch(`https://cadastre.data.gouv.fr/bundler/cadastre-etalab/communes/${this.selectedArrondissement}/geojson/sections`);
-          const data = await response.json();
-          this.sections = data.features || [];
-        } catch (error) {
-          console.error("Erreur lors du chargement des sections:", error);
-        }
+        await this.chargerSections(this.selectedArrondissement);
+      }
+    },
+
+    async chargerSections(communeCode) {
+      this.chargement = "sections";
+      this.erreurChargement = "";
+      try {
+        const response = await fetch(`https://cadastre.data.gouv.fr/bundler/cadastre-etalab/communes/${communeCode}/geojson/sections`);
+        const data = await response.json();
+        this.sections = data.features || [];
+      } catch (error) {
+        this.erreurChargement = "sections";
+      } finally {
+        this.chargement = "";
       }
     },
 
@@ -362,6 +418,8 @@ export default {
           communeCodeForApi = this.selectedCommune;
         }
         
+        this.chargement = "parcelles";
+        this.erreurChargement = "";
         try {
           const response = await fetch(`https://cadastre.data.gouv.fr/bundler/cadastre-etalab/communes/${communeCodeForApi}/geojson/parcelles`);
           const data = await response.json();
@@ -381,8 +439,10 @@ export default {
             
           }
         } catch (error) {
-          console.error("Erreur lors du chargement des parcelles:", error);
+          this.erreurChargement = "parcelles";
           this.parcelles = [];
+        } finally {
+          this.chargement = "";
         }
       }
     },
@@ -409,11 +469,13 @@ export default {
           parcelleName: null,
         });
         
+        this.$emit("zoom-to-departement", departementCode);
+
         this.$router.push({
           name: 'immobilier',
           params: { lang: this.$route.params.lang },
-          query: { 
-            ...this.$route.query, 
+          query: {
+            ...this.$route.query,
             level: 'departement',
             code: departementCode
           },
@@ -422,7 +484,12 @@ export default {
     },
 
     navigateToCommune(communeCode) {
-      const commune = this.communes.find(c => c.code === communeCode);
+      // Appelée aussi pour un arrondissement, qui ne figure pas dans la liste des
+      // communes renvoyée par geo.api : sans ce second passage, choisir « Paris 1er »
+      // ne faisait rien du tout.
+      const commune =
+        this.communes.find((c) => c.code === communeCode) ||
+        this.arrondissements.find((a) => a.code === communeCode);
       if (commune) {
         const departementCode = this.getDepartementFromCommune(communeCode);
         const departement = this.departements[departementCode];
@@ -438,11 +505,13 @@ export default {
           parcelleName: null,
         });
         
+        this.$emit("zoom-to-commune", communeCode, commune.nom);
+
         this.$router.push({
           name: 'immobilier',
           params: { lang: this.$route.params.lang },
-          query: { 
-            ...this.$route.query, 
+          query: {
+            ...this.$route.query,
             level: 'commune',
             code: communeCode
           },
@@ -467,12 +536,25 @@ export default {
           parcelleName: null,
         });
       }
-      
+
+      // La géométrie des sections est déjà en mémoire : aucune requête à faire
+      // pour cadrer celle qu'on vient de choisir.
+      const section = this.sections.find(
+        (s) => s.properties.id.replace(s.properties.commune, "") === sectionCode
+      );
+      if (section) {
+        this.$emit(
+          "zoom-to-section",
+          section.properties.id,
+          bornesDepuisGeometrie(section.geometry)
+        );
+      }
+
       this.$router.push({
         name: 'immobilier',
         params: { lang: this.$route.params.lang },
-        query: { 
-          ...this.$route.query, 
+        query: {
+          ...this.$route.query,
           level: 'section',
           code: sectionCode
         },

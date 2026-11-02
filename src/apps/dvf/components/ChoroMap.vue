@@ -1,7 +1,13 @@
 <template>
   <div class="choroMap">
     <search-bar></search-bar>
-    <filters-box @select-parcelle="selectParcelleOnMap" @simulate-parcelle-click="simulateParcelleClick"></filters-box>
+    <filters-box
+      @select-parcelle="selectParcelleOnMap"
+      @simulate-parcelle-click="simulateParcelleClick"
+      @zoom-to-departement="zoomToDepartement"
+      @zoom-to-commune="zoomToCommune"
+      @zoom-to-section="zoomToSection"
+    ></filters-box>
     <div
       ref="mapTooltip"
       class="map_tooltip"
@@ -67,13 +73,33 @@ import appStore from "@/apps/dvf/store";
 import SearchBar from "@/apps/dvf/components/SearchBar";
 import FiltersBox from "@/apps/dvf/components/FiltersBox";
 
-import { Map, GeolocateControl } from "maplibre-gl";
+import { Map, GeolocateControl, NavigationControl } from "maplibre-gl";
 
 import { markRaw } from "vue";
 import styleVector from "@/apps/dvf/assets/json/vector-dvf.json";
 import CenterDeps from "@/apps/dvf/assets/json/centers_deps.json";
 
 import * as d3 from "d3-scale";
+
+// Paris, Lyon et Marseille n'ont aucune donnée DVF sous leur code de commune
+// entière : les mutations sont portées par les arrondissements (75101, 69381…),
+// qui sont des communes à part entière dans les tuiles comme dans l'API.
+const COMMUNES_A_ARRONDISSEMENTS = ["75056", "13055", "69123"];
+
+// Vue au chargement : la France entière.
+const VUE_FRANCE = { center: [2, 46.3], zoom: 4.8 };
+
+// Trop petits pour être lisibles au zoom des autres départements.
+const DEPARTEMENTS_DENSES = ["75", "92", "93", "94"];
+
+// maplibre libelle ses contrôles en anglais par défaut. Comme le reste de
+// l'explorateur, ces libellés sont en français en dur.
+const LIBELLES_MAPLIBRE = {
+  "NavigationControl.ZoomIn": "Zoomer",
+  "NavigationControl.ZoomOut": "Dézoomer",
+  "GeolocateControl.FindMyLocation": "Afficher ma position",
+  "GeolocateControl.LocationNotAvailable": "Position indisponible",
+};
 
 export default {
   name: "ChoroMap",
@@ -86,7 +112,6 @@ export default {
         departement: [],
         commune: [],
       },
-      dataEpci: null,
       legMin: 0,
       legMax: 0,
       legPivot: 0,
@@ -100,9 +125,7 @@ export default {
         date: "",
         place: "NaN",
       },
-      lastCodeHovered: "",
       fetching: false,
-      fetchedCommunes: [],
       mappingPropertiesPrix: {
         tous: "m_am",
         maison: "m_m",
@@ -138,15 +161,11 @@ export default {
       changeCom: false,
       mapStyle: "vector",
       waitZoom: false,
-      isMoving: false,
       pendingParcelleClick: null,
       disableAutoUpdates: false,
     };
   },
   computed: {
-    searchZoomOngoing: function () {
-      return appStore.state.searchZoomOngoing
-    },
     saveApiUrl: function () {
       return appStore.state.saveApiUrl;
     },
@@ -162,20 +181,11 @@ export default {
     mapProperties: function () {
       return appStore.state.mapProperties;
     },
-    lng: function () {
-      return appStore.state.mapProperties.lng;
-    },
-    lat: function () {
-      return appStore.state.mapProperties.lat;
-    },
     centerLng: function () {
       return appStore.state.mapProperties.centerLng;
     },
     centerLat: function () {
       return appStore.state.mapProperties.centerLat;
-    },
-    zoom: function () {
-      return appStore.state.mapProperties.zoom;
     },
     zoomLevel: function () {
       return appStore.state.mapProperties.zoomLevel;
@@ -209,12 +219,13 @@ export default {
     },
     searchBarCityName: function() {
       return appStore.state.searchBarCityName;
+    },
+    searchBarType: function() {
+      return appStore.state.searchBarType;
     }
   },
   mounted() {
-    appStore.commit("changeZoomLevel", 4.8);
-    appStore.commit("changeMapLng", 2);
-    appStore.commit("changeMapLat", 46.3);
+    appStore.commit("changeZoomLevel", VUE_FRANCE.zoom);
     appStore.commit("changeMapInit", true);
     this.changeLocation("changeUserLocation", "fra", null, null);
 
@@ -236,11 +247,17 @@ export default {
         return response.json();
       })
       .then((data) => {
+        // L'utilisateur a pu changer d'onglet pendant la requête : sans ce garde-fou
+        // new Map() reçoit un conteneur détruit et lève une erreur non rattrapée.
+        if (!this.$refs.mapContainer) {
+          return;
+        }
         this.sendApiResultToStore(url, data);
         this.dataChloropleth["fra"] = data["data"];
         this.actualPropertyPrix = this.mappingPropertiesPrix[this.activeFilter];
         this.actualPropertyCount = this.mappingPropertiesPrix[this.activeFilter].substring(2,);
         let matchExpression = this.changeChloroplethColors(
+          "fra",
           "c",
           this.actualPropertyPrix,
           "code"
@@ -250,10 +267,16 @@ export default {
           new Map({
             container: this.$refs.mapContainer,
             style: styleVector,
-            center: [this.lng, this.lat],
-            zoom: this.zoomLevel,
+            center: VUE_FRANCE.center,
+            zoom: VUE_FRANCE.zoom,
+            locale: LIBELLES_MAPLIBRE,
+            // Une choroplèthe se lit au nord : une rotation accidentelle
+            // (clic droit glissé, deux doigts) ne peut que désorienter.
+            dragRotate: false,
+            pitchWithRotate: false,
           })
         );
+        this.map.touchZoomRotate.disableRotation();
 
         // On map load, add its layers
         this.map.on("load", (m) => {
@@ -464,16 +487,7 @@ export default {
               (this.userLocation.level == "departement" &&
                 this.userLocation.dep != this.mouseLocation.dep)
             ) {
-              let depBonus = ["75", "92", "93", "94"];
-              let bonus = 0;
-              if (depBonus.includes(e.features[0].properties.code)) {
-                bonus = 1.8;
-              }
-              this.changeDep = true;
-              this.map.flyTo({
-                center: CenterDeps[e.features[0].properties.code].coordinates,
-                zoom: 9 + bonus,
-              });
+              this.zoomToDepartement(e.features[0].properties.code);
             }
           });
 
@@ -522,12 +536,14 @@ export default {
 
           this.map.on("mousemove", "communes_fill2", (e) => {
             let comId = e.features[0]["properties"]["code"];
-            let comToChange = ["75056", "13055", "69123"];
+            let comToChange = COMMUNES_A_ARRONDISSEMENTS;
             if (comToChange.includes(comId)) {
               comId = e.features[1]["properties"]["code"];
             }
             if (this.userLocation.com != comId) {
-              matchExpression = ["match", ["get", "code"]];
+              // `let` manquant : l'affectation visait le matchExpression du
+              // remplissage EPCI, déclaré dans la portée englobante.
+              let matchExpression = ["match", ["get", "code"]];
               matchExpression.push(comId, 0.4);
               matchExpression.push(0);
               this.map.setPaintProperty(
@@ -545,8 +561,7 @@ export default {
             if (e.features.length > 1) {
               comId2 = e.features[1]["properties"]["code"];
             }
-            let comToChange = ["75056", "13055", "69123"];
-            let zoom = 12;
+            let comToChange = COMMUNES_A_ARRONDISSEMENTS;
             if (comToChange.includes(comId) || (comId2 && comToChange.includes(comId2))) {
               if (comToChange.includes(comId)){
                 featureNb = 1
@@ -554,18 +569,17 @@ export default {
               } else {
                 comId = e.features[featureNb]["properties"]["code"];
               }
-              zoom = 13.5;
             }
-            if (this.userLocation.com != comId) {
-              this.mousePosition.com.code = comId;
-              this.mousePosition.com.nom = e.features[featureNb]["properties"]["nom"];
-              this.changeCom = true;
-              if (this.map.getZoom() <= 14) {
-                this.map.flyTo({
-                  center: [e.lngLat.lng, e.lngLat.lat],
-                  zoom: zoom,
-                });
-              }
+            if (this.userLocation.com != comId && this.map.getZoom() <= 14) {
+              // Même cadrage que la recherche : un zoom fixe dézoomait quand on
+              // venait d'une commune plus resserrée, et centrer sur le point
+              // cliqué plaçait la commune de biais, puisqu'on clique depuis sa
+              // voisine, donc près de la frontière.
+              this.zoomToCommune(
+                comId,
+                e.features[featureNb]["properties"]["nom"],
+                [e.lngLat.lng, e.lngLat.lat]
+              );
             }
           });
 
@@ -573,7 +587,7 @@ export default {
           this.map.on("mousemove", "communes_fill", (e) => {
             let comId = e.features[0]["properties"]["code"];
             let comName = e.features[0]["properties"]["nom"];
-            let comToChange = ["75056", "13055", "69123"];
+            let comToChange = COMMUNES_A_ARRONDISSEMENTS;
             if (comToChange.includes(comId)) {
               comId = e.features[1]["properties"]["code"];
               comName = e.features[1]["properties"]["nom"];
@@ -589,8 +603,10 @@ export default {
               if (this.getCode(comId) == this.userLocation.dep) {
                 if (!this.changeCom) {
                   this.mousePosition.com.code = comId;
-                  this.mousePosition.com.nom =
-                    e.features[0]["properties"]["nom"];
+                  // `comName` et non features[0] : sur Paris, Lyon et Marseille
+                  // c'est la ville entière qui est dessinée au-dessus, et on
+                  // affichait son nom avec le code de l'arrondissement.
+                  this.mousePosition.com.nom = comName;
                   this.displayTooltip(e);
                   this.changeLocation(
                     "changeMouseLocation",
@@ -636,19 +652,8 @@ export default {
           appStore.commit("changeZoomLevel", this.map.getZoom());
         });
 
-        this.map.on("mousemove", (e) => {
-          //this.displayTooltip(e)
-          appStore.commit("changeMapLat", e.lngLat.wrap().lat);
-          appStore.commit("changeMapLng", e.lngLat.wrap().lng);
-        });
-
-        this.map.on("move", (e) => {
-          this.isMoving = true
-        });
-
         this.map.on("moveend", (e) => {
           this.waitZoom = false;
-          this.isMoving = false;
           appStore.commit("changeCenterMapLat", this.map.getCenter().lat);
           appStore.commit("changeCenterMapLng", this.map.getCenter().lng);
 
@@ -709,8 +714,7 @@ export default {
               this.$route.query.level === "departement"
             ) {
               this.mousePosition.dep.code = this.$route.query.code;
-              this.mousePosition.dep.nom =
-                CenterDeps[this.$route.query.code]["nom"];
+              this.mousePosition.dep.nom = this.depName(this.$route.query.code);
               this.changeDep = true;
             }
             if (
@@ -718,16 +722,20 @@ export default {
               this.$route.query.level === "commune"
             ) {
               this.mousePosition.com.code = this.$route.query.code;
+              // Forme directe plutôt que `?code=` : le filtre par code ignore les
+              // arrondissements municipaux et renvoie [] pour 69386 ou 75112.
               fetch(
-                "https://geo.api.gouv.fr/communes?code=" +
-                  this.$route.query.code
+                "https://geo.api.gouv.fr/communes/" + this.$route.query.code
               )
                 .then((response) => {
                   return response.json();
                 })
-                .then((data) => {
-                  this.mousePosition.com.nom = data[0].nom;
-                });
+                .then((commune) => {
+                  if (commune && commune.nom) {
+                    this.mousePosition.com.nom = commune.nom;
+                  }
+                })
+                .catch(() => {});
               this.changeCom = true;
             }
             if (
@@ -781,6 +789,11 @@ export default {
             }
           }, 500);
         });
+
+        this.map.addControl(
+          new NavigationControl({ showCompass: false }),
+          "top-left"
+        );
 
         this.map.addControl(
           new GeolocateControl({
@@ -874,6 +887,11 @@ export default {
         this.map.setLayoutProperty("boundary-water", "visibility", "visible");
       }
     },
+    // Le code vient parfois de l'URL : il peut désigner une commune fusionnée ou
+    // ne rien désigner du tout, et CenterDeps n'a alors pas d'entrée.
+    depName(code) {
+      return CenterDeps[code] ? CenterDeps[code]["nom"] : null;
+    },
     getCode(code) {
       if(!code) { return }
       if (parseInt(code.substring(0, 2)) >= 97) {
@@ -883,7 +901,6 @@ export default {
       }
     },
     changeLocation(commitFunction, level, code, name) {
-      this.fetching = false;
       let obj = {};
       if (level == "fra") {
         obj.level = "fra";
@@ -911,7 +928,7 @@ export default {
         let parse_code = this.getCode(code);
         obj.level = "commune";
         obj.dep = parse_code;
-        obj.depName = CenterDeps[parse_code]["nom"];
+        obj.depName = this.depName(parse_code);
         obj.com = code;
         obj.comName = name;
         obj.section = null;
@@ -923,7 +940,7 @@ export default {
         let parse_code = this.getCode(code);
         obj.level = "section";
         obj.dep = parse_code;
-        obj.depName = CenterDeps[parse_code]["nom"];
+        obj.depName = this.depName(parse_code);
         obj.com = code.substring(0, 5);
         obj.comName = this.userLocation.comName;
         obj.section = code;
@@ -938,7 +955,7 @@ export default {
         let parse_code = this.getCode(code);
         obj.level = "parcelle";
         obj.dep = parse_code;
-        obj.depName = CenterDeps[parse_code]["nom"];
+        obj.depName = this.depName(parse_code);
         obj.com = code.substring(0, 5);
         obj.comName = this.userLocation.comName;
         obj.section = code.substring(0, 10);
@@ -952,7 +969,7 @@ export default {
           obj.parcelleName = obj.parcelleName.substring(1);
         }
         this.mousePosition.dep.code = parse_code
-        this.mousePosition.dep.nom = CenterDeps[parse_code]["nom"];
+        this.mousePosition.dep.nom = this.depName(parse_code);
         this.mousePosition.com.code = code.substring(0, 5);
         this.mousePosition.com.nom = this.userLocation.comName;
       }
@@ -960,12 +977,20 @@ export default {
         appStore.commit(commitFunction, obj);
       }
 
-      // case when searching address
-      if (level == "section" && this.searchBarCityCode && this.searchBarCityName) {
+      // Après une recherche, la section survolée ne porte pas le nom de sa commune :
+      // on le reprend du résultat de recherche. Réservé à la position de
+      // l'utilisateur : appliqué aussi au survol, le moindre mouvement de souris
+      // écraserait le niveau affiché par une section sans code.
+      if (
+        commitFunction == "changeUserLocation" &&
+        level == "section" &&
+        this.searchBarCityCode &&
+        this.searchBarCityName
+      ) {
         let parse_code = this.getCode(this.searchBarCityCode);
         obj.level = "section";
         obj.dep = parse_code;
-        obj.depName = CenterDeps[parse_code]["nom"];
+        obj.depName = this.depName(parse_code);
         obj.com = this.searchBarCityCode;
         obj.comName = this.searchBarCityName;
         obj.section = null;
@@ -974,7 +999,7 @@ export default {
         obj.parcelleName = null;
         appStore.commit("changeUserLocation", obj);
         this.mousePosition.dep.code = parse_code
-        this.mousePosition.dep.nom = CenterDeps[parse_code]["nom"];
+        this.mousePosition.dep.nom = this.depName(parse_code);
         this.mousePosition.com.code = this.searchBarCityCode
         this.mousePosition.com.nom = this.searchBarCityName
       }
@@ -986,14 +1011,19 @@ export default {
       obj.data = data;
       appStore.commit("addApiResult", obj);
     },
+    // Le niveau est un paramètre et non `userLocation.level` : l'appelant sait
+    // quel calque il colore, alors que le niveau affiché est un état partagé qui
+    // peut déjà avoir changé, et qui vaut parfois `section` ou `parcelle`, pour
+    // lesquels `dataChloropleth` n'a pas d'entrée.
     changeChloroplethColors(
+      level,
       property_code_geo,
       property_value,
       property_tile_code_geo
     ) {
       let list_obj = [];
       let dataObj = [];
-      this.dataChloropleth[this.userLocation.level].forEach((d) => {
+      (this.dataChloropleth[level] || []).forEach((d) => {
         if (!list_obj.includes(d[property_code_geo])) {
           list_obj.push(d[property_code_geo]);
           dataObj.push(d);
@@ -1098,13 +1128,20 @@ export default {
           return response.json();
         })
         .then((data) => {
-          this.dataChloropleth["departement"] = data["data"];
+          // Les tuiles superposent la commune entière et ses arrondissements sur
+          // le même calque, la commune au-dessus. La colorier recouvrirait ses
+          // arrondissements, alors que c'est justement à cette échelle qu'on les
+          // compare — et le département 75 n'est fait que de ceux de Paris.
+          const communes = data["data"].filter(
+            (commune) => !COMMUNES_A_ARRONDISSEMENTS.includes(commune.c)
+          );
+          this.dataChloropleth["departement"] = communes;
           let { x, scaleMin, scaleMax } = this.calculateColor(
-            data["data"],
+            communes,
             this.actualPropertyPrix
           );
           let matchExpression = this.getMatchExpressionStart(
-            data["data"],
+            communes,
             x,
             this.actualPropertyPrix,
             "c",
@@ -1122,7 +1159,7 @@ export default {
             matchExpressionOpacity,
             matchExpressionColor,
             matchExpressionLineWidth,
-          } = this.getMatchExpressionLine(data["data"], "c", "code");
+          } = this.getMatchExpressionLine(communes, "c", "code");
           if (matchExpressionOpacity.length > 3) {
             this.map.setPaintProperty(
               "communes_line",
@@ -1250,6 +1287,11 @@ export default {
               data = res;
               this.sendApiResultToStore(url, data);
               this.manageTooltipData(level, code, data);
+            })
+            // Sans ce rattrapage, une requête en échec laisserait `fetching` à
+            // true et les infobulles ne se rempliraient plus jamais.
+            .catch(() => {})
+            .then(() => {
               this.fetching = false;
             });
         }
@@ -1294,6 +1336,7 @@ export default {
         this.actualPropertyPrix = this.mappingPropertiesPrix[this.activeFilter];
         this.actualPropertyCount = this.mappingPropertiesPrix[this.activeFilter].substring(2,);
         let matchExpression = this.changeChloroplethColors(
+          this.userLocation.level,
           "c",
           this.actualPropertyPrix,
           property_tile_code_geo
@@ -1310,6 +1353,90 @@ export default {
           exp
         );
       }
+    },
+    // L'API ne publie pas d'emprise pour les départements : on garde le centre de
+    // CenterDeps, à la différence des communes qui sont cadrées sur leur bbox.
+    zoomToDepartement(code) {
+      const departement = CenterDeps[code];
+      if (!departement) {
+        return;
+      }
+      this.mousePosition.dep.code = code;
+      this.mousePosition.dep.nom = this.depName(code);
+      this.changeDep = true;
+      this.map.flyTo({
+        center: departement.coordinates,
+        zoom: DEPARTEMENTS_DENSES.includes(code) ? 10.8 : 9,
+      });
+    },
+    // Cadre l'emprise réelle de la commune plutôt qu'un zoom fixe : un village se
+    // voit en entier, une grande ville ne déborde pas, et il n'y a plus de cas
+    // particulier à maintenir pour Paris, Lyon et Marseille.
+    zoomToCommune(code, nom, centre) {
+      // Le watcher de zoom reconstruit le niveau affiché à partir de mousePosition :
+      // sans ça il appellerait displaySections(null) à l'arrivée.
+      const dep = this.getCode(code);
+      this.mousePosition.dep.code = dep;
+      this.mousePosition.dep.nom = this.depName(dep);
+
+      // Sur Paris, Lyon et Marseille, s'arrêter au niveau département : la
+      // choroplèthe y colore les arrondissements, seuls porteurs des données.
+      const parArrondissements = COMMUNES_A_ARRONDISSEMENTS.includes(code);
+      if (parArrondissements) {
+        this.changeDep = true;
+      } else {
+        this.mousePosition.com.code = code;
+        this.mousePosition.com.nom = nom;
+        this.changeCom = true;
+      }
+
+      // Les niveaux de la carte sont bornés par le zoom : 8-11 pour les communes
+      // d'un département, 11-14 pour les sections d'une commune.
+      const bornes = parArrondissements ? [8.1, 10.9] : [11.1, 13.9];
+
+      // On part vers le point connu quand on en a un, sans attendre l'emprise :
+      // geo.api met plusieurs secondes au premier appel sur un département.
+      if (centre) {
+        this.map.flyTo({
+          center: centre,
+          zoom: parArrondissements ? 10.5 : 12,
+        });
+      }
+
+      fetch("https://geo.api.gouv.fr/communes/" + code + "?fields=bbox")
+        .then((response) => response.json())
+        .then((data) => {
+          const anneau = data.bbox && data.bbox.coordinates[0];
+          if (anneau) {
+            this.cadrerSur(this.bornesDepuisAnneau(anneau), bornes);
+          }
+        })
+        .catch(() => {});
+    },
+    zoomToSection(code, bbox) {
+      this.mousePosition.section.code = code;
+      this.mousePosition.section.nom = code;
+      // Au-delà de 14 la carte passe au niveau section puis parcelle.
+      this.cadrerSur(bbox, [14.1, 17]);
+    },
+    // bbox au format [[ouest, sud], [est, nord]]
+    cadrerSur(bbox, [zoomMin, zoomMax]) {
+      const camera = this.map.cameraForBounds(bbox, { padding: 40 });
+      if (!camera) {
+        return;
+      }
+      this.map.flyTo({
+        center: camera.center,
+        zoom: Math.min(Math.max(camera.zoom, zoomMin), zoomMax),
+      });
+    },
+    bornesDepuisAnneau(anneau) {
+      const lngs = anneau.map((point) => point[0]);
+      const lats = anneau.map((point) => point[1]);
+      return [
+        [Math.min(...lngs), Math.min(...lats)],
+        [Math.max(...lngs), Math.max(...lats)],
+      ];
     },
     selectParcelleOnMap(parcelleId) {
       let matchExpression = ["match", ["get", "id"]];
@@ -1352,11 +1479,19 @@ export default {
       this.manageChloroplethColors();
     },
     searchBarCoordinates() {
-      appStore.commit("changeZoomLevel", 16);
-      this.map.flyTo({
-        center: this.searchBarCoordinates,
-        zoom: 16,
-      });
+      if (this.searchBarType === "municipality" && this.searchBarCityCode) {
+        this.zoomToCommune(
+          this.searchBarCityCode,
+          this.searchBarCityName,
+          this.searchBarCoordinates
+        );
+      } else {
+        appStore.commit("changeZoomLevel", 16);
+        this.map.flyTo({
+          center: this.searchBarCoordinates,
+          zoom: 16,
+        });
+      }
     },
     zoomLevel() {
       if (this.waitZoom === false && !this.disableAutoUpdates) {

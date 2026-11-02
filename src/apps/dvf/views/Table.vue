@@ -1,81 +1,71 @@
 <template>
   <div class="fr-table">
-    <table ref="table" @scroll="handleScroll($event)">
-      <thead id="tabhead">
-        <tr>
-          <th 
-            scope="col"
-            class="header sticky-bar"
-            v-for="field in fields" 
-            :key="'header-'+field.key"
-          >
-            <div 
-              class="" 
+    <div class="table_scroll" @scroll="handleScroll($event)">
+      <table>
+        <thead id="tabhead">
+          <tr>
+            <th
+              scope="col"
+              class="header sticky-bar"
+              v-for="field in fields"
+              :key="'header-' + field.key"
             >
               <div class="fr-col style-header-col">
                 {{ field.label }}
               </div>
-            </div>
-            <FieldModal :id="'fr-modal-' + field.key" :field="field" />
-          </th>
-        </tr>
-      </thead>
-      <tbody id="body">
-        <tr
-          v-for="(row, index) in rows" 
-          :key="row[0]"
-        >
-          <td 
-            v-for="field in fields"
-            :key="'row-' + index + '-' + field.key"
-          >
-            <div class="cell">
-              <span 
-              >
-                {{ row[field.key] }}
-              </span>
-            </div>
-          </td>
-        </tr> 
-      </tbody>
-      <button v-if="rows.length >= 10" class="fr-tag fr-tag--sm" @click="forceUserChangePage()">Charger plus de données</button>
-      <div v-if="rows.length < 10" class="messageNoResults"></div>
-      <tfoot class="fr-p-2w">
-        <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle">
-          <div class="fr-col-auto">
-          </div>
-          <div class="fr-col-auto">
-            <a
-              download 
-              :href="exportData()"
-              class="fr-btn fr-btn--sm fr-btn--secondary fr-btn--icon-left fr-icon-download-line"
+            </th>
+          </tr>
+        </thead>
+        <tbody id="body">
+          <tr v-for="(row, index) in rows" :key="index">
+            <td
+              v-for="field in fields"
+              :key="'row-' + index + '-' + field.key"
             >
-              Télécharger les données filtrées
-            </a>
-          </div>
-        </div>
-      </tfoot>
-    </table>
+              <div class="cell">
+                <span>{{ row[field.key] }}</span>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="table_more" v-if="rows.length">
+        <button
+          v-if="hasMore"
+          class="fr-tag fr-tag--sm"
+          :disabled="loadingPage"
+          @click="loadNextPage()"
+        >
+          {{ loadingPage ? "Chargement…" : "Charger plus de données" }}
+        </button>
+        <span v-else class="table_end">
+          {{ rows.length.toLocaleString() }} ventes affichées, c'est tout ce que
+          DVF contient pour cette sélection.
+        </span>
+      </div>
+    </div>
+
+    <div class="table_footer">
+      <a
+        download
+        :href="exportUrl"
+        class="fr-btn fr-btn--sm fr-btn--secondary fr-btn--icon-left fr-icon-download-line"
+      >
+        Télécharger les données filtrées
+      </a>
+    </div>
   </div>
 </template>
 
 <script>
-import Filters from '../../../components/Filters.vue'
-import Histogram from '../../../components/Histogram.vue'
-import Tooltip from '../../../components/Tooltip.vue'
-import Input from '../../../components/Input.vue'
-import FieldModal from '../../../components/FieldModal.vue'
 import appStore from "@/apps/dvf/store";
-import {filtersEnabled} from '@/config'
-
 
 export default {
   name: 'Table',
-  components: { Filters, Histogram, Tooltip, Input, FieldModal },
   data () {
     return {
-      filtersEnabled,
-      lastBiggerScroll:0
+      loadingPage: false
     }
   },
   computed: {
@@ -85,76 +75,69 @@ export default {
     fields () {
       return appStore.state.fields
     },
-    
     page () {
       return appStore.state.page;
     },
+    hasMore () {
+      return appStore.state.hasMore;
+    },
     tableLevel () {
-        return appStore.state.tableLevel;
+      return appStore.state.tableLevel;
     },
     tableCode () {
-        return appStore.state.tableCode;
+      return appStore.state.tableCode;
+    },
+    exportUrl () {
+      return process.env.VUE_APP_DVF_API + "/dvf/csv/?" + this.tableLevel + "=" + this.tableCode
     }
   },
   methods: {
-    exportData() {
-      return process.env.VUE_APP_DVF_API + "/dvf/csv/?" + this.tableLevel + "=" + this.tableCode
-
-    },
-    changePage () {
-      fetch(process.env.VUE_APP_DVF_API + "/dvf?" + this.tableLevel + "=" + this.tableCode + "&page=" + (this.page + 1).toString())
-        .then((response) => {
-            return response.json();
-        })
-        .then((data) => {
-            appStore.commit('updatePage', this.page + 1)
-            appStore.commit('updateRows', data["data"])
-        });
-    },
     handleScroll (event) {
-    if(event.target.scrollTop>this.lastBiggerScroll){
-        this.lastBiggerScroll = event.target.scrollTop+(event.target.offsetHeight/2)
-        this.userChangePage()
+      const el = event.target
+      // On charge la suite quand il reste moins d'un écran à faire défiler,
+      // pour que les lignes arrivent avant que l'utilisateur touche le fond.
+      if (el.scrollHeight - el.scrollTop - el.clientHeight < el.clientHeight) {
+        this.loadNextPage()
       }
     },
-    forceUserChangePage(){
-      this.lastBiggerScroll = 0
-      this.userChangePage()
-    },
-    userChangePage(){
-      this.changePage()
-    },
-  },
-  created () {
-  },
-  destroyed () {
-    
-  },
-  watch: {
+    loadNextPage () {
+      if (this.loadingPage || !this.hasMore || !this.tableCode) {
+        return
+      }
+      this.loadingPage = true
+      const nextPage = this.page + 1
+      fetch(process.env.VUE_APP_DVF_API + "/dvf?" + this.tableLevel + "=" + this.tableCode + "&page=" + nextPage)
+        .then((response) => response.json())
+        .then((data) => {
+          appStore.commit('updatePage', nextPage)
+          appStore.commit('updateRows', data["data"])
+        })
+        .catch(() => {})
+        .then(() => {
+          this.loadingPage = false
+        })
+    }
   }
-
 }
 </script>
 
 <style scoped>
-html {
-    height: 100%;
-    overflow: hidden;
-}
-
 .fr-table {
-  overflow: auto;
-  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  /* `height: 100%` vaudrait la hauteur du parent sans retrancher le fil d'Ariane
+     qui le précède : le bas du tableau passerait sous le pied de page. */
+  flex: 1;
+  min-height: 0;
   margin-bottom: 0;
-  display: inline-block;
 }
 
-.fr-table.padding{
-  padding-bottom: 285px;
-}
-
-.fr-table table {
-  height: 100%;
+/* C'est ce conteneur qui défile, et lui seul : une hauteur imposée à la table
+   l'empêcherait de dépasser, donc de produire une barre de défilement. */
+.table_scroll {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
 }
 
 .fr-table thead {
@@ -169,33 +152,29 @@ html {
   height: auto;
 }
 
-tfoot {
-  position: fixed;
-  bottom: 0;
+.table_more {
+  padding: 1rem;
+  text-align: center;
+}
+
+.table_end {
+  font-size: 0.875rem;
+  color: var(--text-mention-grey);
+}
+
+.table_footer {
   background-color: var(--background-flat-grey);
   color: var(--text-inverted-grey);
   width: 100%;
-  z-index: 6;
-  overflow: hidden;
-  padding: 0.5rem!important;
+  padding: 0.5rem;
+  text-align: right;
 }
 
-tfoot .fr-btn--secondary {
+.table_footer .fr-btn--secondary {
   --border-action-high-blue-france: var(--text-inverted-grey);
   --border-active-blue-france: var(--text-inverted-grey);
   --text-action-high-blue-france: var(--text-inverted-grey);
   --hover-tint: var(--grey-425-625);
-}
-
-tfoot .fr-grid-row {
-  justify-content: space-between;
-}
-
-tfoot .fr-col-auto{
-  font-size: 0.850rem;
-}
-
-tfoot .fr-col-auto a{
   font-size: 0.850rem;
 }
 
@@ -207,10 +186,6 @@ th, td {
   position: relative;
 }
 
-.titleColumn:hover {
-  cursor: pointer;
-}
-
 .fr-table tbody tr:hover {
   background-color: var(--background-alt-blue-cumulus-hover);
 }
@@ -219,15 +194,8 @@ th, td {
   background-color: var(--background-contrast-blue-cumulus-hover);
 }
 
-.header, .filter {
-  border-bottom: 2px solid var(--border-plain-grey);
-}
-
-.header--sorted, .filter--filled  {
-  border-color: var(--border-plain-blue-cumulus);
-}
-
 .header {
+  border-bottom: 2px solid var(--border-plain-grey);
   min-width: 150px;
 }
 
@@ -242,23 +210,14 @@ th, td {
   line-height: 16px;
 }
 
-.filter {
-  border-width: 1px;
-}
-
 .cell {
   max-height: 7.5rem;
   overflow: auto;
   overflow-x: hidden;
-} 
-
-.style-header-col {
-  cursor: pointer;
-  white-space: nowrap;
 }
 
-.messageNoResults{
-  min-height: 400px;
+.style-header-col {
+  white-space: nowrap;
 }
 
 @media (min-width: 48em){
@@ -267,23 +226,15 @@ th, td {
     padding:0.75rem;
   }
 
-  .fr-table.padding{
-    padding-bottom: 169px;
-  }
-
   .style-header-col {
     white-space: normal;
   }
 
-  tfoot{
-    padding: 1rem!important;
+  .table_footer{
+    padding: 1rem;
   }
 
-  tfoot .fr-col-auto{
-    font-size: 1rem;
-  }
-
-  tfoot .fr-col-auto a{
+  .table_footer .fr-btn--secondary{
     font-size: 1rem;
   }
 
