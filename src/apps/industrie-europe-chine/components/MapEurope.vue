@@ -193,23 +193,6 @@ export default {
           }
         });
 
-        this.map.addLayer({
-          id: 'country-labels',
-          type: 'symbol',
-          source: 'europe-countries',
-          layout: {
-            'text-field': ['get', 'NAME_FR'],
-            'text-font': ['Open Sans Regular'],
-            'text-size': 12,
-            'text-anchor': 'center'
-          },
-          paint: {
-            'text-color': '#161616',
-            'text-halo-color': '#ffffff',
-            'text-halo-width': 1
-          }
-        });
-
 
         this.map.on('mouseenter', 'europe-fill', () => {
           this.map.getCanvas().style.cursor = 'pointer';
