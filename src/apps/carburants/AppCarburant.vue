@@ -387,7 +387,11 @@ export default {
     }));
     this.map.dragRotate.disable();
     this.map.touchZoomRotate.disableRotation();
-    
+    this.map.keyboard.disableRotation();
+    // 'load' fires only once and map.loaded() is false while tiles stream in,
+    // so subscribe now rather than when the geojson arrives
+    const mapLoaded = new Promise(resolve => this.map.once('load', resolve));
+
     fetch(carburantsDataUrl + '/latest_france.geojson', {
         compress: false,
         headers: { "accept-encoding": "gzip" },
@@ -406,11 +410,7 @@ export default {
       this.legend.medianPrix = parseFloat(data.properties[this.currentFuel + "_median"]).toFixed(2)
 
       this.dateMaj = new Date(data.properties.maj);
-      if (this.map.loaded()) {
-        this.setupStationLayer();
-      } else {
-        this.map.once('load', () => this.setupStationLayer());
-      }
+      mapLoaded.then(() => this.setupStationLayer());
     })
 
 
