@@ -13,7 +13,8 @@ module.exports = {
       config.plugin('copy').tap(args => {
         args[0].patterns.push(
           ...['maplibre-gl-worker.mjs', 'maplibre-gl-shared.mjs'].flatMap(f => [
-            { from: `node_modules/maplibre-gl/dist/${f}`, to: f },
+            // already minified: keep Terser off them so the copied source maps still match
+            { from: `node_modules/maplibre-gl/dist/${f}`, to: f, info: { minimized: true } },
             { from: `node_modules/maplibre-gl/dist/${f}.map`, to: `${f}.map` },
           ])
         )
