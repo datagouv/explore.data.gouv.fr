@@ -290,7 +290,6 @@ import HeaderApps from '@/views/HeaderApps'
 
 import { Map, GeolocateControl } from 'maplibre-gl';
 import BarOrGraph from '@/components/BarOrGraph.vue'
-import { ungzip } from 'pako';
 
 import { markRaw } from 'vue';
 import styleVector from './assets/json/vector.json'

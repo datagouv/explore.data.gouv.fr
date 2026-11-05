@@ -25,7 +25,6 @@
 		"@vue/cli-plugin-babel": "^5.0.9",
 		"@vue/cli-service": "^5.0.9",
 		"autoprefixer": "^10.6.0",
-		"bootstrap-vue": "^2.23.1",
 		"cache-loader": "^4.1.0",
 		"chart.js": "^3.9.1",
 		"d3-scale": "^4.0.2",
@@ -52,23 +51,9 @@
 	],
 	"dependencies": {
 		"chartjs-chart-treemap": "^3.1.0",
-		"crypto-js": "^4.2.0",
-		"js-yaml": "^4.3.2",
-		"json-loader": "^0.5.7",
 		"openapi-explorer": "^2.4.820",
-		"pako": "^2.2.0",
-		"toposort": "^2.0.2",
 		"vue-i18n": "^8.28.2",
-		"vue-material": "1.0.0-beta-16",
 		"vue-meta": "^2.4.0",
 		"yaml-loader": "^0.8.1"
-	},
-	"pnpm": {
-		"overrides": {
-			"webpack": "5.104.1",
-			"serialize-javascript": "^7.0.5",
-			"qs": "^6.16.0",
-			"uuid": "^11.1.1"
-		}
 	}
 }
