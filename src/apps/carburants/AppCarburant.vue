@@ -380,6 +380,7 @@ export default {
     const initialState = { lng: this.lng, lat: this.lat, zoom: this.zoomLevel };
     this.map = markRaw(new Map({
       container: this.$refs.mapContainer,
+      attributionControl: { compact: this.$refs.mapContainer.offsetWidth <= 640 },
       style: styleVector,
       center: [initialState.lng, initialState.lat],
       zoom: initialState.zoom,
@@ -958,7 +959,7 @@ html{
   font-size: 11px;
 }
 
-.mapboxgl-map::v-deep .maplibregl-ctrl-attrib a::after {
+.maplibregl-map::v-deep .maplibregl-ctrl-attrib a::after {
   content: none;
 }
 

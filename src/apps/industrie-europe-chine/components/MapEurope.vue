@@ -136,6 +136,7 @@ export default {
 
       this.map = new maplibregl.Map({
         container: this.$refs.mapContainer,
+        attributionControl: { compact: this.$refs.mapContainer.offsetWidth <= 640 },
         style: {
           version: 8,
           sources: {
@@ -208,6 +209,7 @@ export default {
             'text-halo-width': 1
           }
         });
+
 
         this.map.on('mouseenter', 'europe-fill', () => {
           this.map.getCanvas().style.cursor = 'pointer';
