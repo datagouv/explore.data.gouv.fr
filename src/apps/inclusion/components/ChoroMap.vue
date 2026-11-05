@@ -294,7 +294,7 @@ export default {
 
           this.map.addSource("inclusion_datapoints", {
             type: "geojson",
-            data: null,
+            data: { type: "FeatureCollection", features: [] },
           });
           const inclusionPoints = {
             id: "inclusion_points",
