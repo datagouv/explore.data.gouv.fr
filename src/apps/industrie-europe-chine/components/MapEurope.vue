@@ -164,6 +164,7 @@ export default {
       });
       this.map.dragRotate.disable();
       this.map.touchZoomRotate.disableRotation();
+      this.map.keyboard.disableRotation();
 
       this.map.on('load', () => {
         this.map.addSource('europe-countries', {
@@ -230,7 +231,7 @@ export default {
         });
       });
 
-      this.map.addControl(new maplibregl.NavigationControl(), 'top-right');
+      this.map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-right');
       this.map.addControl(new maplibregl.FullscreenControl(), 'top-right');
     },
     buildColorExpression() {

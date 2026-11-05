@@ -249,6 +249,7 @@ export default {
         );
         this.map.dragRotate.disable();
         this.map.touchZoomRotate.disableRotation();
+        this.map.keyboard.disableRotation();
 
         // On map load, add its layers
         this.map.on("load", (m) => {
