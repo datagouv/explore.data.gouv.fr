@@ -28,16 +28,27 @@ jobs:
           username: ${{ secrets.CONTAINER_REGISTRY_USERNAME }}
           password: ${{ secrets.CONTAINER_REGISTRY_PASSWORD }}
 
-      - name: Set up environment file
+      - name: Check build configuration
+        env:
+          VUE_APP_MATOMO_SITE_ID: ${{ vars.VUE_APP_MATOMO_SITE_ID }}
+          VUE_APP_INCLUSION_TOKEN: ${{ secrets.VUE_APP_INCLUSION_TOKEN }}
         run: |
-          cp .env.sample .env
-          echo "VUE_APP_MATOMO_SITE_ID=${{ vars.VUE_APP_MATOMO_SITE_ID }}" >> .env
+          if [ -z "$VUE_APP_MATOMO_SITE_ID" ]; then
+            echo "::error::repository variable VUE_APP_MATOMO_SITE_ID is not set, the image would ship without analytics"
+            exit 1
+          fi
+          if [ -z "$VUE_APP_INCLUSION_TOKEN" ]; then
+            echo "::warning::secret VUE_APP_INCLUSION_TOKEN is not set, the inclusion detail panel will not authenticate"
+          fi
 
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
           context: .
           push: true
+          build-args: |
+            VUE_APP_MATOMO_SITE_ID=${{ vars.VUE_APP_MATOMO_SITE_ID }}
+            VUE_APP_INCLUSION_TOKEN=${{ secrets.VUE_APP_INCLUSION_TOKEN }}
           tags: |
             ${{ vars.CONTAINER_REGISTRY_SERVER }}/${{ vars.CONTAINER_REGISTRY_NAMESPACE }}/${{ env.IMAGE_NAME }}:${{ steps.version.outputs.version }}
             ${{ vars.CONTAINER_REGISTRY_SERVER }}/${{ vars.CONTAINER_REGISTRY_NAMESPACE }}/${{ env.IMAGE_NAME }}:latest

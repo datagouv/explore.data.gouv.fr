@@ -13,8 +13,12 @@ COPY ./ /app
 
 ENV NODE_OPTIONS=--openssl-legacy-provider
 
-RUN if [ -f /app/.env ]; then export $(grep -v '^#' /app/.env | xargs); fi && \
-    pnpm run build
+# vue-cli-service build loads .env.production by itself; values that are not
+# committed come in as build args, and process env vars take precedence over it
+ARG VUE_APP_MATOMO_SITE_ID
+ARG VUE_APP_INCLUSION_TOKEN
+
+RUN pnpm run build
 
 FROM nginx:alpine-slim
 
