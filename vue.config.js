@@ -35,11 +35,6 @@ module.exports = {
           sassOptions: {
             silenceDeprecations: ['legacy-js-api']
           }
-        },
-        scss: {
-          sassOptions: {
-            silenceDeprecations: ['legacy-js-api']
-          }
         }
       }
     },
