@@ -13,6 +13,10 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
+    # serialise builds so an older run can never push latest after a newer one
+    concurrency:
+      group: ${{ github.workflow }}
+      queue: max
     steps:
       - name: Checkout
         uses: actions/checkout@v4
