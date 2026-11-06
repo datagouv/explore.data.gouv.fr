@@ -36,6 +36,12 @@ importers:
       '@babel/plugin-proposal-optional-chaining':
         specifier: ^7.21.0
         version: 7.21.0(@babel/core@7.29.7(supports-color@8.1.1))(supports-color@8.1.1)
+      '@babel/plugin-transform-class-static-block':
+        specifier: ^7.29.7
+        version: 7.29.7(@babel/core@7.29.7(supports-color@8.1.1))(supports-color@8.1.1)
+      '@babel/plugin-transform-logical-assignment-operators':
+        specifier: ^7.29.7
+        version: 7.29.7(@babel/core@7.29.7(supports-color@8.1.1))
       '@fullhuman/postcss-purgecss':
         specifier: ^4.1.3
         version: 4.1.3(postcss@8.5.32)

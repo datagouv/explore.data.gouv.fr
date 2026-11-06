@@ -27,7 +27,8 @@ module.exports = {
         .loader('yaml-loader')
     },
     transpileDependencies: [
-      'chartjs-chart-treemap'
+      'chartjs-chart-treemap',
+      'maplibre-gl'
     ],
     css: {
       loaderOptions: {
