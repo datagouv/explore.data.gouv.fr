@@ -249,7 +249,7 @@ export default {
         this.map = markRaw(
           new Map({
             container: this.$refs.mapContainer,
-            attributionControl: { compact: this.$refs.mapContainer.offsetWidth <= 640 },
+            attributionControl: {},
             style: styleVector,
             center: [this.lng, this.lat],
             zoom: this.zoomLevel,

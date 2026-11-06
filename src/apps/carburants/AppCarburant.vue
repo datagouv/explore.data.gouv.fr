@@ -380,7 +380,7 @@ export default {
     const initialState = { lng: this.lng, lat: this.lat, zoom: this.zoomLevel };
     this.map = markRaw(new Map({
       container: this.$refs.mapContainer,
-      attributionControl: { compact: this.$refs.mapContainer.offsetWidth <= 640 },
+      attributionControl: {},
       style: styleVector,
       center: [initialState.lng, initialState.lat],
       zoom: initialState.zoom,

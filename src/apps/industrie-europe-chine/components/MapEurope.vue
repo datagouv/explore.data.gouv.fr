@@ -121,8 +121,6 @@ export default {
           if (!feature.properties.country_name) {
             feature.properties.country_name = data.HOME || data.Importateur || feature.properties.NAME;
           }
-          const originalName = feature.properties.NAME;
-          feature.properties.NAME_FR = this.translateCountry(originalName);
           return true;
         }
         return false;
@@ -136,7 +134,7 @@ export default {
 
       this.map = new maplibregl.Map({
         container: this.$refs.mapContainer,
-        attributionControl: { compact: this.$refs.mapContainer.offsetWidth <= 640 },
+        attributionControl: {},
         style: {
           version: 8,
           sources: {
