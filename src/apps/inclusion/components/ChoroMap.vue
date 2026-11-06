@@ -26,7 +26,9 @@
         </div>
       </div>
     </div>
-    <div class="map_container" ref="mapContainer"></div>
+    <div class="map_container" ref="mapContainer">
+      <MapUnsupported v-if="!mapSupported" />
+    </div>
     <div v-if="zoomLevel < 8" class="leg_container">
       <div class="color_blocks">
         <span class="leg_title"
@@ -58,6 +60,8 @@ import SearchBar from "@/apps/inclusion/components/SearchBar";
 import { Map, GeolocateControl } from "maplibre-gl";
 
 import { markRaw } from "vue";
+import MapUnsupported from "@/components/MapUnsupported.vue";
+import { isMapSupported } from "@/mapSupport";
 import styleVector from "@/apps/inclusion/assets/json/vector-inclusion.json";
 import CenterDeps from "@/apps/inclusion/assets/json/centers_deps.json";
 
@@ -65,9 +69,10 @@ import * as d3 from "d3-scale";
 
 export default {
   name: "ChoroMap",
-  components: { Map, markRaw, SearchBar },
+  components: { Map, markRaw, SearchBar, MapUnsupported },
   data() {
     return {
+      mapSupported: isMapSupported(),
       map: Object,
       dataChloropleth: {
         fra: [],
@@ -219,6 +224,8 @@ export default {
       }
     }
     this.$router.push({ path: this.$route.path, query: obj }).catch(() => {});
+    // maplibre 6 would throw on old browsers: MapUnsupported is shown instead
+    if (!this.mapSupported) return;
     // Au load de la page, on récupère les stats au niveau EPCI pour l'affichage carte
     let url = "https://files.data.gouv.fr/data-inclusion/stats_general.json";
     fetch(url)
@@ -241,11 +248,16 @@ export default {
         this.map = markRaw(
           new Map({
             container: this.$refs.mapContainer,
+            attributionControl: {},
             style: styleVector,
             center: [this.lng, this.lat],
             zoom: this.zoomLevel,
+            maxPitch: 0,
           })
         );
+        this.map.dragRotate.disable();
+        this.map.touchZoomRotate.disableRotation();
+        this.map.keyboard.disableRotation();
 
         // On map load, add its layers
         this.map.on("load", (m) => {
@@ -289,7 +301,7 @@ export default {
 
           this.map.addSource("inclusion_datapoints", {
             type: "geojson",
-            data: null,
+            data: { type: "FeatureCollection", features: [] },
           });
           const inclusionPoints = {
             id: "inclusion_points",
@@ -297,14 +309,14 @@ export default {
             source: "inclusion_datapoints",
             paint: {
               // Make circles larger as the user zooms from z12 to z22.
-              "circle-radius": {
-                base: 3.75,
-                stops: [
-                  [3, 3],
-                  [12, 10],
-                  [18, 60],
-                ],
-              },
+              "circle-radius": [
+                "interpolate",
+                ["exponential", 3.75],
+                ["zoom"],
+                3, 3,
+                12, 10,
+                18, 60,
+              ],
               // Color circles by ethnicity, using a `match` expression.
               "circle-color": "#060091",
             },

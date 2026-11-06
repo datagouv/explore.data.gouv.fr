@@ -39,7 +39,9 @@
         </div>
       </div>
     </div>
-    <div class="map_container" ref="mapContainer"></div>
+    <div class="map_container" ref="mapContainer">
+      <MapUnsupported v-if="!mapSupported" />
+    </div>
     <div
       class="leg_container"
       v-if="userLocation.level != 'section' && userLocation.level != 'parcelle'"
@@ -70,6 +72,8 @@ import FiltersBox from "@/apps/dvf/components/FiltersBox";
 import { Map, GeolocateControl } from "maplibre-gl";
 
 import { markRaw } from "vue";
+import MapUnsupported from "@/components/MapUnsupported.vue";
+import { isMapSupported } from "@/mapSupport";
 import styleVector from "@/apps/dvf/assets/json/vector-dvf.json";
 import CenterDeps from "@/apps/dvf/assets/json/centers_deps.json";
 
@@ -77,9 +81,10 @@ import * as d3 from "d3-scale";
 
 export default {
   name: "ChoroMap",
-  components: { Map, markRaw, SearchBar, FiltersBox },
+  components: { Map, markRaw, SearchBar, FiltersBox, MapUnsupported },
   data() {
     return {
+      mapSupported: isMapSupported(),
       map: Object,
       dataChloropleth: {
         fra: [],
@@ -229,6 +234,8 @@ export default {
       params: { lang: this.$route.params.lang },
       query: obj
     }).catch(() => {});
+    // maplibre 6 would throw on old browsers: MapUnsupported is shown instead
+    if (!this.mapSupported) return;
     // Au load de la page, on récupère les stats au niveau EPCI pour l'affichage carte
     let url = process.env.VUE_APP_DVF_API + "/epci";
     fetch(url)
@@ -249,11 +256,16 @@ export default {
         this.map = markRaw(
           new Map({
             container: this.$refs.mapContainer,
+            attributionControl: {},
             style: styleVector,
             center: [this.lng, this.lat],
             zoom: this.zoomLevel,
+            maxPitch: 0,
           })
         );
+        this.map.dragRotate.disable();
+        this.map.touchZoomRotate.disableRotation();
+        this.map.keyboard.disableRotation();
 
         // On map load, add its layers
         this.map.on("load", (m) => {

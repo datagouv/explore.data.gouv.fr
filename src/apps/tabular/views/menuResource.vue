@@ -76,7 +76,6 @@
 
 <script>
 import storeTabular from '@/apps/tabular/store/storeTabular'
-import yaml from 'js-yaml';
 
 export default {
   name: 'MenuResource',
