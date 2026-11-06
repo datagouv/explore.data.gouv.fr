@@ -1,0 +1,58 @@
+name: Build and push
+run-name: Build and push ${{ github.ref_name }}
+on:
+  push:
+    branches:
+      - main
+permissions:
+  contents: read
+env:
+  CONTAINER_REGISTRY_SERVER: ${{ vars.CONTAINER_REGISTRY_SERVER }}
+  CONTAINER_REGISTRY_NAMESPACE: ${{ vars.CONTAINER_REGISTRY_NAMESPACE }}
+  IMAGE_NAME: explore
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    # serialise builds so an older run can never push latest after a newer one
+    concurrency:
+      group: ${{ github.workflow }}
+      queue: max
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set image version
+        id: version
+        run: echo "version=${GITHUB_SHA::8}" >> "$GITHUB_OUTPUT"
+
+      - name: Log in to container registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ vars.CONTAINER_REGISTRY_SERVER }}
+          username: ${{ secrets.CONTAINER_REGISTRY_USERNAME }}
+          password: ${{ secrets.CONTAINER_REGISTRY_PASSWORD }}
+
+      - name: Check build configuration
+        env:
+          VUE_APP_MATOMO_SITE_ID: ${{ vars.VUE_APP_MATOMO_SITE_ID }}
+          VUE_APP_INCLUSION_TOKEN: ${{ secrets.VUE_APP_INCLUSION_TOKEN }}
+        run: |
+          if [ -z "$VUE_APP_MATOMO_SITE_ID" ]; then
+            echo "::error::repository variable VUE_APP_MATOMO_SITE_ID is not set, the image would ship without analytics"
+            exit 1
+          fi
+          if [ -z "$VUE_APP_INCLUSION_TOKEN" ]; then
+            echo "::warning::secret VUE_APP_INCLUSION_TOKEN is not set, the inclusion detail panel will not authenticate"
+          fi
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          build-args: |
+            VUE_APP_MATOMO_SITE_ID=${{ vars.VUE_APP_MATOMO_SITE_ID }}
+            VUE_APP_INCLUSION_TOKEN=${{ secrets.VUE_APP_INCLUSION_TOKEN }}
+          tags: |
+            ${{ vars.CONTAINER_REGISTRY_SERVER }}/${{ vars.CONTAINER_REGISTRY_NAMESPACE }}/${{ env.IMAGE_NAME }}:${{ steps.version.outputs.version }}
+            ${{ vars.CONTAINER_REGISTRY_SERVER }}/${{ vars.CONTAINER_REGISTRY_NAMESPACE }}/${{ env.IMAGE_NAME }}:latest

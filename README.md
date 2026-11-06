@@ -45,7 +45,7 @@ npm run build
 
 ### Environment variables
 
-You can provide some build time configuration using a `.env` file (see the `.env.sample`).
+Build time configuration lives in `.env.production`, which `npm run build` loads by itself. Values that are not committed (`VUE_APP_MATOMO_SITE_ID`, `VUE_APP_INCLUSION_TOKEN`) are passed as environment variables, or as Docker build args (`docker build --build-arg VUE_APP_MATOMO_SITE_ID=…`). The dev server does not load `.env.production`: copy it to `.env.local` to run the app locally.
 
 Known environment variables are:
 
