@@ -208,6 +208,7 @@
           </nav>
         </div>
         <div id="map" class="map fr-col-12 fr-col-md-8 fr-col-xl-9" ref="mapContainer">
+          <MapUnsupported v-if="!mapSupported" />
           
             <div class="fr-container fr-container-lg--fluid" id="searchMap">
                 <div class="autocomplete-container">
@@ -290,6 +291,8 @@ import HeaderApps from '@/views/HeaderApps'
 
 import { Map, GeolocateControl } from 'maplibre-gl';
 import BarOrGraph from '@/components/BarOrGraph.vue'
+import MapUnsupported from '@/components/MapUnsupported.vue'
+import { isMapSupported } from '@/mapSupport'
 
 import { markRaw } from 'vue';
 import styleVector from './assets/json/vector.json'
@@ -298,7 +301,7 @@ import * as d3 from 'd3-scale'
 
 export default {
   name: 'AppCarburant',
-  components: {Map, markRaw, BarOrGraph, HeaderApps},
+  components: {Map, markRaw, BarOrGraph, HeaderApps, MapUnsupported},
   metaInfo: {
     title: "Explorateur de données des prix des carburants",
     meta: [
@@ -311,6 +314,7 @@ export default {
   },
   data() {
     return {
+      mapSupported: isMapSupported(),
       formHref:"https://tally.so/r/3jZbA9",
       map: Object,
       fuelFr: {
@@ -377,6 +381,8 @@ export default {
     this.zoomLevel = 5.5
     this.lat = 46.3
     this.lng = 2
+    // maplibre 6 would throw on old browsers: MapUnsupported is shown instead
+    if (!this.mapSupported) return;
     const initialState = { lng: this.lng, lat: this.lat, zoom: this.zoomLevel };
     this.map = markRaw(new Map({
       container: this.$refs.mapContainer,

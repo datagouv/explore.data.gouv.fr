@@ -26,7 +26,9 @@
         </div>
       </div>
     </div>
-    <div class="map_container" ref="mapContainer"></div>
+    <div class="map_container" ref="mapContainer">
+      <MapUnsupported v-if="!mapSupported" />
+    </div>
     <div v-if="zoomLevel < 8" class="leg_container">
       <div class="color_blocks">
         <span class="leg_title"
@@ -58,6 +60,8 @@ import SearchBar from "@/apps/inclusion/components/SearchBar";
 import { Map, GeolocateControl } from "maplibre-gl";
 
 import { markRaw } from "vue";
+import MapUnsupported from "@/components/MapUnsupported.vue";
+import { isMapSupported } from "@/mapSupport";
 import styleVector from "@/apps/inclusion/assets/json/vector-inclusion.json";
 import CenterDeps from "@/apps/inclusion/assets/json/centers_deps.json";
 
@@ -65,9 +69,10 @@ import * as d3 from "d3-scale";
 
 export default {
   name: "ChoroMap",
-  components: { Map, markRaw, SearchBar },
+  components: { Map, markRaw, SearchBar, MapUnsupported },
   data() {
     return {
+      mapSupported: isMapSupported(),
       map: Object,
       dataChloropleth: {
         fra: [],
@@ -219,6 +224,8 @@ export default {
       }
     }
     this.$router.push({ path: this.$route.path, query: obj }).catch(() => {});
+    // maplibre 6 would throw on old browsers: MapUnsupported is shown instead
+    if (!this.mapSupported) return;
     // Au load de la page, on récupère les stats au niveau EPCI pour l'affichage carte
     let url = "https://files.data.gouv.fr/data-inclusion/stats_general.json";
     fetch(url)

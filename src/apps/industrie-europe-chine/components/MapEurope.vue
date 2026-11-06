@@ -4,7 +4,9 @@
       <h3 class="map-title">{{ mapTitle }}</h3>
       <p v-if="mapNote" class="map-note" v-html="mapNote"></p>
     </div>
-    <div ref="mapContainer" class="map-container"></div>
+    <div ref="mapContainer" class="map-container">
+      <MapUnsupported v-if="!mapSupported" />
+    </div>
     <div class="legend">
       <div class="legend-title">{{ legendConfig.title }}</div>
       <div 
@@ -24,9 +26,12 @@
 import * as maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import appStore from '@/apps/industrie-europe-chine/store';
+import MapUnsupported from '@/components/MapUnsupported.vue';
+import { isMapSupported } from '@/mapSupport';
 
 export default {
   name: 'MapEurope',
+  components: { MapUnsupported },
   props: {
     apiUrl: {
       type: String,
@@ -64,12 +69,15 @@ export default {
   data() {
     return {
       map: null,
+      mapSupported: isMapSupported(),
       europeGeoJSON: null,
       tabularData: null,
       dataByISO3: {},
     };
   },
   async mounted() {
+    // maplibre 6 would throw on old browsers: MapUnsupported is shown instead
+    if (!this.mapSupported) return;
     await Promise.all([
       this.loadEuropeGeoJSON(),
       this.loadTabularData()
