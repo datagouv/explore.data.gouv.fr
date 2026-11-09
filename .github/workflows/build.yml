@@ -19,7 +19,7 @@ jobs:
       queue: max
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Set image version
         id: version
