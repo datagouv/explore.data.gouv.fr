@@ -4,3 +4,6 @@ dist
 *.log
 Dockerfile
 .dockerignore
+.env
+.env.local
+.env.*.local
