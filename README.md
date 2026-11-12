@@ -28,29 +28,30 @@ This UI expect a `url` query string to be able to load a tabular file.
 
 ### Getting started
 
-This app has been tested under Node v10.
+This app runs on Node 22 (see `.nvmrc`) with pnpm, whose version is pinned in `package.json` and installed by corepack.
 
-Install all dependencies and laucnh the development server
+Install all dependencies and launch the development server
 
 ```shell
-npm ci
-npm run serve
+corepack enable
+pnpm install
+pnpm run serve
 ```
 
 You can build a final version using:
 
 ```shell
-npm run build
+pnpm run build
 ```
 
 ### Environment variables
 
-Build time configuration lives in `.env.production`, which `npm run build` loads by itself. Values that are not committed (`VUE_APP_MATOMO_SITE_ID`, `VUE_APP_INCLUSION_TOKEN`) are passed as environment variables, or as Docker build args (`docker build --build-arg VUE_APP_MATOMO_SITE_ID=…`). The dev server does not load `.env.production`: copy it to `.env.local` to run the app locally.
+Build time configuration lives in `.env.production`, which `pnpm run build` loads by itself. Values that are not committed (`VUE_APP_MATOMO_SITE_ID`, `VUE_APP_INCLUSION_TOKEN`) are passed as environment variables, or as Docker build args (`docker build --build-arg VUE_APP_MATOMO_SITE_ID=…`). The dev server does not load `.env.production`: copy it to `.env.development.local` to run the app locally (unlike `.env.local`, it is not loaded by production builds).
 
 Known environment variables are:
 
-- `VUE_APP_CSVAPI_URL`: csvapi instance URL
+- `VUE_APP_DVF_API`, `VUE_APP_TABULAR_API`, `VUE_APP_DATAGOUV_URL`, `VUE_APP_UMAP_INSTANCE`: URLs of the APIs and services the apps use
 - `VUE_APP_FILTERS_ENABLED`: boolean, enables or disables filter support
-
-If you want to enable matomo tracking, you should specify the target site id:
-- `VUE_APP_MATOMO_SITE_ID`
+- `VUE_APP_I18N_LOCALE`, `VUE_APP_I18N_FALLBACK_LOCALE`: interface language
+- `VUE_APP_MATOMO_SITE_ID`: Matomo site id, enables tracking
+- `VUE_APP_INCLUSION_TOKEN`: token for the inclusion detail panel
