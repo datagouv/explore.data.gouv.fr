@@ -21,6 +21,22 @@ jobs:
       - name: Checkout
         uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
 
+      - name: Check build configuration
+        env:
+          VUE_APP_MATOMO_SITE_ID: ${{ vars.VUE_APP_MATOMO_SITE_ID }}
+          VUE_APP_INCLUSION_TOKEN: ${{ secrets.VUE_APP_INCLUSION_TOKEN }}
+        run: |
+          # fail before the build, not after it, when the image could not be tagged or would ship incomplete
+          for name in CONTAINER_REGISTRY_SERVER CONTAINER_REGISTRY_NAMESPACE VUE_APP_MATOMO_SITE_ID; do
+            if [ -z "${!name}" ]; then
+              echo "::error::repository variable $name is not set"
+              exit 1
+            fi
+          done
+          if [ -z "$VUE_APP_INCLUSION_TOKEN" ]; then
+            echo "::warning::secret VUE_APP_INCLUSION_TOKEN is not set, the inclusion detail panel will not authenticate"
+          fi
+
       - name: Set image version
         id: version
         run: echo "version=${GITHUB_SHA::8}" >> "$GITHUB_OUTPUT"
@@ -31,19 +47,6 @@ jobs:
           registry: ${{ vars.CONTAINER_REGISTRY_SERVER }}
           username: ${{ secrets.CONTAINER_REGISTRY_USERNAME }}
           password: ${{ secrets.CONTAINER_REGISTRY_PASSWORD }}
-
-      - name: Check build configuration
-        env:
-          VUE_APP_MATOMO_SITE_ID: ${{ vars.VUE_APP_MATOMO_SITE_ID }}
-          VUE_APP_INCLUSION_TOKEN: ${{ secrets.VUE_APP_INCLUSION_TOKEN }}
-        run: |
-          if [ -z "$VUE_APP_MATOMO_SITE_ID" ]; then
-            echo "::error::repository variable VUE_APP_MATOMO_SITE_ID is not set, the image would ship without analytics"
-            exit 1
-          fi
-          if [ -z "$VUE_APP_INCLUSION_TOKEN" ]; then
-            echo "::warning::secret VUE_APP_INCLUSION_TOKEN is not set, the inclusion detail panel will not authenticate"
-          fi
 
       - name: Build and push
         uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6.19.2
