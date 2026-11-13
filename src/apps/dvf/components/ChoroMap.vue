@@ -1,6 +1,6 @@
 <template>
   <div class="choroMap">
-    <search-bar></search-bar>
+    <search-bar v-if="mapSupported"></search-bar>
     <filters-box @select-parcelle="selectParcelleOnMap" @simulate-parcelle-click="simulateParcelleClick"></filters-box>
     <div
       ref="mapTooltip"
@@ -53,7 +53,7 @@
         <span class="leg_borne max">> {{ legMax }} €</span>
       </div>
     </div>
-    <div class="leg_container2" @click="changeMapStyle()">
+    <div v-if="mapSupported" class="leg_container2" @click="changeMapStyle()">
       <span v-if="mapStyle === 'vector'"
         ><img src="../assets/images/preview-ortho.png" width="50" height="50"
       /></span>
@@ -234,8 +234,6 @@ export default {
       params: { lang: this.$route.params.lang },
       query: obj
     }).catch(() => {});
-    // maplibre 6 would throw on old browsers: MapUnsupported is shown instead
-    if (!this.mapSupported) return;
     // Au load de la page, on récupère les stats au niveau EPCI pour l'affichage carte
     let url = process.env.VUE_APP_DVF_API + "/epci";
     fetch(url)
@@ -252,6 +250,9 @@ export default {
           this.actualPropertyPrix,
           "code"
         );
+        // maplibre 6 would throw on old browsers: MapUnsupported is shown instead,
+        // the stats above still reach the store for the side column and legend
+        if (!this.mapSupported) return;
         // Create map
         this.map = markRaw(
           new Map({
@@ -806,6 +807,7 @@ export default {
   },
   methods: {
     changeMapStyle() {
+      if (!this.mapSupported) return;
       if (this.mapStyle === "vector") {
         this.mapStyle = "ortho";
         this.map.setLayoutProperty("simple-tiles", "visibility", "visible");
@@ -1316,6 +1318,7 @@ export default {
         } else {
           exp = matchExpression;
         }
+        if (!this.mapSupported) return;
         this.map.setPaintProperty(
           this.mappingPropertiesFillLayer[this.userLocation.level],
           "fill-color",
@@ -1324,6 +1327,7 @@ export default {
       }
     },
     selectParcelleOnMap(parcelleId) {
+      if (!this.mapSupported) return;
       let matchExpression = ["match", ["get", "id"]];
       matchExpression.push(parcelleId, "rgba(255, 0, 0, 0.5)");
       matchExpression.push("rgba(0, 0, 255, 0.2)");
@@ -1339,7 +1343,9 @@ export default {
     },
   },
   watch: {
+    // without a map (MapUnsupported) the watchers below have nothing to drive
     parcellesAdjacentes() {
+      if (!this.mapSupported) return;
       let matchExpression = ["match", ["get", "id"]];
       matchExpression.push(this.userLocation.parcelle, "rgba(255, 0, 0, 0.5)");
       let parcellesToColorized = [];
@@ -1364,6 +1370,7 @@ export default {
       this.manageChloroplethColors();
     },
     searchBarCoordinates() {
+      if (!this.mapSupported) return;
       appStore.commit("changeZoomLevel", 16);
       this.map.flyTo({
         center: this.searchBarCoordinates,
@@ -1371,6 +1378,7 @@ export default {
       });
     },
     zoomLevel() {
+      if (!this.mapSupported) return;
       if (this.waitZoom === false && !this.disableAutoUpdates) {
         if (this.zoomLevel < 8) {
           if (this.level != "fra") {

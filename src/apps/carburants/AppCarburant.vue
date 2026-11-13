@@ -210,7 +210,7 @@
         <div id="map" class="map fr-col-12 fr-col-md-8 fr-col-xl-9" ref="mapContainer">
           <MapUnsupported v-if="!mapSupported" />
           
-            <div class="fr-container fr-container-lg--fluid" id="searchMap">
+            <div v-if="mapSupported" class="fr-container fr-container-lg--fluid" id="searchMap">
                 <div class="autocomplete-container">
                   <div class="fr-search-bar" id="search-540" role="search">
                     <label class="fr-label" for="search-540-input">
@@ -381,23 +381,26 @@ export default {
     this.zoomLevel = 5.5
     this.lat = 46.3
     this.lng = 2
-    // maplibre 6 would throw on old browsers: MapUnsupported is shown instead
-    if (!this.mapSupported) return;
-    const initialState = { lng: this.lng, lat: this.lat, zoom: this.zoomLevel };
-    this.map = markRaw(new Map({
-      container: this.$refs.mapContainer,
-      attributionControl: {},
-      style: styleVector,
-      center: [initialState.lng, initialState.lat],
-      zoom: initialState.zoom,
-      maxPitch: 0
-    }));
-    this.map.dragRotate.disable();
-    this.map.touchZoomRotate.disableRotation();
-    this.map.keyboard.disableRotation();
-    // 'load' fires only once and map.loaded() is false while tiles stream in,
-    // so subscribe now rather than when the geojson arrives
-    const mapLoaded = new Promise(resolve => this.map.once('load', resolve));
+    // maplibre 6 would throw on old browsers: MapUnsupported is shown instead,
+    // and the prices, legend and chart below still load
+    let mapLoaded = null;
+    if (this.mapSupported) {
+      const initialState = { lng: this.lng, lat: this.lat, zoom: this.zoomLevel };
+      this.map = markRaw(new Map({
+        container: this.$refs.mapContainer,
+        attributionControl: {},
+        style: styleVector,
+        center: [initialState.lng, initialState.lat],
+        zoom: initialState.zoom,
+        maxPitch: 0
+      }));
+      this.map.dragRotate.disable();
+      this.map.touchZoomRotate.disableRotation();
+      this.map.keyboard.disableRotation();
+      // 'load' fires only once and map.loaded() is false while tiles stream in,
+      // so subscribe now rather than when the geojson arrives
+      mapLoaded = new Promise(resolve => this.map.once('load', resolve));
+    }
 
     fetch(carburantsDataUrl + '/latest_france.geojson', {
         compress: false,
@@ -417,7 +420,7 @@ export default {
       this.legend.medianPrix = parseFloat(data.properties[this.currentFuel + "_median"]).toFixed(2)
 
       this.dateMaj = new Date(data.properties.maj);
-      mapLoaded.then(() => this.setupStationLayer());
+      if (mapLoaded) mapLoaded.then(() => this.setupStationLayer());
     })
 
 
@@ -518,7 +521,7 @@ export default {
         //data.features = data.features.filter((feature) => ((feature.properties.hasOwnProperty("SP95")) || (feature.properties.hasOwnProperty("SP98")) || (feature.properties.hasOwnProperty("E10")) || (feature.properties.hasOwnProperty("Gazole")) || (feature.properties.hasOwnProperty("GPLc")) || (feature.properties.hasOwnProperty("E85"))))
 
         this.dataPoints = JSON.parse(JSON.stringify(data))
-        const stationSource = this.map.getSource("station_points")
+        const stationSource = this.mapSupported && this.map.getSource("station_points")
         if (stationSource) {
           stationSource.setData(this.dataPoints);
         }
@@ -615,12 +618,14 @@ export default {
       this.closeModal()
       this.resultsAdresses = null
       this.zoomLevel = zoomLevel
+      if (!this.mapSupported) return;
       this.map.flyTo({
         center: coordinates,
         zoom: zoomLevel,
       });
     },
     displayAllStations(){
+      if (!this.mapSupported) return;
       let paintProperties = []
       if(this.zoomLevel > 10){
         this.showRupture = true

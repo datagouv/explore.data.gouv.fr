@@ -42,7 +42,7 @@
         <span class="leg_borne max"> {{ legMax }}</span>
       </div>
     </div>
-    <div class="leg_container2" @click="changeMapStyle()">
+    <div v-if="mapSupported" class="leg_container2" @click="changeMapStyle()">
       <span v-if="mapStyle === 'vector'"
         ><img src="../assets/images/preview-ortho.png" width="50" height="50"
       /></span>
@@ -224,8 +224,6 @@ export default {
       }
     }
     this.$router.push({ path: this.$route.path, query: obj }).catch(() => {});
-    // maplibre 6 would throw on old browsers: MapUnsupported is shown instead
-    if (!this.mapSupported) return;
     // Au load de la page, on récupère les stats au niveau EPCI pour l'affichage carte
     let url = "https://files.data.gouv.fr/data-inclusion/stats_general.json";
     fetch(url)
@@ -244,6 +242,9 @@ export default {
           "code"
         );
 
+        // maplibre 6 would throw on old browsers: MapUnsupported is shown instead,
+        // the stats above still reach the store for the side column
+        if (!this.mapSupported) return;
         // Create map
         this.map = markRaw(
           new Map({
@@ -607,6 +608,7 @@ export default {
       }
     },
     changeMapStyle() {
+      if (!this.mapSupported) return;
       if (this.mapStyle === "vector") {
         this.mapStyle = "ortho";
         this.map.setLayoutProperty("simple-tiles", "visibility", "visible");
@@ -833,7 +835,9 @@ export default {
         } else {
           exp = matchExpression;
         }
-        this.map.setPaintProperty("departements_fill", "fill-color", exp);
+        if (this.mapSupported) {
+          this.map.setPaintProperty("departements_fill", "fill-color", exp);
+        }
       }
     },
     processData(data) {
@@ -860,6 +864,8 @@ export default {
       return filterData;
     },
     loadInclusionPoints() {
+      // the points only feed the map (MapUnsupported shows instead of it)
+      if (!this.mapSupported) return;
       if (this.userLocation.dep) {
         let url =
           "https://files.data.gouv.fr/data-inclusion/dep/inclusion_dep_" +
@@ -1025,6 +1031,7 @@ export default {
               CenterDeps[data[0]["codeDepartement"]]["nom"]
             );
           }
+          if (!this.mapSupported) return;
           this.fetching = true;
           appStore.commit("changeZoomLevel", 14);
           this.map.flyTo({
@@ -1044,6 +1051,7 @@ export default {
       appStore.commit("addDetailData", null);
     },
     zoomLevel() {
+      if (!this.mapSupported) return;
       if (this.waitZoom === false) {
         if (this.zoomLevel < 8) {
           if (this.level != "fra") {
