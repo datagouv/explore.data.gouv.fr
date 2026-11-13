@@ -28,7 +28,10 @@ module.exports = {
     },
     transpileDependencies: [
       'chartjs-chart-treemap',
-      'maplibre-gl'
+      'maplibre-gl',
+      // pulled by openapi-explorer, shipped with ES2020/2021 syntax (||=, ?., catch {})
+      'openapi-resolver',
+      '@apidevtools/json-schema-ref-parser'
     ],
     css: {
       loaderOptions: {
