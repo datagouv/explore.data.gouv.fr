@@ -208,8 +208,9 @@
           </nav>
         </div>
         <div id="map" class="map fr-col-12 fr-col-md-8 fr-col-xl-9" ref="mapContainer">
+          <MapUnsupported v-if="!mapSupported" />
           
-            <div class="fr-container fr-container-lg--fluid" id="searchMap">
+            <div v-if="mapSupported" class="fr-container fr-container-lg--fluid" id="searchMap">
                 <div class="autocomplete-container">
                   <div class="fr-search-bar" id="search-540" role="search">
                     <label class="fr-label" for="search-540-input">
@@ -290,7 +291,8 @@ import HeaderApps from '@/views/HeaderApps'
 
 import { Map, GeolocateControl } from 'maplibre-gl';
 import BarOrGraph from '@/components/BarOrGraph.vue'
-import { ungzip } from 'pako';
+import MapUnsupported from '@/components/MapUnsupported.vue'
+import { isMapSupported } from '@/mapSupport'
 
 import { markRaw } from 'vue';
 import styleVector from './assets/json/vector.json'
@@ -299,7 +301,7 @@ import * as d3 from 'd3-scale'
 
 export default {
   name: 'AppCarburant',
-  components: {Map, markRaw, BarOrGraph, HeaderApps},
+  components: {Map, markRaw, BarOrGraph, HeaderApps, MapUnsupported},
   metaInfo: {
     title: "Explorateur de données des prix des carburants",
     meta: [
@@ -312,6 +314,7 @@ export default {
   },
   data() {
     return {
+      mapSupported: isMapSupported(),
       formHref:"https://tally.so/r/3jZbA9",
       map: Object,
       fuelFr: {
@@ -378,14 +381,27 @@ export default {
     this.zoomLevel = 5.5
     this.lat = 46.3
     this.lng = 2
-    const initialState = { lng: this.lng, lat: this.lat, zoom: this.zoomLevel };
-    this.map = markRaw(new Map({
-      container: this.$refs.mapContainer,
-      style: styleVector,
-      center: [initialState.lng, initialState.lat],
-      zoom: initialState.zoom
-    }));
-    
+    // maplibre 6 would throw on old browsers: MapUnsupported is shown instead,
+    // and the prices, legend and chart below still load
+    let mapLoaded = null;
+    if (this.mapSupported) {
+      const initialState = { lng: this.lng, lat: this.lat, zoom: this.zoomLevel };
+      this.map = markRaw(new Map({
+        container: this.$refs.mapContainer,
+        attributionControl: {},
+        style: styleVector,
+        center: [initialState.lng, initialState.lat],
+        zoom: initialState.zoom,
+        maxPitch: 0
+      }));
+      this.map.dragRotate.disable();
+      this.map.touchZoomRotate.disableRotation();
+      this.map.keyboard.disableRotation();
+      // 'load' fires only once and map.loaded() is false while tiles stream in,
+      // so subscribe now rather than when the geojson arrives
+      mapLoaded = new Promise(resolve => this.map.once('load', resolve));
+    }
+
     fetch(carburantsDataUrl + '/latest_france.geojson', {
         compress: false,
         headers: { "accept-encoding": "gzip" },
@@ -404,76 +420,7 @@ export default {
       this.legend.medianPrix = parseFloat(data.properties[this.currentFuel + "_median"]).toFixed(2)
 
       this.dateMaj = new Date(data.properties.maj);
-      this.map.on('load', (m) => {
-        this.map.addSource('station_points', {
-            type: 'geojson',
-            data: this.dataPoints
-        });
-        this.map.addLayer({
-            id: 'stations',
-            type: 'circle',
-            source: 'station_points',
-            paint: {
-              // Make circles larger as the user zooms from z12 to z22.
-              'circle-radius': {
-                base: 3.75,
-                stops: [
-                  [3, 3],
-                  [12, 10],
-                  [18, 60]
-                ]
-              },
-              // Color circles by ethnicity, using a `match` expression.
-              'circle-color': [
-                'match',
-                ['get', this.currentFuel + '_color'],
-                "1",
-                '#67A532',
-                "2",
-                '#C8AA39',
-                "3",
-                '#FA7A35',
-                /* other */ 'hsla(0%, 0%, 0%, 0)'
-              ]
-            },
-            minzoom:1,
-        });
-
-
-        this.map.on('zoom', () => {
-          let timer = setTimeout(() => {
-            const currentZoom = this.map.getZoom();
-            if(currentZoom != this.zoomLevel) {
-              this.zoomLevel = currentZoom
-              if(currentZoom > 10) {
-                this.displayAllStations()
-              } else {
-                this.displayAllStations()
-              }
-            }
-          }, 350)
-        });
-
-        this.map.on('mousemove', this.showMapTooltip);
-        this.map.on('touchmove', this.showMapTooltip);
-        this.map.on('click', this.showMapTooltip);
-
-        this.map.on('mouseleave', 'stations', (e) => {
-          this.tooltip.display = 'none'
-        });
-
-        this.map.addControl(
-          new GeolocateControl({
-            positionOptions: {
-              enableHighAccuracy: true
-            },
-            trackUserLocation: true,
-            fitBoundsOptions: {maxZoom:12}
-          })
-        );
-
-
-      });
+      if (mapLoaded) mapLoaded.then(() => this.setupStationLayer());
     })
 
 
@@ -496,6 +443,74 @@ export default {
     });
   },
   methods: {
+    setupStationLayer() {
+      if (this.map.getSource('station_points')) return;
+      this.map.addSource('station_points', {
+          type: 'geojson',
+          data: this.dataPoints
+      });
+      this.map.addLayer({
+          id: 'stations',
+          type: 'circle',
+          source: 'station_points',
+          paint: {
+            // Make circles larger as the user zooms from z12 to z22.
+            'circle-radius': [
+              'interpolate',
+              ['exponential', 3.75],
+              ['zoom'],
+              3, 3,
+              12, 10,
+              18, 60
+            ],
+            // Color circles by ethnicity, using a `match` expression.
+            'circle-color': [
+              'match',
+              ['get', this.currentFuel + '_color'],
+              "1",
+              '#67A532',
+              "2",
+              '#C8AA39',
+              "3",
+              '#FA7A35',
+              /* other */ 'rgba(0, 0, 0, 0)'
+            ]
+          },
+          minzoom:1,
+      });
+
+      this.map.on('zoom', () => {
+        let timer = setTimeout(() => {
+          const currentZoom = this.map.getZoom();
+          if(currentZoom != this.zoomLevel) {
+            this.zoomLevel = currentZoom
+            if(currentZoom > 10) {
+              this.displayAllStations()
+            } else {
+              this.displayAllStations()
+            }
+          }
+        }, 350)
+      });
+
+      this.map.on('mousemove', this.showMapTooltip);
+      this.map.on('touchmove', this.showMapTooltip);
+      this.map.on('click', this.showMapTooltip);
+
+      this.map.on('mouseleave', 'stations', (e) => {
+        this.tooltip.display = 'none'
+      });
+
+      this.map.addControl(
+        new GeolocateControl({
+          positionOptions: {
+            enableHighAccuracy: true
+          },
+          trackUserLocation: true,
+          fitBoundsOptions: {maxZoom:12}
+        })
+      );
+    },
     updateDate(val){
 
       fetch(carburantsDataUrl + '/historique/' + val + '.json')
@@ -506,7 +521,10 @@ export default {
         //data.features = data.features.filter((feature) => ((feature.properties.hasOwnProperty("SP95")) || (feature.properties.hasOwnProperty("SP98")) || (feature.properties.hasOwnProperty("E10")) || (feature.properties.hasOwnProperty("Gazole")) || (feature.properties.hasOwnProperty("GPLc")) || (feature.properties.hasOwnProperty("E85"))))
 
         this.dataPoints = JSON.parse(JSON.stringify(data))
-        this.map.getSource("station_points").setData(this.dataPoints);
+        const stationSource = this.mapSupported && this.map.getSource("station_points")
+        if (stationSource) {
+          stationSource.setData(this.dataPoints);
+        }
 
         this.legend.minPrix = 0
         this.legend.tertilePrix1 = data.properties[this.currentFuel][1]
@@ -600,12 +618,14 @@ export default {
       this.closeModal()
       this.resultsAdresses = null
       this.zoomLevel = zoomLevel
+      if (!this.mapSupported) return;
       this.map.flyTo({
         center: coordinates,
         zoom: zoomLevel,
       });
     },
     displayAllStations(){
+      if (!this.mapSupported) return;
       let paintProperties = []
       if(this.zoomLevel > 10){
         this.showRupture = true
@@ -636,7 +656,7 @@ export default {
             '#C8AA39',
             "3",
             '#FA7A35',
-            /* other */ 'hsla(0%, 0%, 0%, 0)'
+            /* other */ 'rgba(0, 0, 0, 0)'
           ]
         } else {
             paintProperties = [
@@ -648,7 +668,7 @@ export default {
               '#C8AA39',
               "3",
               '#FA7A35',
-              /* other */ 'hsla(0%, 0%, 0%, 0)'
+              /* other */ 'rgba(0, 0, 0, 0)'
             ]
         }
       }
@@ -950,7 +970,7 @@ html{
   font-size: 11px;
 }
 
-.mapboxgl-map::v-deep .maplibregl-ctrl-attrib a::after {
+.maplibregl-map::v-deep .maplibregl-ctrl-attrib a::after {
   content: none;
 }
 

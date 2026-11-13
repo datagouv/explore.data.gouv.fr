@@ -1,6 +1,6 @@
 <template>
   <div class="choroMap">
-    <search-bar></search-bar>
+    <search-bar v-if="mapSupported"></search-bar>
     <filters-box @select-parcelle="selectParcelleOnMap" @simulate-parcelle-click="simulateParcelleClick"></filters-box>
     <div
       ref="mapTooltip"
@@ -39,7 +39,9 @@
         </div>
       </div>
     </div>
-    <div class="map_container" ref="mapContainer"></div>
+    <div class="map_container" ref="mapContainer">
+      <MapUnsupported v-if="!mapSupported" />
+    </div>
     <div
       class="leg_container"
       v-if="userLocation.level != 'section' && userLocation.level != 'parcelle'"
@@ -51,7 +53,7 @@
         <span class="leg_borne max">> {{ legMax }} €</span>
       </div>
     </div>
-    <div class="leg_container2" @click="changeMapStyle()">
+    <div v-if="mapSupported" class="leg_container2" @click="changeMapStyle()">
       <span v-if="mapStyle === 'vector'"
         ><img src="../assets/images/preview-ortho.png" width="50" height="50"
       /></span>
@@ -70,6 +72,8 @@ import FiltersBox from "@/apps/dvf/components/FiltersBox";
 import { Map, GeolocateControl } from "maplibre-gl";
 
 import { markRaw } from "vue";
+import MapUnsupported from "@/components/MapUnsupported.vue";
+import { isMapSupported } from "@/mapSupport";
 import styleVector from "@/apps/dvf/assets/json/vector-dvf.json";
 import CenterDeps from "@/apps/dvf/assets/json/centers_deps.json";
 
@@ -77,9 +81,10 @@ import * as d3 from "d3-scale";
 
 export default {
   name: "ChoroMap",
-  components: { Map, markRaw, SearchBar, FiltersBox },
+  components: { Map, markRaw, SearchBar, FiltersBox, MapUnsupported },
   data() {
     return {
+      mapSupported: isMapSupported(),
       map: Object,
       dataChloropleth: {
         fra: [],
@@ -245,15 +250,23 @@ export default {
           this.actualPropertyPrix,
           "code"
         );
+        // maplibre 6 would throw on old browsers: MapUnsupported is shown instead,
+        // the stats above still reach the store for the side column and legend
+        if (!this.mapSupported) return;
         // Create map
         this.map = markRaw(
           new Map({
             container: this.$refs.mapContainer,
+            attributionControl: {},
             style: styleVector,
             center: [this.lng, this.lat],
             zoom: this.zoomLevel,
+            maxPitch: 0,
           })
         );
+        this.map.dragRotate.disable();
+        this.map.touchZoomRotate.disableRotation();
+        this.map.keyboard.disableRotation();
 
         // On map load, add its layers
         this.map.on("load", (m) => {
@@ -794,6 +807,7 @@ export default {
   },
   methods: {
     changeMapStyle() {
+      if (!this.mapSupported) return;
       if (this.mapStyle === "vector") {
         this.mapStyle = "ortho";
         this.map.setLayoutProperty("simple-tiles", "visibility", "visible");
@@ -1304,6 +1318,7 @@ export default {
         } else {
           exp = matchExpression;
         }
+        if (!this.mapSupported) return;
         this.map.setPaintProperty(
           this.mappingPropertiesFillLayer[this.userLocation.level],
           "fill-color",
@@ -1312,6 +1327,7 @@ export default {
       }
     },
     selectParcelleOnMap(parcelleId) {
+      if (!this.mapSupported) return;
       let matchExpression = ["match", ["get", "id"]];
       matchExpression.push(parcelleId, "rgba(255, 0, 0, 0.5)");
       matchExpression.push("rgba(0, 0, 255, 0.2)");
@@ -1327,7 +1343,9 @@ export default {
     },
   },
   watch: {
+    // without a map (MapUnsupported) the watchers below have nothing to drive
     parcellesAdjacentes() {
+      if (!this.mapSupported) return;
       let matchExpression = ["match", ["get", "id"]];
       matchExpression.push(this.userLocation.parcelle, "rgba(255, 0, 0, 0.5)");
       let parcellesToColorized = [];
@@ -1352,6 +1370,7 @@ export default {
       this.manageChloroplethColors();
     },
     searchBarCoordinates() {
+      if (!this.mapSupported) return;
       appStore.commit("changeZoomLevel", 16);
       this.map.flyTo({
         center: this.searchBarCoordinates,
@@ -1359,6 +1378,7 @@ export default {
       });
     },
     zoomLevel() {
+      if (!this.mapSupported) return;
       if (this.waitZoom === false && !this.disableAutoUpdates) {
         if (this.zoomLevel < 8) {
           if (this.level != "fra") {
