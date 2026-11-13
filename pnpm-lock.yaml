@@ -5,10 +5,11 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
-  webpack: <5.110.0
+  webpack: '>=5.104.1 <5.110.0'
   serialize-javascript: ^7.1.3
   qs: ^6.16.1
   uuid: ^11.1.1
+  node-forge: ^1.4.3
 
 importers:
 
@@ -899,7 +900,7 @@ packages:
     resolution: {integrity: sha512-h2ooWqP8XuFqTXT+NyAFbrArzfQA7R6HTezADrvD9Re8fxMLTPPniLdqVTdDaO0eIoLaAwKT+d6w+5GeTk7Vbg==}
     engines: {node: '>=8.0.0'}
     peerDependencies:
-      webpack: <5.110.0
+      webpack: '>=5.104.1 <5.110.0'
 
   '@soda/get-current-script@1.0.2':
     resolution: {integrity: sha512-T7VNNlYVM1SgQ+VsMYhnDkcGmWhQdL0bDyGm5TlQ3GBXnJscEClUUOKduWTmm2zCnvNLC1hc3JpuXjs/nFOc5w==}
@@ -1325,7 +1326,7 @@ packages:
     engines: {node: '>= 8.9'}
     peerDependencies:
       '@babel/core': ^7.0.0
-      webpack: <5.110.0
+      webpack: '>=5.104.1 <5.110.0'
 
   babel-plugin-dynamic-import-node@2.3.3:
     resolution: {integrity: sha512-jZVI+s9Zg3IqA/kdi0i6UDCybUI3aSBLnglhYbSSjKlV7yF1F/5LWv8MakQmvYpnbJDS6fcBL2KzHSxNCMtWSQ==}
@@ -1426,7 +1427,7 @@ packages:
     resolution: {integrity: sha512-ftOayxve0PwKzBF/GLsZNC9fJBXl8lkZE3TOsjkboHfVHVkL39iUEs1FO07A33mizmci5Dudt38UZrrYXDtbhw==}
     engines: {node: '>= 8.9.0'}
     peerDependencies:
-      webpack: <5.110.0
+      webpack: '>=5.104.1 <5.110.0'
 
   cacheable-lookup@5.0.4:
     resolution: {integrity: sha512-2/kNscPhpcxrOigMZzbiWF7dz8ilhb/nIHU3EyZiXWXpeq/au8qJ8VhdftMkty3n7Gj6HIGalQG8oiBNB3AJgA==}
@@ -1786,7 +1787,7 @@ packages:
     resolution: {integrity: sha512-rxnR7PaGigJzhqETHGmAcxKnLZSR5u1Y3/bcIv/1FnqXedcL/E2ewK7ZCNrArJKCiSv8yVXhTqetJh8inDvfsA==}
     engines: {node: '>= 12.13.0'}
     peerDependencies:
-      webpack: <5.110.0
+      webpack: '>=5.104.1 <5.110.0'
 
   core-js-compat@3.51.0:
     resolution: {integrity: sha512-52r6fkXgxv4GLMjmFcMWRx7X9bw071xTTdrDcdyPGRqU2oE+9pCG0bAOMifSBdLw0JRBZKEF0q3B55qPlLuE8g==}
@@ -1824,7 +1825,7 @@ packages:
     engines: {node: '>= 12.13.0'}
     peerDependencies:
       '@rspack/core': 0.x || 1.x
-      webpack: <5.110.0
+      webpack: '>=5.104.1 <5.110.0'
     peerDependenciesMeta:
       '@rspack/core':
         optional: true
@@ -1839,7 +1840,7 @@ packages:
       clean-css: '*'
       csso: '*'
       esbuild: '*'
-      webpack: <5.110.0
+      webpack: '>=5.104.1 <5.110.0'
     peerDependenciesMeta:
       '@parcel/css':
         optional: true
@@ -2370,7 +2371,7 @@ packages:
     engines: {node: '>=10.13.0'}
     peerDependencies:
       '@rspack/core': 0.x || 1.x || 2.x
-      webpack: <5.110.0
+      webpack: '>=5.104.1 <5.110.0'
     peerDependenciesMeta:
       '@rspack/core':
         optional: true
@@ -2811,7 +2812,7 @@ packages:
     resolution: {integrity: sha512-AOSS0IdEB95ayVkxn5oGzNQwqAi2J0Jb/kKm43t7H73s8+f5873g0yuj0PNvK4dO75mu5DHg4nlgp4k6Kga8eg==}
     engines: {node: '>= 12.13.0'}
     peerDependencies:
-      webpack: <5.110.0
+      webpack: '>=5.104.1 <5.110.0'
 
   minimalistic-assert@1.0.1:
     resolution: {integrity: sha512-UtJcAD4yEaGtjPezWuO9wC4nwUnVH/8/Im3yEHQP4b67cXlD/Qr9hdITCU1xDbSEXg2XKNaP8jsReV7vQd00/A==}
@@ -2842,7 +2843,7 @@ packages:
       sharp: '*'
       svgo: '*'
       uglify-js: '*'
-      webpack: <5.110.0
+      webpack: '>=5.104.1 <5.110.0'
     peerDependenciesMeta:
       '@minify-html/node':
         optional: true
@@ -2942,8 +2943,8 @@ packages:
       encoding:
         optional: true
 
-  node-forge@1.4.2:
-    resolution: {integrity: sha512-rRtAR5XLJ8gCKd9du4qrKAsgCG1ObGP4gLeNJMa4vYSeq4bmBMOJk5IHkrviBV0q7uoAJlVd8HEQYQSVUb4FGQ==}
+  node-forge@1.4.3:
+    resolution: {integrity: sha512-P6wzfh6t70avmV8FrVEAd/36sOPJQ+hkaJVX1Laap9J/77m7M0eyozDvc8SwnDf4P7MP94gwbAAo0rg3YVXT+g==}
     engines: {node: '>= 6.13.0'}
 
   node-releases@2.0.63:
@@ -3183,7 +3184,7 @@ packages:
     engines: {node: '>= 12.13.0'}
     peerDependencies:
       postcss: ^7.0.0 || ^8.0.1
-      webpack: <5.110.0
+      webpack: '>=5.104.1 <5.110.0'
 
   postcss-merge-longhand@5.1.7:
     resolution: {integrity: sha512-YCI9gZB+PLNskrK0BB3/2OzPnGhPkBEwmwhfYk1ilBHYVAZB7/tkTHFBAnCrvBBOmeYyMYw3DMjT55SyxMBzjQ==}
@@ -3370,7 +3371,7 @@ packages:
     resolution: {integrity: sha512-sdiHuuKOzELcBANHfrupYo+r99iPRyOnw15qX+rNlVUqXGfjXdH4IgxriKwG1kNJwVswKQHMdj1hYZMcb9jFaA==}
     engines: {node: '>= 10.13.0'}
     peerDependencies:
-      webpack: <5.110.0
+      webpack: '>=5.104.1 <5.110.0'
 
   protocol-buffers-schema@3.6.1:
     resolution: {integrity: sha512-VG2K63Igkiv9p76tk1lilczEK1cT+kCjKtkdhw1dQZV3k3IXJbd3o6Ho8b9zJZaHSnT2hKe4I+ObmX9w6m5SmQ==}
@@ -3554,7 +3555,7 @@ packages:
       fibers: '>= 3.1.0'
       node-sass: ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0 || ^9.0.0
       sass: ^1.3.0
-      webpack: <5.110.0
+      webpack: '>=5.104.1 <5.110.0'
     peerDependenciesMeta:
       fibers:
         optional: true
@@ -3585,7 +3586,7 @@ packages:
     engines: {node: '>= 10.13.0'}
     hasBin: true
     peerDependencies:
-      webpack: <5.110.0
+      webpack: '>=5.104.1 <5.110.0'
     peerDependenciesMeta:
       webpack:
         optional: true
@@ -3819,7 +3820,7 @@ packages:
       lightningcss: '*'
       postcss: '*'
       uglify-js: '*'
-      webpack: <5.110.0
+      webpack: '>=5.104.1 <5.110.0'
     peerDependenciesMeta:
       '@minify-html/node':
         optional: true
@@ -3862,7 +3863,7 @@ packages:
     resolution: {integrity: sha512-ByaL2TPb+m6yArpqQUZvP+5S1mZtXsEP7nWKKlAUTm7fCml8kB5s1uI3+eHRP2bk5mVYfRSBI7FFf+tWEyLZwA==}
     engines: {node: '>= 10.13.0'}
     peerDependencies:
-      webpack: <5.110.0
+      webpack: '>=5.104.1 <5.110.0'
 
   thunky@1.1.0:
     resolution: {integrity: sha512-eHY7nBftgThBqOyHGVN+l8gF0BucP09fMo0oO/Lb0w1OF80dJv+lDVpXG60WMQvkcxAkNybKsrEIE3ZtKGmPrA==}
@@ -3998,7 +3999,7 @@ packages:
       css-loader: '*'
       prettier: '*'
       vue-template-compiler: '*'
-      webpack: <5.110.0
+      webpack: '>=5.104.1 <5.110.0'
     peerDependenciesMeta:
       '@vue/compiler-sfc':
         optional: true
@@ -4014,7 +4015,7 @@ packages:
     peerDependencies:
       '@vue/compiler-sfc': '*'
       vue: '*'
-      webpack: <5.110.0
+      webpack: '>=5.104.1 <5.110.0'
     peerDependenciesMeta:
       '@vue/compiler-sfc':
         optional: true
@@ -4092,14 +4093,14 @@ packages:
     resolution: {integrity: sha512-BVdTqhhs+0IfoeAf7EoH5WE+exCmqGerHfDM0IL096Px60Tq2Mn9MAbnaGUe6HiMa41KMCYF19gyzZmBcq/o4Q==}
     engines: {node: '>= 12.13.0'}
     peerDependencies:
-      webpack: <5.110.0
+      webpack: '>=5.104.1 <5.110.0'
 
   webpack-dev-server@4.15.2:
     resolution: {integrity: sha512-0XavAZbNJ5sDrCbkpWL8mia0o5WPOd2YGtxrEiZkBK9FjLppIUK2TgxK6qGD2P3hUXTJNNPVibrerKcx5WkR1g==}
     engines: {node: '>= 12.13.0'}
     hasBin: true
     peerDependencies:
-      webpack: <5.110.0
+      webpack: '>=5.104.1 <5.110.0'
       webpack-cli: '*'
     peerDependenciesMeta:
       webpack:
@@ -7350,7 +7351,7 @@ snapshots:
     dependencies:
       whatwg-url: 5.0.0
 
-  node-forge@1.4.2: {}
+  node-forge@1.4.3: {}
 
   node-releases@2.0.63: {}
 
@@ -8007,7 +8008,7 @@ snapshots:
   selfsigned@2.4.1:
     dependencies:
       '@types/node-forge': 1.3.14
-      node-forge: 1.4.2
+      node-forge: 1.4.3
 
   semver@5.7.2: {}
 
