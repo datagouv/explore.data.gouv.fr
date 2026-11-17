@@ -46,7 +46,7 @@ pnpm run build
 
 ### Environment variables
 
-Build time configuration lives in `.env.production`, which `pnpm run build` loads by itself. Values that are not committed (`VUE_APP_MATOMO_SITE_ID`, `VUE_APP_INCLUSION_TOKEN`) are passed as environment variables, or as Docker build args (`docker build --build-arg VUE_APP_MATOMO_SITE_ID=…`). The dev server does not load `.env.production`: copy it to `.env.development.local` to run the app locally (unlike `.env.local`, it is not loaded by production builds).
+Build time configuration lives in `.env.production`, which `pnpm run build` loads by itself. Values that are not committed (`VUE_APP_MATOMO_SITE_ID`, `VUE_APP_INCLUSION_TOKEN`) are passed as environment variables, or as Docker build args (`docker build --build-arg VUE_APP_MATOMO_SITE_ID=…`). Because these values are baked into the bundle, CI builds one image per environment: pushes to `main` produce `explore:prod-<sha>` and `explore:prod-latest`, pushes to `preprod` produce `explore:demo-<sha>` and `explore:demo-latest`, each with the variables and secrets of the matching GitHub environment (`prod` or `demo`). The dev server does not load `.env.production`: copy it to `.env.development.local` to run the app locally (unlike `.env.local`, it is not loaded by production builds).
 
 Known environment variables are:
 
