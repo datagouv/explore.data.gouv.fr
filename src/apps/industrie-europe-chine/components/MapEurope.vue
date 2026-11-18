@@ -4,7 +4,9 @@
       <h3 class="map-title">{{ mapTitle }}</h3>
       <p v-if="mapNote" class="map-note" v-html="mapNote"></p>
     </div>
-    <div ref="mapContainer" class="map-container"></div>
+    <div ref="mapContainer" class="map-container">
+      <MapUnsupported v-if="!mapSupported" />
+    </div>
     <div class="legend">
       <div class="legend-title">{{ legendConfig.title }}</div>
       <div 
@@ -21,12 +23,15 @@
 </template>
 
 <script>
-import maplibregl from 'maplibre-gl';
+import * as maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import appStore from '@/apps/industrie-europe-chine/store';
+import MapUnsupported from '@/components/MapUnsupported.vue';
+import { isMapSupported } from '@/mapSupport';
 
 export default {
   name: 'MapEurope',
+  components: { MapUnsupported },
   props: {
     apiUrl: {
       type: String,
@@ -64,12 +69,15 @@ export default {
   data() {
     return {
       map: null,
+      mapSupported: isMapSupported(),
       europeGeoJSON: null,
       tabularData: null,
       dataByISO3: {},
     };
   },
   async mounted() {
+    // maplibre 6 would throw on old browsers: MapUnsupported is shown instead
+    if (!this.mapSupported) return;
     await Promise.all([
       this.loadEuropeGeoJSON(),
       this.loadTabularData()
@@ -121,8 +129,6 @@ export default {
           if (!feature.properties.country_name) {
             feature.properties.country_name = data.HOME || data.Importateur || feature.properties.NAME;
           }
-          const originalName = feature.properties.NAME;
-          feature.properties.NAME_FR = this.translateCountry(originalName);
           return true;
         }
         return false;
@@ -136,6 +142,7 @@ export default {
 
       this.map = new maplibregl.Map({
         container: this.$refs.mapContainer,
+        attributionControl: {},
         style: {
           version: 8,
           sources: {
@@ -160,8 +167,11 @@ export default {
         },
         center: [15.0, 54.0],
         zoom: 2.8,
-        attributionControl: true
+        maxPitch: 0
       });
+      this.map.dragRotate.disable();
+      this.map.touchZoomRotate.disableRotation();
+      this.map.keyboard.disableRotation();
 
       this.map.on('load', () => {
         this.map.addSource('europe-countries', {
@@ -189,22 +199,6 @@ export default {
           }
         });
 
-        this.map.addLayer({
-          id: 'country-labels',
-          type: 'symbol',
-          source: 'europe-countries',
-          layout: {
-            'text-field': ['get', 'NAME_FR'],
-            'text-font': ['Open Sans Regular'],
-            'text-size': 12,
-            'text-anchor': 'center'
-          },
-          paint: {
-            'text-color': '#161616',
-            'text-halo-color': '#ffffff',
-            'text-halo-width': 1
-          }
-        });
 
         this.map.on('mouseenter', 'europe-fill', () => {
           this.map.getCanvas().style.cursor = 'pointer';
@@ -228,7 +222,7 @@ export default {
         });
       });
 
-      this.map.addControl(new maplibregl.NavigationControl(), 'top-right');
+      this.map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-right');
       this.map.addControl(new maplibregl.FullscreenControl(), 'top-right');
     },
     buildColorExpression() {

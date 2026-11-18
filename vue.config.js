@@ -7,6 +7,19 @@ module.exports = {
           chunkFilename: 'css/[name].[hash:8].css'
         }])
       }
+      // maplibre v6 loads its tile worker from a real URL (see src/main.js) —
+      // serve the worker chunks straight from node_modules so they always
+      // match the installed maplibre-gl version
+      config.plugin('copy').tap(args => {
+        args[0].patterns.push(
+          ...['maplibre-gl-worker.mjs', 'maplibre-gl-shared.mjs'].flatMap(f => [
+            // already minified: keep Terser off them so the copied source maps still match
+            { from: `node_modules/maplibre-gl/dist/${f}`, to: f, info: { minimized: true } },
+            { from: `node_modules/maplibre-gl/dist/${f}.map`, to: `${f}.map` },
+          ])
+        )
+        return args
+      })
     config.module
     .rule('yaml')
       .test(/\.ya?ml?$/)
@@ -14,8 +27,21 @@ module.exports = {
         .loader('yaml-loader')
     },
     transpileDependencies: [
-      'chartjs-chart-treemap'
+      'chartjs-chart-treemap',
+      'maplibre-gl',
+      // pulled by openapi-explorer, shipped with ES2020/2021 syntax (||=, ?., catch {})
+      'openapi-resolver',
+      '@apidevtools/json-schema-ref-parser'
     ],
+    css: {
+      loaderOptions: {
+        sass: {
+          sassOptions: {
+            silenceDeprecations: ['legacy-js-api']
+          }
+        }
+      }
+    },
     configureWebpack: {
       output: {
         filename: 'js/[name].[hash:8].js',
