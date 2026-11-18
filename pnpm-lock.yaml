@@ -24,7 +24,7 @@ importers:
         version: 2.4.820(@types/json-schema@7.0.15)
       vue-i18n:
         specifier: ^8.28.2
-        version: 8.28.2(vue@2.7.16)
+        version: 8.28.2(vue@3.5.45(typescript@4.9.5))
       vue-meta:
         specifier: ^2.4.0
         version: 2.4.0
@@ -55,10 +55,10 @@ importers:
         version: 1.14.4
       '@vue/cli-plugin-babel':
         specifier: ^5.0.9
-        version: 5.0.9(@vue/cli-service@5.0.9(@vue/compiler-sfc@3.5.44)(cache-loader@4.1.0(webpack@5.109.2(clean-css@5.3.3)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(svgo@2.8.4)))(clean-css@5.3.3)(csso@4.2.0)(html-minifier-terser@6.1.0)(lodash@4.18.1)(prettier@2.8.8)(sass-loader@10.5.2(sass@1.107.1)(webpack@5.109.2(clean-css@5.3.3)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(svgo@2.8.4)))(supports-color@8.1.1)(svgo@2.8.4)(vue-template-compiler@2.7.16)(vue@2.7.16)(webpack-sources@3.7.0))(clean-css@5.3.3)(core-js@3.51.0)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(supports-color@8.1.1)(svgo@2.8.4)(vue@2.7.16)
+        version: 5.0.9(@vue/cli-service@5.0.9(@vue/compiler-sfc@3.5.45)(cache-loader@4.1.0(webpack@5.109.2(clean-css@5.3.3)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(svgo@2.8.4)))(clean-css@5.3.3)(csso@4.2.0)(html-minifier-terser@6.1.0)(lodash@4.18.1)(prettier@2.8.8)(sass-loader@10.5.2(sass@1.107.1)(webpack@5.109.2(clean-css@5.3.3)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(svgo@2.8.4)))(supports-color@8.1.1)(svgo@2.8.4)(vue-template-compiler@2.7.16)(vue@3.5.45(typescript@4.9.5))(webpack-sources@3.7.0))(clean-css@5.3.3)(core-js@3.51.0)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(supports-color@8.1.1)(svgo@2.8.4)(vue@3.5.45(typescript@4.9.5))
       '@vue/cli-service':
         specifier: ^5.0.9
-        version: 5.0.9(@vue/compiler-sfc@3.5.44)(cache-loader@4.1.0(webpack@5.109.2(clean-css@5.3.3)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(svgo@2.8.4)))(clean-css@5.3.3)(csso@4.2.0)(html-minifier-terser@6.1.0)(lodash@4.18.1)(prettier@2.8.8)(sass-loader@10.5.2(sass@1.107.1)(webpack@5.109.2(clean-css@5.3.3)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(svgo@2.8.4)))(supports-color@8.1.1)(svgo@2.8.4)(vue-template-compiler@2.7.16)(vue@2.7.16)(webpack-sources@3.7.0)
+        version: 5.0.9(@vue/compiler-sfc@3.5.45)(cache-loader@4.1.0(webpack@5.109.2(clean-css@5.3.3)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(svgo@2.8.4)))(clean-css@5.3.3)(csso@4.2.0)(html-minifier-terser@6.1.0)(lodash@4.18.1)(prettier@2.8.8)(sass-loader@10.5.2(sass@1.107.1)(webpack@5.109.2(clean-css@5.3.3)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(svgo@2.8.4)))(supports-color@8.1.1)(svgo@2.8.4)(vue-template-compiler@2.7.16)(vue@3.5.45(typescript@4.9.5))(webpack-sources@3.7.0)
       autoprefixer:
         specifier: ^10.6.0
         version: 10.6.2(postcss@8.5.33)
@@ -96,26 +96,26 @@ importers:
         specifier: ^5.1.0
         version: 5.1.0
       vue:
-        specifier: ^2.7.16
-        version: 2.7.16
+        specifier: ^3.0.0
+        version: 3.5.45(typescript@4.9.5)
       vue-loading-overlay:
         specifier: ^2.2.2
-        version: 2.2.2(vue@2.7.16)
+        version: 2.2.2(vue@3.5.45(typescript@4.9.5))
       vue-resource:
         specifier: ^1.5.3
         version: 1.5.3
       vue-router:
         specifier: ^3.6.5
-        version: 3.6.5(vue@2.7.16)
+        version: 3.6.5(vue@3.5.45(typescript@4.9.5))
       vue-slider-component:
         specifier: ^3.2.24
-        version: 3.2.24(vue@2.7.16)
+        version: 3.2.24(vue@3.5.45(typescript@4.9.5))
       vue-template-compiler:
         specifier: ^2.7.16
         version: 2.7.16
       vuex:
         specifier: ^3.6.2
-        version: 3.6.2(vue@2.7.16)
+        version: 3.6.2(vue@3.5.45(typescript@4.9.5))
 
 packages:
 
@@ -1139,23 +1139,47 @@ packages:
   '@vue/compiler-core@3.5.44':
     resolution: {integrity: sha512-k34nCytbK8PQ1gR2mGROYOw6Pnv/mumqIdrZ3x2tbyXZDWm7ViKGLTfdB+DRrWqEQsLgGJvn0WN9jBif5zCTLQ==}
 
+  '@vue/compiler-core@3.5.45':
+    resolution: {integrity: sha512-XGHJrM6ufZARAc/w+tyOswStw9tdKiqCKBScI4gGaNxD+aaGu/HQWgKJ+JItjRLPqenQ7iE7G8AJC7T5ew1p+g==}
+
   '@vue/compiler-dom@3.5.44':
     resolution: {integrity: sha512-W5AoBFWdw1lQAKiHowkfgFKFab82oSRT6sGsPfw/q1GRjsy/ZJFLHGhJyBRIFN9APLTUduDH9U2JAiPOIyKuYg==}
 
-  '@vue/compiler-sfc@2.7.16':
-    resolution: {integrity: sha512-KWhJ9k5nXuNtygPU7+t1rX6baZeqOYLEforUPjgNDBnLicfHCoi48H87Q8XyLZOrNNsmhuwKqtpDQWjEFe6Ekg==}
+  '@vue/compiler-dom@3.5.45':
+    resolution: {integrity: sha512-LbP2d19GSOYGPmvMBBCVJVlv7TKtjM1Cfeyu3cYia720pknZP+1cLX7H5MVatvruT6MuJhiPuNbQBW/MDn/EwA==}
 
   '@vue/compiler-sfc@3.5.44':
     resolution: {integrity: sha512-dzHmQ4jXTpdr5FjIQUeykVakN/uzqFbUo9/C5ikBFg3a3PeM6uRxeczx1ZbXBML0/zJstEh3ygYipzR5Z7b2Pw==}
 
+  '@vue/compiler-sfc@3.5.45':
+    resolution: {integrity: sha512-MKFjb2UX0M/l/jhfzqMLrI8VM4pfvFKG3pqFZkSZFHRLtNld/O4RtUPZFWSwhro/14qP88UQEkWzHxAZAQ0tsw==}
+
   '@vue/compiler-ssr@3.5.44':
     resolution: {integrity: sha512-xr5gb1JVHlfXJwSlRz1FeP6uxoazdzHuMTVLE7up+4Vrqxk219CvxLPxD9NXBt47yvZW7+p4DXfyp4O1fkByIA==}
+
+  '@vue/compiler-ssr@3.5.45':
+    resolution: {integrity: sha512-RF5sbZOfYz5AK00tOJUn2PwFXR2fS1u2HVzI8D9VF9rGAFxuGBqg2bB1kJ3ZHMprqSltXnT9MZE1IsqjSM8oew==}
 
   '@vue/component-compiler-utils@3.3.0':
     resolution: {integrity: sha512-97sfH2mYNU+2PzGrmK2haqffDpVASuib9/w2/noxiFi31Z54hW+q3izKQXXQZSNhtiUpAI36uSuYepeBe4wpHQ==}
 
+  '@vue/reactivity@3.5.45':
+    resolution: {integrity: sha512-WqkyubNWpI4OYBOipSrjIssMdJO8K1i9Zts/Wm8Er10/0msOEwCyWWWvZnAI7WW3kQsTong6DJp8Cbb+vd4cPA==}
+
+  '@vue/runtime-core@3.5.45':
+    resolution: {integrity: sha512-bzIO3+FABjpj85uIKSc+Qnj36/sxDNI3tcH9i6w6xKA1k6e0ejv0G0jMCfeJBvK3yGL5XbJ3DMZj+ClqyCHFYw==}
+
+  '@vue/runtime-dom@3.5.45':
+    resolution: {integrity: sha512-ZvRTFMDgfqTDYWvJfoVpQTJx1RN5M6l7Pyd6wfdY2NaXzbPQVh9ezeQYFbNPP6bIcRVn2SqSSR25N/jSW69BFw==}
+
+  '@vue/server-renderer@3.5.45':
+    resolution: {integrity: sha512-1fNXUHhhsWf4EVL4XixbGBU5mKdiIXJAB82feHRTyPPo6ZUEYWIJuEeUl3mVV6QDBp50HJOX4obLhxYXlrjrzA==}
+
   '@vue/shared@3.5.44':
     resolution: {integrity: sha512-H82XLH0DjmSOdbEwO15x3QTo1f5PWEtv237eLpYKc0mqLu+B8hnq16lFWmuBmNurkeiG3wr+oM1FhOll/YVFRg==}
+
+  '@vue/shared@3.5.45':
+    resolution: {integrity: sha512-ue9fgHmVNPlP7iW3+cxoBX/Cnlw53dHlVSw0JKGY6z1lObg8pHoj928M2nzG4/yVsMZ3NaRZ2s2z61uC16NDwQ==}
 
   '@vue/web-component-wrapper@1.3.0':
     resolution: {integrity: sha512-Iu8Tbg3f+emIIMmI2ycSI8QcEuAUgPTgHwesDU1eKMLE4YC/c/sFbGc70QgMq31ijRftV0R7vCm9co6rldCeOA==}
@@ -4051,9 +4075,13 @@ packages:
   vue-template-es2015-compiler@1.9.1:
     resolution: {integrity: sha512-4gDntzrifFnCEvyoO8PqyJDmguXgVPxKiIxrBKjIowvL9l+N66196+72XVYR8BBf1Uv1Fgt3bGevJ+sEmxfZzw==}
 
-  vue@2.7.16:
-    resolution: {integrity: sha512-4gCtFXaAA3zYZdTp5s4Hl2sozuySsgz4jy1EnpBHNfpMa9dK1ZCG7viqBPCwXtmgc8nHqUsAu3G4gtmXkkY3Sw==}
-    deprecated: Vue 2 has reached EOL and is no longer actively maintained. See https://v2.vuejs.org/eol/ for more details.
+  vue@3.5.45:
+    resolution: {integrity: sha512-3cvsib8m9c0vB24+MDKsgcW4+Da4xaBl9Z/5Tbm2pmSIsRPxcil4cdXjXlVsmJ2g64XJo5h+IRd7rsdGT9pZaw==}
+    peerDependencies:
+      typescript: '*'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
 
   vuex@3.6.2:
     resolution: {integrity: sha512-ETW44IqCgBpVomy520DT5jf8n0zoCac+sxWnn+hMe/CzaSejb/eVw2YToiXYX+Ex/AuHHia28vWTq4goAexFbw==}
@@ -5334,7 +5362,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@vue/babel-preset-app@5.0.9(@babel/core@7.29.7(supports-color@8.1.1))(core-js@3.51.0)(supports-color@8.1.1)(vue@2.7.16)':
+  '@vue/babel-preset-app@5.0.9(@babel/core@7.29.7(supports-color@8.1.1))(core-js@3.51.0)(supports-color@8.1.1)(vue@3.5.45(typescript@4.9.5))':
     dependencies:
       '@babel/core': 7.29.7(supports-color@8.1.1)
       '@babel/helper-compilation-targets': 7.29.7
@@ -5347,17 +5375,17 @@ snapshots:
       '@babel/preset-env': 7.29.7(@babel/core@7.29.7(supports-color@8.1.1))(supports-color@8.1.1)
       '@babel/runtime': 7.29.10
       '@vue/babel-plugin-jsx': 1.5.0(@babel/core@7.29.7(supports-color@8.1.1))(supports-color@8.1.1)
-      '@vue/babel-preset-jsx': 1.4.0(@babel/core@7.29.7(supports-color@8.1.1))(supports-color@8.1.1)(vue@2.7.16)
+      '@vue/babel-preset-jsx': 1.4.0(@babel/core@7.29.7(supports-color@8.1.1))(supports-color@8.1.1)(vue@3.5.45(typescript@4.9.5))
       babel-plugin-dynamic-import-node: 2.3.3
       core-js-compat: 3.51.0
       semver: 7.8.5
     optionalDependencies:
       core-js: 3.51.0
-      vue: 2.7.16
+      vue: 3.5.45(typescript@4.9.5)
     transitivePeerDependencies:
       - supports-color
 
-  '@vue/babel-preset-jsx@1.4.0(@babel/core@7.29.7(supports-color@8.1.1))(supports-color@8.1.1)(vue@2.7.16)':
+  '@vue/babel-preset-jsx@1.4.0(@babel/core@7.29.7(supports-color@8.1.1))(supports-color@8.1.1)(vue@3.5.45(typescript@4.9.5))':
     dependencies:
       '@babel/core': 7.29.7(supports-color@8.1.1)
       '@vue/babel-helper-vue-jsx-merge-props': 1.4.0
@@ -5369,7 +5397,7 @@ snapshots:
       '@vue/babel-sugar-v-model': 1.4.0(@babel/core@7.29.7(supports-color@8.1.1))(supports-color@8.1.1)
       '@vue/babel-sugar-v-on': 1.4.0(@babel/core@7.29.7(supports-color@8.1.1))(supports-color@8.1.1)
     optionalDependencies:
-      vue: 2.7.16
+      vue: 3.5.45(typescript@4.9.5)
     transitivePeerDependencies:
       - supports-color
 
@@ -5416,11 +5444,11 @@ snapshots:
 
   '@vue/cli-overlay@5.0.9': {}
 
-  '@vue/cli-plugin-babel@5.0.9(@vue/cli-service@5.0.9(@vue/compiler-sfc@3.5.44)(cache-loader@4.1.0(webpack@5.109.2(clean-css@5.3.3)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(svgo@2.8.4)))(clean-css@5.3.3)(csso@4.2.0)(html-minifier-terser@6.1.0)(lodash@4.18.1)(prettier@2.8.8)(sass-loader@10.5.2(sass@1.107.1)(webpack@5.109.2(clean-css@5.3.3)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(svgo@2.8.4)))(supports-color@8.1.1)(svgo@2.8.4)(vue-template-compiler@2.7.16)(vue@2.7.16)(webpack-sources@3.7.0))(clean-css@5.3.3)(core-js@3.51.0)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(supports-color@8.1.1)(svgo@2.8.4)(vue@2.7.16)':
+  '@vue/cli-plugin-babel@5.0.9(@vue/cli-service@5.0.9(@vue/compiler-sfc@3.5.45)(cache-loader@4.1.0(webpack@5.109.2(clean-css@5.3.3)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(svgo@2.8.4)))(clean-css@5.3.3)(csso@4.2.0)(html-minifier-terser@6.1.0)(lodash@4.18.1)(prettier@2.8.8)(sass-loader@10.5.2(sass@1.107.1)(webpack@5.109.2(clean-css@5.3.3)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(svgo@2.8.4)))(supports-color@8.1.1)(svgo@2.8.4)(vue-template-compiler@2.7.16)(vue@3.5.45(typescript@4.9.5))(webpack-sources@3.7.0))(clean-css@5.3.3)(core-js@3.51.0)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(supports-color@8.1.1)(svgo@2.8.4)(vue@3.5.45(typescript@4.9.5))':
     dependencies:
       '@babel/core': 7.29.7(supports-color@8.1.1)
-      '@vue/babel-preset-app': 5.0.9(@babel/core@7.29.7(supports-color@8.1.1))(core-js@3.51.0)(supports-color@8.1.1)(vue@2.7.16)
-      '@vue/cli-service': 5.0.9(@vue/compiler-sfc@3.5.44)(cache-loader@4.1.0(webpack@5.109.2(clean-css@5.3.3)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(svgo@2.8.4)))(clean-css@5.3.3)(csso@4.2.0)(html-minifier-terser@6.1.0)(lodash@4.18.1)(prettier@2.8.8)(sass-loader@10.5.2(sass@1.107.1)(webpack@5.109.2(clean-css@5.3.3)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(svgo@2.8.4)))(supports-color@8.1.1)(svgo@2.8.4)(vue-template-compiler@2.7.16)(vue@2.7.16)(webpack-sources@3.7.0)
+      '@vue/babel-preset-app': 5.0.9(@babel/core@7.29.7(supports-color@8.1.1))(core-js@3.51.0)(supports-color@8.1.1)(vue@3.5.45(typescript@4.9.5))
+      '@vue/cli-service': 5.0.9(@vue/compiler-sfc@3.5.45)(cache-loader@4.1.0(webpack@5.109.2(clean-css@5.3.3)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(svgo@2.8.4)))(clean-css@5.3.3)(csso@4.2.0)(html-minifier-terser@6.1.0)(lodash@4.18.1)(prettier@2.8.8)(sass-loader@10.5.2(sass@1.107.1)(webpack@5.109.2(clean-css@5.3.3)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(svgo@2.8.4)))(supports-color@8.1.1)(svgo@2.8.4)(vue-template-compiler@2.7.16)(vue@3.5.45(typescript@4.9.5))(webpack-sources@3.7.0)
       '@vue/cli-shared-utils': 5.0.9
       babel-loader: 8.4.1(@babel/core@7.29.7(supports-color@8.1.1))(webpack@5.109.2(clean-css@5.3.3)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(svgo@2.8.4))
       thread-loader: 3.0.4(webpack@5.109.2(clean-css@5.3.3)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(svgo@2.8.4))
@@ -5448,29 +5476,29 @@ snapshots:
       - vue
       - webpack-cli
 
-  '@vue/cli-plugin-router@5.0.9(@vue/cli-service@5.0.9(@vue/compiler-sfc@3.5.44)(cache-loader@4.1.0(webpack@5.109.2(clean-css@5.3.3)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(svgo@2.8.4)))(clean-css@5.3.3)(csso@4.2.0)(html-minifier-terser@6.1.0)(lodash@4.18.1)(prettier@2.8.8)(sass-loader@10.5.2(sass@1.107.1)(webpack@5.109.2(clean-css@5.3.3)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(svgo@2.8.4)))(supports-color@8.1.1)(svgo@2.8.4)(vue-template-compiler@2.7.16)(vue@2.7.16)(webpack-sources@3.7.0))':
+  '@vue/cli-plugin-router@5.0.9(@vue/cli-service@5.0.9(@vue/compiler-sfc@3.5.45)(cache-loader@4.1.0(webpack@5.109.2(clean-css@5.3.3)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(svgo@2.8.4)))(clean-css@5.3.3)(csso@4.2.0)(html-minifier-terser@6.1.0)(lodash@4.18.1)(prettier@2.8.8)(sass-loader@10.5.2(sass@1.107.1)(webpack@5.109.2(clean-css@5.3.3)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(svgo@2.8.4)))(supports-color@8.1.1)(svgo@2.8.4)(vue-template-compiler@2.7.16)(vue@3.5.45(typescript@4.9.5))(webpack-sources@3.7.0))':
     dependencies:
-      '@vue/cli-service': 5.0.9(@vue/compiler-sfc@3.5.44)(cache-loader@4.1.0(webpack@5.109.2(clean-css@5.3.3)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(svgo@2.8.4)))(clean-css@5.3.3)(csso@4.2.0)(html-minifier-terser@6.1.0)(lodash@4.18.1)(prettier@2.8.8)(sass-loader@10.5.2(sass@1.107.1)(webpack@5.109.2(clean-css@5.3.3)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(svgo@2.8.4)))(supports-color@8.1.1)(svgo@2.8.4)(vue-template-compiler@2.7.16)(vue@2.7.16)(webpack-sources@3.7.0)
+      '@vue/cli-service': 5.0.9(@vue/compiler-sfc@3.5.45)(cache-loader@4.1.0(webpack@5.109.2(clean-css@5.3.3)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(svgo@2.8.4)))(clean-css@5.3.3)(csso@4.2.0)(html-minifier-terser@6.1.0)(lodash@4.18.1)(prettier@2.8.8)(sass-loader@10.5.2(sass@1.107.1)(webpack@5.109.2(clean-css@5.3.3)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(svgo@2.8.4)))(supports-color@8.1.1)(svgo@2.8.4)(vue-template-compiler@2.7.16)(vue@3.5.45(typescript@4.9.5))(webpack-sources@3.7.0)
       '@vue/cli-shared-utils': 5.0.9
     transitivePeerDependencies:
       - encoding
 
-  '@vue/cli-plugin-vuex@5.0.9(@vue/cli-service@5.0.9(@vue/compiler-sfc@3.5.44)(cache-loader@4.1.0(webpack@5.109.2(clean-css@5.3.3)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(svgo@2.8.4)))(clean-css@5.3.3)(csso@4.2.0)(html-minifier-terser@6.1.0)(lodash@4.18.1)(prettier@2.8.8)(sass-loader@10.5.2(sass@1.107.1)(webpack@5.109.2(clean-css@5.3.3)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(svgo@2.8.4)))(supports-color@8.1.1)(svgo@2.8.4)(vue-template-compiler@2.7.16)(vue@2.7.16)(webpack-sources@3.7.0))':
+  '@vue/cli-plugin-vuex@5.0.9(@vue/cli-service@5.0.9(@vue/compiler-sfc@3.5.45)(cache-loader@4.1.0(webpack@5.109.2(clean-css@5.3.3)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(svgo@2.8.4)))(clean-css@5.3.3)(csso@4.2.0)(html-minifier-terser@6.1.0)(lodash@4.18.1)(prettier@2.8.8)(sass-loader@10.5.2(sass@1.107.1)(webpack@5.109.2(clean-css@5.3.3)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(svgo@2.8.4)))(supports-color@8.1.1)(svgo@2.8.4)(vue-template-compiler@2.7.16)(vue@3.5.45(typescript@4.9.5))(webpack-sources@3.7.0))':
     dependencies:
-      '@vue/cli-service': 5.0.9(@vue/compiler-sfc@3.5.44)(cache-loader@4.1.0(webpack@5.109.2(clean-css@5.3.3)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(svgo@2.8.4)))(clean-css@5.3.3)(csso@4.2.0)(html-minifier-terser@6.1.0)(lodash@4.18.1)(prettier@2.8.8)(sass-loader@10.5.2(sass@1.107.1)(webpack@5.109.2(clean-css@5.3.3)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(svgo@2.8.4)))(supports-color@8.1.1)(svgo@2.8.4)(vue-template-compiler@2.7.16)(vue@2.7.16)(webpack-sources@3.7.0)
+      '@vue/cli-service': 5.0.9(@vue/compiler-sfc@3.5.45)(cache-loader@4.1.0(webpack@5.109.2(clean-css@5.3.3)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(svgo@2.8.4)))(clean-css@5.3.3)(csso@4.2.0)(html-minifier-terser@6.1.0)(lodash@4.18.1)(prettier@2.8.8)(sass-loader@10.5.2(sass@1.107.1)(webpack@5.109.2(clean-css@5.3.3)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(svgo@2.8.4)))(supports-color@8.1.1)(svgo@2.8.4)(vue-template-compiler@2.7.16)(vue@3.5.45(typescript@4.9.5))(webpack-sources@3.7.0)
 
-  '@vue/cli-service@5.0.9(@vue/compiler-sfc@3.5.44)(cache-loader@4.1.0(webpack@5.109.2(clean-css@5.3.3)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(svgo@2.8.4)))(clean-css@5.3.3)(csso@4.2.0)(html-minifier-terser@6.1.0)(lodash@4.18.1)(prettier@2.8.8)(sass-loader@10.5.2(sass@1.107.1)(webpack@5.109.2(clean-css@5.3.3)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(svgo@2.8.4)))(supports-color@8.1.1)(svgo@2.8.4)(vue-template-compiler@2.7.16)(vue@2.7.16)(webpack-sources@3.7.0)':
+  '@vue/cli-service@5.0.9(@vue/compiler-sfc@3.5.45)(cache-loader@4.1.0(webpack@5.109.2(clean-css@5.3.3)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(svgo@2.8.4)))(clean-css@5.3.3)(csso@4.2.0)(html-minifier-terser@6.1.0)(lodash@4.18.1)(prettier@2.8.8)(sass-loader@10.5.2(sass@1.107.1)(webpack@5.109.2(clean-css@5.3.3)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(svgo@2.8.4)))(supports-color@8.1.1)(svgo@2.8.4)(vue-template-compiler@2.7.16)(vue@3.5.45(typescript@4.9.5))(webpack-sources@3.7.0)':
     dependencies:
       '@babel/helper-compilation-targets': 7.29.7
       '@soda/friendly-errors-webpack-plugin': 1.8.1(webpack@5.109.2(clean-css@5.3.3)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(svgo@2.8.4))
       '@soda/get-current-script': 1.0.2
       '@types/minimist': 1.2.5
       '@vue/cli-overlay': 5.0.9
-      '@vue/cli-plugin-router': 5.0.9(@vue/cli-service@5.0.9(@vue/compiler-sfc@3.5.44)(cache-loader@4.1.0(webpack@5.109.2(clean-css@5.3.3)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(svgo@2.8.4)))(clean-css@5.3.3)(csso@4.2.0)(html-minifier-terser@6.1.0)(lodash@4.18.1)(prettier@2.8.8)(sass-loader@10.5.2(sass@1.107.1)(webpack@5.109.2(clean-css@5.3.3)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(svgo@2.8.4)))(supports-color@8.1.1)(svgo@2.8.4)(vue-template-compiler@2.7.16)(vue@2.7.16)(webpack-sources@3.7.0))
-      '@vue/cli-plugin-vuex': 5.0.9(@vue/cli-service@5.0.9(@vue/compiler-sfc@3.5.44)(cache-loader@4.1.0(webpack@5.109.2(clean-css@5.3.3)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(svgo@2.8.4)))(clean-css@5.3.3)(csso@4.2.0)(html-minifier-terser@6.1.0)(lodash@4.18.1)(prettier@2.8.8)(sass-loader@10.5.2(sass@1.107.1)(webpack@5.109.2(clean-css@5.3.3)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(svgo@2.8.4)))(supports-color@8.1.1)(svgo@2.8.4)(vue-template-compiler@2.7.16)(vue@2.7.16)(webpack-sources@3.7.0))
+      '@vue/cli-plugin-router': 5.0.9(@vue/cli-service@5.0.9(@vue/compiler-sfc@3.5.45)(cache-loader@4.1.0(webpack@5.109.2(clean-css@5.3.3)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(svgo@2.8.4)))(clean-css@5.3.3)(csso@4.2.0)(html-minifier-terser@6.1.0)(lodash@4.18.1)(prettier@2.8.8)(sass-loader@10.5.2(sass@1.107.1)(webpack@5.109.2(clean-css@5.3.3)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(svgo@2.8.4)))(supports-color@8.1.1)(svgo@2.8.4)(vue-template-compiler@2.7.16)(vue@3.5.45(typescript@4.9.5))(webpack-sources@3.7.0))
+      '@vue/cli-plugin-vuex': 5.0.9(@vue/cli-service@5.0.9(@vue/compiler-sfc@3.5.45)(cache-loader@4.1.0(webpack@5.109.2(clean-css@5.3.3)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(svgo@2.8.4)))(clean-css@5.3.3)(csso@4.2.0)(html-minifier-terser@6.1.0)(lodash@4.18.1)(prettier@2.8.8)(sass-loader@10.5.2(sass@1.107.1)(webpack@5.109.2(clean-css@5.3.3)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(svgo@2.8.4)))(supports-color@8.1.1)(svgo@2.8.4)(vue-template-compiler@2.7.16)(vue@3.5.45(typescript@4.9.5))(webpack-sources@3.7.0))
       '@vue/cli-shared-utils': 5.0.9
       '@vue/component-compiler-utils': 3.3.0(lodash@4.18.1)
-      '@vue/vue-loader-v15': vue-loader@15.11.1(@vue/compiler-sfc@3.5.44)(cache-loader@4.1.0(webpack@5.109.2(clean-css@5.3.3)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(svgo@2.8.4)))(css-loader@6.11.0(webpack@5.109.2(clean-css@5.3.3)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(svgo@2.8.4)))(lodash@4.18.1)(prettier@2.8.8)(vue-template-compiler@2.7.16)(webpack@5.109.2(clean-css@5.3.3)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(svgo@2.8.4))
+      '@vue/vue-loader-v15': vue-loader@15.11.1(@vue/compiler-sfc@3.5.45)(cache-loader@4.1.0(webpack@5.109.2(clean-css@5.3.3)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(svgo@2.8.4)))(css-loader@6.11.0(webpack@5.109.2(clean-css@5.3.3)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(svgo@2.8.4)))(lodash@4.18.1)(prettier@2.8.8)(vue-template-compiler@2.7.16)(webpack@5.109.2(clean-css@5.3.3)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(svgo@2.8.4))
       '@vue/web-component-wrapper': 1.3.0
       acorn: 8.19.0
       acorn-walk: 8.3.5
@@ -5507,7 +5535,7 @@ snapshots:
       ssri: 8.0.1
       terser-webpack-plugin: 5.6.1(clean-css@5.3.3)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(webpack@5.109.2(clean-css@5.3.3)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(svgo@2.8.4))
       thread-loader: 3.0.4(webpack@5.109.2(clean-css@5.3.3)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(svgo@2.8.4))
-      vue-loader: 17.4.2(@vue/compiler-sfc@3.5.44)(vue@2.7.16)(webpack@5.109.2(clean-css@5.3.3)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(svgo@2.8.4))
+      vue-loader: 17.4.2(@vue/compiler-sfc@3.5.45)(vue@3.5.45(typescript@4.9.5))(webpack@5.109.2(clean-css@5.3.3)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(svgo@2.8.4))
       vue-style-loader: 4.1.3
       webpack: 5.109.2(clean-css@5.3.3)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(svgo@2.8.4)
       webpack-bundle-analyzer: 4.10.2
@@ -5625,18 +5653,23 @@ snapshots:
       estree-walker: 2.0.2
       source-map-js: 1.2.2
 
+  '@vue/compiler-core@3.5.45':
+    dependencies:
+      '@babel/parser': 7.29.12
+      '@vue/shared': 3.5.45
+      entities: 7.0.1
+      estree-walker: 2.0.2
+      source-map-js: 1.2.2
+
   '@vue/compiler-dom@3.5.44':
     dependencies:
       '@vue/compiler-core': 3.5.44
       '@vue/shared': 3.5.44
 
-  '@vue/compiler-sfc@2.7.16':
+  '@vue/compiler-dom@3.5.45':
     dependencies:
-      '@babel/parser': 7.29.12
-      postcss: 8.5.33
-      source-map: 0.6.1
-    optionalDependencies:
-      prettier: 2.8.8
+      '@vue/compiler-core': 3.5.45
+      '@vue/shared': 3.5.45
 
   '@vue/compiler-sfc@3.5.44':
     dependencies:
@@ -5650,10 +5683,27 @@ snapshots:
       postcss: 8.5.33
       source-map-js: 1.2.2
 
+  '@vue/compiler-sfc@3.5.45':
+    dependencies:
+      '@babel/parser': 7.29.12
+      '@vue/compiler-core': 3.5.45
+      '@vue/compiler-dom': 3.5.45
+      '@vue/compiler-ssr': 3.5.45
+      '@vue/shared': 3.5.45
+      estree-walker: 2.0.2
+      magic-string: 0.30.21
+      postcss: 8.5.33
+      source-map-js: 1.2.2
+
   '@vue/compiler-ssr@3.5.44':
     dependencies:
       '@vue/compiler-dom': 3.5.44
       '@vue/shared': 3.5.44
+
+  '@vue/compiler-ssr@3.5.45':
+    dependencies:
+      '@vue/compiler-dom': 3.5.45
+      '@vue/shared': 3.5.45
 
   '@vue/component-compiler-utils@3.3.0(lodash@4.18.1)':
     dependencies:
@@ -5722,7 +5772,31 @@ snapshots:
       - walrus
       - whiskers
 
+  '@vue/reactivity@3.5.45':
+    dependencies:
+      '@vue/shared': 3.5.45
+
+  '@vue/runtime-core@3.5.45':
+    dependencies:
+      '@vue/reactivity': 3.5.45
+      '@vue/shared': 3.5.45
+
+  '@vue/runtime-dom@3.5.45':
+    dependencies:
+      '@vue/reactivity': 3.5.45
+      '@vue/runtime-core': 3.5.45
+      '@vue/shared': 3.5.45
+      csstype: 3.2.3
+
+  '@vue/server-renderer@3.5.45':
+    dependencies:
+      '@vue/compiler-ssr': 3.5.45
+      '@vue/runtime-dom': 3.5.45
+      '@vue/shared': 3.5.45
+
   '@vue/shared@3.5.44': {}
+
+  '@vue/shared@3.5.45': {}
 
   '@vue/web-component-wrapper@1.3.0': {}
 
@@ -8361,17 +8435,17 @@ snapshots:
 
   vary@1.1.2: {}
 
-  vue-class-component@7.2.6(vue@2.7.16):
+  vue-class-component@7.2.6(vue@3.5.45(typescript@4.9.5)):
     dependencies:
-      vue: 2.7.16
+      vue: 3.5.45(typescript@4.9.5)
 
   vue-hot-reload-api@2.3.4: {}
 
-  vue-i18n@8.28.2(vue@2.7.16):
+  vue-i18n@8.28.2(vue@3.5.45(typescript@4.9.5)):
     dependencies:
-      vue: 2.7.16
+      vue: 3.5.45(typescript@4.9.5)
 
-  vue-loader@15.11.1(@vue/compiler-sfc@3.5.44)(cache-loader@4.1.0(webpack@5.109.2(clean-css@5.3.3)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(svgo@2.8.4)))(css-loader@6.11.0(webpack@5.109.2(clean-css@5.3.3)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(svgo@2.8.4)))(lodash@4.18.1)(prettier@2.8.8)(vue-template-compiler@2.7.16)(webpack@5.109.2(clean-css@5.3.3)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(svgo@2.8.4)):
+  vue-loader@15.11.1(@vue/compiler-sfc@3.5.45)(cache-loader@4.1.0(webpack@5.109.2(clean-css@5.3.3)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(svgo@2.8.4)))(css-loader@6.11.0(webpack@5.109.2(clean-css@5.3.3)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(svgo@2.8.4)))(lodash@4.18.1)(prettier@2.8.8)(vue-template-compiler@2.7.16)(webpack@5.109.2(clean-css@5.3.3)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(svgo@2.8.4)):
     dependencies:
       '@vue/component-compiler-utils': 3.3.0(lodash@4.18.1)
       css-loader: 6.11.0(webpack@5.109.2(clean-css@5.3.3)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(svgo@2.8.4))
@@ -8381,7 +8455,7 @@ snapshots:
       vue-style-loader: 4.1.3
       webpack: 5.109.2(clean-css@5.3.3)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(svgo@2.8.4)
     optionalDependencies:
-      '@vue/compiler-sfc': 3.5.44
+      '@vue/compiler-sfc': 3.5.45
       cache-loader: 4.1.0(webpack@5.109.2(clean-css@5.3.3)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(svgo@2.8.4))
       prettier: 2.8.8
       vue-template-compiler: 2.7.16
@@ -8440,41 +8514,41 @@ snapshots:
       - walrus
       - whiskers
 
-  vue-loader@17.4.2(@vue/compiler-sfc@3.5.44)(vue@2.7.16)(webpack@5.109.2(clean-css@5.3.3)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(svgo@2.8.4)):
+  vue-loader@17.4.2(@vue/compiler-sfc@3.5.45)(vue@3.5.45(typescript@4.9.5))(webpack@5.109.2(clean-css@5.3.3)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(svgo@2.8.4)):
     dependencies:
       chalk: 4.1.2
       hash-sum: 2.0.0
       watchpack: 2.6.3
       webpack: 5.109.2(clean-css@5.3.3)(cssnano@5.1.15(postcss@8.5.33))(csso@4.2.0)(html-minifier-terser@6.1.0)(postcss@8.5.33)(svgo@2.8.4)
     optionalDependencies:
-      '@vue/compiler-sfc': 3.5.44
-      vue: 2.7.16
+      '@vue/compiler-sfc': 3.5.45
+      vue: 3.5.45(typescript@4.9.5)
 
-  vue-loading-overlay@2.2.2(vue@2.7.16):
+  vue-loading-overlay@2.2.2(vue@3.5.45(typescript@4.9.5)):
     dependencies:
-      vue: 2.7.16
+      vue: 3.5.45(typescript@4.9.5)
 
   vue-meta@2.4.0:
     dependencies:
       deepmerge: 4.3.1
 
-  vue-property-decorator@8.5.1(vue@2.7.16):
+  vue-property-decorator@8.5.1(vue@3.5.45(typescript@4.9.5)):
     dependencies:
-      vue: 2.7.16
-      vue-class-component: 7.2.6(vue@2.7.16)
+      vue: 3.5.45(typescript@4.9.5)
+      vue-class-component: 7.2.6(vue@3.5.45(typescript@4.9.5))
 
   vue-resource@1.5.3:
     dependencies:
       got: 11.8.6
 
-  vue-router@3.6.5(vue@2.7.16):
+  vue-router@3.6.5(vue@3.5.45(typescript@4.9.5)):
     dependencies:
-      vue: 2.7.16
+      vue: 3.5.45(typescript@4.9.5)
 
-  vue-slider-component@3.2.24(vue@2.7.16):
+  vue-slider-component@3.2.24(vue@3.5.45(typescript@4.9.5)):
     dependencies:
       core-js: 3.51.0
-      vue-property-decorator: 8.5.1(vue@2.7.16)
+      vue-property-decorator: 8.5.1(vue@3.5.45(typescript@4.9.5))
     transitivePeerDependencies:
       - vue
 
@@ -8490,14 +8564,19 @@ snapshots:
 
   vue-template-es2015-compiler@1.9.1: {}
 
-  vue@2.7.16:
+  vue@3.5.45(typescript@4.9.5):
     dependencies:
-      '@vue/compiler-sfc': 2.7.16
-      csstype: 3.2.3
+      '@vue/compiler-dom': 3.5.45
+      '@vue/compiler-sfc': 3.5.45
+      '@vue/runtime-dom': 3.5.45
+      '@vue/server-renderer': 3.5.45
+      '@vue/shared': 3.5.45
+    optionalDependencies:
+      typescript: 4.9.5
 
-  vuex@3.6.2(vue@2.7.16):
+  vuex@3.6.2(vue@3.5.45(typescript@4.9.5)):
     dependencies:
-      vue: 2.7.16
+      vue: 3.5.45(typescript@4.9.5)
 
   watchpack@2.6.3:
     dependencies:
